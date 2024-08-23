@@ -1,0 +1,43 @@
+/// <reference types="react-scripts" />
+
+declare namespace NodeJS {
+  interface ProcessEnv {
+    EXPO_PUBLIC_SUPABASE_URL: string;
+    EXPO_PUBLIC_SUPABASE_KEY: string;
+    EXPO_PUBLIC_SUPABASE_SERVICE_KEY: string;
+
+    REACT_APP_CLOUDINARY_API_KEY: string;
+    REACT_APP_CLOUDINARY_API_SECRET: string;
+    REACT_APP_CLOUDINARY_CLOUD_NAME: string;
+    REACT_APP_CLOUDINARY_AUTH_PAGES_PATH: string;
+    REACT_APP_CLOUDINARY_AVATARS_PATH: string;
+
+    REACT_APP_JWT_SECRET: string;
+    REACT_APP_TOKEN_IDENTIFIER: string;
+    REACT_APP_COOKIE_KEY: string;
+
+    REACT_APP_FACEBOOK_APP_ID: string;
+    REACT_APP_FACEBOOK_APP_SECRET: string;
+
+    REACT_APP_TWITTER_API_KEY: string;
+    REACT_APP_TWITTER_API_SECRET: string;
+
+    REACT_APP_GOOGLE_API_KEY: string;
+    REACT_APP_GOOGLE_API_SECRET: string;
+    REACT_APP_GOOGLE_ANALYTICS_ID: string;
+
+    NUXT_STRIPE_PUBLISHABLE_KEY: string;
+    NUXT_STRIPE_SECRET: string;
+    NUXT_STRIPE_WEBHOOK_SECRET: string;
+
+    NUXT_PUBLIC_FORUMS_URL: string;
+    NUXT_FORUMS_API_KEY: string;
+    NUXT_FORUMS_API_USERNAME: string;
+
+    NUXT_PLAYWRIGHT_BASE_URL: string;
+    NUXT_PLAYWRIGHT_USERNAME: string;
+    NUXT_PLAYWRIGHT_PASSWORD: string;
+
+    NUXT_SENDGRID_KEY: string;
+  }
+}
