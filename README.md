@@ -1,10 +1,9 @@
 # Gear Closet Mobile
 
 ## Included
-* [React Native]()
-* [Expo]()
+* [React Native](https://reactnative.dev/)
+* [Expo](https://expo.dev/)
 * [Typescript](https://v3.vuejs.org/guide/typescript-support.html)
-* [Tailwind]()
 * [Eslint](https://eslint.vuejs.org)
 
 ## Recommended IDE Setup
