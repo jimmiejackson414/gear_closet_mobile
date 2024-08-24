@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '../lib/supabase'
 import { StyleSheet, View, Alert, TouchableOpacity, Text, TextInput } from 'react-native'
 import { Session } from '@supabase/supabase-js'
@@ -9,11 +9,7 @@ export default function Account({ session }: { session: Session }) {
   const [website, setWebsite] = useState('')
   const [avatarUrl, setAvatarUrl] = useState('')
 
-  useEffect(() => {
-    if (session) getProfile()
-  }, [session])
-
-  async function getProfile() {
+  const getProfile = useCallback(async () => {
     try {
       setLoading(true)
       if (!session?.user) throw new Error('No user on the session!')
@@ -39,17 +35,18 @@ export default function Account({ session }: { session: Session }) {
     } finally {
       setLoading(false)
     }
-  }
+  }, [session]);
 
-  async function updateProfile({
-    username,
-    website,
-    avatar_url,
-  }: {
+  useEffect(() => {
+    if (session) getProfile()
+  }, [session, getProfile])
+
+  type UpdateProfile = {
     username: string
     website: string
     avatar_url: string
-  }) {
+  }
+  async function updateProfile({ username, website, avatar_url }: UpdateProfile ) {
     try {
       setLoading(true)
       if (!session?.user) throw new Error('No user on the session!')
@@ -79,20 +76,27 @@ export default function Account({ session }: { session: Session }) {
   return (
     <View style={styles.container}>
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <TextInput placeholder="Email" value={session?.user?.email} />
+        <TextInput
+          placeholder="Email"
+          value={session?.user?.email} />
       </View>
       <View style={styles.verticallySpaced}>
-        <TextInput placeholder="Username" value={username || ''} onChangeText={(text) => setUsername(text)} />
+        <TextInput
+          placeholder="Username"
+          value={username || ''}
+          onChangeText={(text) => setUsername(text)} />
       </View>
       <View style={styles.verticallySpaced}>
-        <TextInput placeholder="Website" value={website || ''} onChangeText={(text) => setWebsite(text)} />
+        <TextInput
+          placeholder="Website"
+          value={website || ''}
+          onChangeText={(text) => setWebsite(text)} />
       </View>
 
       <View style={[styles.verticallySpaced, styles.mt20]}>
         <TouchableOpacity
           onPress={() => updateProfile({ username, website, avatar_url: avatarUrl })}
-          disabled={loading}
-        >
+          disabled={loading}>
           <Text>{loading ? 'Loading...' : 'Update'}</Text>
         </TouchableOpacity>
       </View>

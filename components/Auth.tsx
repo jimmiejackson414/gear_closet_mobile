@@ -53,8 +53,7 @@ export default function Auth() {
           onChangeText={(text: string) => setEmail(text)}
           value={email}
           placeholder="email@address.com"
-          autoCapitalize={'none'}
-        />
+          autoCapitalize={'none'} />
       </View>
       <View style={styles.verticallySpaced}>
         <TextInput
@@ -63,16 +62,19 @@ export default function Auth() {
           value={password}
           secureTextEntry={true}
           placeholder="Password"
-          autoCapitalize={'none'}
-        />
+          autoCapitalize={'none'} />
       </View>
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <TouchableOpacity disabled={loading} onPress={() => signInWithEmail()}>
+        <TouchableOpacity
+          disabled={loading}
+          onPress={() => signInWithEmail()}>
           <Text>Sign in</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.verticallySpaced}>
-        <TouchableOpacity disabled={loading} onPress={() => signUpWithEmail()}>
+        <TouchableOpacity
+          disabled={loading}
+          onPress={() => signUpWithEmail()}>
           <Text>Sign up</Text>
         </TouchableOpacity>
       </View>

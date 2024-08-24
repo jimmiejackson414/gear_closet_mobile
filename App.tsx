@@ -64,12 +64,16 @@ export default function App() {
       style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
       onLayout={onLayoutRootView}>
       {session?.user ? (
-        <Profile key={session.user.id} session={session} />
+        <Profile
+          key={session.user.id}
+          session={session} />
       ) : (
         <Auth />
       )}
       <Text>SplashScreen Demo! 👋</Text>
-      <Entypo name="rocket" size={30} />
+      <Entypo
+        name="rocket"
+        size={30} />
     </View>
   );
 }
