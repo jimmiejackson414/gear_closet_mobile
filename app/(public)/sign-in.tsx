@@ -1,21 +1,21 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "expo-router";
-import { useForm } from "react-hook-form";
-import { ActivityIndicator, View, Text } from "react-native";
-import * as z from "zod";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'expo-router';
+import { useForm } from 'react-hook-form';
+import { ActivityIndicator, View, Text } from 'react-native';
+import * as z from 'zod';
+import { SafeAreaView } from 'react-native-safe-area-context';
 // import { Button } from "@/components/ui/button";
 // import { Form, FormField, FormInput } from "@/components/ui/form";
 // import { Text } from "@/components/ui/text";
 // import { H1, Muted } from "@/components/ui/typography";
-import { useSupabase } from "@/context/SupabaseProvider";
+import { useSupabase } from '@/context/SupabaseProvider';
 
 const formSchema = z.object({
-  email: z.string().email("Please enter a valid email address."),
+  email: z.string().email('Please enter a valid email address.'),
   password: z
     .string()
-    .min(8, "Please enter at least 8 characters.")
-    .max(64, "Please enter fewer than 64 characters."),
+    .min(8, 'Please enter at least 8 characters.')
+    .max(64, 'Please enter fewer than 64 characters.'),
 });
 
 export default function SignIn() {
@@ -25,8 +25,8 @@ export default function SignIn() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 

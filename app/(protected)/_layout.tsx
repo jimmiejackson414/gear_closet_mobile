@@ -1,7 +1,6 @@
-import { Tabs } from "expo-router";
-import React from "react";
+import { Tabs } from 'expo-router';
+import React from 'react';
 
-import { theme } from "@/constants/theme";
 // import { useColorScheme } from "@/lib/useColorScheme";
 
 export default function ProtectedLayout() {
@@ -11,9 +10,9 @@ export default function ProtectedLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarStyle: {
-          backgroundColor: theme.light.background,
-        },
+        // tabBarStyle: {
+        //   backgroundColor: theme.light.background,
+        // },
         tabBarShowLabel: false,
       }}>
       <Tabs.Screen name="home" />

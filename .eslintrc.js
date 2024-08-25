@@ -12,7 +12,9 @@ module.exports = {
     'react/jsx-indent-props': [1, 2],
     'react/jsx-closing-bracket-location': [1, 'after-props'],
     'react/jsx-tag-spacing': [1, { beforeSelfClosing: 'always' }],
+    'react/jsx-one-expression-per-line': [1, { allow: 'single-child' }],
     '@stylistic/semi': [2, 'always'],
-    '@stylistic/indent': [2, 2, { "SwitchCase": 1 }],
+    '@stylistic/indent': [2, 2, { 'SwitchCase': 1 }],
+    '@stylistic/quotes': [2, 'single'],
   },
 };

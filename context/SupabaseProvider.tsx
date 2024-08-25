@@ -71,12 +71,12 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
   useEffect(() => {
     if (!initialized) return;
 
-    const inProtectedGroup = segments[0] === "(protected)";
+    const inProtectedGroup = segments[0] === '(protected)';
 
     if (session && !inProtectedGroup) {
-      router.replace("/(protected)/home");
+      router.replace('/(protected)/home');
     } else if (!session) {
-      router.replace("/(public)/welcome");
+      router.replace('/(public)/welcome');
     }
 
     /* HACK: Something must be rendered when determining the initial auth state... 

@@ -1,11 +1,11 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "expo-router";
-import { useForm } from "react-hook-form";
-import { ActivityIndicator, Text, View } from "react-native";
-import * as z from "zod";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'expo-router';
+import { useForm } from 'react-hook-form';
+import { ActivityIndicator, Text, View } from 'react-native';
+import * as z from 'zod';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { useSupabase } from "@/context/SupabaseProvider";
+import { useSupabase } from '@/context/SupabaseProvider';
 // import { SafeAreaView } from "@/components/safe-area-view";
 // import { Button } from "@/components/ui/button";
 // import { Form, FormField, FormInput } from "@/components/ui/form";
@@ -14,29 +14,29 @@ import { useSupabase } from "@/context/SupabaseProvider";
 
 const formSchema = z
   .object({
-    email: z.string().email("Please enter a valid email address."),
+    email: z.string().email('Please enter a valid email address.'),
     password: z
       .string()
-      .min(8, "Please enter at least 8 characters.")
-      .max(64, "Please enter fewer than 64 characters.")
+      .min(8, 'Please enter at least 8 characters.')
+      .max(64, 'Please enter fewer than 64 characters.')
       .regex(
         /^(?=.*[a-z])/,
-        "Your password must have at least one lowercase letter.",
+        'Your password must have at least one lowercase letter.',
       )
       .regex(
         /^(?=.*[A-Z])/,
-        "Your password must have at least one uppercase letter.",
+        'Your password must have at least one uppercase letter.',
       )
-      .regex(/^(?=.*[0-9])/, "Your password must have at least one number.")
+      .regex(/^(?=.*[0-9])/, 'Your password must have at least one number.')
       .regex(
         /^(?=.*[!@#$%^&*])/,
-        "Your password must have at least one special character.",
+        'Your password must have at least one special character.',
       ),
-    confirmPassword: z.string().min(8, "Please enter at least 8 characters."),
+    confirmPassword: z.string().min(8, 'Please enter at least 8 characters.'),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Your passwords do not match.",
-    path: ["confirmPassword"],
+    message: 'Your passwords do not match.',
+    path: ['confirmPassword'],
   });
 
 export default function SignUp() {
@@ -46,9 +46,9 @@ export default function SignUp() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: "",
-      confirmPassword: "",
+      email: '',
+      password: '',
+      confirmPassword: '',
     },
   });
 

@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, View } from 'react-native';
 
 // import { H1, Muted } from "@/components/ui/typography";
 
