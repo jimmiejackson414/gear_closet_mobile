@@ -1,28 +1,31 @@
-import { useRouter } from 'expo-router';
 import React from 'react';
+import { Link } from 'expo-router';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from 'react-native-paper';
 
-export default function WelcomeScreen() {
-  const router = useRouter();
-  console.log({ router });
-
-  return (
-    <SafeAreaView>
-      <View>
-        <Text>Welcome to Gear Closet</Text>
-        <Button
-          mode="contained"
-          onPress={() => router.push('/(public)/sign-in')}>
+const WelcomeScreen = () => (
+  <SafeAreaView>
+    <View>
+      <Text>Welcome to Gear Closet</Text>
+    </View>
+    <View>
+      <Link
+        href={'/signin'}
+        asChild>
+        <Button mode="contained">
           Log In
         </Button>
-        <Button
-          mode="outlined"
-          onPress={() => router.push('/(public)/sign-up')}>
+      </Link>
+      <Link
+        href={'/signup'}
+        asChild>
+        <Button mode="outlined">
           Register
         </Button>
-      </View>
-    </SafeAreaView>
-  );
-}
+      </Link>
+    </View>
+  </SafeAreaView>
+);
+
+export default WelcomeScreen;

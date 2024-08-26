@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { Session, User } from '@supabase/supabase-js';
 import { useRouter, useSegments, SplashScreen } from 'expo-router';
+import { AppState } from 'react-native';
 
 import { supabase } from '../lib/supabase';
 
@@ -35,6 +36,18 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [initialized, setInitialized] = useState(false);
+
+  // Tells Supabase Auth to continuously refresh the session automatically if
+  // the app is in the foreground. When this is added, you will continue to receive
+  // `onAuthStateChange` events with the `TOKEN_REFRESHED` or `SIGNED_OUT` event
+  // if the user's session is terminated. This should only be registered once.
+  AppState.addEventListener('change', (state) => {
+    if (state === 'active') {
+      supabase.auth.startAutoRefresh();
+    } else {
+      supabase.auth.stopAutoRefresh();
+    }
+  });
 
   const signUp = async (email: string, password: string) => {
     const { error } = await supabase.auth.signUp({ email, password });
@@ -87,7 +100,10 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     setTimeout(() => {
       SplashScreen.hideAsync();
     }, 500);
-  }, [initialized, session, router, segments]);
+
+    // Note: Do not remove the eslint disable; this will cause an infinite loop.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialized, session]);
 
   return (
     <SupabaseContext.Provider
