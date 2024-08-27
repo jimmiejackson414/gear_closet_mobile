@@ -1,22 +1,23 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { useRouter, Link } from 'expo-router';
+import { Link } from 'expo-router';
 import { Button } from 'react-native-paper';
+import ScreenWrapper from '@/components/common/ScreenWrapper';
 
 const SignIn = () => {
-  const router = useRouter();
-
   return (
-    <View>
-      <Text>Sign In Page</Text>
-      <Link
-        href="/signup"
-        asChild>
-        <Button mode="outlined">
-          Register
-        </Button>
-      </Link>
-    </View>
+    <ScreenWrapper>
+      <View>
+        <Text>Sign In Page</Text>
+        <Link
+          href="/signup"
+          asChild>
+          <Button mode="outlined">
+            Register
+          </Button>
+        </Link>
+      </View>
+    </ScreenWrapper>
   );
 };
 

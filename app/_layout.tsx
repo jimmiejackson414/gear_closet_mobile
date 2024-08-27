@@ -21,9 +21,7 @@ const RootLayout = () => (
           <Stack.Screen name="(public)" />
           <Stack.Screen
             name="modal"
-            options={{
-              presentation: 'modal',
-            }} />
+            options={{presentation: 'modal'}} />
         </Stack>
       </SafeAreaProvider>
     </PaperProvider>

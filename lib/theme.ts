@@ -1,8 +1,11 @@
 import { MD3LightTheme as DefaultTheme } from 'react-native-paper';
-import { ThemeProp } from 'react-native-paper/lib/typescript/types';
+import type { ThemeProp } from 'react-native-paper/lib/typescript/types';
+
 
 const theme: ThemeProp = {
   ...DefaultTheme,
+  version: 3,
+  isV3: true,
   roundness: 2,
   colors: {
     ...DefaultTheme.colors,
@@ -41,11 +44,11 @@ const theme: ThemeProp = {
       level2: 'rgb(233, 240, 248)',
       level3: 'rgb(225, 235, 245)',
       level4: 'rgb(223, 234, 244)',
-      level5: 'rgb(218, 230, 242)'
+      level5: 'rgb(218, 230, 242)',
     },
     surfaceDisabled: 'rgba(26, 28, 30, 0.12)',
     onSurfaceDisabled: 'rgba(26, 28, 30, 0.38)',
-    backdrop: 'rgba(44, 49, 55, 0.4)'
+    backdrop: 'rgba(44, 49, 55, 0.4)',
   },
 };
 

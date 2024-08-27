@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router';
+// import { useRouter } from 'expo-router';
 import { Text, View } from 'react-native';
 
 // import { Button } from "@/components/ui/button";
@@ -6,7 +6,7 @@ import { Text, View } from 'react-native';
 // import { H1, Muted } from "@/components/ui/typography";
 
 export default function TabOneScreen() {
-  const router = useRouter();
+  // const router = useRouter();
 
   return (
     <View>

@@ -10,11 +10,14 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@cloudinary/url-gen": "^1.20.0",
     "@hookform/resolvers": "^3.9.0",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@supabase/supabase-js": "^2.45.2",
+    "axios": "^1.7.5",
     "expo": "^51.0.31",
     "expo-constants": "~16.0.2",
+    "expo-image": "~1.12.15",
     "expo-linking": "~6.3.1",
     "expo-router": "~3.5.23",
     "expo-secure-store": "~13.0.2",
