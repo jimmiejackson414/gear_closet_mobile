@@ -5,7 +5,7 @@ const theme = {
   ...DefaultTheme,
   version: 3,
   isV3: true,
-  roundness: 2,
+  roundness: 24,
   colors: {
     ...DefaultTheme.colors,
     primary: 'rgb(0, 98, 161)',
