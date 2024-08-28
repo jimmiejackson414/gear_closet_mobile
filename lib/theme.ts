@@ -1,8 +1,7 @@
 import { MD3LightTheme as DefaultTheme } from 'react-native-paper';
-import type { ThemeProp } from 'react-native-paper/lib/typescript/types';
 
 
-const theme: ThemeProp = {
+const theme = {
   ...DefaultTheme,
   version: 3,
   isV3: true,
@@ -35,6 +34,7 @@ const theme: ThemeProp = {
     outlineVariant: 'rgb(194, 199, 207)',
     shadow: 'rgb(0, 0, 0)',
     scrim: 'rgb(0, 0, 0)',
+    fontColor: 'rgb(74,74,74)',
     inverseSurface: 'rgb(47, 48, 51)',
     inverseOnSurface: 'rgb(241, 240, 244)',
     inversePrimary: 'rgb(156, 202, 255)',

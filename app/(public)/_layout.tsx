@@ -1,16 +1,28 @@
 import { Stack } from 'expo-router';
 
 const PublicLayout = () => (
-  <Stack screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="welcome" />
+  <Stack>
+    <Stack.Screen
+      name="welcome"
+      options={{ headerShown: false }} />
     <Stack.Screen
       name="signup"
       options={{
         headerShown: true,
         headerBackTitle: 'Welcome',
-        headerTitle: 'Register', 
+        headerTitle: 'Register',
+        headerBlurEffect: 'light',
+        headerTransparent: true,
       }} />
-    <Stack.Screen name="signin" />
+    <Stack.Screen
+      name="signin"
+      options={{
+        headerShown: true,
+        headerBackTitle: 'Welcome',
+        headerTitle: 'Sign In',
+        headerBlurEffect: 'light',
+        headerTransparent: true,
+      }} />
   </Stack>
 );
 

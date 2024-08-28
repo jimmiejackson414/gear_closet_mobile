@@ -1,16 +1,26 @@
-// import { useRouter } from 'expo-router';
-import { Text, View } from 'react-native';
-
-// import { Button } from "@/components/ui/button";
-// import { Text } from "@/components/ui/text";
-// import { H1, Muted } from "@/components/ui/typography";
+import { useRouter } from 'expo-router';
+import { Text } from 'react-native';
+import { Button } from 'react-native-paper';
+import ScreenWrapper from '@/components/common/ScreenWrapper';
+import { useSupabase } from '@/context/SupabaseProvider';
 
 export default function TabOneScreen() {
-  // const router = useRouter();
+  const router = useRouter();
+  const { signOut } = useSupabase();
+
+  const onLogout = async () => {
+    await signOut();
+    router.replace('/welcome');
+  };
 
   return (
-    <View>
+    <ScreenWrapper>
       <Text>Home</Text>
+      <Button
+        mode='contained'
+        onPress={onLogout}>
+        Sign Out
+      </Button>
       {/* <H1 className="text-center">Home</H1>
 			<Muted className="text-center">
 				You are now authenticated and this session will persist even after
@@ -26,6 +36,6 @@ export default function TabOneScreen() {
 			>
 				<Text>Open Modal</Text>
 			</Button> */}
-    </View>
+    </ScreenWrapper>
   );
 }
