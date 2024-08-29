@@ -43,4 +43,4 @@ const Text = React.forwardRef<React.ElementRef<typeof RNText>, ITextProps>(
 
 Text.displayName = 'Text';
 
-export default Text;
+export { Text };

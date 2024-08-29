@@ -23,4 +23,4 @@ const Card = React.forwardRef<React.ElementRef<typeof View>, ICardProps>(
 
 Card.displayName = 'Card';
 
-export default Card;
+export { Card };

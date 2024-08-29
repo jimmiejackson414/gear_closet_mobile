@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { forwardRef, memo } from 'react';
 import { H1, H2, H3, H4, H5, H6 } from '@expo/html-elements';
 import { cssInterop } from 'nativewind';
@@ -33,129 +34,39 @@ const MappedHeading = memo(
       },
       ref,
     ) => {
+      const commonProps = {
+        className: headingStyle({
+          size,
+          isTruncated,
+          bold,
+          underline,
+          strikeThrough,
+          sub,
+          italic,
+          highlight,
+          class: className,
+        }),
+        ...props,
+        ref,
+      };
       switch (size) {
         case '5xl':
         case '4xl':
         case '3xl':
-          return (
-            <H1
-              className={headingStyle({
-                size,
-                isTruncated,
-                bold,
-                underline,
-                strikeThrough,
-                sub,
-                italic,
-                highlight,
-                class: className,
-              })}
-              {...props}
-              ref={ref} />
-          );
+          return <H1 {...commonProps} />;
         case '2xl':
-          return (
-            <H2
-              className={headingStyle({
-                size,
-                isTruncated,
-                bold,
-                underline,
-                strikeThrough,
-                sub,
-                italic,
-                highlight,
-                class: className,
-              })}
-              {...props}
-              ref={ref} />
-          );
+          return <H2 {...commonProps} />;
         case 'xl':
-          return (
-            <H3
-              className={headingStyle({
-                size,
-                isTruncated,
-                bold,
-                underline,
-                strikeThrough,
-                sub,
-                italic,
-                highlight,
-                class: className,
-              })}
-              {...props}
-              ref={ref} />
-          );
+          return <H3 {...commonProps} />;
         case 'lg':
-          return (
-            <H4
-              className={headingStyle({
-                size,
-                isTruncated,
-                bold,
-                underline,
-                strikeThrough,
-                sub,
-                italic,
-                highlight,
-                class: className,
-              })}
-              {...props}
-              ref={ref} />
-          );
+          return <H4 {...commonProps} />;
         case 'md':
-          return (
-            <H5
-              className={headingStyle({
-                size,
-                isTruncated,
-                bold,
-                underline,
-                strikeThrough,
-                sub,
-                italic,
-                highlight,
-                class: className,
-              })}
-              {...props}
-              ref={ref} />
-          );
+          return <H5 {...commonProps} />;
         case 'sm':
         case 'xs':
-          return (
-            <H6
-              className={headingStyle({
-                size,
-                isTruncated,
-                bold,
-                underline,
-                strikeThrough,
-                sub,
-                italic,
-                highlight,
-                class: className,
-              })}
-              {...props}
-              ref={ref} />
-          );
+          return <H6 {...commonProps} />;
         default:
-          return (
-            <H4
-              className={headingStyle({
-                size,
-                isTruncated,
-                bold,
-                underline,
-                strikeThrough,
-                sub,
-                italic,
-                highlight,
-                class: className,
-              })}
-              {...props}
-              ref={ref} />
-          );
+          return <H4 {...commonProps} />;
       }
     },
   ),
@@ -207,4 +118,4 @@ const Heading = memo(
 
 Heading.displayName = 'Heading';
 
-export default Heading;
+export { Heading };

@@ -40,5 +40,5 @@ yarn snaplet
 ```
 
 ## Other Resources
-* [Lucide Icons](https://lucide.dev/icons/)
+* [Lucide Icons](https://lucide.dev/guide/packages/lucide-react-native)
 * [Hero Patterns](https://heropatterns.com/)
