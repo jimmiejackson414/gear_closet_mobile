@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, ImageBackground, StyleSheet, View } from 'react-native';
 import { Image } from 'expo-image';
-import { Button, Card, Divider, Text } from 'react-native-paper';
 import { Link } from 'expo-router';
+import { Card, Text } from '@/components/ui';
+// import { Button, Card, Text } from 'react-native-paper';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import { useAuthLayout } from '@/hooks';
 import theme from '@/lib/theme';
@@ -39,13 +40,19 @@ const WelcomeScreen = () => {
     '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
   return (
-    <Animated.View style={[styles.background, { opacity }]}>
+    <Animated.View
+      style={[styles.background, { opacity }]}>
       <ImageBackground
         onLoad={() => setImageLoaded(true)}
         source={{ uri: backgroundImage }}
         style={styles.background}>
         <ScreenWrapper contentContainerStyle={styles.content}>
           <Card
+            size="lg"
+            variant="glass">
+            <Text>Welcome Page</Text>
+          </Card>
+          {/* <Card
             elevation={5}
             style={styles.card}>
             <View style={styles.title}>
@@ -105,7 +112,7 @@ const WelcomeScreen = () => {
                 By continuing to use GearCloset, you agree to our Terms of Service and Privacy Policy.
               </Text>
             </View>
-          </Card>
+          </Card> */}
         </ScreenWrapper>
       </ImageBackground>
     </Animated.View>

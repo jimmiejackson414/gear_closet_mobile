@@ -1,4 +1,3 @@
-// https://docs.expo.dev/guides/using-eslint/
 module.exports = {
   root: true,
   extends: 'expo',
@@ -25,21 +24,18 @@ module.exports = {
     '@stylistic/no-trailing-spaces': ['warn', { skipBlankLines: true }],
     '@stylistic/object-curly-spacing': [2, 'always'],
     '@stylistic/object-curly-newline': ['error', {
-      ObjectExpression: {
-        multiline: true, minProperties: 2,
+      'ObjectExpression': {
+        'multiline': true, 'minProperties': 2,
       },
-      ObjectPattern: {
-        multiline: true, minProperties: 2,
+      'ObjectPattern': {
+        'multiline': true, 'minProperties': 2,
       },
-      ImportDeclaration: 'never',
-      ExportDeclaration: {
-        multiline: true, minProperties: 2,
+      'ImportDeclaration': 'never', // Disable the rule for import statements
+      'ExportDeclaration': {
+        'multiline': true, 'minProperties': 2,
       },
     }],
     'import/newline-after-import': ['error', { count: 1 }],
-    'import/order': ['error', {
-      'newlines-between': 'never',
-      groups: [['builtin', 'external', 'internal']],
-    }],
+    'import/order': ['error', { 'newlines-between': 'never' }],
   },
 };

@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { Text } from 'react-native';
-import { Button } from 'react-native-paper';
+// import { Button } from 'react-native-paper';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import { useSupabase } from '@/context/SupabaseProvider';
 
@@ -16,11 +16,11 @@ export default function TabOneScreen() {
   return (
     <ScreenWrapper>
       <Text>Home</Text>
-      <Button
+      {/* <Button
         mode='contained'
         onPress={onLogout}>
         Sign Out
-      </Button>
+      </Button> */}
       {/* <H1 className="text-center">Home</H1>
 			<Muted className="text-center">
 				You are now authenticated and this session will persist even after

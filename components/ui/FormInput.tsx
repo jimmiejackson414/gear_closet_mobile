@@ -1,4 +1,4 @@
-import { Text, TextInput } from 'react-native-paper';
+// import { Text, TextInput } from 'react-native-paper';
 import { Control, type UseControllerProps, useController } from 'react-hook-form';
 import { StyleSheet, TextInputIOSProps, View } from 'react-native';
 import theme from '@/lib/theme';
@@ -37,7 +37,7 @@ const FormInput = ({
 
   return (
     <View style={styles.formInput}>
-      <TextInput
+      {/* <TextInput
         {...inputProps}
         activeOutlineColor={theme.colors.primary}
         autoCapitalize='none'
@@ -58,7 +58,7 @@ const FormInput = ({
         textColor={theme.colors.scrim}
         textContentType={textContentType}
         value={field.value} />
-      {error && <Text style={styles.error}>{error.message}</Text>}
+      {error && <Text style={styles.error}>{error.message}</Text>} */}
     </View>
   );
 };

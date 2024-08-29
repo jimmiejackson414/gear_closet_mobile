@@ -1,8 +1,8 @@
 import { Stack } from 'expo-router';
+import '@/global.css';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
 import { SupabaseProvider } from '@/context/SupabaseProvider';
-import { PaperProvider } from 'react-native-paper';
-import theme from '@/lib/theme';
 import 'react-native-reanimated';
 
 export {
@@ -12,19 +12,17 @@ export {
 
 const RootLayout = () => (
   <SupabaseProvider>
-    <PaperProvider
-      theme={theme}
-      settings={{ rippleEffectEnabled: false }}>
+    <GluestackUIProvider>
       <SafeAreaProvider>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="(protected)" />
           <Stack.Screen name="(public)" />
           <Stack.Screen
             name="modal"
-            options={{presentation: 'modal'}} />
+            options={{ presentation: 'modal' }} />
         </Stack>
       </SafeAreaProvider>
-    </PaperProvider>
+    </GluestackUIProvider>
   </SupabaseProvider>
 );
 

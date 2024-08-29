@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { Session, User } from '@supabase/supabase-js';
-import { useRouter, useSegments, SplashScreen } from 'expo-router';
+import { SplashScreen, useRouter, useSegments } from 'expo-router';
 import { AppState } from 'react-native';
 import { supabase } from '../lib/supabase';
 
@@ -50,7 +50,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
 
   const signUp = async (email: string, password: string) => {
     const { error } = await supabase.auth.signUp({
-      email, password, 
+      email, password,
     });
     if (error) {
       throw error;
@@ -59,7 +59,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
 
   const signInWithPassword = async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({
-      email, password, 
+      email, password,
     });
     if (error) {
       throw error;
@@ -95,7 +95,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
       router.replace('/(public)/welcome');
     }
 
-    /* HACK: Something must be rendered when determining the initial auth state... 
+    /* HACK: Something must be rendered when determining the initial auth state...
 		instead of creating a loading screen, we use the SplashScreen and hide it after
 		a small delay (500 ms)
 		*/

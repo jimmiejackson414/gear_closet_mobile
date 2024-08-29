@@ -3,9 +3,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'expo-router';
-import { Animated, ImageBackground, StyleSheet, View } from 'react-native';
+import { Animated, ImageBackground, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
-import { Button, Card, Text } from 'react-native-paper';
+// import { Button, Card, Text } from 'react-native-paper';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import FormInput from '@/components/ui/FormInput';
 import { useAuthLayout } from '@/hooks';
@@ -78,13 +78,15 @@ const SignIn = () => {
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
   return (
-    <Animated.View style={[styles.background, { opacity }]}>
+    <Animated.View
+      style={[styles.background, { opacity }]}>
       <ImageBackground
         onLoad={() => setImageLoaded(true)}
         source={{ uri: backgroundImage }}
         style={styles.background}>
         <ScreenWrapper contentContainerStyle={styles.content}>
-          <Card
+          <Text>Sign In</Text>
+          {/* <Card
             elevation={5}
             style={styles.card}>
             <View style={styles.title}>
@@ -119,7 +121,7 @@ const SignIn = () => {
                 Sign In
               </Button>
             </View>
-          </Card>
+          </Card> */}
         </ScreenWrapper>
       </ImageBackground>
     </Animated.View>
