@@ -62,7 +62,8 @@ const WelcomeScreen = () => {
               </Text>
               <VStack space="md">
                 <Button
-                  action="primary"
+                  action="secondary"
+                  size="lg"
                   variant="outline">
                   <ButtonIcon
                     as={AppleIcon}
@@ -70,7 +71,8 @@ const WelcomeScreen = () => {
                   <ButtonText>Continue with Apple</ButtonText>
                 </Button>
                 <Button
-                  action="primary"
+                  action="secondary"
+                  size="lg"
                   variant="outline">
                   <ButtonIcon
                     as={GoogleIcon}
@@ -79,7 +81,8 @@ const WelcomeScreen = () => {
                   <ButtonText>Continue with Google</ButtonText>
                 </Button>
                 <Button
-                  action="primary"
+                  action="secondary"
+                  size="lg"
                   variant="outline">
                   <ButtonIcon
                     as={FacebookIcon}
@@ -94,8 +97,11 @@ const WelcomeScreen = () => {
                 </Box>
                 <Link
                   asChild
-                  href="/signin">
-                  <Button variant="solid">
+                  href="/modal">
+                  <Button
+                    action="primary"
+                    size="lg"
+                    variant="solid">
                     <ButtonText>Continue with email</ButtonText>
                   </Button>
                 </Link>
@@ -115,8 +121,6 @@ const WelcomeScreen = () => {
 
 const styles = StyleSheet.create({
   background: { flex: 1 },
-  button: { borderColor: theme.colors.outline[400] },
-  buttons: { gap: 16 },
   card: {
     padding: 26,
     backgroundColor: 'rgba(255, 255, 255, 0.6)',

@@ -1,8 +1,9 @@
+/* eslint-env node */
 const { getDefaultConfig } = require('expo/metro-config');
 const { withNativeWind } = require('nativewind/metro');
 
 module.exports = (async () => {
-  // eslint-disable-next-line no-undef
+  /** @type {import('expo/metro-config').MetroConfig} */
   const config = getDefaultConfig(__dirname);
 
   // Extract the existing resolver settings

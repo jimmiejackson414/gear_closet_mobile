@@ -3,12 +3,11 @@ import React from 'react';
 import { createProgress } from '@gluestack-ui/progress';
 import { View } from 'react-native';
 import { tva } from '@gluestack-ui/nativewind-utils/tva';
-import {
-  withStyleContext,
-  useStyleContext,
-} from '@gluestack-ui/nativewind-utils/withStyleContext';
+import { useStyleContext,
+  withStyleContext } from '@gluestack-ui/nativewind-utils/withStyleContext';
 import { cssInterop } from 'nativewind';
 import type { VariantProps } from '@gluestack-ui/nativewind-utils';
+
 const SCOPE = 'PROGRESS';
 export const UIProgress = createProgress({
   Root: withStyleContext(View, SCOPE),
@@ -53,33 +52,39 @@ type IProgressFilledTrackProps = VariantProps<typeof progressFilledTrackStyle> &
 export const Progress = React.forwardRef<
   React.ElementRef<typeof UIProgress>,
   IProgressProps
->(({ className, size = 'md', ...props }, ref) => {
+>(({
+  className, size = 'md', ...props
+}, ref) => {
   return (
     <UIProgress
       ref={ref}
       {...props}
-      className={progressStyle({ size, class: className })}
-      context={{ size }}
-    />
+      className={progressStyle({
+        size, class: className,
+      })}
+      context={{ size }} />
   );
 });
+
+Progress.displayName = 'Progress';
 
 export const ProgressFilledTrack = React.forwardRef<
   React.ElementRef<typeof UIProgress.FilledTrack>,
   IProgressFilledTrackProps
->(({ className, ...props }, ref) => {
+>(({
+  className, ...props
+}, ref) => {
   const { size: parentSize } = useStyleContext(SCOPE);
 
   return (
     <UIProgress.FilledTrack
-      ref={ref}
       className={progressFilledTrackStyle({
-        parentVariants: {
-          size: parentSize,
-        },
+        parentVariants: { size: parentSize },
         class: className,
       })}
-      {...props}
-    />
+      ref={ref}
+      {...props} />
   );
 });
+
+ProgressFilledTrack.displayName = 'ProgressFilledTrack';
