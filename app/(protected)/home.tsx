@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { Text } from 'react-native';
-// import { Button } from 'react-native-paper';
+import { Button, ButtonText } from '@/components/ui';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import { useSupabase } from '@/context/SupabaseProvider';
 
@@ -16,26 +16,13 @@ export default function TabOneScreen() {
   return (
     <ScreenWrapper>
       <Text>Home</Text>
-      {/* <Button
-        mode='contained'
-        onPress={onLogout}>
-        Sign Out
-      </Button> */}
-      {/* <H1 className="text-center">Home</H1>
-			<Muted className="text-center">
-				You are now authenticated and this session will persist even after
-				closing the app.
-			</Muted>
-			<Button
-				className="w-full"
-				variant="default"
-				size="default"
-				onPress={() => {
-					router.push("/modal");
-				}}
-			>
-				<Text>Open Modal</Text>
-			</Button> */}
+      <Button
+        action='primary'
+        onPress={onLogout}
+        size="lg"
+        variant="solid">
+        <ButtonText>Sign Out</ButtonText>
+      </Button>
     </ScreenWrapper>
   );
 }

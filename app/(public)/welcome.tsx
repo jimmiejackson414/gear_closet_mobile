@@ -20,8 +20,8 @@ const WelcomeScreen = () => {
   useEffect(() => {
     if (imageLoaded) {
       Animated.timing(opacity, {
-        toValue: 1,
         duration: 500,
+        toValue: 1,
         useNativeDriver: true,
       }).start();
     }
@@ -39,8 +39,7 @@ const WelcomeScreen = () => {
     '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
   return (
-    <Animated.View
-      style={[styles.background, { opacity }]}>
+    <Animated.View style={[styles.background, { opacity }]}>
       <ImageBackground
         onLoad={() => setImageLoaded(true)}
         source={{ uri: backgroundImage }}
@@ -122,48 +121,48 @@ const WelcomeScreen = () => {
 const styles = StyleSheet.create({
   background: { flex: 1 },
   card: {
-    padding: 26,
     backgroundColor: 'rgba(255, 255, 255, 0.6)',
     borderRadius: 24,
-    borderTopWidth: 5,
     borderTopColor: theme.colors.primary[400],
+    borderTopWidth: 5,
+    padding: 26,
   },
   content: {
-    padding: 8,
+    backgroundColor: 'transparent',
     flexGrow: 1,
     justifyContent: 'center',
-    backgroundColor: 'transparent',
+    padding: 8,
   },
   divider: {
-    flexDirection: 'row',
     alignItems: 'center',
+    flexDirection: 'row',
     marginVertical: 16,
   },
   dividerLine: {
+    backgroundColor: theme.colors.background.dark,
     flex: 1,
     height: 1,
-    backgroundColor: theme.colors.background.dark,
   },
   dividerText: {
-    marginHorizontal: 16,
     color: theme.colors.typography[400],
     fontSize: 16,
+    marginHorizontal: 16,
   },
   icon: {
-    width: 64,
     height: 64,
     marginBottom: 8,
+    width: 64,
   },
   smallPrint: {
-    fontWeight: '300',
-    textAlign: 'center',
-    marginTop: 16,
     color: theme.colors.typography[950],
+    fontWeight: '300',
+    marginTop: 16,
+    textAlign: 'center',
   },
   tagline: {
     color: theme.colors.typography[700],
-    textAlign: 'center',
     marginBottom: 16,
+    textAlign: 'center',
   },
   title: {
     alignItems: 'center',

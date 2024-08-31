@@ -109,15 +109,14 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
   }, [initialized, session]);
 
   return (
-    <SupabaseContext.Provider
-      value={{
-        user,
-        session,
-        initialized,
-        signUp,
-        signInWithPassword,
-        signOut,
-      }}>
+    <SupabaseContext.Provider value={{
+      user,
+      session,
+      initialized,
+      signUp,
+      signInWithPassword,
+      signOut,
+    }}>
       {children}
     </SupabaseContext.Provider>
   );

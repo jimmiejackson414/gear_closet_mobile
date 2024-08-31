@@ -16,19 +16,19 @@ export const config = {
     '--color-primary-900': '17 60 98',
     '--color-primary-950': '13 49 82',
 
-    /* Secondary (Based on #0D160B) */
-    '--color-secondary-0': '240 245 240',   // #F0F5F0
-    '--color-secondary-50': '220 225 220',  // #DCE1DC
-    '--color-secondary-100': '200 205 200', // #C8CDC8
-    '--color-secondary-200': '170 175 170', // #AAAFAA
-    '--color-secondary-300': '140 145 140', // #8C918C
-    '--color-secondary-400': '110 115 110', // #6E736E
-    '--color-secondary-500': '13 22 11',    // #0D160B
-    '--color-secondary-600': '11 19 10',    // #0B130A
-    '--color-secondary-700': '9 16 8',      // #091008
-    '--color-secondary-800': '7 13 6',      // #070D06
-    '--color-secondary-900': '5 10 4',      // #050A04
-    '--color-secondary-950': '3 7 2',       // #030702
+    /* Secondary */
+    '--color-secondary-0': '240 245 240',
+    '--color-secondary-50': '220 225 220',
+    '--color-secondary-100': '200 205 200',
+    '--color-secondary-200': '170 175 170',
+    '--color-secondary-300': '140 145 140',
+    '--color-secondary-400': '110 115 110',
+    '--color-secondary-500': '13 22 11', // #0D160B
+    '--color-secondary-600': '11 19 10',
+    '--color-secondary-700': '9 16 8',
+    '--color-secondary-800': '7 13 6',
+    '--color-secondary-900': '5 10 4',
+    '--color-secondary-950': '3 7 2',
 
     /* Tertiary */
     '--color-tertiary-0': '245 240 255',

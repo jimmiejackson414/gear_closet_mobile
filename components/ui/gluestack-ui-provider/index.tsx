@@ -32,16 +32,17 @@ export function GluestackUIProvider({
   colorSchemeNW.set(mode);
 
   return (
-    <View
-      style={[
-        config[colorSchemeName],
-        {
-          flex: 1, height: '100%', width: '100%',
-        },
-        props.style,
-      ]}>
+    <View style={[
+      config[colorSchemeName],
+      {
+        flex: 1, height: '100%', width: '100%',
+      },
+      props.style,
+    ]}>
       <OverlayProvider>
-        <ToastProvider>{props.children}</ToastProvider>
+        <ToastProvider>
+          {props.children}
+        </ToastProvider>
       </OverlayProvider>
     </View>
   );
