@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, ImageBackground, StyleSheet, View } from 'react-native';
+import { Animated, ImageBackground, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
-import { Button, Card, Divider, Text } from 'react-native-paper';
 import { Link } from 'expo-router';
+import { Box, Button, ButtonIcon, ButtonText, Card, Center, Text, VStack } from '@/components/ui';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import { useAuthLayout } from '@/hooks';
 import theme from '@/lib/theme';
@@ -20,8 +20,8 @@ const WelcomeScreen = () => {
   useEffect(() => {
     if (imageLoaded) {
       Animated.timing(opacity, {
-        toValue: 1,
         duration: 500,
+        toValue: 1,
         useNativeDriver: true,
       }).start();
     }
@@ -46,65 +46,71 @@ const WelcomeScreen = () => {
         style={styles.background}>
         <ScreenWrapper contentContainerStyle={styles.content}>
           <Card
-            elevation={5}
-            style={styles.card}>
-            <View style={styles.title}>
+            size="lg"
+            variant="glass">
+            <Center>
               <Image
                 contentFit="contain"
                 placeholder={blurhash}
                 source={require('../../assets/gear-closet-icon.png')}
                 style={styles.icon} />
               <Text
-                style={styles.tagline}
-                variant="titleMedium">
+                size="lg"
+                style={styles.tagline}>
                 Sign up or log in to get started
               </Text>
-            </View>
-            <View style={styles.buttons}>
-              <Button
-                icon={() => <AppleIcon
-                  fill={'black'}
-                  height={18}
-                  width={18} />}
-                mode="outlined"
-                style={styles.button}
-                textColor={theme.colors.fontColor}>
-                Continue with Apple
-              </Button>
-              <Button
-                icon={() => <GoogleIcon
-                  height={18}
-                  width={18} />}
-                mode="outlined"
-                style={styles.button}
-                textColor={theme.colors.fontColor}>
-                Continue with Google
-              </Button>
-              <Button
-                icon={() => <FacebookIcon
-                  height={28}
-                  width={28} />}
-                mode="outlined"
-                style={styles.button}
-                textColor={theme.colors.fontColor}>
-                Continue with Facebook
-              </Button>
-              <View style={styles.divider}>
-                <View style={styles.dividerLine} />
-                <Text style={styles.dividerText}>or</Text>
-                <View style={styles.dividerLine} />
-              </View>
-              <Link
-                asChild
-                href="/signin">
-                <Button mode="contained">Continue with email</Button>
-              </Link>
-              <Text
-                style={styles.smallPrint}
-                variant="bodySmall">
-                By continuing to use GearCloset, you agree to our Terms of Service and Privacy Policy.
-              </Text>
-            </View>
+              <VStack space="md">
+                <Button
+                  action="secondary"
+                  size="lg"
+                  variant="outline">
+                  <ButtonIcon
+                    as={AppleIcon}
+                    className="mr-8" />
+                  <ButtonText>Continue with Apple</ButtonText>
+                </Button>
+                <Button
+                  action="secondary"
+                  size="lg"
+                  variant="outline">
+                  <ButtonIcon
+                    as={GoogleIcon}
+                    className="mr-8"
+                    size="lg" />
+                  <ButtonText>Continue with Google</ButtonText>
+                </Button>
+                <Button
+                  action="secondary"
+                  size="lg"
+                  variant="outline">
+                  <ButtonIcon
+                    as={FacebookIcon}
+                    className="mr-8"
+                    size="lg" />
+                  <ButtonText>Continue with Facebook</ButtonText>
+                </Button>
+                <Box style={styles.divider}>
+                  <Box style={styles.dividerLine} />
+                  <Text style={styles.dividerText}>or</Text>
+                  <Box style={styles.dividerLine} />
+                </Box>
+                <Link
+                  asChild
+                  href="/modal">
+                  <Button
+                    action="primary"
+                    size="lg"
+                    variant="solid">
+                    <ButtonText>Continue with email</ButtonText>
+                  </Button>
+                </Link>
+                <Text
+                  size="xs"
+                  style={styles.smallPrint}>
+                  By continuing to use GearCloset, you agree to our Terms of Service and Privacy Policy.
+                </Text>
+              </VStack>
+            </Center>
           </Card>
         </ScreenWrapper>
       </ImageBackground>
@@ -114,48 +120,48 @@ const WelcomeScreen = () => {
 
 const styles = StyleSheet.create({
   background: { flex: 1 },
-  button: { borderColor: theme.colors.outline },
-  buttons: { gap: 16 },
   card: {
-    padding: 26,
     backgroundColor: 'rgba(255, 255, 255, 0.6)',
     borderRadius: 24,
+    borderTopColor: theme.colors.primary[400],
     borderTopWidth: 5,
-    borderTopColor: theme.colors.primary,
+    padding: 26,
   },
   content: {
-    padding: 8,
+    backgroundColor: 'transparent',
     flexGrow: 1,
     justifyContent: 'center',
-    backgroundColor: 'transparent',
+    padding: 8,
   },
   divider: {
-    flexDirection: 'row',
     alignItems: 'center',
+    flexDirection: 'row',
     marginVertical: 16,
   },
   dividerLine: {
+    backgroundColor: theme.colors.background.dark,
     flex: 1,
     height: 1,
-    backgroundColor: theme.colors.outline,
   },
   dividerText: {
-    marginHorizontal: 16,
-    color: theme.colors.fontColor,
+    color: theme.colors.typography[400],
     fontSize: 16,
+    marginHorizontal: 16,
   },
   icon: {
-    width: 64,
     height: 64,
     marginBottom: 8,
+    width: 64,
   },
   smallPrint: {
-    fontWeight: '200',
-    textAlign: 'center',
+    color: theme.colors.typography[950],
+    fontWeight: '300',
     marginTop: 16,
+    textAlign: 'center',
   },
   tagline: {
-    maxWidth: '40%',
+    color: theme.colors.typography[700],
+    marginBottom: 16,
     textAlign: 'center',
   },
   title: {

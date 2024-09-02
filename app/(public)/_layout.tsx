@@ -6,13 +6,9 @@ const PublicLayout = () => (
       name="welcome"
       options={{ headerShown: false }} />
     <Stack.Screen
-      name="signin"
+      name="modal"
       options={{
-        headerShown: true,
-        headerBackTitle: 'Welcome',
-        headerTitle: 'Sign In',
-        headerBlurEffect: 'light',
-        headerTransparent: true,
+        presentation: 'modal', headerShown: false,
       }} />
   </Stack>
 );

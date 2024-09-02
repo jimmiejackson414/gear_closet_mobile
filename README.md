@@ -39,6 +39,11 @@ yarn typgen
 yarn snaplet
 ```
 
+### Run React Devtools
+```sh
+npx react-devtools
+```
+
 ## Other Resources
-* [Lucide Icons](https://lucide.dev/icons/)
+* [Lucide Icons](https://lucide.dev/guide/packages/lucide-react-native)
 * [Hero Patterns](https://heropatterns.com/)

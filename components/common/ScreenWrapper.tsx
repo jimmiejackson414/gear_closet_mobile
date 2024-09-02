@@ -1,10 +1,5 @@
 import * as React from 'react';
-import {ScrollView,
-  ScrollViewProps,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle} from 'react-native';
+import { ScrollView, ScrollViewProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type Props = ScrollViewProps & {
@@ -45,9 +40,9 @@ export default function ScreenWrapper({
       {withScrollView ? (
         <ScrollView
           {...rest}
+          alwaysBounceVertical={false}
           contentContainerStyle={combinedContentContainerStyle}
           keyboardShouldPersistTaps="always"
-          alwaysBounceVertical={false}
           showsVerticalScrollIndicator={false}
           style={{ backgroundColor: 'transparent' }}>
           {children}

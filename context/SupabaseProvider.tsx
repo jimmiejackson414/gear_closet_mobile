@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { Session, User } from '@supabase/supabase-js';
-import { useRouter, useSegments, SplashScreen } from 'expo-router';
+import { SplashScreen, useRouter, useSegments } from 'expo-router';
 import { AppState } from 'react-native';
 import { supabase } from '../lib/supabase';
 
@@ -10,6 +10,7 @@ type SupabaseContextProps = {
   user: User | null;
   session: Session | null;
   initialized?: boolean;
+  checkForEmail: (email: string) => Promise<boolean>;
   signUp: (email: string, password: string) => Promise<void>;
   signInWithPassword: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
@@ -22,6 +23,7 @@ type SupabaseProviderProps = {
 export const SupabaseContext = createContext<SupabaseContextProps>({
   user: null,
   session: null,
+  checkForEmail: async () => false,
   signUp: async () => {},
   signInWithPassword: async () => {},
   signOut: async () => {},
@@ -48,9 +50,20 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     }
   });
 
+  const checkForEmail = async (email: string) => {
+    const {
+      data, error,
+    } = await supabase.from('profiles').select('email').eq('email', email).maybeSingle();
+    if (error) {
+      throw error;
+    }
+
+    return Boolean(data);
+  };
+
   const signUp = async (email: string, password: string) => {
     const { error } = await supabase.auth.signUp({
-      email, password, 
+      email, password,
     });
     if (error) {
       throw error;
@@ -59,7 +72,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
 
   const signInWithPassword = async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({
-      email, password, 
+      email, password,
     });
     if (error) {
       throw error;
@@ -95,7 +108,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
       router.replace('/(public)/welcome');
     }
 
-    /* HACK: Something must be rendered when determining the initial auth state... 
+    /* HACK: Something must be rendered when determining the initial auth state...
 		instead of creating a loading screen, we use the SplashScreen and hide it after
 		a small delay (500 ms)
 		*/
@@ -109,15 +122,15 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
   }, [initialized, session]);
 
   return (
-    <SupabaseContext.Provider
-      value={{
-        user,
-        session,
-        initialized,
-        signUp,
-        signInWithPassword,
-        signOut,
-      }}>
+    <SupabaseContext.Provider value={{
+      user,
+      session,
+      initialized,
+      checkForEmail,
+      signUp,
+      signInWithPassword,
+      signOut,
+    }}>
       {children}
     </SupabaseContext.Provider>
   );
