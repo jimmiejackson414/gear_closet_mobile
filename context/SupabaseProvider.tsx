@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { Session, User } from '@supabase/supabase-js';
+import { Provider, Session, User } from '@supabase/supabase-js';
 import { SplashScreen, useRouter, useSegments } from 'expo-router';
 import { AppState } from 'react-native';
 import { supabase } from '../lib/supabase';
@@ -13,6 +13,7 @@ type SupabaseContextProps = {
   checkForEmail: (email: string) => Promise<boolean>;
   signUp: (email: string, password: string) => Promise<void>;
   signInWithPassword: (email: string, password: string) => Promise<void>;
+  signInWithOAuth: (provider: Provider) => Promise<void>;
   signOut: () => Promise<void>;
 };
 
@@ -26,6 +27,7 @@ export const SupabaseContext = createContext<SupabaseContextProps>({
   checkForEmail: async () => false,
   signUp: async () => {},
   signInWithPassword: async () => {},
+  signInWithOAuth: async () => {},
   signOut: async () => {},
 });
 
@@ -74,6 +76,13 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     const { error } = await supabase.auth.signInWithPassword({
       email, password,
     });
+    if (error) {
+      throw error;
+    }
+  };
+
+  const signInWithOAuth = async (provider: Provider) => {
+    const { error } = await supabase.auth.signInWithOAuth({ provider });
     if (error) {
       throw error;
     }
@@ -129,6 +138,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
       checkForEmail,
       signUp,
       signInWithPassword,
+      signInWithOAuth,
       signOut,
     }}>
       {children}
