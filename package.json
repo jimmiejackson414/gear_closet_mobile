@@ -9,6 +9,7 @@
     "web": "DARK_MODE=media expo start --web",
     "lint": "eslint .",
     "postinstall": "patch-package",
+    "typegen": "npx supabase gen types typescript --local public > ./types/index.ts && tsx scripts/generateEnums.ts",
     "generate-component-barrel": "node generateComponentBarrel.js"
   },
   "dependencies": {
@@ -69,6 +70,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@dev-plugins/react-navigation": "^0.0.6",
     "@stylistic/eslint-plugin": "^2.6.4",
     "@types/react": "~18.2.45",
     "eslint": "^8.57.0",
@@ -76,6 +78,8 @@
     "jscodeshift": "0.15.2",
     "prettier": "^3.3.3",
     "react-native-svg-transformer": "^1.5.0",
+    "supabase": "^1.191.3",
+    "tsx": "^4.19.0",
     "typescript": "~5.3.3"
   },
   "private": true

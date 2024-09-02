@@ -2,42 +2,40 @@ import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import type { LucideIcon } from 'lucide-react-native'; // Import from lucide
 import type { TextInputProps } from 'react-native';
-import { FormControl, FormControlError, FormControlErrorText, FormControlLabel, FormControlLabelText, Input, InputField, InputIcon, InputSlot } from '@/components/ui';
+import { FormControl, FormControlError, FormControlErrorText, FormControlHelper, FormControlHelperText, FormControlLabel, FormControlLabelText, Input, InputField, InputIcon, InputSlot } from '@/components/ui';
 
 interface FormInputProps {
-  name: string;
-  label: string;
-  isDisabled?: boolean;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
   autoComplete?: TextInputProps['autoComplete'];
   autoFocus?: boolean;
-  keyboardType?: TextInputProps['keyboardType'];
-  type?: 'text' | 'password';
   className?: string;
-  icon?: LucideIcon; // Add icon prop
-  placeholder?: string; // Add placeholder prop
-  defaultValue?: string; // Add defaultValue prop
-  helperText?: string; // Add helperText prop
-  isRequired?: boolean; // Add isRequired prop
-  rules?: object; // Add validation rules prop
+  defaultValue?: string;
+  helperText?: string;
+  icon?: LucideIcon;
+  isDisabled?: boolean;
+  isRequired?: boolean;
+  keyboardType?: TextInputProps['keyboardType'];
+  label: string;
+  name: string;
+  placeholder?: string;
+  type?: 'text' | 'password';
 }
 
 const FormInput: React.FC<FormInputProps> = ({
-  name,
-  label,
-  isDisabled = false,
   autoCapitalize = 'none',
   autoComplete,
   autoFocus = false,
-  keyboardType = 'default',
-  type = 'text',
   className,
-  icon: Icon, // Destructure icon prop
-  placeholder,
   defaultValue,
   helperText,
+  icon: Icon, // Destructure icon prop
+  isDisabled = false,
   isRequired = false,
-  rules = {},
+  keyboardType = 'default',
+  label,
+  name,
+  placeholder,
+  type = 'text',
 }) => {
   const { control } = useFormContext();
   const {
@@ -49,7 +47,6 @@ const FormInput: React.FC<FormInputProps> = ({
     name,
     control,
     defaultValue,
-    rules,
   });
 
   return (
@@ -87,11 +84,11 @@ const FormInput: React.FC<FormInputProps> = ({
           value={value} />
       </Input>
       {helperText && !error && (
-        <FormControlError>
-          <FormControlErrorText>
+        <FormControlHelper>
+          <FormControlHelperText>
             {helperText}
-          </FormControlErrorText>
-        </FormControlError>
+          </FormControlHelperText>
+        </FormControlHelper>
       )}
       {error && (
         <FormControlError>

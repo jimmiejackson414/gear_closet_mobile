@@ -10,6 +10,7 @@ type SupabaseContextProps = {
   user: User | null;
   session: Session | null;
   initialized?: boolean;
+  checkForEmail: (email: string) => Promise<boolean>;
   signUp: (email: string, password: string) => Promise<void>;
   signInWithPassword: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
@@ -22,6 +23,7 @@ type SupabaseProviderProps = {
 export const SupabaseContext = createContext<SupabaseContextProps>({
   user: null,
   session: null,
+  checkForEmail: async () => false,
   signUp: async () => {},
   signInWithPassword: async () => {},
   signOut: async () => {},
@@ -47,6 +49,17 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
       supabase.auth.stopAutoRefresh();
     }
   });
+
+  const checkForEmail = async (email: string) => {
+    const {
+      data, error,
+    } = await supabase.from('profiles').select('email').eq('email', email).maybeSingle();
+    if (error) {
+      throw error;
+    }
+
+    return Boolean(data);
+  };
 
   const signUp = async (email: string, password: string) => {
     const { error } = await supabase.auth.signUp({
@@ -113,6 +126,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
       user,
       session,
       initialized,
+      checkForEmail,
       signUp,
       signInWithPassword,
       signOut,
