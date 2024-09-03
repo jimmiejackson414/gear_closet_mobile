@@ -1,10 +1,16 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import { GoogleSignin, isErrorWithCode, isSuccessResponse, statusCodes } from '@react-native-google-signin/google-signin';
 import { Provider, Session, User } from '@supabase/supabase-js';
 import { SplashScreen, useRouter, useSegments } from 'expo-router';
 import { AppState } from 'react-native';
 import { supabase } from '../lib/supabase';
 
 SplashScreen.preventAutoHideAsync();
+
+GoogleSignin.configure({
+  scopes: ['https://www.googleapis.com/auth/userinfo.profile'],
+  webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
+});
 
 type SupabaseContextProps = {
   user: User | null;
@@ -82,9 +88,35 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
   };
 
   const signInWithOAuth = async (provider: Provider) => {
-    const { error } = await supabase.auth.signInWithOAuth({ provider });
-    if (error) {
-      throw error;
+    try {
+      switch (provider) {
+        case 'google':
+          await GoogleSignin.hasPlayServices();
+          const response = await GoogleSignin.signIn();
+          if (!isSuccessResponse(response)) {
+            throw new Error('Google sign in failed');
+          }
+          break;
+        case 'apple':
+          break;
+        case 'facebook':
+          break;
+        default:
+          throw new Error('Unsupported provider');
+      }
+    } catch (err) {
+      if (isErrorWithCode(err)) {
+        switch (err.code) {
+          case statusCodes.IN_PROGRESS:
+            console.log('In progress');
+            break;
+          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+            // Android only, play services not available or outdated
+            break;
+          default:
+            console.error(err);
+        }
+      }
     }
   };
 
@@ -97,6 +129,9 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
 
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log({
+        event, session,
+      });
       setSession(session);
       setUser(session ? session.user : null);
       setInitialized(true);

@@ -49,9 +49,6 @@ const WelcomeScreen = () => {
     );
   }
 
-  const blurhash =
-    '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
-
   return (
     <Animated.View style={[styles.background, { opacity }]}>
       <ImageBackground
@@ -65,7 +62,6 @@ const WelcomeScreen = () => {
             <Center>
               <Image
                 contentFit="contain"
-                placeholder={blurhash}
                 source={require('../../assets/gear-closet-icon.png')}
                 style={styles.icon} />
               <Text
