@@ -9,7 +9,7 @@ SplashScreen.preventAutoHideAsync();
 
 GoogleSignin.configure({
   scopes: ['https://www.googleapis.com/auth/userinfo.profile'],
-  webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
+  iosClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
 });
 
 type SupabaseContextProps = {
