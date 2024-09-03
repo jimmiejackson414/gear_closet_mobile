@@ -16,11 +16,11 @@ module.exports = {
         },
         ImportDeclaration: 'never', // Disable the rule for import statements
         ObjectExpression: {
-          minProperties: 2,
+          minProperties: 3,
           multiline: true,
         },
         ObjectPattern: {
-          minProperties: 2,
+          minProperties: 3,
           multiline: true,
         },
       },
@@ -28,6 +28,7 @@ module.exports = {
     '@stylistic/object-curly-spacing': [1, 'always'],
     '@stylistic/quotes': [1, 'single'],
     '@stylistic/semi': [1, 'always'],
+    '@stylistic/newline-per-chained-call': [1, { ignoreChainWithDepth: 1 }],
     'import/newline-after-import': [1, { count: 1 }],
     'import/order': [1, { 'newlines-between': 'never' }],
     'react/jsx-closing-bracket-location': [1, 'after-props'],

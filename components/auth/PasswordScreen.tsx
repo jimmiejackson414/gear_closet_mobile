@@ -14,11 +14,12 @@ interface Props {
   submitting: boolean;
 }
 
-const passwordSchema = z.object({ password: z.string().min(6, 'Password must be at least 6 characters.') });
+const passwordSchema = z.object({
+  password: z.string()
+    .min(6, 'Password must be at least 6 characters.'),
+});
 
-const PasswordScreen: React.FC<Props> = ({
-  onSubmit, submitting,
-}) => {
+const PasswordScreen: React.FC<Props> = ({ onSubmit, submitting }) => {
   const form = useForm({
     resolver: zodResolver(passwordSchema),
     defaultValues: { password: '' },

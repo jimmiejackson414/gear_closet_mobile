@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { GoogleSignin, isErrorWithCode, isSuccessResponse, statusCodes } from '@react-native-google-signin/google-signin';
+import { GoogleSignin, isErrorWithCode, statusCodes } from '@react-native-google-signin/google-signin';
 import { Provider, Session, User } from '@supabase/supabase-js';
 import { SplashScreen, useRouter, useSegments } from 'expo-router';
 import { AppState } from 'react-native';
@@ -59,9 +59,10 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
   });
 
   const checkForEmail = async (email: string) => {
-    const {
-      data, error,
-    } = await supabase.from('profiles').select('email').eq('email', email).maybeSingle();
+    const { data, error } = await supabase.from('profiles')
+      .select('email')
+      .eq('email', email)
+      .maybeSingle();
     if (error) {
       throw error;
     }
@@ -70,18 +71,38 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
   };
 
   const signUp = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signUp({
-      email, password,
-    });
+    const { error } = await supabase.auth.signUp({ email, password });
     if (error) {
       throw error;
     }
   };
 
   const signInWithPassword = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email, password,
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) {
+      throw error;
+    }
+  };
+
+  const signInWithGoogle = async () => {
+    await GoogleSignin.hasPlayServices();
+    const response = await GoogleSignin.signIn();
+
+    if (response.type !== 'success' || !response.data) {
+      throw new Error('Google sign in failed');
+    }
+
+    const { idToken } = response.data;
+
+    if (!idToken) {
+      throw new Error('Google sign in failed');
+    }
+
+    const { error } = await supabase.auth.signInWithIdToken({
+      provider: 'google',
+      token: idToken,
     });
+
     if (error) {
       throw error;
     }
@@ -91,11 +112,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     try {
       switch (provider) {
         case 'google':
-          await GoogleSignin.hasPlayServices();
-          const response = await GoogleSignin.signIn();
-          if (!isSuccessResponse(response)) {
-            throw new Error('Google sign in failed');
-          }
+          await signInWithGoogle();
           break;
         case 'apple':
           break;
@@ -129,9 +146,6 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
 
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log({
-        event, session,
-      });
       setSession(session);
       setUser(session ? session.user : null);
       setInitialized(true);

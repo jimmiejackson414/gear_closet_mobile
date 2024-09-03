@@ -21,7 +21,8 @@ const WelcomeScreen = () => {
         duration: 500,
         toValue: 1,
         useNativeDriver: true,
-      }).start();
+      })
+        .start();
     }
   }, [imageLoaded, opacity]);
 
@@ -38,9 +39,7 @@ const WelcomeScreen = () => {
     }
   };
 
-  const {
-    backgroundImage, loading,
-  } = useAuthLayout();
+  const { backgroundImage, loading } = useAuthLayout();
   if (loading) {
     return (
       <ScreenWrapper contentContainerStyle={styles.content}>
