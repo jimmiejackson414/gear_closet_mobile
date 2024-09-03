@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { GoogleSignin, isErrorWithCode, statusCodes } from '@react-native-google-signin/google-signin';
+import { GoogleSignin, isErrorWithCode } from '@react-native-google-signin/google-signin';
 import { Provider, Session, User } from '@supabase/supabase-js';
 import { SplashScreen, useRouter, useSegments } from 'expo-router';
 import { AppState } from 'react-native';
@@ -108,6 +108,14 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     }
   };
 
+  const signInWithFacebook = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({ provider: 'facebook' });
+    console.log({ data, error });
+    if (error) {
+      throw error;
+    }
+  };
+
   const signInWithOAuth = async (provider: Provider) => {
     try {
       switch (provider) {
@@ -117,22 +125,14 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
         case 'apple':
           break;
         case 'facebook':
+          await signInWithFacebook();
           break;
         default:
           throw new Error('Unsupported provider');
       }
     } catch (err) {
       if (isErrorWithCode(err)) {
-        switch (err.code) {
-          case statusCodes.IN_PROGRESS:
-            console.log('In progress');
-            break;
-          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-            // Android only, play services not available or outdated
-            break;
-          default:
-            console.error(err);
-        }
+        throw new Error(err.message);
       }
     }
   };

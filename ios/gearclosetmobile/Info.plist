@@ -37,7 +37,19 @@
           <string>com.googleusercontent.apps.951532110754-ks59eo8hgea227uivcb7a3rr3521co33</string>
         </array>
       </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>276095000869764</string>
+        </array>
+      </dict>
     </array>
+    <key>FacebookAppID</key>
+    <string>276095000869764</string>
+    <key>FacebookClientToken</key>
+    <string>1aaa7611f4176f703b88f111a8a2064f</string>
+    <key>FacebookDisplayName</key>
+    <string>Gear Closet</string>
     <key>CFBundleVersion</key>
     <string>1</string>
     <key>LSRequiresIPhoneOS</key>

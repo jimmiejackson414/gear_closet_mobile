@@ -36,6 +36,7 @@
           "iosUrlScheme": "com.googleusercontent.apps.951532110754-ks59eo8hgea227uivcb7a3rr3521co33"
         }
       ],
+      "react-native-fbsdk-next",
       "expo-router",
       "expo-secure-store"
     ],
