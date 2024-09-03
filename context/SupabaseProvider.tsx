@@ -1,8 +1,9 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { GoogleSignin, isErrorWithCode } from '@react-native-google-signin/google-signin';
+import { AccessToken, AuthenticationToken, LoginManager } from 'react-native-fbsdk-next';
 import { Provider, Session, User } from '@supabase/supabase-js';
 import { SplashScreen, useRouter, useSegments } from 'expo-router';
-import { AppState } from 'react-native';
+import { AppState, Platform } from 'react-native';
 import { supabase } from '../lib/supabase';
 
 SplashScreen.preventAutoHideAsync();
@@ -109,8 +110,33 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
   };
 
   const signInWithFacebook = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({ provider: 'facebook' });
-    console.log({ data, error });
+    const loginResult = await LoginManager.logInWithPermissions(['public_profile', 'email'], 'limited');
+    console.log({ loginResult });
+
+    if (loginResult.isCancelled) {
+      throw new Error('User cancelled the login process');
+    }
+
+    let accessToken;
+    if (Platform.OS === 'ios') {
+      const tokenResult = await AuthenticationToken.getAuthenticationTokenIOS();
+      accessToken = tokenResult?.authenticationToken;
+    } else {
+      const tokenResult = await AccessToken.getCurrentAccessToken();
+      accessToken = tokenResult?.accessToken;
+    }
+
+    if (!accessToken) {
+      throw new Error('Failed to obtain access token');
+    }
+
+    console.log({ accessToken });
+
+    const { error } = await supabase.auth.signInWithIdToken({
+      provider: 'facebook',
+      token: accessToken,
+    });
+
     if (error) {
       throw error;
     }
