@@ -111,7 +111,6 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
 
   const signInWithFacebook = async () => {
     const loginResult = await LoginManager.logInWithPermissions(['public_profile', 'email']);
-    console.log({ loginResult });
 
     if (loginResult.isCancelled) {
       throw new Error('User cancelled the login process');
@@ -129,8 +128,6 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     if (!accessToken) {
       throw new Error('Failed to obtain access token');
     }
-
-    console.log({ accessToken });
 
     const { error } = await supabase.auth.signInWithIdToken({
       provider: 'facebook',
