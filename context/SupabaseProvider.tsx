@@ -207,7 +207,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     const inProtectedGroup = segments[0] === '(protected)';
 
     if (session && !inProtectedGroup) {
-      router.replace('/(protected)/home');
+      router.replace('/(protected)/(drawer)/home');
     } else if (!session) {
       router.replace('/(public)/welcome');
     }

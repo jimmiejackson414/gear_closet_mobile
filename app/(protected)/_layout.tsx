@@ -1,16 +1,13 @@
-import { Tabs } from 'expo-router';
 import React from 'react';
+import { Stack } from 'expo-router';
+import '@/handlers/gesture-handler';
 
-const ProtectedLayout = () => {
-  return (
-    <Tabs screenOptions={{
-      headerShown: false,
-      tabBarShowLabel: false,
-    }}>
-      <Tabs.Screen name="home" />
-      <Tabs.Screen name="profile" />
-    </Tabs>
-  );
-};
+const ProtectedLayout = () => (
+  <Stack>
+    <Stack.Screen
+      name="(drawer)"
+      options={{ headerShown: false }} />
+  </Stack>
+);
 
 export default ProtectedLayout;

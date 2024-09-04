@@ -4,7 +4,7 @@ import { Button, ButtonText } from '@/components/ui';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import { useSupabase } from '@/context/SupabaseProvider';
 
-export default function TabOneScreen() {
+const HomeScreen = () => {
   const router = useRouter();
   const { signOut } = useSupabase();
 
@@ -25,4 +25,6 @@ export default function TabOneScreen() {
       </Button>
     </ScreenWrapper>
   );
-}
+};
+
+export default HomeScreen;

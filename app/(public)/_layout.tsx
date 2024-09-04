@@ -7,9 +7,7 @@ const PublicLayout = () => (
       options={{ headerShown: false }} />
     <Stack.Screen
       name="modal"
-      options={{
-        presentation: 'modal', headerShown: false,
-      }} />
+      options={{ presentation: 'modal', headerShown: false }} />
   </Stack>
 );
 
