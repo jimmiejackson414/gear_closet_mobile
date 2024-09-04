@@ -18,6 +18,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.GearCloset.mobile"
+      // "usesAppleSignIn": true
     },
     "android": {
       "adaptiveIcon": {
@@ -30,6 +31,22 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.951532110754-ks59eo8hgea227uivcb7a3rr3521co33"
+        }
+      ],
+      [
+        "react-native-fbsdk-next",
+        {
+          "appID": "276095000869764",
+          "clientToken": "1aaa7611f4176f703b88f111a8a2064f",
+          "displayName": "Gear Closet",
+          "isAutoInitEnabled": true
+        }
+      ],
+      "expo-apple-authentication",
       "expo-router",
       "expo-secure-store"
     ],

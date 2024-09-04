@@ -14,11 +14,12 @@ interface Props {
   submitting: boolean;
 }
 
-const emailSchema = z.object({ email: z.string().email('Please enter a valid email address.') });
+const emailSchema = z.object({
+  email: z.string()
+    .email('Please enter a valid email address.'),
+});
 
-const EmailScreen: React.FC<Props> = ({
-  onSubmit, submitting,
-}) => {
+const EmailScreen: React.FC<Props> = ({ onSubmit, submitting }) => {
   const form = useForm({
     resolver: zodResolver(emailSchema),
     defaultValues: { email: '' },

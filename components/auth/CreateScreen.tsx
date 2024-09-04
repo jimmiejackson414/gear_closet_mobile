@@ -15,21 +15,20 @@ interface Props {
 }
 
 const createSchema = z.object({
-  password: z.string().min(6, 'Password must be at least 6 characters.'),
-  passwordConfirm: z.string().min(6, 'Password must be at least 6 characters.'),
-}).refine((data) => data.password === data.passwordConfirm, {
-  path: ['passwordConfirm'],
-  message: 'Passwords do not match',
-});
+  password: z.string()
+    .min(6, 'Password must be at least 6 characters.'),
+  passwordConfirm: z.string()
+    .min(6, 'Password must be at least 6 characters.'),
+})
+  .refine((data) => data.password === data.passwordConfirm, {
+    path: ['passwordConfirm'],
+    message: 'Passwords do not match',
+  });
 
-const CreateScreen: React.FC<Props> = ({
-  onSubmit, submitting,
-}) => {
+const CreateScreen: React.FC<Props> = ({ onSubmit, submitting }) => {
   const form = useForm({
     resolver: zodResolver(createSchema),
-    defaultValues: {
-      password: '', passwordConfirm: '',
-    },
+    defaultValues: { password: '', passwordConfirm: '' },
   });
 
   const { handleSubmit } = form;

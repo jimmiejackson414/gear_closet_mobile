@@ -2,31 +2,44 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Animated, ImageBackground, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 import { Link } from 'expo-router';
-import { Box, Button, ButtonIcon, ButtonText, Card, Center, Text, VStack } from '@/components/ui';
+import type { Provider } from '@supabase/supabase-js';
+import { Box, Button, ButtonIcon, ButtonSpinner, ButtonText, Card, Center, Text, VStack } from '@/components/ui';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import { useAuthLayout } from '@/hooks';
 import theme from '@/lib/theme';
-import AppleIcon from '@/assets/images/apple.svg';
+// import AppleIcon from '@/assets/images/apple.svg';
 import GoogleIcon from '@/assets/images/google.svg';
 import FacebookIcon from '@/assets/images/facebook.svg';
+import { useSupabase } from '@/context/SupabaseProvider';
 
 const WelcomeScreen = () => {
-  const [imageLoaded, setImageLoaded] = useState(false);
   const opacity = useRef(new Animated.Value(0)).current;
-  const {
-    backgroundImage, loading,
-  } = useAuthLayout();
-
+  const [imageLoaded, setImageLoaded] = useState(false);
   useEffect(() => {
     if (imageLoaded) {
       Animated.timing(opacity, {
         duration: 500,
         toValue: 1,
         useNativeDriver: true,
-      }).start();
+      })
+        .start();
     }
   }, [imageLoaded, opacity]);
 
+  const [submitting, setSubmitting] = useState(false);
+  const { signInWithOAuth } = useSupabase();
+  const handleOAuthSignin = async (provider: Provider) => {
+    try {
+      setSubmitting(true);
+      await signInWithOAuth(provider);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const { backgroundImage, loading } = useAuthLayout();
   if (loading) {
     return (
       <ScreenWrapper contentContainerStyle={styles.content}>
@@ -34,9 +47,6 @@ const WelcomeScreen = () => {
       </ScreenWrapper>
     );
   }
-
-  const blurhash =
-    '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
   return (
     <Animated.View style={[styles.background, { opacity }]}>
@@ -51,7 +61,6 @@ const WelcomeScreen = () => {
             <Center>
               <Image
                 contentFit="contain"
-                placeholder={blurhash}
                 source={require('../../assets/gear-closet-icon.png')}
                 style={styles.icon} />
               <Text
@@ -60,33 +69,43 @@ const WelcomeScreen = () => {
                 Sign up or log in to get started
               </Text>
               <VStack space="md">
-                <Button
+                {/* Note: Re-add once purchase of Apple Developer account is complete */}
+                {/* <Button
                   action="secondary"
+                  isDisabled={submitting}
+                  onPress={() => handleOAuthSignin('apple')}
                   size="lg"
                   variant="outline">
                   <ButtonIcon
                     as={AppleIcon}
                     className="mr-8" />
+                  {submitting && <ButtonSpinner color={theme.colors.gray[400]} />}
                   <ButtonText>Continue with Apple</ButtonText>
-                </Button>
+                </Button> */}
                 <Button
                   action="secondary"
+                  isDisabled={submitting}
+                  onPress={() => handleOAuthSignin('google')}
                   size="lg"
                   variant="outline">
                   <ButtonIcon
                     as={GoogleIcon}
                     className="mr-8"
                     size="lg" />
+                  {submitting && <ButtonSpinner color={theme.colors.gray[400]} />}
                   <ButtonText>Continue with Google</ButtonText>
                 </Button>
                 <Button
                   action="secondary"
+                  isDisabled={submitting}
+                  onPress={() => handleOAuthSignin('facebook')}
                   size="lg"
                   variant="outline">
                   <ButtonIcon
                     as={FacebookIcon}
                     className="mr-8"
                     size="lg" />
+                  {submitting && <ButtonSpinner color={theme.colors.gray[400]} />}
                   <ButtonText>Continue with Facebook</ButtonText>
                 </Button>
                 <Box style={styles.divider}>

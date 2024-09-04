@@ -44,6 +44,11 @@ yarn snaplet
 npx react-devtools
 ```
 
+## Test Google oAuth locally
+```sh
+npx expo run:ios
+```
+
 ## Other Resources
 * [Lucide Icons](https://lucide.dev/guide/packages/lucide-react-native)
 * [Hero Patterns](https://heropatterns.com/)
