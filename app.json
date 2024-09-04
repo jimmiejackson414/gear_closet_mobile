@@ -18,6 +18,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.GearCloset.mobile"
+      // "usesAppleSignIn": true
     },
     "android": {
       "adaptiveIcon": {
@@ -45,6 +46,7 @@
           "isAutoInitEnabled": true
         }
       ],
+      "expo-apple-authentication",
       "expo-router",
       "expo-secure-store"
     ],

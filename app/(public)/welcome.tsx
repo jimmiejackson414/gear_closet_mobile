@@ -7,7 +7,7 @@ import { Box, Button, ButtonIcon, ButtonSpinner, ButtonText, Card, Center, Text,
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import { useAuthLayout } from '@/hooks';
 import theme from '@/lib/theme';
-import AppleIcon from '@/assets/images/apple.svg';
+// import AppleIcon from '@/assets/images/apple.svg';
 import GoogleIcon from '@/assets/images/google.svg';
 import FacebookIcon from '@/assets/images/facebook.svg';
 import { useSupabase } from '@/context/SupabaseProvider';
@@ -69,7 +69,8 @@ const WelcomeScreen = () => {
                 Sign up or log in to get started
               </Text>
               <VStack space="md">
-                <Button
+                {/* Note: Re-add once purchase of Apple Developer account is complete */}
+                {/* <Button
                   action="secondary"
                   isDisabled={submitting}
                   onPress={() => handleOAuthSignin('apple')}
@@ -80,7 +81,7 @@ const WelcomeScreen = () => {
                     className="mr-8" />
                   {submitting && <ButtonSpinner color={theme.colors.gray[400]} />}
                   <ButtonText>Continue with Apple</ButtonText>
-                </Button>
+                </Button> */}
                 <Button
                   action="secondary"
                   isDisabled={submitting}

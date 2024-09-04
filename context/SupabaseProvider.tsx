@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { AppState, Platform } from 'react-native';
 import { GoogleSignin, isErrorWithCode } from '@react-native-google-signin/google-signin';
 import { AccessToken, AuthenticationToken, LoginManager } from 'react-native-fbsdk-next';
+import * as AppleAuthentication from 'expo-apple-authentication';
 import { Provider, Session, User } from '@supabase/supabase-js';
 import { SplashScreen, useRouter, useSegments } from 'expo-router';
 import { supabase } from '../lib/supabase';
@@ -139,6 +140,27 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     }
   };
 
+  // reconfigure once purchase of apple developer account is complete
+  const signInWithApple = async () => {
+    const credential = await AppleAuthentication.signInAsync({
+      requestedScopes: [
+        AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+        AppleAuthentication.AppleAuthenticationScope.EMAIL,
+      ],
+    });
+
+    if (credential.identityToken) {
+      const { error } = await supabase.auth.signInWithIdToken({
+        provider: 'apple',
+        token: credential.identityToken,
+      });
+
+      if (error) {
+        throw error;
+      }
+    }
+  };
+
   const signInWithOAuth = async (provider: Provider) => {
     try {
       switch (provider) {
@@ -146,6 +168,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
           await signInWithGoogle();
           break;
         case 'apple':
+          await signInWithApple();
           break;
         case 'facebook':
           await signInWithFacebook();
