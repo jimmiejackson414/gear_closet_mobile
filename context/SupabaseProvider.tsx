@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import { AppState, Platform } from 'react-native';
 import { GoogleSignin, isErrorWithCode } from '@react-native-google-signin/google-signin';
 import { AccessToken, AuthenticationToken, LoginManager } from 'react-native-fbsdk-next';
 import { Provider, Session, User } from '@supabase/supabase-js';
 import { SplashScreen, useRouter, useSegments } from 'expo-router';
-import { AppState, Platform } from 'react-native';
 import { supabase } from '../lib/supabase';
 
 SplashScreen.preventAutoHideAsync();
@@ -110,7 +110,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
   };
 
   const signInWithFacebook = async () => {
-    const loginResult = await LoginManager.logInWithPermissions(['public_profile', 'email'], 'limited');
+    const loginResult = await LoginManager.logInWithPermissions(['public_profile', 'email']);
     console.log({ loginResult });
 
     if (loginResult.isCancelled) {
