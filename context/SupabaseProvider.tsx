@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { AppState, Platform } from 'react-native';
 import { GoogleSignin, isErrorWithCode } from '@react-native-google-signin/google-signin';
 import { AccessToken, AuthenticationToken, LoginManager } from 'react-native-fbsdk-next';
-import * as AppleAuthentication from 'expo-apple-authentication';
+// import * as AppleAuthentication from 'expo-apple-authentication';
 import { Provider, Session, User } from '@supabase/supabase-js';
 import { SplashScreen, useRouter, useSegments } from 'expo-router';
 import { supabase } from '../lib/supabase';
@@ -47,6 +47,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [initialized, setInitialized] = useState(false);
+  const [isNewUser, setIsNewUser] = useState(false);
 
   // Tells Supabase Auth to continuously refresh the session automatically if
   // the app is in the foreground. When this is added, you will continue to receive
@@ -65,6 +66,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
       .select('email')
       .eq('email', email)
       .maybeSingle();
+
     if (error) {
       throw error;
     }
@@ -77,6 +79,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     if (error) {
       throw error;
     }
+    setIsNewUser(true);
   };
 
   const signInWithPassword = async (email: string, password: string) => {
@@ -84,6 +87,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     if (error) {
       throw error;
     }
+    setIsNewUser(false);
   };
 
   const signInWithGoogle = async () => {
@@ -94,11 +98,14 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
       throw new Error('Google sign in failed');
     }
 
-    const { idToken } = response.data;
+    const { idToken, user } = response.data;
 
     if (!idToken) {
       throw new Error('Google sign in failed');
     }
+
+    const newUser = await checkForEmail(user.email);
+    setIsNewUser(newUser);
 
     const { error } = await supabase.auth.signInWithIdToken({
       provider: 'google',
@@ -112,11 +119,11 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
 
   const signInWithFacebook = async () => {
     const loginResult = await LoginManager.logInWithPermissions(['public_profile', 'email']);
-
+  
     if (loginResult.isCancelled) {
       throw new Error('User cancelled the login process');
     }
-
+  
     let accessToken;
     if (Platform.OS === 'ios') {
       const tokenResult = await AuthenticationToken.getAuthenticationTokenIOS();
@@ -125,41 +132,56 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
       const tokenResult = await AccessToken.getCurrentAccessToken();
       accessToken = tokenResult?.accessToken;
     }
-
+  
     if (!accessToken) {
       throw new Error('Failed to obtain access token');
     }
-
+  
+    // Fetch user email from Facebook API
+    // TODO: Find a better way to get the email and pass to `checkForEmail`
+    const response = await fetch(`https://graph.facebook.com/me?access_token=${accessToken}&fields=id,email`);
+    const data = await response.json();
+    const { email } = data;
+  
+    if (!email) {
+      throw new Error('Failed to obtain email from Facebook');
+    }
+  
+    // Check if the email exists in the database
+    const emailExists = await checkForEmail(email);
+    setIsNewUser(!emailExists);
+  
+    // Sign in to Supabase with the Facebook access token
     const { error } = await supabase.auth.signInWithIdToken({
       provider: 'facebook',
       token: accessToken,
     });
-
+  
     if (error) {
       throw error;
     }
   };
 
   // reconfigure once purchase of apple developer account is complete
-  const signInWithApple = async () => {
-    const credential = await AppleAuthentication.signInAsync({
-      requestedScopes: [
-        AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-        AppleAuthentication.AppleAuthenticationScope.EMAIL,
-      ],
-    });
+  // const signInWithApple = async () => {
+  //   const credential = await AppleAuthentication.signInAsync({
+  //     requestedScopes: [
+  //       AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+  //       AppleAuthentication.AppleAuthenticationScope.EMAIL,
+  //     ],
+  //   });
 
-    if (credential.identityToken) {
-      const { error } = await supabase.auth.signInWithIdToken({
-        provider: 'apple',
-        token: credential.identityToken,
-      });
+  //   if (credential.identityToken) {
+  //     const { error } = await supabase.auth.signInWithIdToken({
+  //       provider: 'apple',
+  //       token: credential.identityToken,
+  //     });
 
-      if (error) {
-        throw error;
-      }
-    }
-  };
+  //     if (error) {
+  //       throw error;
+  //     }
+  //   }
+  // };
 
   const signInWithOAuth = async (provider: Provider) => {
     try {
@@ -167,9 +189,9 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
         case 'google':
           await signInWithGoogle();
           break;
-        case 'apple':
-          await signInWithApple();
-          break;
+        // case 'apple':
+        //   await signInWithApple();
+        //   break;
         case 'facebook':
           await signInWithFacebook();
           break;
@@ -207,8 +229,15 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     const inProtectedGroup = segments[0] === '(protected)';
 
     if (session && !inProtectedGroup) {
-      router.replace('/(protected)/(drawer)/home');
+      // if new user, redirect to onboarding
+      if (isNewUser) {
+        router.replace('/(protected)/onboarding');
+      } else {
+        // otherwise, redirect to home
+        router.replace('/(protected)/(drawer)/home');
+      }
     } else if (!session) {
+      // if not authenticated, redirect to welcome
       router.replace('/(public)/welcome');
     }
 

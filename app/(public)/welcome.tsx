@@ -54,9 +54,13 @@ const WelcomeScreen = () => {
         onLoad={() => setImageLoaded(true)}
         source={{ uri: backgroundImage }}
         style={styles.background}>
-        <ScreenWrapper contentContainerStyle={styles.content}>
+        <ScreenWrapper
+          contentContainerStyle={styles.content}
+          withScrollView={false}>
           <Card
+            className="shadow-md"
             size="lg"
+            style={styles.card}
             variant="glass">
             <Center>
               <Image
@@ -142,8 +146,6 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: 'rgba(255, 255, 255, 0.6)',
     borderRadius: 24,
-    borderTopColor: theme.colors.primary[400],
-    borderTopWidth: 5,
     padding: 26,
   },
   content: {

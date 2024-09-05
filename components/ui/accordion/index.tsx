@@ -103,9 +103,7 @@ const PrimitiveIcon = React.forwardRef<
   ) => {
     const sizeProps = useMemo(() => {
       if (size) return { size };
-      if (height && width) return {
-        height, width,
-      };
+      if (height && width) return { height, width };
       if (height) return { height };
       if (width) return { width };
       return {};
@@ -232,21 +230,15 @@ const Accordion = React.forwardRef<
     <UIAccordion
       ref={ref}
       {...props}
-      className={accordionStyle({
-        variant, class: className,
-      })}
-      context={{
-        variant, size,
-      }} />
+      className={accordionStyle({ variant, class: className })}
+      context={{ variant, size }} />
   );
 });
 
 const AccordionItem = React.forwardRef<
   React.ElementRef<typeof UIAccordion.Item>,
   IAccordionItemProps
->(({
-  className, ...props
-}, ref) => {
+>(({ className, ...props }, ref) => {
   const { variant } = useStyleContext(SCOPE);
   return (
     <UIAccordion.Item
@@ -262,9 +254,7 @@ const AccordionItem = React.forwardRef<
 const AccordionContent = React.forwardRef<
   React.ElementRef<typeof UIAccordion.Content>,
   IAccordionContentProps
->(({
-  className, ...props
-}, ref) => {
+>(({ className, ...props }, ref) => {
   return (
     <UIAccordion.Content
       ref={ref}
@@ -276,9 +266,7 @@ const AccordionContent = React.forwardRef<
 const AccordionContentText = React.forwardRef<
   React.ElementRef<typeof UIAccordion.ContentText>,
   IAccordionContentTextProps
->(({
-  className, ...props
-}, ref) => {
+>(({ className, ...props }, ref) => {
   const { size } = useStyleContext(SCOPE);
   return (
     <UIAccordion.ContentText
@@ -333,9 +321,7 @@ const AccordionIcon = React.forwardRef<
 const AccordionHeader = React.forwardRef<
   React.ElementRef<typeof UIAccordion.Header>,
   IAccordionHeaderProps
->(({
-  className, ...props
-}, ref) => {
+>(({ className, ...props }, ref) => {
   return (
     <UIAccordion.Header
       ref={ref}
@@ -347,9 +333,7 @@ const AccordionHeader = React.forwardRef<
 const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof UIAccordion.Trigger>,
   IAccordionTriggerProps
->(({
-  className, ...props
-}, ref) => {
+>(({ className, ...props }, ref) => {
   return (
     <UIAccordion.Trigger
       ref={ref}
@@ -360,9 +344,7 @@ const AccordionTrigger = React.forwardRef<
 const AccordionTitleText = React.forwardRef<
   React.ElementRef<typeof UIAccordion.TitleText>,
   IAccordionTitleTextProps
->(({
-  className, ...props
-}, ref) => {
+>(({ className, ...props }, ref) => {
   const { size } = useStyleContext(SCOPE);
   return (
     <UIAccordion.TitleText
