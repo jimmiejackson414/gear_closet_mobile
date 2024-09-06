@@ -11,7 +11,7 @@ import CreateScreen from '@/components/auth/CreateScreen';
 import ForgotPasswordScreen from '@/components/auth/ForgotPasswordScreen';
 import PasswordRecoveryScreen from '@/components/auth/PasswordRecovery';
 
-type TScreenStates = 'email' | 'password' | 'create' | 'forgotPassword' | 'passwordRecovery';
+type TScreenStates = 'email' | 'password' | 'create' | 'forgotPassword' | 'passwordRecovery' | 'passwordReset';
 
 const Modal = () => {
   const [screen, setScreen] = useState<TScreenStates>('email');
@@ -99,6 +99,11 @@ const Modal = () => {
       forgotPasswordOpacity.value = withTiming(0, { duration: 300 });
       passwordRecoveryOpacity.value = withTiming(1, { duration: 300 });
       setScreen('passwordRecovery');
+
+      // temporary
+      setTimeout(() => {
+        setScreen('passwordReset');
+      }, 5000);
     } catch (err) {
       console.error(err);
     } finally {

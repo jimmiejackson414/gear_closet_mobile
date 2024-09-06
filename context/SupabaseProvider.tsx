@@ -25,6 +25,7 @@ type SupabaseContextProps = {
   signInWithPassword: (email: string, password: string) => Promise<void>;
   signInWithOAuth: (provider: Provider) => Promise<void>;
   signOut: () => Promise<void>;
+  verifyResetCode: (email: string, code: string) => Promise<void>;
 };
 
 type SupabaseProviderProps = {
@@ -40,6 +41,7 @@ export const SupabaseContext = createContext<SupabaseContextProps>({
   signInWithPassword: async () => {},
   signInWithOAuth: async () => {},
   signOut: async () => {},
+  verifyResetCode: async () => {},
 });
 
 export const useSupabase = () => useContext(SupabaseContext);
@@ -71,37 +73,39 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
       .eq('email', email)
       .maybeSingle();
 
-    if (error) {
-      throw error;
-    }
-
+    if (error) throw error;
     return Boolean(data);
   };
 
   // signup function via email and password
   const signUp = async (email: string, password: string) => {
     const { error } = await supabase.auth.signUp({ email, password });
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
     setIsNewUser(true);
   };
 
   // signin function via email and password
   const signInWithPassword = async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
     setIsNewUser(false);
   };
 
   // send password reset email
   const sendPasswordReset = async (email: string) => {
     const { error } = await supabase.auth.resetPasswordForEmail(email);
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
+  };
+
+  // verify reset code function
+  const verifyResetCode = async (email: string, code: string) => {
+    const { error } = await supabase.auth.verifyOtp({
+      email,
+      token: code,
+      type: 'recovery',
+    });
+
+    if (error) throw error;
   };
 
   // signin function via google oauth
@@ -115,9 +119,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
 
     const { idToken, user } = response.data;
 
-    if (!idToken) {
-      throw new Error('Google sign in failed');
-    }
+    if (!idToken) throw new Error('Google sign in failed');
 
     const newUser = await checkForEmail(user.email);
     setIsNewUser(newUser);
@@ -127,9 +129,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
       token: idToken,
     });
 
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
   };
 
   // helper function to fetch email from facebook
@@ -200,9 +200,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
       access_token: accessToken,
     });
   
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
   };
 
   // reconfigure once purchase of apple developer account is complete
@@ -220,9 +218,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
   //       token: credential.identityToken,
   //     });
 
-  //     if (error) {
-  //       throw error;
-  //     }
+  //     if (error) throw error;
   //   }
   // };
 
@@ -252,9 +248,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
   // signout function
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
   };
 
   useEffect(() => {
@@ -263,13 +257,13 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
       setUser(session ? session.user : null);
       setInitialized(true);
 
-      console.log({ event });
-      if (event === 'PASSWORD_RECOVERY') {
-        const newPassword = prompt('Please enter a new password:') as string;
-        const { data, error } = await supabase.auth.updateUser({ password: newPassword });
-        if (data) alert('Password updated successfully!');
-        if (error) alert('There was an error updating your password.');
-      }
+      // console.log({ event });
+      // if (event === 'PASSWORD_RECOVERY') {
+      //   const newPassword = prompt('Please enter a new password:') as string;
+      //   const { data, error } = await supabase.auth.updateUser({ password: newPassword });
+      //   if (data) alert('Password updated successfully!');
+      //   if (error) alert('There was an error updating your password.');
+      // }
     });
     return () => {
       data.subscription.unsubscribe();
@@ -298,7 +292,6 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
 		instead of creating a loading screen, we use the SplashScreen and hide it after
 		a small delay (500 ms)
 		*/
-
     setTimeout(() => {
       SplashScreen.hideAsync();
     }, 500);
@@ -318,6 +311,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
       signInWithPassword,
       signInWithOAuth,
       signOut,
+      verifyResetCode,
     }}>
       {children}
     </SupabaseContext.Provider>
