@@ -9,7 +9,7 @@ import { LockKeyhole } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import { useSupabase } from '@/context/SupabaseProvider';
 import { supabase } from '@/lib/supabase';
-import { Button, ButtonText, Center } from '@/components/ui';
+import { Button, ButtonText, Center, Text, VStack } from '@/components/ui';
 import FormInput from '@/components/common/FormInput';
 import CodeInput from '@/components/common/CodeInput';
 
@@ -99,14 +99,17 @@ const PasswordResetScreen = () => {
         style={styles.icon} />
       <Animated.View style={codeAnimatedStyle}>
         {step === 1 && (
-          <>
+          <VStack
+            className="w-full justify-center"
+            space="lg">
+            <Text className="mb-4 text-center justify-self-center">Please enter your code</Text>
             <CodeInput
               length={6}
               onChangeCode={setCode} />
             <Button onPress={handleVerifyCode}>
               <ButtonText>Verify Code</ButtonText>
             </Button>
-          </>
+          </VStack>
         )}
       </Animated.View>
       <Animated.View style={passwordAnimatedStyle}>

@@ -10,6 +10,7 @@ import PasswordScreen from '@/components/auth/PasswordScreen';
 import CreateScreen from '@/components/auth/CreateScreen';
 import ForgotPasswordScreen from '@/components/auth/ForgotPasswordScreen';
 import PasswordRecoveryScreen from '@/components/auth/PasswordRecovery';
+import PasswordResetScreen from '@/components/auth/PasswordResetScreen';
 
 type TScreenStates = 'email' | 'password' | 'create' | 'forgotPassword' | 'passwordRecovery' | 'passwordReset';
 
@@ -38,6 +39,9 @@ const Modal = () => {
 
   const passwordRecoveryOpacity = useSharedValue(0);
   const passwordRecoveryAnimatedStyle = useAnimatedStyle(() => ({ opacity: passwordRecoveryOpacity.value }));
+
+  const passwordResetOpacity = useSharedValue(0);
+  const passwordResetAnimatedStyle = useAnimatedStyle(() => ({ opacity: passwordResetOpacity.value }));
 
   const [storedEmail, setStoredEmail] = useState('');
   const onCheckEmail = async ({ email }: { email: string }) => {
@@ -102,6 +106,8 @@ const Modal = () => {
 
       // temporary
       setTimeout(() => {
+        passwordRecoveryOpacity.value = withTiming(0, { duration: 300 });
+        passwordResetOpacity.value = withTiming(1, { duration: 300 });
         setScreen('passwordReset');
       }, 5000);
     } catch (err) {
@@ -164,7 +170,11 @@ const Modal = () => {
         {screen === 'passwordRecovery' && <PasswordRecoveryScreen />}
       </Animated.View>
 
-      {(screen !== 'forgotPassword' && screen !== 'passwordRecovery') && (
+      <Animated.View style={passwordResetAnimatedStyle}>
+        {screen === 'passwordReset' && <PasswordResetScreen />}
+      </Animated.View>
+
+      {(screen === 'email' || screen === 'password') && (
         <Progress
           className="mt-8"
           size="sm"

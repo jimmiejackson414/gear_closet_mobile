@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    columnGap: 8,
   },
   input: {
     width: 40,
