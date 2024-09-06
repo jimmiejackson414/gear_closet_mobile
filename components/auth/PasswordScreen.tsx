@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -11,7 +11,9 @@ import theme from '@/lib/theme';
 
 interface Props {
   onSubmit: (data: { password: string }) => void;
+  onForgotPassword: () => void;
   submitting: boolean;
+  errors: { [key: string]: { [key: string]: string } }
 }
 
 const passwordSchema = z.object({
@@ -19,7 +21,11 @@ const passwordSchema = z.object({
     .min(6, 'Password must be at least 6 characters.'),
 });
 
-const PasswordScreen: React.FC<Props> = ({ onSubmit, submitting }) => {
+const PasswordScreen: React.FC<Props> = ({
+  onSubmit, onForgotPassword, submitting, errors,
+}) => {
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+
   const form = useForm({
     resolver: zodResolver(passwordSchema),
     defaultValues: { password: '' },
@@ -31,6 +37,14 @@ const PasswordScreen: React.FC<Props> = ({ onSubmit, submitting }) => {
     const { password } = form.getValues();
     onSubmit({ password });
   };
+
+  useEffect(() => {
+    if (errors.password?.message === 'Invalid password') {
+      setShowForgotPassword(true);
+      form.setError('password', { type: 'manual', message: 'Invalid password' });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [errors]);
 
   return (
     <FormProvider {...form}>
@@ -63,6 +77,15 @@ const PasswordScreen: React.FC<Props> = ({ onSubmit, submitting }) => {
             {submitting && <ButtonSpinner color={theme.colors.gray[400]} />}
             <ButtonText>Continue</ButtonText>
           </Button>
+          {showForgotPassword && (
+            <Button
+              action="primary"
+              onPress={onForgotPassword}
+              size="md"
+              variant="link">
+              <ButtonText>Forgot password?</ButtonText>
+            </Button>
+          )}
         </VStack>
       </Center>
     </FormProvider>

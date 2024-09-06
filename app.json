@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "gear_closet_mobile",
-    "slug": "gear_closet_mobile",
+    "slug": "gear-closet-mobile",
     "scheme": "gear-closet-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,15 +17,27 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.GearCloset.mobile"
-      // "usesAppleSignIn": true
+      "bundleIdentifier": "com.GearCloset.mobile",
+      "infoPlist": {
+        "SKAdNetworkItems": [
+          {
+            "SKAdNetworkIdentifier": "v9wttpbfk9.skadnetwork"
+          },
+          {
+            "SKAdNetworkIdentifier": "n38lu8286q.skadnetwork"
+          }
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.gear_closet_mobile"
+      "package": "com.anonymous.gear_closet_mobile",
+      "permissions": [
+        "android.permission.INTERNET"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -46,12 +58,30 @@
           "isAutoInitEnabled": true
         }
       ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "flipper": true
+          }
+        }
+      ],
       "expo-apple-authentication",
       "expo-router",
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-community-flipper"
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "f3ccfc4a-9dc2-414a-8dca-53dc3b6750c4"
+      }
+    },
+    "owner": "jimmiejackson414"
   }
 }

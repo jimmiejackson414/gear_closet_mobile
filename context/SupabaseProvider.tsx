@@ -1,10 +1,11 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { AppState, Platform } from 'react-native';
 import { GoogleSignin, isErrorWithCode } from '@react-native-google-signin/google-signin';
-import { AccessToken, AuthenticationToken, LoginManager } from 'react-native-fbsdk-next';
+import { AccessToken, AuthenticationToken, GraphRequest, GraphRequestManager, LoginManager } from 'react-native-fbsdk-next';
 // import * as AppleAuthentication from 'expo-apple-authentication';
 import { Provider, Session, User } from '@supabase/supabase-js';
 import { SplashScreen, useRouter, useSegments } from 'expo-router';
+// import { jwtDecode } from 'jwt-decode';
 import { supabase } from '../lib/supabase';
 
 SplashScreen.preventAutoHideAsync();
@@ -19,6 +20,7 @@ type SupabaseContextProps = {
   session: Session | null;
   initialized?: boolean;
   checkForEmail: (email: string) => Promise<boolean>;
+  sendPasswordReset: (email: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
   signInWithPassword: (email: string, password: string) => Promise<void>;
   signInWithOAuth: (provider: Provider) => Promise<void>;
@@ -33,6 +35,7 @@ export const SupabaseContext = createContext<SupabaseContextProps>({
   user: null,
   session: null,
   checkForEmail: async () => false,
+  sendPasswordReset: async () => {},
   signUp: async () => {},
   signInWithPassword: async () => {},
   signInWithOAuth: async () => {},
@@ -61,6 +64,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     }
   });
 
+  // helper function
   const checkForEmail = async (email: string) => {
     const { data, error } = await supabase.from('profiles')
       .select('email')
@@ -74,6 +78,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     return Boolean(data);
   };
 
+  // signup function via email and password
   const signUp = async (email: string, password: string) => {
     const { error } = await supabase.auth.signUp({ email, password });
     if (error) {
@@ -82,6 +87,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     setIsNewUser(true);
   };
 
+  // signin function via email and password
   const signInWithPassword = async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) {
@@ -90,6 +96,15 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     setIsNewUser(false);
   };
 
+  // send password reset email
+  const sendPasswordReset = async (email: string) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
+    if (error) {
+      throw error;
+    }
+  };
+
+  // signin function via google oauth
   const signInWithGoogle = async () => {
     await GoogleSignin.hasPlayServices();
     const response = await GoogleSignin.signIn();
@@ -117,6 +132,33 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     }
   };
 
+  // helper function to fetch email from facebook
+  const fetchEmailFromFacebook = async () => {
+    return new Promise<string>((resolve, reject) => {
+      const graphRequest = new GraphRequest(
+        '/me',
+        { parameters: { fields: { string: 'id,name,email' } } },
+        (error, result) => {
+          if (error || !result) {
+            reject(error || new Error('No result from Facebook API'));
+          } else {
+            const email = result.email;
+            if (typeof email === 'string') {
+              resolve(email);
+            } else {
+              reject(new Error('Email is not a string'));
+            }
+          }
+        },
+      );
+      new GraphRequestManager()
+        .addRequest(graphRequest)
+        .start();
+    });
+  };
+
+  // signin function via facebook oauth
+  // TODO: Supabase bug currently exists with facebook oauth in verifying access token
   const signInWithFacebook = async () => {
     const loginResult = await LoginManager.logInWithPermissions(['public_profile', 'email']);
   
@@ -136,12 +178,12 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     if (!accessToken) {
       throw new Error('Failed to obtain access token');
     }
+
+    // const decodedToken = jwtDecode(accessToken) as any;
+    // console.log({ decodedToken });
   
-    // Fetch user email from Facebook API
-    // TODO: Find a better way to get the email and pass to `checkForEmail`
-    const response = await fetch(`https://graph.facebook.com/me?access_token=${accessToken}&fields=id,email`);
-    const data = await response.json();
-    const { email } = data;
+    // Fetch user email from Facebook API using GraphRequest
+    const email = await fetchEmailFromFacebook();
   
     if (!email) {
       throw new Error('Failed to obtain email from Facebook');
@@ -155,6 +197,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     const { error } = await supabase.auth.signInWithIdToken({
       provider: 'facebook',
       token: accessToken,
+      access_token: accessToken,
     });
   
     if (error) {
@@ -183,6 +226,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
   //   }
   // };
 
+  // navigate to the appropriate oauth signin function
   const signInWithOAuth = async (provider: Provider) => {
     try {
       switch (provider) {
@@ -205,6 +249,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     }
   };
 
+  // signout function
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
@@ -217,6 +262,14 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
       setSession(session);
       setUser(session ? session.user : null);
       setInitialized(true);
+
+      console.log({ event });
+      if (event === 'PASSWORD_RECOVERY') {
+        const newPassword = prompt('Please enter a new password:') as string;
+        const { data, error } = await supabase.auth.updateUser({ password: newPassword });
+        if (data) alert('Password updated successfully!');
+        if (error) alert('There was an error updating your password.');
+      }
     });
     return () => {
       data.subscription.unsubscribe();
@@ -260,6 +313,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
       session,
       initialized,
       checkForEmail,
+      sendPasswordReset,
       signUp,
       signInWithPassword,
       signInWithOAuth,

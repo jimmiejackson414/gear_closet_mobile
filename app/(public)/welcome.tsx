@@ -149,7 +149,6 @@ const styles = StyleSheet.create({
     padding: 26,
   },
   content: {
-    backgroundColor: 'transparent',
     flexGrow: 1,
     justifyContent: 'center',
     padding: 8,

@@ -32,9 +32,7 @@ const PrimitiveIcon = React.forwardRef<
 }, ref) => {
   const sizeProps = useMemo(() => {
     if (size) return { size };
-    if (height && width) return {
-      height, width,
-    };
+    if (height && width) return { height, width };
     if (height) return { height };
     if (width) return { width };
     return {};
@@ -42,19 +40,13 @@ const PrimitiveIcon = React.forwardRef<
 
   let colorProps = {};
   if (color) {
-    colorProps = {
-      ...colorProps, color: color,
-    };
+    colorProps = { ...colorProps, color: color };
   }
   if (stroke) {
-    colorProps = {
-      ...colorProps, stroke: stroke,
-    };
+    colorProps = { ...colorProps, stroke: stroke };
   }
   if (fill) {
-    colorProps = {
-      ...colorProps, fill: fill,
-    };
+    colorProps = { ...colorProps, fill: fill };
   }
   if (AsComp) {
     return <AsComp
@@ -118,6 +110,8 @@ const inputStyle = tva({
       rounded:
         'rounded-full border data-[invalid=true]:border-error-700 data-[invalid=true]:hover:border-error-700 data-[invalid=true]:data-[focus=true]:border-error-700 data-[invalid=true]:data-[focus=true]:hover:border-error-700 data-[invalid=true]:data-[disabled=true]:hover:border-error-700 data-[focus=true]:web:ring-1 data-[focus=true]:web:ring-inset data-[focus=true]:web:ring-indicator-primary data-[invalid=true]:web:ring-1 data-[invalid=true]:web:ring-inset data-[invalid=true]:web:ring-indicator-error data-[invalid=true]:data-[focus=true]:hover:web:ring-1 data-[invalid=true]:data-[focus=true]:hover:web:ring-inset data-[invalid=true]:data-[focus=true]:hover:web:ring-indicator-error data-[invalid=true]:data-[disabled=true]:hover:web:ring-1 data-[invalid=true]:data-[disabled=true]:hover:web:ring-inset data-[invalid=true]:data-[disabled=true]:hover:web:ring-indicator-error',
     },
+
+    isReadOnly: 'bg-gray-100 data-[disabled=true]:bg-gray-200 text-gray-500',
   },
 });
 
@@ -165,11 +159,7 @@ const inputFieldStyle = tva({
 
 cssInterop(InputWrapper, { className: 'style' });
 cssInterop(UIInput.Slot, { className: 'style' });
-cssInterop(UIInput.Input, {
-  className: {
-    target: 'style', nativeStyleToProp: { textAlign: true },
-  },
-});
+cssInterop(UIInput.Input, { className: { target: 'style', nativeStyleToProp: { textAlign: true } } });
 // @ts-ignore
 cssInterop(UIInput.Icon, {
   className: {
@@ -197,9 +187,7 @@ const Input = React.forwardRef<React.ElementRef<typeof UIInput>, IInputProps>(
         className={inputStyle({
           variant, size, class: className,
         })}
-        context={{
-          variant, size,
-        }} />
+        context={{ variant, size }} />
     );
   },
 );
@@ -252,9 +240,7 @@ type IInputSlotProps = React.ComponentProps<typeof UIInput.Slot> &
 const InputSlot = React.forwardRef<
   React.ElementRef<typeof UIInput.Slot>,
   IInputSlotProps
->(({
-  className, ...props
-}, ref) => {
+>(({ className, ...props }, ref) => {
   return (
     <UIInput.Slot
       ref={ref}
@@ -269,12 +255,8 @@ type IInputFieldProps = React.ComponentProps<typeof UIInput.Input> &
 const InputField = React.forwardRef<
   React.ElementRef<typeof UIInput.Input>,
   IInputFieldProps
->(({
-  className, ...props
-}, ref) => {
-  const {
-    variant: parentVariant, size: parentSize,
-  } = useStyleContext(SCOPE);
+>(({ className, ...props }, ref) => {
+  const { variant: parentVariant, size: parentSize } = useStyleContext(SCOPE);
 
   return (
     <UIInput.Input

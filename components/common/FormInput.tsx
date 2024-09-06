@@ -13,6 +13,7 @@ interface FormInputProps {
   helperText?: string;
   icon?: LucideIcon;
   isDisabled?: boolean;
+  isReadOnly?: boolean;
   isRequired?: boolean;
   keyboardType?: TextInputProps['keyboardType'];
   label: string;
@@ -31,6 +32,7 @@ const FormInput: React.FC<FormInputProps> = ({
   icon: Icon, // Destructure icon prop
   isDisabled = false,
   isRequired = false,
+  isReadOnly = false,
   keyboardType = 'default',
   label,
   name,
@@ -54,6 +56,7 @@ const FormInput: React.FC<FormInputProps> = ({
       className="w-full"
       isDisabled={isDisabled}
       isInvalid={!!error}
+      isReadOnly={isReadOnly}
       isRequired={isRequired}>
       <FormControlLabel className="mb-1">
         <FormControlLabelText className="text-typography-700">
