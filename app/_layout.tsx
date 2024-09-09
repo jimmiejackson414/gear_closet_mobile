@@ -1,6 +1,7 @@
 import { LogBox } from 'react-native';
 import { Stack, useNavigationContainerRef } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Toaster } from 'sonner-native';
 import { useReactNavigationDevTools } from '@dev-plugins/react-navigation';
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
 import { SupabaseProvider } from '@/context/SupabaseProvider';
@@ -28,6 +29,7 @@ const RootLayout = () => {
             <Stack.Screen name="(protected)" />
             <Stack.Screen name="(public)" />
           </Stack>
+          <Toaster />
         </SafeAreaProvider>
       </GluestackUIProvider>
     </SupabaseProvider>
