@@ -16,6 +16,9 @@
       "**/*"
     ],
     "ios": {
+      "associatedDomains": [
+        "applinks:gearcloset.com"
+      ],
       "supportsTablet": true,
       "bundleIdentifier": "com.GearCloset.mobile",
       "infoPlist": {
@@ -34,6 +37,20 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "*.gearcloset.com",
+              "pathPrefix": "/"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ],
       "package": "com.anonymous.gear_closet_mobile",
       "permissions": [
         "android.permission.INTERNET"

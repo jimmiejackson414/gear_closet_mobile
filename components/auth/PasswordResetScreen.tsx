@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -6,7 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { Image } from 'expo-image';
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 import { LockKeyhole } from 'lucide-react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useSegments } from 'expo-router';
 import { toast } from 'sonner-native';
 import { useSupabase } from '@/context/SupabaseProvider';
 import { supabase } from '@/lib/supabase';
@@ -54,6 +54,7 @@ const PasswordResetScreen = () => {
     }
   };
 
+  const segments = useSegments();
   const router = useRouter();
   const handleResetPassword = async () => {
     const { password, confirmPassword } = form.getValues();
@@ -82,6 +83,15 @@ const PasswordResetScreen = () => {
       toast.error('An error occurred. Please try again.');
     }
   };
+
+  useEffect(() => {
+    // Extract the code from the URL if present
+    console.log('router: ', router);
+    console.log('segments: ', segments);
+    const urlParams = new URLSearchParams(window.location.search);
+    const resetCode = urlParams.get('code');
+    if (resetCode) setCode(resetCode);
+  }, []);
 
   return (
     <Center>
