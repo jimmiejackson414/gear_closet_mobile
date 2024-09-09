@@ -5,26 +5,23 @@ import { z } from 'zod';
 import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
 import { LockKeyhole } from 'lucide-react-native';
+import { useSupabase } from '@/context/SupabaseProvider';
+import { useAuthScreenContext } from '@/context/AuthScreenProvider';
 import { Button, ButtonSpinner, ButtonText, Center, Text, VStack } from '@/components/ui';
 import FormInput from '@/components/common/FormInput';
 import theme from '@/lib/theme';
-
-interface Props {
-  onSubmit: (data: { password: string }) => void;
-  onForgotPassword: () => void;
-  submitting: boolean;
-  errors: { [key: string]: { [key: string]: string } }
-}
 
 const passwordSchema = z.object({
   password: z.string()
     .min(6, 'Password must be at least 6 characters.'),
 });
 
-const PasswordScreen: React.FC<Props> = ({
-  onSubmit, onForgotPassword, submitting, errors,
-}) => {
+const PasswordScreen: React.FC = () => {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const { signInWithPassword } = useSupabase();
+  const {
+    errors, setErrors, setScreen, setSubmitting, storedEmail, submitting,
+  } = useAuthScreenContext();
 
   const form = useForm({
     resolver: zodResolver(passwordSchema),
@@ -33,9 +30,16 @@ const PasswordScreen: React.FC<Props> = ({
 
   const { handleSubmit } = form;
 
-  const handleFormSubmit = () => {
-    const { password } = form.getValues();
-    onSubmit({ password });
+  const onSignIn = async () => {
+    try {
+      setSubmitting(true);
+      const { password } = form.getValues();
+      await signInWithPassword(storedEmail, password);
+    } catch (err) {
+      setErrors({ password: { message: 'Invalid password' } });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   useEffect(() => {
@@ -71,7 +75,7 @@ const PasswordScreen: React.FC<Props> = ({
             action="primary"
             className="mt-6"
             isDisabled={submitting}
-            onPress={handleSubmit(handleFormSubmit)}
+            onPress={handleSubmit(onSignIn)}
             size="lg"
             variant="solid">
             {submitting && <ButtonSpinner color={theme.colors.gray[400]} />}
@@ -80,7 +84,7 @@ const PasswordScreen: React.FC<Props> = ({
           {showForgotPassword && (
             <Button
               action="primary"
-              onPress={onForgotPassword}
+              onPress={() => setScreen('forgotPassword')}
               size="md"
               variant="link">
               <ButtonText>Forgot password?</ButtonText>

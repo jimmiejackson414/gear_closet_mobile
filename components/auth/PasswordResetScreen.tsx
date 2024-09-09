@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Image } from 'expo-image';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 import { LockKeyhole } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
+import { toast } from 'sonner-native';
 import { useSupabase } from '@/context/SupabaseProvider';
 import { supabase } from '@/lib/supabase';
 import { Button, ButtonText, Center, Text, VStack } from '@/components/ui';
@@ -38,21 +39,16 @@ const PasswordResetScreen = () => {
 
   const { handleSubmit } = form;
 
-  const codeOpacity = useSharedValue(1);
-  const codeAnimatedStyle = useAnimatedStyle(() => ({ opacity: codeOpacity.value }));
-
-  const passwordOpacity = useSharedValue(0);
-  const passwordAnimatedStyle = useAnimatedStyle(() => ({ opacity: passwordOpacity.value }));
+  const opacity = useSharedValue(1);
+  const animatedStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
 
   const handleVerifyCode = async () => {
     setSubmitting(true);
     try {
       await verifyResetCode('', code);
-      codeOpacity.value = withTiming(0, { duration: 300 });
-      passwordOpacity.value = withTiming(1, { duration: 300 });
       setStep(2);
     } catch (err) {
-      console.error(err);
+      toast.error('Invalid code. Please try again.');
     } finally {
       setSubmitting(false);
     }
@@ -83,13 +79,9 @@ const PasswordResetScreen = () => {
       // navigate
       router.replace('/(protected)/(drawer)/home');
     } catch (err) {
-      console.error(err);
+      toast.error('An error occurred. Please try again.');
     }
   };
-
-  useEffect(() => {
-
-  });
 
   return (
     <Center>
@@ -97,7 +89,7 @@ const PasswordResetScreen = () => {
         contentFit="contain"
         source={require('../../assets/gear-closet-icon.png')}
         style={styles.icon} />
-      <Animated.View style={codeAnimatedStyle}>
+      <Animated.View style={animatedStyle}>
         {step === 1 && (
           <VStack
             className="w-full justify-center"
@@ -111,8 +103,6 @@ const PasswordResetScreen = () => {
             </Button>
           </VStack>
         )}
-      </Animated.View>
-      <Animated.View style={passwordAnimatedStyle}>
         {step === 2 && (
           <FormProvider {...form}>
             <FormInput

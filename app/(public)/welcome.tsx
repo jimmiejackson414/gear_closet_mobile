@@ -144,7 +144,7 @@ const WelcomeScreen = () => {
 const styles = StyleSheet.create({
   background: { flex: 1 },
   card: {
-    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+    backgroundColor: 'rgba(255, 255, 255, 0.75)',
     borderRadius: 24,
     padding: 26,
   },

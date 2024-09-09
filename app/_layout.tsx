@@ -3,6 +3,7 @@ import { Stack, useNavigationContainerRef } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Toaster } from 'sonner-native';
 import { useReactNavigationDevTools } from '@dev-plugins/react-navigation';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
 import { SupabaseProvider } from '@/context/SupabaseProvider';
 import '@/global.css';
@@ -22,17 +23,19 @@ const RootLayout = () => {
   useReactNavigationDevTools(navigationRef);
 
   return (
-    <SupabaseProvider>
-      <GluestackUIProvider>
-        <SafeAreaProvider>
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(protected)" />
-            <Stack.Screen name="(public)" />
-          </Stack>
-          <Toaster />
-        </SafeAreaProvider>
-      </GluestackUIProvider>
-    </SupabaseProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SupabaseProvider>
+        <GluestackUIProvider>
+          <SafeAreaProvider>
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="(protected)" />
+              <Stack.Screen name="(public)" />
+            </Stack>
+            <Toaster position="bottom-center" />
+          </SafeAreaProvider>
+        </GluestackUIProvider>
+      </SupabaseProvider>
+    </GestureHandlerRootView>
   );
 };
 
