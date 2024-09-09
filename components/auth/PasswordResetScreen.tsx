@@ -4,11 +4,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Image } from 'expo-image';
-import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { LockKeyhole } from 'lucide-react-native';
-import { useRouter, useSegments } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { toast } from 'sonner-native';
 import { useSupabase } from '@/context/SupabaseProvider';
+import { useAuthScreenContext } from '@/context/AuthScreenProvider';
 import { supabase } from '@/lib/supabase';
 import { Button, ButtonText, Center, Text, VStack } from '@/components/ui';
 import FormInput from '@/components/common/FormInput';
@@ -27,25 +28,30 @@ const passwordSchema = z.object({
 
 const PasswordResetScreen = () => {
   const [step, setStep] = useState(1);
-  const [code, setCode] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
   const { verifyResetCode } = useSupabase();
+  const {
+    resetCode, storedEmail, setResetCode,
+  } = useAuthScreenContext();
 
   const form = useForm({
     resolver: zodResolver(passwordSchema),
-    defaultValues: { password: '', confirmPassword: '' },
+    defaultValues: { password: '', passwordConfirm: '' },
   });
 
-  const { handleSubmit } = form;
+  const { handleSubmit, watch } = form;
+  const watchedFields = watch();
 
   const opacity = useSharedValue(1);
   const animatedStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
 
   const handleVerifyCode = async () => {
-    setSubmitting(true);
+    if (resetCode?.length !== 6) return;
+
     try {
-      await verifyResetCode('', code);
+      setSubmitting(true);
+      await verifyResetCode(storedEmail, resetCode);
       setStep(2);
     } catch (err) {
       toast.error('Invalid code. Please try again.');
@@ -54,30 +60,19 @@ const PasswordResetScreen = () => {
     }
   };
 
-  const segments = useSegments();
   const router = useRouter();
   const handleResetPassword = async () => {
-    const { password, confirmPassword } = form.getValues();
+    const { password } = form.getValues();
     try {
-      if (password !== confirmPassword) {
-        form.setError('confirmPassword', { type: 'manual', message: 'Passwords do not match' });
-        return;
-      }
-
       setSubmitting(true);
 
       // update the user's password
       const { error: updateError } = await supabase.auth.updateUser({ password });
+      console.log({ updateError });
       if (updateError) throw updateError;
 
-      // automatically log the user in
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email: '',
-        password,
-      });
-      if (signInError) throw signInError;
-
       // navigate
+      toast.success('Password updated successfully.');
       router.replace('/(protected)/(drawer)/home');
     } catch (err) {
       toast.error('An error occurred. Please try again.');
@@ -85,13 +80,10 @@ const PasswordResetScreen = () => {
   };
 
   useEffect(() => {
-    // Extract the code from the URL if present
-    console.log('router: ', router);
-    console.log('segments: ', segments);
-    const urlParams = new URLSearchParams(window.location.search);
-    const resetCode = urlParams.get('code');
-    if (resetCode) setCode(resetCode);
-  }, []);
+    opacity.value = 0;
+    opacity.value = withTiming(1, { duration: 500 });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step]);
 
   return (
     <Center>
@@ -107,7 +99,7 @@ const PasswordResetScreen = () => {
             <Text className="mb-4 text-center justify-self-center">Please enter your code</Text>
             <CodeInput
               length={6}
-              onChangeCode={setCode} />
+              onChangeCode={setResetCode} />
             <Button onPress={handleVerifyCode}>
               <ButtonText>Verify Code</ButtonText>
             </Button>
@@ -115,25 +107,34 @@ const PasswordResetScreen = () => {
         )}
         {step === 2 && (
           <FormProvider {...form}>
-            <FormInput
-              autoComplete="password-new"
-              autoFocus
-              icon={LockKeyhole}
-              isDisabled={submitting}
-              isRequired
-              keyboardType="email-address"
-              label="New password"
-              name="password" />
-            <FormInput
-              icon={LockKeyhole}
-              isDisabled={submitting}
-              isRequired
-              keyboardType="email-address"
-              label="Confirm new password"
-              name="confirmPassword" />
-            <Button onPress={handleSubmit(handleResetPassword)}>
-              <ButtonText>Reset Password</ButtonText>
-            </Button>
+            <VStack
+              className="w-full justify-center"
+              space="lg">
+              <Text className="mb-8">Enter your new password</Text>
+              <FormInput
+                autoComplete="password-new"
+                autoFocus
+                icon={LockKeyhole}
+                isDisabled={submitting}
+                isRequired
+                keyboardType="email-address"
+                label="New password"
+                name="password"
+                type="password" />
+              <FormInput
+                icon={LockKeyhole}
+                isDisabled={submitting}
+                isRequired
+                keyboardType="email-address"
+                label="Confirm new password"
+                name="passwordConfirm"
+                type="password" />
+              <Button
+                isDisabled={submitting || !watchedFields.password || !watchedFields.passwordConfirm}
+                onPress={handleSubmit(handleResetPassword)}>
+                <ButtonText>Reset Password</ButtonText>
+              </Button>
+            </VStack>
           </FormProvider>
         )}
       </Animated.View>

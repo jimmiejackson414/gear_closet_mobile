@@ -253,6 +253,9 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
 
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
+      // prevent automatic login if user is in the password recovery flow
+      if (event === 'PASSWORD_RECOVERY') return;
+
       setSession(session);
       setUser(session ? session.user : null);
       setInitialized(true);
