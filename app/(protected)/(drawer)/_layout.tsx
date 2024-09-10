@@ -1,56 +1,74 @@
 import { Drawer } from 'expo-router/drawer';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import theme from '@/lib/theme';
-
+import { House, NotebookText, TentTree, UserCog, Users } from 'lucide-react-native';
+import { Icon } from '@/components/ui';
+import DrawerContent from '@/components/common/DrawerContent';
 
 const Layout = () => (
-  <GestureHandlerRootView style={{ flex: 1 }}>
-    <Drawer
-      initialRouteName="home"
-      screenOptions={{ drawerActiveBackgroundColor: theme.colors.secondary[500] }}>
-      <Drawer.Screen
-        name="home"
-        options={{
-          headerShown: true,
-          drawerLabel: 'Home',
-          headerTitle: 'Home',
-          headerStyle: { backgroundColor: theme.colors.primary[500] },
-        }} />
-      <Drawer.Screen
-        name="closet"
-        options={{
-          headerShown: true,
-          drawerLabel: 'Closet',
-          headerTitle: 'Closet',
-          headerStyle: { backgroundColor: theme.colors.primary[500] },
-        }} />
-      <Drawer.Screen
-        name="friends"
-        options={{
-          headerShown: true,
-          drawerLabel: 'Friends',
-          headerTitle: 'Friends',
-          headerStyle: { backgroundColor: theme.colors.primary[500] },
-        }} />
-      <Drawer.Screen
-        name="planning"
-        options={{
-          headerShown: true,
-          drawerLabel: 'Planning',
-          headerTitle: 'Planning',
-          headerStyle: { backgroundColor: theme.colors.primary[500] },
-        }} />
-      <Drawer.Screen
-        name="profile"
-        options={{
-          headerShown: true,
-          drawerLabel: 'Profile',
-          headerTitle: 'Profile',
-          headerStyle: { backgroundColor: theme.colors.primary[500] },
-          title: 'What',
-        }} />
-    </Drawer>
-  </GestureHandlerRootView>
+  <Drawer
+    drawerContent={(props) => <DrawerContent {...props} />}
+    initialRouteName="home"
+    screenOptions={{ headerShown: true, swipeEdgeWidth: 0 }}>
+    <Drawer.Screen
+      name="home"
+      options={{
+        drawerLabel: 'Home',
+        headerTitle: 'Home',
+        drawerIcon: ({ color }) => (
+          <Icon
+            as={House}
+            color={color}
+            size={'md'} />
+        ),
+      }} />
+    <Drawer.Screen
+      name="closet"
+      options={{
+        drawerLabel: 'Closet',
+        headerTitle: 'Closet',
+        drawerIcon: ({ color }) => (
+          <Icon
+            as={TentTree}
+            color={color}
+            size={'md'} />
+        ),
+      }} />
+    <Drawer.Screen
+      name="friends"
+      options={{
+        drawerLabel: 'Friends',
+        headerTitle: 'Friends',
+        drawerIcon: ({ color }) => (
+          <Icon
+            as={Users}
+            color={color}
+            size={'md'} />
+        ),
+      }} />
+    <Drawer.Screen
+      name="planning"
+      options={{
+        drawerLabel: 'Planning',
+        headerTitle: 'Planning',
+        drawerIcon: ({ color }) => (
+          <Icon
+            as={NotebookText}
+            color={color}
+            size={'md'} />
+        ),
+      }} />
+    <Drawer.Screen
+      name="profile"
+      options={{
+        drawerLabel: 'Profile',
+        headerTitle: 'Profile',
+        drawerIcon: ({ color }) => (
+          <Icon
+            as={UserCog}
+            color={color}
+            size={'md'} />
+        ),
+      }} />
+  </Drawer>
 );
 
 export default Layout;

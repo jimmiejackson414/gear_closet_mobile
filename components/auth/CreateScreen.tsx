@@ -36,7 +36,7 @@ const CreateScreen: React.FC = () => {
 
   const { handleSubmit } = form;
 
-  const onSignUp = async ({ password }: { password: string }) => {
+  const onSignUp = async () => {
     try {
       setSubmitting(true);
       const { password } = form.getValues();

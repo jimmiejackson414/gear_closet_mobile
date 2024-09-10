@@ -68,7 +68,6 @@ const PasswordResetScreen = () => {
 
       // update the user's password
       const { error: updateError } = await supabase.auth.updateUser({ password });
-      console.log({ updateError });
       if (updateError) throw updateError;
 
       // navigate

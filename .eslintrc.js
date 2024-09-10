@@ -46,5 +46,6 @@ module.exports = {
     'react/jsx-props-no-multi-spaces': 2,
     'react/jsx-tag-spacing': [1, { beforeSelfClosing: 'always' }],
     'sort-imports': [1, { ignoreDeclarationSort: true }],
+    '@typescript-eslint/no-unused-vars': ['error', { 'caughtErrors': 'none' }],
   },
 };

@@ -17,7 +17,9 @@ const ScreenWrapper = ({
   ...rest
 }: Props) => {
   return (
-    <SafeAreaView style={[styles.safeArea, style]}>
+    <SafeAreaView
+      edges={['bottom', 'left', 'right']}
+      style={[styles.safeArea, style]}>
       {withScrollView ? (
         <ScrollView
           {...rest}
@@ -39,14 +41,19 @@ const ScreenWrapper = ({
 };
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1 },
-  scrollView: { flex: 1 },
-  scrollViewContent: {
-    flexGrow: 1,
-    paddingLeft: 16, // Adjust the padding value as needed
-    paddingRight: 16, // Adjust the padding value as needed
+  safeArea: {
+    flex: 1,
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingTop: 16,
   },
-  innerView: { flex: 1 },
+  scrollView: { flex: 1 },
+  scrollViewContent: { flexGrow: 1 },
+  innerView: {
+    flex: 1,
+    flexGrow: 1,
+    justifyContent: 'flex-start',
+  },
 });
 
 export default ScreenWrapper;
