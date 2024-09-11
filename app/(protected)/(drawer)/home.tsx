@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import { toast } from 'sonner-native';
 import { useDashboard } from '@/services/dashboard/useDashboard';
-import useAppStore from '@/stores/appStore';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import UpcomingTripsWidget from '@/components/dashboard/UpcomingTripsWidget';
 import type { ExtendedFriend } from '@/types/helpers';

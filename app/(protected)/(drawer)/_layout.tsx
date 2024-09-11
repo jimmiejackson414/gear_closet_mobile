@@ -1,6 +1,7 @@
 import { Drawer } from 'expo-router/drawer';
 import { Bell, House, NotebookText, TentTree, UserCog, Users } from 'lucide-react-native';
 import { Link } from 'expo-router';
+import { StyleSheet } from 'react-native';
 import { Box, Button, Icon } from '@/components/ui';
 import DrawerContent from '@/components/common/DrawerContent';
 import theme from '@/lib/theme';
@@ -8,7 +9,6 @@ import useAppStore from '@/stores/appStore';
 
 const DrawerLayout = () => {
   const unreadNotifications = useAppStore((state) => state.unreadNotifications());
-  console.log({ unreadNotifications });
 
   return (
     <Drawer
@@ -28,17 +28,7 @@ const DrawerLayout = () => {
                 as={Bell}
                 size="md"
                 stroke={theme.colors.gray[500]} />
-              {!!unreadNotifications.length && (
-                <Box
-                  className="absolute top-1 -right-1"
-                  style={{
-                    backgroundColor: theme.colors.red[500],
-                    borderRadius: 999,
-                    height: 6,
-                    width: 6,
-                  }}>
-                </Box>
-              )}
+              {!!unreadNotifications.length && <Box style={styles.notificationDot} />}
             </Button>
           </Link>
         ),
@@ -106,5 +96,17 @@ const DrawerLayout = () => {
     </Drawer>
   );
 };
+
+const styles = StyleSheet.create({
+  notificationDot: {
+    position: 'absolute',
+    top: 1,
+    right: -1,
+    backgroundColor: theme.colors.red[500],
+    borderRadius: 999,
+    height: 6,
+    width: 6,
+  },
+});
 
 export default DrawerLayout;

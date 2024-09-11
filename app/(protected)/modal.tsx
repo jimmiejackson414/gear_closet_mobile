@@ -39,14 +39,7 @@ const NotificationsModal = () => {
         <Box
           key={notification.id}
           style={styles.notification}>
-          <Box
-            className="absolute -left-4 top-2"
-            style={{
-              backgroundColor: theme.colors.red[500],
-              borderRadius: 999,
-              height: 6,
-              width: 6,
-            }}>
+          <Box style={styles.notificationDot}>
           </Box>
           <Text
             bold
@@ -96,6 +89,15 @@ const styles = StyleSheet.create({
     paddingTop: 80,
   },
   notification: { position: 'relative' },
+  notificationDot: {
+    position: 'absolute',
+    top: 8,
+    left: -16,
+    backgroundColor: theme.colors.red[500],
+    borderRadius: 999,
+    height: 6,
+    width: 6,
+  },
 });
 
 export default NotificationsModal;
