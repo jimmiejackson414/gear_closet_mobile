@@ -1,13 +1,32 @@
 import { Drawer } from 'expo-router/drawer';
-import { House, NotebookText, TentTree, UserCog, Users } from 'lucide-react-native';
-import { Icon } from '@/components/ui';
+import { Bell, House, NotebookText, TentTree, UserCog, Users } from 'lucide-react-native';
+import { Link, Stack } from 'expo-router';
+import { Button, Icon } from '@/components/ui';
 import DrawerContent from '@/components/common/DrawerContent';
+import theme from '@/lib/theme';
 
-const Layout = () => (
+const DrawerNavigator = () => (
   <Drawer
     drawerContent={(props) => <DrawerContent {...props} />}
     initialRouteName="home"
-    screenOptions={{ headerShown: true, swipeEdgeWidth: 0 }}>
+    screenOptions={{
+      headerShown: true,
+      swipeEdgeWidth: 0,
+      headerRight: () => (
+        <Link
+          asChild
+          href="/modal">
+          <Button
+            className="mr-6"
+            variant="link">
+            <Icon
+              as={Bell}
+              size="md"
+              stroke={theme.colors.gray[500]} />
+          </Button>
+        </Link>
+      ),
+    }}>
     <Drawer.Screen
       name="home"
       options={{
@@ -71,4 +90,15 @@ const Layout = () => (
   </Drawer>
 );
 
-export default Layout;
+const DrawerLayout = () => (
+  <Stack>
+    {/* <Stack.Screen
+      name="home"
+      options={{ headerShown: false  }} /> */}
+    <Stack.Screen
+      name="modal"
+      options={{ headerShown: false, presentation: 'modal' }} />
+  </Stack>
+);
+
+export default DrawerLayout;

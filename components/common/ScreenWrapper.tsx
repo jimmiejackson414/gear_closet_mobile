@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { ScrollView, ScrollViewProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import { ActivityIndicator, ScrollView, ScrollViewProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import useAppStore from '@/stores/appStore';
 
 type Props = ScrollViewProps & {
   children: React.ReactNode;
@@ -16,6 +17,8 @@ const ScreenWrapper = ({
   contentContainerStyle,
   ...rest
 }: Props) => {
+  const isLoading = useAppStore((state) => state.isLoading);
+
   return (
     <SafeAreaView
       edges={['bottom', 'left', 'right']}
@@ -25,6 +28,7 @@ const ScreenWrapper = ({
           {...rest}
           contentContainerStyle={[styles.scrollViewContent, contentContainerStyle]}
           keyboardShouldPersistTaps="handled"
+          pointerEvents={isLoading ? 'none' : 'auto'}
           showsVerticalScrollIndicator={false}
           style={styles.scrollView}>
           <View style={styles.innerView}>
@@ -32,8 +36,17 @@ const ScreenWrapper = ({
           </View>
         </ScrollView>
       ) : (
-        <View style={[styles.innerView, contentContainerStyle]}>
+        <View
+          pointerEvents={isLoading ? 'none' : 'auto'}
+          style={[styles.innerView, contentContainerStyle]}>
           {children}
+        </View>
+      )}
+      {isLoading && (
+        <View style={styles.overlay}>
+          <ActivityIndicator
+            color="#0000ff"
+            size="large" />
         </View>
       )}
     </SafeAreaView>
@@ -53,6 +66,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexGrow: 1,
     justifyContent: 'flex-start',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

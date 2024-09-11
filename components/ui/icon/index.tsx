@@ -25,9 +25,7 @@ const PrimitiveIcon = React.forwardRef<
 }, ref) => {
   const sizeProps = useMemo(() => {
     if (size) return { size };
-    if (height && width) return {
-      height, width,
-    };
+    if (height && width) return { height, width };
     if (height) return { height };
     if (width) return { width };
     return {};
@@ -35,19 +33,13 @@ const PrimitiveIcon = React.forwardRef<
 
   let colorProps = {};
   if (color) {
-    colorProps = {
-      ...colorProps, color: color,
-    };
+    colorProps = { ...colorProps, color: color };
   }
   if (stroke) {
-    colorProps = {
-      ...colorProps, stroke: stroke,
-    };
+    colorProps = { ...colorProps, stroke: stroke };
   }
   if (fill) {
-    colorProps = {
-      ...colorProps, fill: fill,
-    };
+    colorProps = { ...colorProps, fill: fill };
   }
   if (AsComp) {
     return <AsComp
@@ -129,9 +121,7 @@ export const Icon = React.forwardRef<React.ElementRef<typeof Svg>, IIConProps>(
       <UIIcon
         ref={ref}
         {...props}
-        className={iconStyle({
-          size, class: className,
-        })} />
+        className={iconStyle({ size, class: className })} />
     );
   },
 );
@@ -141,9 +131,7 @@ Icon.displayName = 'Icon';
 type ParameterTypes = Omit<Parameters<typeof createIcon>[0], 'Root'>;
 
 const createIconUI = ({ ...props }: ParameterTypes) => {
-  const UIIconCreateIcon = createIcon({
-    Root: Svg, ...props,
-  });
+  const UIIconCreateIcon = createIcon({ Root: Svg, ...props });
 
   // eslint-disable-next-line react/display-name
   return React.forwardRef<React.ElementRef<typeof Svg>>(
@@ -161,9 +149,7 @@ const createIconUI = ({ ...props }: ParameterTypes) => {
           // @ts-ignore
           ref={ref}
           {...props}
-          className={iconStyle({
-            size, class: className,
-          })} />
+          className={iconStyle({ size, class: className })} />
       );
     },
   );

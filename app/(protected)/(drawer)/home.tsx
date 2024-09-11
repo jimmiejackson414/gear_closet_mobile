@@ -1,10 +1,51 @@
-import { Text } from 'react-native';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner-native';
+import { useDashboard } from '@/services/dashboard/useDashboard';
+import useAppStore from '@/stores/appStore';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
+import UpcomingTripsWidget from '@/components/dashboard/UpcomingTripsWidget';
+import type { ExtendedFriend } from '@/types/helpers';
+import type { Tables } from '@/types';
+import InvitationsWidget from '@/components/dashboard/InvitationsWidget';
+import FriendsWidget from '@/components/dashboard/FriendsWidget';
+import ForumsWidget from '@/components/dashboard/ForumsWidget';
+import { VStack } from '@/components/ui';
 
-const HomeScreen = () => (
-  <ScreenWrapper>
-    <Text>Home</Text>
-  </ScreenWrapper>
-);
+const HomeScreen = () => {
+  const {
+    data, error, isLoading,
+  } = useDashboard();
+  const { setLoading } = useAppStore();
+  
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading, setLoading]);
+
+  useEffect(() => {
+    if (error) toast.error('Failed to fetch dashboard data');
+  }, [error]);
+
+  const [friends, setFriends] = useState<ExtendedFriend[]>([]);
+  const [trips, setTrips] = useState<Tables<'trips'>[]>([]);
+  const [tripFriends, setTripFriends] = useState<Tables<'trip_friends'>[]>([]);
+  useEffect(() => {
+    if (data) {
+      setFriends(data.friends);
+      setTrips(data.trips);
+      setTripFriends(data.trip_friends);
+    }
+  }, [data]);
+
+  return (
+    <ScreenWrapper>
+      <VStack space="xl">
+        <UpcomingTripsWidget data={trips} />
+        <InvitationsWidget data={tripFriends} />
+        <FriendsWidget data={friends} />
+        <ForumsWidget />
+      </VStack>
+    </ScreenWrapper>
+  );
+};
 
 export default HomeScreen;

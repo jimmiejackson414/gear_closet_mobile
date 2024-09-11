@@ -49,6 +49,13 @@ npx react-devtools
 npx expo run:ios
 ```
 
+## Run React Query Devtools
+```sh
+npx expo run:ios
+shift + m
+select "React Query"
+```
+
 ## Other Resources
 * [Lucide Icons](https://lucide.dev/guide/packages/lucide-react-native)
 * [Hero Patterns](https://heropatterns.com/)
