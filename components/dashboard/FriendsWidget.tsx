@@ -1,13 +1,16 @@
 import { StyleSheet } from 'react-native';
 import { Users } from 'lucide-react-native';
-import { Box, Card, Icon, Text } from '@/components/ui';
-import type { Tables } from '@/types';
+import { Link } from 'expo-router';
+import { Avatar, AvatarFallbackText, AvatarImage, Box, Button, ButtonText, Card, Icon, Text, VStack } from '@/components/ui';
+import type { ExtendedFriend } from '@/types/helpers';
+import { buildImageSrc, initials } from '@/helpers';
 
 interface Props {
-  data?: Tables<'friends'>[];
+  data: ExtendedFriend[];
 }
 
-const FriendsWidget: React.FC<Props> = () => {
+const FriendsWidget: React.FC<Props> = ({ data }) => {
+  console.log({ data });
   return (
     <Card
       size="lg"
@@ -15,7 +18,6 @@ const FriendsWidget: React.FC<Props> = () => {
       <Box style={styles.header}>
         <Icon
           as={Users}
-          className="mr-4"
           size="xl" />
         <Text
           bold
@@ -23,6 +25,41 @@ const FriendsWidget: React.FC<Props> = () => {
           Friends
         </Text>
       </Box>
+      {!data.length ? (
+        <VStack
+          className="mt-8"
+          space="lg">
+          <Text className="text-center">
+            You connected with any friends yet!
+          </Text>
+          <Button
+            action="primary"
+            className="mx-auto self-start"
+            size="sm"
+            variant="solid">
+            <ButtonText>
+              Get Started
+            </ButtonText>
+          </Button>
+        </VStack>
+      ) : (
+        <Box style={styles.listContainer}>
+          {data.map(friend => (
+            <Link
+              asChild
+              href="/(protected)/(drawer)/planning"
+              key={friend.id}
+              push>
+              <Avatar className="bg-secondary-500">
+                <AvatarFallbackText className="text-white">
+                  {initials(friend.friend)}
+                </AvatarFallbackText>
+                <AvatarImage source={{ uri: buildImageSrc(friend.friend.image) }} />
+              </Avatar>
+            </Link>
+          ))}
+        </Box>
+      )}
     </Card>
   );
 };
@@ -31,6 +68,13 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     flexDirection: 'row',
+    gap: 16,
+  },
+  listContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+    marginTop: 16,
   },
 });
 

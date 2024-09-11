@@ -2,8 +2,9 @@ import { StyleSheet } from 'react-native';
 import dayjs from 'dayjs';
 import durationPlugin from 'dayjs/plugin/duration';
 import relativePlugin from 'dayjs/plugin/relativeTime';
-import { Footprints } from 'lucide-react-native';
+import { ChevronRight, Footprints } from 'lucide-react-native';
 import { Link } from 'expo-router';
+import { Fragment } from 'react';
 import { Box, Button, ButtonText, Card, Divider, Icon, Text, VStack } from '@/components/ui';
 import type { Tables } from '@/types';
 
@@ -22,7 +23,6 @@ const UpcomingTripsWidget: React.FC<Props> = ({ data }) => {
       <Box style={styles.header}>
         <Icon
           as={Footprints}
-          className="mr-4"
           size="xl" />
         <Text
           bold
@@ -50,24 +50,34 @@ const UpcomingTripsWidget: React.FC<Props> = ({ data }) => {
       ) : (
         <Box style={styles.listContainer}>
           {data.map(( trip, index ) => (
-            <Link
-              asChild
-              href="/(protected)/(drawer)/planning"
-              key={trip.id}>
-              <Button
-                size="xs"
-                style={styles.listItem}
-                variant="link">
-                <Text>
-                  {trip.name}
-                </Text>
-                <Text>
-                  {dayjs()
-                    .to(dayjs(trip.starting_date))}
-                </Text>
-                {index < data.length - 1 && <Divider className="my-4" />}
-              </Button>
-            </Link>
+            <Fragment key={trip.id}>
+              <Link
+                asChild
+                href="/(protected)/(drawer)/planning"
+                push>
+                <Button
+                  key={trip.id}
+                  size="xs"
+                  style={styles.listItem}
+                  variant="link">
+                  <Box style={{ flexDirection: 'row', gap: 8 }}>
+                    <Icon
+                      as={ChevronRight}
+                      className="mt-0.5" />
+                    <Text>
+                      {trip.name}
+                    </Text>
+                  </Box>
+                  <Text>
+                    Begins
+                    {' '}
+                    {dayjs()
+                      .to(dayjs(trip.starting_date))}
+                  </Text>
+                </Button>
+              </Link>
+              {index < data.length - 1 && <Divider className="my-4" />}
+            </Fragment>
           ))}
         </Box>
       )}
@@ -79,6 +89,7 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     flexDirection: 'row',
+    gap: 16,
   },
   listContainer: { marginTop: 16 },
   listItem: {

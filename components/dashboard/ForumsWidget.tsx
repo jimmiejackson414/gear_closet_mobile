@@ -10,7 +10,6 @@ const ForumsWidget = () => {
       <Box style={styles.header}>
         <Icon
           as={MessagesSquare}
-          className="mr-4"
           size="xl" />
         <Text
           bold
@@ -26,6 +25,7 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     flexDirection: 'row',
+    gap: 16,
   },
 });
 
