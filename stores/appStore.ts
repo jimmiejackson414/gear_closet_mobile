@@ -1,24 +1,60 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import type { Tables } from '@/types';
-
-type Notification = Tables<'notifications'>;
+import { ProfileApiResponse } from '@/services/user/types';
+import { ExtendedNotification } from '@/types/helpers';
 
 interface AppState {
-  notifications: Notification[];
   isLoading: boolean;
-  addNotification: (notification: Notification) => void;
-  removeNotification: (notification: Notification) => void;
+  profile: ProfileApiResponse | null;
+  addNotification: (notification: ExtendedNotification) => void;
+  setProfile: (profile: ProfileApiResponse) => void;
+  removeNotification: (notification: ExtendedNotification) => void;
   setLoading: (loading: boolean) => void;
+  readNotifications: () => ExtendedNotification[];
+  unreadNotifications: () => ExtendedNotification[];
 }
 
 const useAppStore = create<AppState>()(
-  devtools((set) => ({
-    notifications: [],
+  devtools((set, get) => ({
     isLoading: false,
+    profile: null,
 
-    addNotification: (notification: Notification) => set((state) => ({ notifications: [...state.notifications, notification] })),
-    removeNotification: (notification: Notification) => set((state) => ({ notifications: state.notifications.filter((n) => n.id !== notification.id) })),
+    setProfile: (profile: ProfileApiResponse) => set({ profile }),
+
+    addNotification: (notification: ExtendedNotification) => set((state) => {
+      if (state.profile) {
+        return {
+          profile: {
+            ...state.profile,
+            notifications: [...state.profile.notifications, notification],
+          },
+        };
+      }
+      return state;
+    }),
+
+    removeNotification: (notification: ExtendedNotification) => set((state) => {
+      if (state.profile) {
+        return {
+          profile: {
+            ...state.profile,
+            notifications: state.profile.notifications.filter((n) => n.id !== notification.id),
+          },
+        };
+      }
+      return state;
+    }),
+
+    readNotifications: () => {
+      const { profile } = get();
+      return (profile?.notifications?.filter((n) => n.read_on_date) || []) as ExtendedNotification[];
+    },
+
+    unreadNotifications: () => {
+      const { profile } = get();
+      return (profile?.notifications?.filter((n) => !n.read_on_date) || []) as ExtendedNotification[];
+    },
+
     setLoading: (loading: boolean) => set({ isLoading: loading }),
   }), { name: 'AppStore' }),
 );

@@ -1441,6 +1441,11 @@
     "@react-native-aria/utils" "0.2.11"
     "@react-stately/checkbox" "^3.4.2"
 
+"@gluestack-ui/divider@^0.1.9":
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/@gluestack-ui/divider/-/divider-0.1.9.tgz#5777f3ba3009300ef70faecf0327f30adfb8dee0"
+  integrity sha512-wuQDEfgZwBoxxd9AKTNKxUK5W7EZ1SiuYpEljm77yekV3vw86t6X1AIJ+zIjDaOFzlNcvWx9ZD8NRXtRkDFiHw==
+
 "@gluestack-ui/fab@^0.1.21":
   version "0.1.21"
   resolved "https://registry.yarnpkg.com/@gluestack-ui/fab/-/fab-0.1.21.tgz#c792178eb4938047a252b5a36f2af51cc0868501"
@@ -4862,7 +4867,7 @@ data-view-byte-offset@^1.0.0:
     es-errors "^1.3.0"
     is-data-view "^1.0.1"
 
-dayjs@^1.8.15:
+dayjs@^1.11.13, dayjs@^1.8.15:
   version "1.11.13"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.13.tgz#92430b0139055c3ebb60150aa13e860a4b5a366c"
   integrity sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==

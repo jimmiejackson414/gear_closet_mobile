@@ -10,20 +10,15 @@ import InvitationsWidget from '@/components/dashboard/InvitationsWidget';
 import FriendsWidget from '@/components/dashboard/FriendsWidget';
 import ForumsWidget from '@/components/dashboard/ForumsWidget';
 import { VStack } from '@/components/ui';
+import { useErrorHandling, useLoading  } from '@/hooks';
 
 const HomeScreen = () => {
   const {
     data, error, isLoading,
   } = useDashboard();
-  const { setLoading } = useAppStore();
-  
-  useEffect(() => {
-    setLoading(isLoading);
-  }, [isLoading, setLoading]);
 
-  useEffect(() => {
-    if (error) toast.error('Failed to fetch dashboard data');
-  }, [error]);
+  useLoading(isLoading);
+  useErrorHandling(error, 'Failed to fetch dashboard data');
 
   const [friends, setFriends] = useState<ExtendedFriend[]>([]);
   const [trips, setTrips] = useState<Tables<'trips'>[]>([]);

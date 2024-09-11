@@ -259,14 +259,6 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
       setSession(session);
       setUser(session ? session.user : null);
       setInitialized(true);
-
-      // console.log({ event });
-      // if (event === 'PASSWORD_RECOVERY') {
-      //   const newPassword = prompt('Please enter a new password:') as string;
-      //   const { data, error } = await supabase.auth.updateUser({ password: newPassword });
-      //   if (data) alert('Password updated successfully!');
-      //   if (error) alert('There was an error updating your password.');
-      // }
     });
     return () => {
       data.subscription.unsubscribe();

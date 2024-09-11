@@ -5,12 +5,6 @@ export type SubscriptionType = Tables<'subscriptions'> & {
   prices: Tables<'prices'>;
 };
 
-export type ProfileApiResponse = Tables<'profiles'> & {
-  onboarding_steps: Tables<'onboarding_steps'>[];
-  notifications: ExtendedNotification[];
-  subscriptions: SubscriptionType[];
-};
-
 export type SubscriptionApiResponse = {
   customer?: Stripe.Customer;
   subscriptions: Stripe.Subscription[];

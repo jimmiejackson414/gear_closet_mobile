@@ -17,7 +17,6 @@ export const fetchDashboardData = async () => {
 
     return data;
   } catch (error) {
-    console.error('Error fetching dashboard data:', error);
     return null;
   }
 };

@@ -52,6 +52,7 @@ export { CheckboxIndicator } from './checkbox';
 export { CheckboxLabel } from './checkbox';
 export { CheckboxIcon } from './checkbox';
 export { CheckboxGroup } from './checkbox';
+export { Divider } from './divider';
 export { Fab } from './fab';
 export { FabLabel } from './fab';
 export { FabIcon } from './fab';
