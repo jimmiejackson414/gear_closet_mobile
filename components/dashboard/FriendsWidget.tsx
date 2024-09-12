@@ -28,15 +28,15 @@ const FriendsWidget: React.FC<Props> = ({ data }) => (
     </Box>
     {!data.friends.length ? (
       <VStack
-        className="mt-8"
-        space="lg">
-        <Text className="text-center">
-          You connected with any friends yet!
+        space="lg"
+        style={styles.noFriendsContainer}>
+        <Text style={styles.noFriendsText}>
+          You haven't connected with any friends yet!
         </Text>
         <Button
           action="primary"
-          className="mx-auto self-start"
           size="sm"
+          style={styles.getStartedButton}
           variant="solid">
           <ButtonText>
             Get Started
@@ -52,9 +52,11 @@ const FriendsWidget: React.FC<Props> = ({ data }) => (
             key={friend.id}
             push>
             <Avatar
-              className="bg-secondary-500"
-              size="lg">
-              <AvatarFallbackText className="text-white">
+              size="lg"
+              style={styles.avatar}>
+              <AvatarFallbackText
+                key={friend.id}
+                style={styles.avatarText}>
                 {initials(friend.friend)}
               </AvatarFallbackText>
               <AvatarImage source={{ uri: buildImageSrc(friend.friend.image) }} />
@@ -78,6 +80,14 @@ const styles = StyleSheet.create({
     gap: 6,
     marginTop: 16,
   },
+  noFriendsContainer: {
+    marginTop: 8,
+    alignItems: 'center',
+  },
+  noFriendsText: { textAlign: 'center' },
+  getStartedButton: { alignSelf: 'center' },
+  avatar: { backgroundColor: '#6B7280' },
+  avatarText: { color: '#FFFFFF' },
 });
 
 export default FriendsWidget;

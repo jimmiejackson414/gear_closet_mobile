@@ -1,8 +1,14 @@
 import { StyleSheet } from 'react-native';
 import { MessagesSquare } from 'lucide-react-native';
 import { Box, Card, Icon, Text } from '@/components/ui';
+import { ForumResponse } from '@/services/dashboard/types';
 
-const ForumsWidget = () => {
+interface Props {
+  data?: ForumResponse | null;
+}
+
+const ForumsWidget: React.FC<Props> = ({ data }) => {
+  console.log({ data });
   return (
     <Card
       size="lg"

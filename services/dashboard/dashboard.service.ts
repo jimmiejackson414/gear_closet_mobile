@@ -2,9 +2,18 @@ import axios from 'axios';
 import { DashboardResponse, ForumResponse, GetDashboardData } from './types';
 import { supabase } from '@/lib/supabase';
 
+const client = axios.create({
+  baseURL: process.env.EXPO_PUBLIC_ORIGIN_URL,
+  headers: {
+    'Accept': 'application/json',
+    'Api-Key': process.env.EXPO_FORUMS_API_KEY,
+    'Api-Username': 'system',
+  },
+});
+
 const fetchForumPosts = async () => {
   try {
-    const { data } = await axios.get<ForumResponse>('/forums');
+    const { data } = await client.get<ForumResponse>('/api/forums');
     return data;
   } catch (error) {
     console.error('Error fetching forum posts:', error);
@@ -19,20 +28,17 @@ const fetchForumPosts = async () => {
 export const fetchDashboardData = async (): Promise<DashboardResponse | null> => {
   try {
     const { data: { user } } = await supabase.auth.getUser();
-    console.log({ user });
 
     if (!user) throw new Error('User not found');
 
     const { data, error } = await supabase.rpc('get_dashboard_data', { p_user_id: user?.id })
       .returns<GetDashboardData>();
-    console.log({ data, error });
 
     if (error || !data) throw new Error(error?.message);
 
-    const forumData = await fetchForumPosts();
-    console.log({ forumData });
+    const forums = await fetchForumPosts();
 
-    return { ...data, forums: forumData };
+    return { ...data, forums };
   } catch (error) {
     console.error('Error fetching dashboard data:', error);
     return null;

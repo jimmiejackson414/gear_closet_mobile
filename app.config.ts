@@ -19,7 +19,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ],
     [
       'expo-router',
-      { 'origin': process.env.EXPO_PUBLIC_FORUMS_URL },
+      { 'origin': process.env.EXPO_PUBLIC_ORIGIN_URL || 'http://localhost:8081' },
     ],
   ],
 });

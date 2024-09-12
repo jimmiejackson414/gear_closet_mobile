@@ -9,6 +9,7 @@ import FriendsWidget from '@/components/dashboard/FriendsWidget';
 import ForumsWidget from '@/components/dashboard/ForumsWidget';
 import { VStack } from '@/components/ui';
 import { useErrorHandling, useLoading  } from '@/hooks';
+import { ForumResponse } from '@/services/dashboard/types';
 
 const HomeScreen = () => {
   const {
@@ -21,11 +22,13 @@ const HomeScreen = () => {
   const [friends, setFriends] = useState<ExtendedFriend[]>([]);
   const [trips, setTrips] = useState<Tables<'trips'>[]>([]);
   const [tripFriends, setTripFriends] = useState<Tables<'trip_friends'>[]>([]);
+  const [forumsData, setForumsData] = useState<ForumResponse | null>(null);
   useEffect(() => {
     if (data) {
       setFriends(data.friends);
       setTrips(data.trips);
       setTripFriends(data.trip_friends);
+      setForumsData(data.forums);
     }
   }, [data]);
 
@@ -35,7 +38,7 @@ const HomeScreen = () => {
         <UpcomingTripsWidget data={trips} />
         <InvitationsWidget data={tripFriends} />
         <FriendsWidget data={{ friends: [ ...friends ], total: data?.total_friends_count ?? 0 }} />
-        <ForumsWidget />
+        <ForumsWidget data={forumsData} />
       </VStack>
     </ScreenWrapper>
   );

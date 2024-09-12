@@ -1,19 +1,49 @@
-export async function GET() {
-  const url = `${process.env.EXPO_PUBLIC_FORUMS_URL}/posts`;
-  console.log({ url });
-  try {
-    const response = await fetch(url);
+import * as dotenv from 'dotenv';
+import axios from 'axios';
+import { ForumCategories, ForumLatestPosts } from '@/types/helpers';
 
-    if (!response.ok) {
-      return new Response(JSON.stringify({ error: `Failed to fetch forum posts: ${url}` }), { status: response.status });
+dotenv.config();
+
+const forumsUrl = process.env.EXPO_PUBLIC_FORUMS_URL;
+const apiKey = process.env.EXPO_FORUMS_API_KEY;
+
+const client = axios.create({
+  baseURL: forumsUrl, headers: {
+    'Accept': 'application/json',
+    'Api-Key': apiKey,
+    'Api-Username': 'system',
+  },
+});
+
+export async function GET() {
+  try {
+    const { status: latestPostsStatus, data: latestPostsData } = await client.get<ForumLatestPosts>('/posts');
+
+    if (latestPostsStatus !== 200) {
+      return Response.json({ error: 'Failed to fetch forum posts' }, { status: latestPostsStatus  });
     }
 
-    const data = await response.json();
+    const { status: categoriesStatus, data: categoriesData } = await client.get<ForumCategories>('/categories');
+
+    if (categoriesStatus !== 200) {
+      return Response.json({ error: 'Failed to fetch forum categories' }, { status: categoriesStatus });
+    }
+
+    if (latestPostsData?.latest_posts?.length && categoriesData?.category_list?.categories?.length) {
+      latestPostsData.latest_posts = latestPostsData.latest_posts.filter(p => p.username !== 'system')
+        .slice(0, 10);
+    }
+
+    const data = {
+      latest_posts: latestPostsData.latest_posts || [],
+      categories: categoriesData.category_list.categories || [],
+    };
+
     return new Response(JSON.stringify(data), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    return new Response(JSON.stringify({ error: `Internal Server Error: ${url}` }), { status: 500 });
+    return Response.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

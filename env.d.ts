@@ -2,6 +2,8 @@
 
 declare namespace NodeJS {
   interface ProcessEnv {
+    EXPO_PUBLIC_ORIGIN_URL: string;
+
     // Cloudinary
     EXPO_PUBLIC_CLOUDINARY_API_KEY: string;
     EXPO_PUBLIC_CLOUDINARY_API_SECRET: string;
