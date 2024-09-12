@@ -53,5 +53,5 @@ export interface GetDashboardData {
 }
 
 export type DashboardResponse = GetDashboardData & {
-  forums: ForumResponse;
+  forums: ForumResponse | null;
 };

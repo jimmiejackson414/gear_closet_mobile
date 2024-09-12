@@ -69,8 +69,8 @@
       [
         "react-native-fbsdk-next",
         {
-          "appID": "276095000869764",
-          "clientToken": "1aaa7611f4176f703b88f111a8a2064f",
+          "appID": "",
+          "clientToken": "",
           "displayName": "Gear Closet",
           "isAutoInitEnabled": true
         }
@@ -86,7 +86,7 @@
       [
         "expo-router",
         {
-          "origin": "{EXPO_PUBLIC_FORUMS_URL}"
+          "origin": ""
         }
       ],
       "expo-apple-authentication",

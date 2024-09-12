@@ -17,6 +17,7 @@ declare namespace NodeJS {
     // Facebook Auth
     EXPO_PUBLIC_FACEBOOK_APP_ID: string;
     EXPO_PUBLIC_FACEBOOK_APP_SECRET: string;
+    EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN: string;
 
     // Apple Auth
     EXPO_PUBLIC_APPLE_CLIENT_ID: string;
