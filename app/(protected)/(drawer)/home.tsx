@@ -34,7 +34,7 @@ const HomeScreen = () => {
       <VStack space="xl">
         <UpcomingTripsWidget data={trips} />
         <InvitationsWidget data={tripFriends} />
-        <FriendsWidget data={friends} />
+        <FriendsWidget data={{ friends: [ ...friends ], total: data?.total_friends_count ?? 0 }} />
         <ForumsWidget />
       </VStack>
     </ScreenWrapper>

@@ -83,9 +83,14 @@
           }
         }
       ],
+      [
+        "expo-router",
+        {
+          "origin": "{EXPO_PUBLIC_FORUMS_URL}"
+        }
+      ],
       "expo-apple-authentication",
-      "expo-router",
-      "expo-secure-store",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true
