@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { forwardRef, memo } from 'react';
 import { H1, H2, H3, H4, H5, H6 } from '@expo/html-elements';
 import { cssInterop } from 'nativewind';
@@ -18,7 +17,7 @@ cssInterop(H5, { className: 'style' });
 cssInterop(H6, { className: 'style' });
 
 const MappedHeading = memo(
-  forwardRef<React.ElementRef<typeof H1>, IHeadingProps>(
+  forwardRef<HTMLElement, IHeadingProps>(
     (
       {
         size,
@@ -47,8 +46,9 @@ const MappedHeading = memo(
           class: className,
         }),
         ...props,
-        ref,
+        ref: ref as React.Ref<any>, // Cast ref to any to avoid type mismatch
       };
+
       switch (size) {
         case '5xl':
         case '4xl':
@@ -73,7 +73,7 @@ const MappedHeading = memo(
 );
 
 const Heading = memo(
-  forwardRef<React.ElementRef<typeof H1>, IHeadingProps>(
+  forwardRef<HTMLElement, IHeadingProps>(
     ({
       className, size = 'lg', as: AsComp, ...props
     }, ref) => {
@@ -105,13 +105,11 @@ const Heading = memo(
         );
       }
 
-      return (
-        <MappedHeading
-          className={className}
-          ref={ref}
-          size={size}
-          {...props} />
-      );
+      return <MappedHeading
+        className={className}
+        ref={ref}
+        size={size}
+        {...props} />;
     },
   ),
 );

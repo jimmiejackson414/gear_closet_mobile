@@ -48,10 +48,7 @@ const styles = StyleSheet.create({
     marginBottom: 36,
   },
   logoutIcon: { marginRight: 32 },
-  logoutText: {
-    color: 'rgba(28, 28, 30, 0.68',
-    // fontWeight: 'bold',
-  },
+  logoutText: { color: 'rgba(28, 28, 30, 0.68' },
 });
 
 export default DrawerContent;

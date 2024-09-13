@@ -40,7 +40,6 @@ const ModalContent = () => {
           as={X}
           size="lg" />
       </Button>
-
       <Animated.View style={animatedStyle}>
         {screen === 'email' && <EmailScreen />}
         {screen === 'password' && <PasswordScreen />}
@@ -49,7 +48,6 @@ const ModalContent = () => {
         {screen === 'passwordRecovery' && <PasswordRecoveryScreen />}
         {screen === 'passwordReset' && <PasswordResetScreen />}
       </Animated.View>
-
       {(screen === 'email' || screen === 'password') && (
         <Progress
           className="mt-8"

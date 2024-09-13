@@ -18,8 +18,6 @@ export const hstackStyle = tva({
       '3xl': 'gap-7',
       '4xl': 'gap-8',
     },
-    reversed: {
-      true: 'flex-row-reverse',
-    },
+    reversed: { true: 'flex-row-reverse' },
   },
 });

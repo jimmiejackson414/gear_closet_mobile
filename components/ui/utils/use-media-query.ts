@@ -10,7 +10,7 @@ type QueryKeys =
 type SubQuery = {
   [queryKey in QueryKeys]?: number | string;
 };
-type Query = Array<SubQuery>;
+type Query = SubQuery[];
 
 export function useMediaQuery(query: SubQuery | Query) {
   const dims = useWindowDimensions();
@@ -32,7 +32,7 @@ function queryResolver(query: any, width?: number, height?: number) {
 function iterateQuery(
   query: SubQuery | Query,
   height?: number,
-  width?: number
+  width?: number,
 ) {
   const queryResults = [];
   if (Array.isArray(query)) {
@@ -49,7 +49,7 @@ function calculateQuery(
   key: string,
   val?: number | string,
   height?: number,
-  width?: number
+  width?: number,
 ) {
   let retval;
   switch (key) {

@@ -1,14 +1,15 @@
 import { LogBox } from 'react-native';
 import { Stack, useNavigationContainerRef } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ClickOutsideProvider } from 'react-native-click-outside';
 import { Toaster } from 'sonner-native';
 import { useReactNavigationDevTools } from '@dev-plugins/react-navigation';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
 import { SupabaseProvider } from '@/context/SupabaseProvider';
+import { APIProvider } from '@/services/common/api-provider';
 import 'react-native-reanimated';
 import '@/global.css';
-import { APIProvider } from '@/services/common/api-provider';
 
 if (process.env.NODE_ENV === 'production') {
   LogBox.ignoreAllLogs(true);
@@ -25,19 +26,21 @@ const RootLayout = () => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SupabaseProvider>
-        <APIProvider>
-          <GluestackUIProvider>
-            <SafeAreaProvider>
-              <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="(protected)" />
-                <Stack.Screen name="(public)" />
-              </Stack>
-              <Toaster position="bottom-center" />
-            </SafeAreaProvider>
-          </GluestackUIProvider>
-        </APIProvider>
-      </SupabaseProvider>
+      <ClickOutsideProvider>
+        <SupabaseProvider>
+          <APIProvider>
+            <GluestackUIProvider>
+              <SafeAreaProvider>
+                <Stack screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="(protected)" />
+                  <Stack.Screen name="(public)" />
+                </Stack>
+                <Toaster position="bottom-center" />
+              </SafeAreaProvider>
+            </GluestackUIProvider>
+          </APIProvider>
+        </SupabaseProvider>
+      </ClickOutsideProvider>
     </GestureHandlerRootView>
   );
 };

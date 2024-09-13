@@ -3,18 +3,14 @@ import React from 'react';
 import { createMenu } from '@gluestack-ui/menu';
 import { tva } from '@gluestack-ui/nativewind-utils/tva';
 import { cssInterop } from 'nativewind';
-import { Pressable, Text, Platform, View } from 'react-native';
-import { Motion, AnimatePresence } from '@legendapp/motion';
+import { Platform, Pressable, Text, View } from 'react-native';
+import { AnimatePresence, Motion } from '@legendapp/motion';
 import type { VariantProps } from '@gluestack-ui/nativewind-utils';
 import { withStates } from '@gluestack-ui/nativewind-utils/withStates';
 
-const menuStyle = tva({
-  base: 'rounded-md bg-background-0 border border-outline-100 p-1 shadow-hard-5',
-});
+const menuStyle = tva({ base: 'rounded-md bg-background-0 border border-outline-100 p-1 shadow-hard-5' });
 
-const menuItemStyle = tva({
-  base: 'min-w-[200px] p-3 flex-row items-center rounded data-[hover=true]:bg-background-50 data-[active=true]:bg-background-100 data-[focus=true]:bg-background-50 data-[focus=true]:web:outline-none data-[focus=true]:web:outline-0 data-[disabled=true]:opacity-40 data-[disabled=true]:web:cursor-not-allowed data-[focus-visible=true]:web:outline-2 data-[focus-visible=true]:web:outline-primary-700 data-[focus-visible=true]:web:outline data-[focus-visible=true]:web:cursor-pointer data-[disabled=true]:data-[focus=true]:bg-transparent',
-});
+const menuItemStyle = tva({ base: 'min-w-[200px] p-3 flex-row items-center rounded data-[hover=true]:bg-background-50 data-[active=true]:bg-background-100 data-[focus=true]:bg-background-50 data-[focus=true]:web:outline-none data-[focus=true]:web:outline-0 data-[disabled=true]:opacity-40 data-[disabled=true]:web:cursor-not-allowed data-[focus-visible=true]:web:outline-2 data-[focus-visible=true]:web:outline-primary-700 data-[focus-visible=true]:web:outline data-[focus-visible=true]:web:cursor-pointer data-[disabled=true]:data-[focus=true]:bg-transparent' });
 
 const menuBackdropStyle = tva({
   base: 'absolute top-0 bottom-0 left-0 right-0 web:cursor-default',
@@ -22,26 +18,16 @@ const menuBackdropStyle = tva({
   // opacity-50 bg-background-500,
 });
 
-const menuSeparatorStyle = tva({
-  base: 'bg-background-200 h-px w-full',
-});
+const menuSeparatorStyle = tva({ base: 'bg-background-200 h-px w-full' });
 
 const menuItemLabelStyle = tva({
   base: 'text-typography-700 font-normal font-body',
 
   variants: {
-    isTruncated: {
-      true: 'web:truncate',
-    },
-    bold: {
-      true: 'font-bold',
-    },
-    underline: {
-      true: 'underline',
-    },
-    strikeThrough: {
-      true: 'line-through',
-    },
+    isTruncated: { true: 'web:truncate' },
+    bold: { true: 'font-bold' },
+    underline: { true: 'underline' },
+    strikeThrough: { true: 'line-through' },
     size: {
       '2xs': 'text-2xs',
       'xs': 'text-xs',
@@ -55,15 +41,9 @@ const menuItemLabelStyle = tva({
       '5xl': 'text-5xl',
       '6xl': 'text-6xl',
     },
-    sub: {
-      true: 'text-xs',
-    },
-    italic: {
-      true: 'italic',
-    },
-    highlight: {
-      true: 'bg-yellow-500',
-    },
+    sub: { true: 'text-xs' },
+    italic: { true: 'italic' },
+    highlight: { true: 'bg-yellow-500' },
   },
 });
 
@@ -74,14 +54,12 @@ const BackdropPressable = React.forwardRef<
 >(({ className, ...props }, ref) => {
   return (
     <Pressable
+      className={menuBackdropStyle({ class: className })}
       ref={ref}
-      className={menuBackdropStyle({
-        class: className,
-      })}
-      {...props}
-    />
+      {...props} />
   );
 });
+BackdropPressable.displayName = 'BackdropPressable';
 
 type IMenuItemProps = VariantProps<typeof menuItemStyle> & {
   className?: string;
@@ -93,26 +71,25 @@ const Item = React.forwardRef<
 >(({ className, ...props }, ref) => {
   return (
     <Pressable
+      className={menuItemStyle({ class: className })}
       ref={ref}
-      className={menuItemStyle({
-        class: className,
-      })}
-      {...props}
-    />
+      {...props} />
   );
 });
+Item.displayName = 'Item';
 
 const Separator = React.forwardRef(
   ({ className, ...props }: any, ref?: any) => {
     return (
       <View
-        ref={ref}
         className={menuSeparatorStyle({ class: className })}
-        {...props}
-      />
+        ref={ref}
+        {...props} />
     );
-  }
+  },
 );
+Separator.displayName = 'Separator';
+
 export const UIMenu = createMenu({
   Root: Motion.View,
   Item: Platform.OS === 'web' ? Item : withStates(Item),
@@ -134,30 +111,27 @@ const Menu = React.forwardRef<React.ElementRef<typeof UIMenu>, IMenuProps>(
   ({ className, ...props }, ref) => {
     return (
       <UIMenu
-        ref={ref}
-        initial={{
-          opacity: 0,
-          scale: 0.8,
-        }}
         animate={{
           opacity: 1,
           scale: 1,
         }}
+        className={menuStyle({ class: className })}
         exit={{
           opacity: 0,
           scale: 0.8,
         }}
+        initial={{
+          opacity: 0,
+          scale: 0.8,
+        }}
+        ref={ref}
         transition={{
           type: 'timing',
           duration: 100,
         }}
-        className={menuStyle({
-          class: className,
-        })}
-        {...props}
-      />
+        {...props} />
     );
-  }
+  },
 );
 
 const MenuItem = UIMenu.Item;
@@ -179,11 +153,10 @@ const MenuItemLabel = React.forwardRef<
       highlight,
       ...props
     },
-    ref
+    ref,
   ) => {
     return (
       <UIMenu.ItemLabel
-        ref={ref}
         className={menuItemLabelStyle({
           isTruncated,
           bold,
@@ -195,10 +168,10 @@ const MenuItemLabel = React.forwardRef<
           highlight,
           class: className,
         })}
-        {...props}
-      />
+        ref={ref}
+        {...props} />
     );
-  }
+  },
 );
 
 const MenuSeparator = UIMenu.Separator;
@@ -207,4 +180,6 @@ Menu.displayName = 'Menu';
 MenuItem.displayName = 'MenuItem';
 MenuItemLabel.displayName = 'MenuItemLabel';
 MenuSeparator.displayName = 'MenuSeperator';
-export { Menu, MenuItem, MenuItemLabel, MenuSeparator };
+export {
+  Menu, MenuItem, MenuItemLabel, MenuSeparator,
+};

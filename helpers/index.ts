@@ -31,3 +31,8 @@ export const buildImageSrc = (url: string | undefined | null) => {
     .getPublicUrl(url);
   return data?.publicUrl ?? undefined;
 };
+
+export const truncate = (str: string | null | undefined, num = 100) => {
+  if (!str) return '';
+  return num >= str.length ? str : `${str.substring(0, num)}...`;
+};

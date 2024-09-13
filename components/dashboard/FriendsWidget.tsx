@@ -19,6 +19,7 @@ const FriendsWidget: React.FC<Props> = ({ data }) => (
     <Box style={styles.header}>
       <Icon
         as={Users}
+        className="text-primary-500"
         size="xl" />
       <Text
         bold
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   noFriendsContainer: {
-    marginTop: 8,
+    marginTop: 16,
     alignItems: 'center',
   },
   noFriendsText: { textAlign: 'center' },

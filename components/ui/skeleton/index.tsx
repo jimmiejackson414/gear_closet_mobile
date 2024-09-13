@@ -30,7 +30,7 @@ const Skeleton = forwardRef<
       speed = 2,
       ...props
     },
-    ref
+    ref,
   ) => {
     const pulseAnim = new Animated.Value(1);
     const customTimingFunction = Easing.bezier(0.4, 0, 0.6, 1);
@@ -59,24 +59,25 @@ const Skeleton = forwardRef<
     ]);
 
     if (!isLoaded) {
-      Animated.loop(pulse).start();
+      Animated.loop(pulse)
+        .start();
       return (
         <Animated.View
-          style={{ opacity: pulseAnim }}
           className={`${startColor} ${skeletonStyle({
             variant,
             class: className,
           })}`}
+          style={{ opacity: pulseAnim }}
           {...props}
-          ref={ref}
-        />
+          ref={ref} />
       );
     } else {
-      Animated.loop(pulse).stop();
+      Animated.loop(pulse)
+        .stop();
 
       return children;
     }
-  }
+  },
 );
 
 const SkeletonText = forwardRef<
@@ -93,46 +94,40 @@ const SkeletonText = forwardRef<
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     if (!isLoaded) {
       if (_lines) {
         return (
           <View
-            className={`${skeletonTextStyle({
-              gap,
-            })}`}
-            ref={ref}
-          >
-            {Array.from({ length: _lines }).map((_, index) => (
-              <Skeleton
-                key={index}
-                className={`${startColor} ${skeletonTextStyle({
-                  class: className,
-                })}`}
-                {...props}
-              />
-            ))}
+            className={`${skeletonTextStyle({ gap })}`}
+            ref={ref}>
+            {Array.from({ length: _lines })
+              .map((_, index) => (
+                <Skeleton
+                  className={`${startColor} ${skeletonTextStyle({ class: className })}`}
+                  key={index}
+                  {...props} />
+              ))}
           </View>
         );
       } else {
         return (
           <Skeleton
-            className={`${startColor} ${skeletonTextStyle({
-              class: className,
-            })}`}
+            className={`${startColor} ${skeletonTextStyle({ class: className })}`}
             {...props}
-            ref={ref}
-          />
+            ref={ref} />
         );
       }
     } else {
       return children;
     }
-  }
+  },
 );
 
 Skeleton.displayName = 'Skeleton';
 SkeletonText.displayName = 'SkeletonText';
 
-export { Skeleton, SkeletonText };
+export {
+  Skeleton, SkeletonText,
+};

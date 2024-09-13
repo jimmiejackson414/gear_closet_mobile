@@ -154,4 +154,5 @@ export const config = {
     '--color-indicator-info': '83 153 236',
     '--color-indicator-error': '185 28 28',
   }),
+  dark: vars({}),
 };

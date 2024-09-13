@@ -91,7 +91,6 @@ export const Avatar = React.forwardRef<
       context={{ size }} />
   );
 });
-
 Avatar.displayName = 'Avatar';
 
 type IAvatarBadgeProps = React.ComponentPropsWithoutRef<typeof UIAvatar.Badge> &
@@ -116,7 +115,6 @@ export const AvatarBadge = React.forwardRef<
       })} />
   );
 });
-
 AvatarBadge.displayName = 'AvatarBadge';
 
 type IAvatarFallbackTextProps = React.ComponentPropsWithoutRef<
@@ -142,7 +140,6 @@ export const AvatarFallbackText = React.forwardRef<
       })} />
   );
 });
-
 AvatarFallbackText.displayName = 'AvatarFallbackText';
 
 type IAvatarImageProps = React.ComponentPropsWithoutRef<typeof UIAvatar.Image> &
@@ -165,7 +162,6 @@ export const AvatarImage = React.forwardRef<
       } />
   );
 });
-
 AvatarImage.displayName = 'AvatarImage';
 
 type IAvatarGroupProps = React.ComponentPropsWithoutRef<typeof UIAvatar.Group> &
@@ -182,5 +178,4 @@ export const AvatarGroup = React.forwardRef<
       className={avatarGroupStyle({ class: className })} />
   );
 });
-
 AvatarGroup.displayName = 'AvatarGroup';

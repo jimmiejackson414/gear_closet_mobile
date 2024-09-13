@@ -1,4 +1,3 @@
-import { StyleSheet } from 'react-native';
 import { CalendarCheck, ChevronRight } from 'lucide-react-native';
 import { Fragment } from 'react';
 import { Link } from 'expo-router';
@@ -13,9 +12,10 @@ const InvitationsWidget: React.FC<Props> = ({ data }) => (
   <Card
     size="lg"
     variant="elevated">
-    <Box style={styles.header}>
+    <Box className="items-center flex-row gap-4">
       <Icon
         as={CalendarCheck}
+        className="text-primary-500"
         size="xl" />
       <Text
         bold
@@ -24,11 +24,11 @@ const InvitationsWidget: React.FC<Props> = ({ data }) => (
       </Text>
     </Box>
     {!data.length ? (
-      <Text className="text-center">
+      <Text className="text-center mt-4">
         You don't have any pending invitations
       </Text>
     ) : (
-      <Box style={styles.listContainer}>
+      <Box className="mt-4">
         {data.map(( invitation, index ) => (
           <Fragment key={invitation.id}>
             <Link
@@ -36,9 +36,9 @@ const InvitationsWidget: React.FC<Props> = ({ data }) => (
               href="/(protected)/(drawer)/planning"
               push>
               <Button
+                className="items-center flex-row justify-between"
                 key={invitation.id}
                 size="xs"
-                style={styles.listItem}
                 variant="link">
                 <Box style={{ flexDirection: 'row', gap: 8 }}>
                   <Icon
@@ -57,19 +57,5 @@ const InvitationsWidget: React.FC<Props> = ({ data }) => (
     )}
   </Card>
 );
-
-const styles = StyleSheet.create({
-  header: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: 16,
-  },
-  listContainer: { marginTop: 16 },
-  listItem: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-});
 
 export default InvitationsWidget;

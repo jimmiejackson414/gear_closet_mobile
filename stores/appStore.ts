@@ -2,11 +2,13 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { ProfileApiResponse } from '@/services/user/types';
 import { ExtendedNotification } from '@/types/helpers';
+import { SubscriptionLevel } from '@/types';
 
 interface AppState {
   isLoading: boolean;
   profile: ProfileApiResponse | null;
   addNotification: (notification: ExtendedNotification) => void;
+  isPaidMember: () => boolean;
   setProfile: (profile: ProfileApiResponse) => void;
   removeNotification: (notification: ExtendedNotification) => void;
   setLoading: (loading: boolean) => void;
@@ -53,6 +55,12 @@ const useAppStore = create<AppState>()(
     unreadNotifications: () => {
       const { profile } = get();
       return (profile?.notifications?.filter((n) => !n.read_on_date) || []) as ExtendedNotification[];
+    },
+
+    isPaidMember: () => {
+      const { profile } = get();
+      if (!profile) return false;
+      return profile.subscriptions[0]?.prices.identifier === SubscriptionLevel.ANNUAL || profile.subscriptions[0]?.prices.identifier === SubscriptionLevel.MONTHLY || profile.subscriptions[0]?.prices.identifier === SubscriptionLevel.LIFE;
     },
 
     setLoading: (loading: boolean) => set({ isLoading: loading }),

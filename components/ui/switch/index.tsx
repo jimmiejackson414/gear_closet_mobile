@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Switch as RNSwitch, Platform } from 'react-native';
+import { Platform, Switch as RNSwitch } from 'react-native';
 import { createSwitch } from '@gluestack-ui/switch';
 import { tva } from '@gluestack-ui/nativewind-utils/tva';
 import { withStyleContext } from '@gluestack-ui/nativewind-utils/withStyleContext';
@@ -12,8 +12,11 @@ const SwitchWrapper = React.forwardRef<
   React.ElementRef<typeof RNSwitch>,
   React.ComponentProps<typeof RNSwitch>
 >(({ ...props }, ref) => {
-  return <RNSwitch {...props} ref={ref} />;
+  return <RNSwitch
+    {...props}
+    ref={ref} />;
 });
+SwitchWrapper.displayName = 'SwitchWrapper';
 
 const UISwitch = createSwitch({
   Root:
@@ -41,13 +44,14 @@ type ISwitchProps = React.ComponentProps<typeof UISwitch> &
 const Switch = React.forwardRef<
   React.ElementRef<typeof UISwitch>,
   ISwitchProps
->(({ className, size = 'md', ...props }, ref) => {
+>(({
+  className, size = 'md', ...props
+}, ref) => {
   return (
     <UISwitch
       ref={ref}
       {...props}
-      className={switchStyle({ size, class: className })}
-    />
+      className={switchStyle({ size, class: className })} />
   );
 });
 
