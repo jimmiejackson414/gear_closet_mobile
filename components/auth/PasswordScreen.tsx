@@ -1,25 +1,28 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
 import { LockKeyhole } from 'lucide-react-native';
+import { useSupabase } from '@/context/SupabaseProvider';
+import { useAuthScreenContext } from '@/context/AuthScreenProvider';
 import { Button, ButtonSpinner, ButtonText, Center, Text, VStack } from '@/components/ui';
 import FormInput from '@/components/common/FormInput';
 import theme from '@/lib/theme';
-
-interface Props {
-  onSubmit: (data: { password: string }) => void;
-  submitting: boolean;
-}
 
 const passwordSchema = z.object({
   password: z.string()
     .min(6, 'Password must be at least 6 characters.'),
 });
 
-const PasswordScreen: React.FC<Props> = ({ onSubmit, submitting }) => {
+const PasswordScreen: React.FC = () => {
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const { signInWithPassword } = useSupabase();
+  const {
+    errors, setErrors, setScreen, setSubmitting, storedEmail, submitting,
+  } = useAuthScreenContext();
+
   const form = useForm({
     resolver: zodResolver(passwordSchema),
     defaultValues: { password: '' },
@@ -27,10 +30,25 @@ const PasswordScreen: React.FC<Props> = ({ onSubmit, submitting }) => {
 
   const { handleSubmit } = form;
 
-  const handleFormSubmit = () => {
-    const { password } = form.getValues();
-    onSubmit({ password });
+  const onSignIn = async () => {
+    try {
+      setSubmitting(true);
+      const { password } = form.getValues();
+      await signInWithPassword(storedEmail, password);
+    } catch (err) {
+      setErrors({ password: { message: 'Invalid password' } });
+    } finally {
+      setSubmitting(false);
+    }
   };
+
+  useEffect(() => {
+    if (errors.password?.message === 'Invalid password') {
+      setShowForgotPassword(true);
+      form.setError('password', { type: 'manual', message: 'Invalid password' });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [errors]);
 
   return (
     <FormProvider {...form}>
@@ -57,12 +75,21 @@ const PasswordScreen: React.FC<Props> = ({ onSubmit, submitting }) => {
             action="primary"
             className="mt-6"
             isDisabled={submitting}
-            onPress={handleSubmit(handleFormSubmit)}
+            onPress={handleSubmit(onSignIn)}
             size="lg"
             variant="solid">
             {submitting && <ButtonSpinner color={theme.colors.gray[400]} />}
             <ButtonText>Continue</ButtonText>
           </Button>
+          {showForgotPassword && (
+            <Button
+              action="primary"
+              onPress={() => setScreen('forgotPassword')}
+              size="md"
+              variant="link">
+              <ButtonText>Forgot password?</ButtonText>
+            </Button>
+          )}
         </VStack>
       </Center>
     </FormProvider>

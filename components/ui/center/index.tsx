@@ -6,9 +6,7 @@ import { centerStyle } from './styles';
 type ICenterProps = ViewProps & VariantProps<typeof centerStyle>;
 
 const Center = React.forwardRef<React.ElementRef<typeof View>, ICenterProps>(
-  ({
-    className, ...props
-  }, ref) => {
+  ({ className, ...props }, ref) => {
     return (
       <View
         className={centerStyle({ class: className })}

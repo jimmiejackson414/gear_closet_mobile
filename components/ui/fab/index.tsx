@@ -5,10 +5,8 @@ import { Platform, Text } from 'react-native';
 import { Pressable } from 'react-native';
 import { Svg } from 'react-native-svg';
 import { tva } from '@gluestack-ui/nativewind-utils/tva';
-import {
-  withStyleContext,
-  useStyleContext,
-} from '@gluestack-ui/nativewind-utils/withStyleContext';
+import { useStyleContext,
+  withStyleContext } from '@gluestack-ui/nativewind-utils/withStyleContext';
 import { withStyleContextAndStates } from '@gluestack-ui/nativewind-utils/withStyleContextAndStates';
 import { cssInterop } from 'nativewind';
 import type { VariantProps } from '@gluestack-ui/nativewind-utils';
@@ -22,37 +20,62 @@ type IPrimitiveIcon = React.ComponentPropsWithoutRef<typeof Svg> & {
   stroke?: string;
   as?: React.ElementType;
   className?: string;
+  classNameColor?: string;
 };
 
 const PrimitiveIcon = React.forwardRef<
   React.ElementRef<typeof Svg>,
   IPrimitiveIcon
->(({ height, width, fill, color, size, stroke, as: AsComp, ...props }, ref) => {
-  const sizeProps = useMemo(() => {
-    if (size) return { size };
-    if (height && width) return { height, width };
-    if (height) return { height };
-    if (width) return { width };
-    return {};
-  }, [size, height, width]);
+>(
+  (
+    {
+      height,
+      width,
+      fill,
+      color,
+      classNameColor,
+      size,
+      stroke,
+      as: AsComp,
+      ...props
+    },
+    ref,
+  ) => {
+    color = color ?? classNameColor;
+    const sizeProps = useMemo(() => {
+      if (size) return { size };
+      if (height && width) return { height, width };
+      if (height) return { height };
+      if (width) return { width };
+      return {};
+    }, [size, height, width]);
 
-  let colorProps = {};
-  if (color) {
-    colorProps = { ...colorProps, color: color };
-  }
-  if (stroke) {
-    colorProps = { ...colorProps, stroke: stroke };
-  }
-  if (fill) {
-    colorProps = { ...colorProps, fill: fill };
-  }
-  if (AsComp) {
-    return <AsComp ref={ref} {...sizeProps} {...colorProps} {...props} />;
-  }
-  return (
-    <Svg ref={ref} height={height} width={width} {...colorProps} {...props} />
-  );
-});
+    let colorProps = {};
+    if (fill) {
+      colorProps = { ...colorProps, fill: fill };
+    }
+    if (stroke !== 'currentColor') {
+      colorProps = { ...colorProps, stroke: stroke };
+    } else if (stroke === 'currentColor' && color !== undefined) {
+      colorProps = { ...colorProps, stroke: color };
+    }
+
+    if (AsComp) {
+      return <AsComp
+        ref={ref}
+        {...props}
+        {...sizeProps}
+        {...colorProps} />;
+    }
+    return <Svg
+      height={height}
+      ref={ref}
+      width={width}
+      {...colorProps}
+      {...props} />;
+  },
+);
+PrimitiveIcon.displayName = 'PrimitiveIcon';
 
 const SCOPE = 'FAB';
 const UIFab = createFab({
@@ -66,15 +89,16 @@ const UIFab = createFab({
 
 cssInterop(UIFab, { className: 'style' });
 cssInterop(UIFab.Label, { className: 'style' });
+//@ts-ignore
 cssInterop(UIFab.Icon, {
   className: {
     target: 'style',
     nativeStyleToProp: {
       height: true,
       width: true,
-      // @ts-ignore
+      //@ts-ignore
       fill: true,
-      color: true,
+      color: 'classNameColor',
       stroke: true,
     },
   },
@@ -102,18 +126,10 @@ const fabStyle = tva({
 const fabLabelStyle = tva({
   base: 'text-typography-50 font-normal font-body tracking-md text-left mx-2',
   variants: {
-    isTruncated: {
-      true: '',
-    },
-    bold: {
-      true: 'font-bold',
-    },
-    underline: {
-      true: 'underline',
-    },
-    strikeThrough: {
-      true: 'line-through',
-    },
+    isTruncated: { true: '' },
+    bold: { true: 'font-bold' },
+    underline: { true: 'underline' },
+    strikeThrough: { true: 'line-through' },
     size: {
       '2xs': 'text-2xs',
       'xs': 'text-xs',
@@ -127,15 +143,9 @@ const fabLabelStyle = tva({
       '5xl': 'text-5xl',
       '6xl': 'text-6xl',
     },
-    sub: {
-      true: 'text-xs',
-    },
-    italic: {
-      true: 'italic',
-    },
-    highlight: {
-      true: 'bg-yellow-500',
-    },
+    sub: { true: 'text-xs' },
+    italic: { true: 'italic' },
+    highlight: { true: 'bg-yellow-500' },
   },
   parentVariants: {
     size: {
@@ -164,16 +174,19 @@ type IFabProps = Omit<React.ComponentPropsWithoutRef<typeof UIFab>, 'context'> &
   VariantProps<typeof fabStyle>;
 
 const Fab = React.forwardRef<React.ElementRef<typeof UIFab>, IFabProps>(
-  ({ size = 'md', placement = 'bottom right', className, ...props }, ref) => {
+  ({
+    size = 'md', placement = 'bottom right', className, ...props
+  }, ref) => {
     return (
       <UIFab
         ref={ref}
         {...props}
-        className={fabStyle({ size, placement, class: className })}
-        context={{ size }}
-      />
+        className={fabStyle({
+          size, placement, class: className,
+        })}
+        context={{ size }} />
     );
-  }
+  },
 );
 
 type IFabLabelProps = React.ComponentPropsWithoutRef<typeof UIFab.Label> &
@@ -193,7 +206,7 @@ const FabLabel = React.forwardRef<
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     const { size: parentSize } = useStyleContext(SCOPE);
     return (
@@ -201,19 +214,16 @@ const FabLabel = React.forwardRef<
         ref={ref}
         {...props}
         className={fabLabelStyle({
-          parentVariants: {
-            size: parentSize,
-          },
+          parentVariants: { size: parentSize },
           size,
           isTruncated,
           bold,
           underline,
           strikeThrough,
           class: className,
-        })}
-      />
+        })} />
     );
-  }
+  },
 );
 
 type IFabIconProps = React.ComponentPropsWithoutRef<typeof UIFab.Icon> &
@@ -222,7 +232,9 @@ type IFabIconProps = React.ComponentPropsWithoutRef<typeof UIFab.Icon> &
 const FabIcon = React.forwardRef<
   React.ElementRef<typeof UIFab.Icon>,
   IFabIconProps
->(({ size, className, ...props }, ref) => {
+>(({
+  size, className, ...props
+}, ref) => {
   const { size: parentSize } = useStyleContext(SCOPE);
 
   if (typeof size === 'number') {
@@ -231,8 +243,7 @@ const FabIcon = React.forwardRef<
         ref={ref}
         {...props}
         className={fabIconStyle({ class: className })}
-        size={size}
-      />
+        size={size} />
     );
   } else if (
     (props.height !== undefined || props.width !== undefined) &&
@@ -242,8 +253,7 @@ const FabIcon = React.forwardRef<
       <UIFab.Icon
         ref={ref}
         {...props}
-        className={fabIconStyle({ class: className })}
-      />
+        className={fabIconStyle({ class: className })} />
     );
   }
   return (
@@ -251,13 +261,10 @@ const FabIcon = React.forwardRef<
       ref={ref}
       {...props}
       className={fabIconStyle({
-        parentVariants: {
-          size: parentSize,
-        },
+        parentVariants: { size: parentSize },
         size,
         class: className,
-      })}
-    />
+      })} />
   );
 });
 
@@ -265,4 +272,6 @@ Fab.displayName = 'Fab';
 FabLabel.displayName = 'FabLabel';
 FabIcon.displayName = 'FabIcon';
 
-export { Fab, FabLabel, FabIcon };
+export {
+  Fab, FabLabel, FabIcon,
+};

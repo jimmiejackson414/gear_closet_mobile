@@ -35,53 +35,60 @@ type IPrimitiveIcon = React.ComponentPropsWithoutRef<typeof Svg> & {
   size?: number | string;
   stroke?: string;
   as?: React.ElementType;
+  className?: string;
+  classNameColor?: string;
 };
-const PrimitiveIcon = React.forwardRef(
+
+const PrimitiveIcon = React.forwardRef<
+  React.ElementRef<typeof Svg>,
+  IPrimitiveIcon
+>(
   (
     {
       height,
       width,
       fill,
       color,
+      classNameColor,
       size,
-      stroke = 'currentColor',
+      stroke,
       as: AsComp,
       ...props
-    }: IPrimitiveIcon,
-    ref: React.Ref<Svg>,
+    },
+    ref,
   ) => {
+    color = color ?? classNameColor;
     const sizeProps = useMemo(() => {
       if (size) return { size };
-      if (height && width) return {
-        height, width,
-      };
+      if (height && width) return { height, width };
       if (height) return { height };
       if (width) return { width };
       return {};
     }, [size, height, width]);
 
-    const colorProps =
-      stroke === 'currentColor' && color !== undefined ? color : stroke;
+    let colorProps = {};
+    if (fill) {
+      colorProps = { ...colorProps, fill: fill };
+    }
+    if (stroke !== 'currentColor') {
+      colorProps = { ...colorProps, stroke: stroke };
+    } else if (stroke === 'currentColor' && color !== undefined) {
+      colorProps = { ...colorProps, stroke: color };
+    }
 
     if (AsComp) {
-      return (
-        <AsComp
-          fill={fill}
-          ref={ref}
-          {...props}
-          {...sizeProps}
-          stroke={colorProps} />
-      );
-    }
-    return (
-      <Svg
-        fill={fill}
-        height={height}
+      return <AsComp
         ref={ref}
-        stroke={colorProps}
-        width={width}
-        {...props} />
-    );
+        {...props}
+        {...sizeProps}
+        {...colorProps} />;
+    }
+    return <Svg
+      height={height}
+      ref={ref}
+      width={width}
+      {...colorProps}
+      {...props} />;
   },
 );
 PrimitiveIcon.displayName = 'PrimitiveIcon';
@@ -102,47 +109,44 @@ const UIButton = createButton({
 cssInterop(Root, { className: 'style' });
 cssInterop(UIButton.Text, { className: 'style' });
 cssInterop(UIButton.Group, { className: 'style' });
-cssInterop(UIButton.Spinner, {
-  className: {
-    target: 'style', nativeStyleToProp: { color: true },
-  },
-});
-
+cssInterop(UIButton.Spinner, { className: { target: 'style', nativeStyleToProp: { color: true } } });
+//@ts-ignore
 cssInterop(PrimitiveIcon, {
   className: {
     target: 'style',
     nativeStyleToProp: {
       height: true,
       width: true,
-      // @ts-ignore
+      //@ts-ignore
       fill: true,
-      color: true,
+      color: 'classNameColor',
       stroke: true,
     },
   },
 });
 
 const buttonStyle = tva({
-  base: 'group/button rounded bg-primary-500 flex-row items-center justify-center data-[focus-visible=true]:web:outline-none data-[focus-visible=true]:web:ring-2 data-[disabled=true]:opacity-40 data-[disabled=true]:bg-gray-300 data-[disabled=true]:cursor-not-allowed',
+  base: 'group/button rounded bg-primary-500 flex-row items-center justify-center data-[focus-visible=true]:web:outline-none data-[focus-visible=true]:web:ring-2 data-[disabled=true]:opacity-40',
   variants: {
     action: {
       primary:
-        'bg-primary-500 data-[hover=true]:bg-primary-600 data-[active=true]:bg-primary-700 border-primary-300 data-[hover=true]:border-primary-400 data-[active=true]:border-primary-500 data-[focus-visible=true]:web:ring-indicator-info data-[disabled=true]:bg-primary-300 data-[disabled=true]:border-primary-200',
+        'bg-primary-500 data-[hover=true]:bg-primary-600 data-[active=true]:bg-primary-700 border-primary-300 data-[hover=true]:border-primary-400 data-[active=true]:border-primary-500 data-[focus-visible=true]:web:ring-indicator-info',
       secondary:
-        'bg-secondary-500 border-secondary-300 data-[hover=true]:bg-secondary-600 data-[hover=true]:border-secondary-400 data-[active=true]:bg-secondary-700 data-[active=true]:border-secondary-500 data-[focus-visible=true]:web:ring-indicator-info data-[disabled=true]:bg-secondary-300 data-[disabled=true]:border-secondary-200',
+        'bg-secondary-500 border-secondary-300 data-[hover=true]:bg-secondary-600 data-[hover=true]:border-secondary-400 data-[active=true]:bg-secondary-700 data-[active=true]:border-secondary-500 data-[focus-visible=true]:web:ring-indicator-info',
       positive:
-        'bg-success-500 border-success-300 data-[hover=true]:bg-success-600 data-[hover=true]:border-success-400 data-[active=true]:bg-success-700 data-[active=true]:border-success-500 data-[focus-visible=true]:web:ring-indicator-info data-[disabled=true]:bg-success-300 data-[disabled=true]:border-success-200',
+        'bg-success-500 border-success-300 data-[hover=true]:bg-success-600 data-[hover=true]:border-success-400 data-[active=true]:bg-success-700 data-[active=true]:border-success-500 data-[focus-visible=true]:web:ring-indicator-info',
       negative:
-        'bg-error-500 border-error-300 data-[hover=true]:bg-error-600 data-[hover=true]:border-error-400 data-[active=true]:bg-error-700 data-[active=true]:border-error-500 data-[focus-visible=true]:web:ring-indicator-info data-[disabled=true]:bg-error-300 data-[disabled=true]:border-error-200',
+        'bg-error-500 border-error-300 data-[hover=true]:bg-error-600 data-[hover=true]:border-error-400 data-[active=true]:bg-error-700 data-[active=true]:border-error-500 data-[focus-visible=true]:web:ring-indicator-info',
       default:
-        'bg-transparent data-[hover=true]:bg-background-50 data-[active=true]:bg-transparent data-[disabled=true]:bg-gray-200',
+        'bg-transparent data-[hover=true]:bg-background-50 data-[active=true]:bg-transparent',
     },
     variant: {
-      link: 'px-0 data-[disabled=true]:text-gray-400',
+      link: 'px-0',
       outline:
-        'bg-transparent border data-[hover=true]:bg-background-50 data-[active=true]:bg-transparent data-[disabled=true]:border-gray-200 data-[disabled=true]:text-gray-400',
-      solid: 'data-[disabled=true]:text-gray-400',
+        'bg-transparent border data-[hover=true]:bg-background-50 data-[active=true]:bg-transparent',
+      solid: '',
     },
+
     size: {
       xs: 'px-3.5 h-8',
       sm: 'px-4 h-9',
@@ -180,7 +184,7 @@ const buttonStyle = tva({
       action: 'primary',
       variant: 'outline',
       class:
-        'bg-transparent border-primary-500 data-[hover=true]:border-primary-600 data-[active=true]:border-primary-700 data-[hover=true]:bg-background-50 data-[active=true]:bg-transparent',
+        'bg-transparent data-[hover=true]:bg-background-50 data-[active=true]:bg-transparent',
     },
     {
       action: 'secondary',
@@ -265,19 +269,19 @@ const buttonTextStyle = tva({
       variant: 'outline',
       action: 'secondary',
       class:
-        'text-secondary-500 data-[hover=true]:text-secondary-500 data-[active=true]:text-secondary-500',
+        'text-primary-500 data-[hover=true]:text-primary-500 data-[active=true]:text-primary-500',
     },
     {
       variant: 'outline',
       action: 'positive',
       class:
-        'text-success-500 data-[hover=true]:text-success-500 data-[active=true]:text-success-500',
+        'text-primary-500 data-[hover=true]:text-primary-500 data-[active=true]:text-primary-500',
     },
     {
       variant: 'outline',
       action: 'negative',
       class:
-        'text-error-500 data-[hover=true]:text-error-500 data-[active=true]:text-error-500',
+        'text-primary-500 data-[hover=true]:text-primary-500 data-[active=true]:text-primary-500',
     },
   ],
 });

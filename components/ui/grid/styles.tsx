@@ -6,10 +6,6 @@ const gridBaseStyle = isWeb
   : 'box-border flex-row flex-wrap justify-start';
 const gridItemBaseStyle = isWeb ? 'w-auto col-span-1' : '';
 
-export const gridStyle = tva({
-  base: `w-full ${gridBaseStyle}`,
-});
+export const gridStyle = tva({ base: `w-full ${gridBaseStyle}` });
 
-export const gridItemStyle = tva({
-  base: `w-full ${gridItemBaseStyle}`,
-});
+export const gridItemStyle = tva({ base: `w-full ${gridItemBaseStyle}` });

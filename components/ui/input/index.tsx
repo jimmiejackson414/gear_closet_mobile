@@ -22,57 +22,61 @@ type IPrimitiveIcon = {
   stroke?: string;
   as?: React.ElementType;
   className?: string;
+  classNameColor?: string;
 };
 
 const PrimitiveIcon = React.forwardRef<
   React.ElementRef<typeof Svg>,
   IPrimitiveIcon
->(({
-  height, width, fill, color, size, stroke, as: AsComp, ...props
-}, ref) => {
-  const sizeProps = useMemo(() => {
-    if (size) return { size };
-    if (height && width) return {
-      height, width,
-    };
-    if (height) return { height };
-    if (width) return { width };
-    return {};
-  }, [size, height, width]);
+>(
+  (
+    {
+      height,
+      width,
+      fill,
+      color,
+      classNameColor,
+      size,
+      stroke,
+      as: AsComp,
+      ...props
+    },
+    ref,
+  ) => {
+    color = color ?? classNameColor;
+    const sizeProps = useMemo(() => {
+      if (size) return { size };
+      if (height && width) return { height, width };
+      if (height) return { height };
+      if (width) return { width };
+      return {};
+    }, [size, height, width]);
 
-  let colorProps = {};
-  if (color) {
-    colorProps = {
-      ...colorProps, color: color,
-    };
-  }
-  if (stroke) {
-    colorProps = {
-      ...colorProps, stroke: stroke,
-    };
-  }
-  if (fill) {
-    colorProps = {
-      ...colorProps, fill: fill,
-    };
-  }
-  if (AsComp) {
-    return <AsComp
-      ref={ref}
-      {...sizeProps}
-      {...colorProps}
-      {...props} />;
-  }
-  return (
-    <Svg
+    let colorProps = {};
+    if (fill) {
+      colorProps = { ...colorProps, fill: fill };
+    }
+    if (stroke !== 'currentColor') {
+      colorProps = { ...colorProps, stroke: stroke };
+    } else if (stroke === 'currentColor' && color !== undefined) {
+      colorProps = { ...colorProps, stroke: color };
+    }
+
+    if (AsComp) {
+      return <AsComp
+        ref={ref}
+        {...props}
+        {...sizeProps}
+        {...colorProps} />;
+    }
+    return <Svg
       height={height}
       ref={ref}
       width={width}
       {...colorProps}
-      {...props} />
-  );
-});
-
+      {...props} />;
+  },
+);
 PrimitiveIcon.displayName = 'PrimitiveIcon';
 
 const InputWrapper = React.forwardRef<
@@ -83,7 +87,6 @@ const InputWrapper = React.forwardRef<
     {...props}
     ref={ref} />;
 });
-
 InputWrapper.displayName = 'InputWrapper';
 
 const UIInput = createInput({
@@ -98,7 +101,7 @@ const UIInput = createInput({
 });
 
 const inputStyle = tva({
-  base: 'border-background-300 flex-row overflow-hidden content-center data-[hover=true]:border-outline-400 data-[focus=true]:border-outline-700 data-[focus=true]:hover:border-outline-700 data-[disabled=true]:opacity-40 data-[disabled=true]:hover:border-background-300 data-[disabled=true]:bg-gray-200 data-[disabled=true]:cursor-not-allowed items-center',
+  base: 'border-background-300 flex-row overflow-hidden content-center data-[hover=true]:border-outline-400 data-[focus=true]:border-primary-700 data-[focus=true]:hover:border-primary-700 data-[disabled=true]:opacity-40 data-[disabled=true]:hover:border-background-300 items-center',
 
   variants: {
     size: {
@@ -122,7 +125,7 @@ const inputStyle = tva({
 });
 
 const inputIconStyle = tva({
-  base: 'justify-center items-center text-typography-400 fill-none data-[disabled=true]:text-gray-400 data-[disabled=true]:fill-gray-400',
+  base: 'justify-center items-center text-typography-400 fill-none',
   parentVariants: {
     size: {
       '2xs': 'h-3 w-3',
@@ -138,7 +141,7 @@ const inputIconStyle = tva({
 const inputSlotStyle = tva({ base: 'justify-center items-center web:disabled:cursor-not-allowed' });
 
 const inputFieldStyle = tva({
-  base: 'flex-1 text-typography-900 py-auto px-3 placeholder:text-typography-500 h-full ios:leading-[0px] web:cursor-text web:data-[disabled=true]:cursor-not-allowed web:data-[disabled=true]:bg-gray-200 web:data-[disabled=true]:text-gray-500',
+  base: 'flex-1 text-typography-900 py-auto px-3 placeholder:text-typography-500 h-full ios:leading-[0px] web:cursor-text web:data-[disabled=true]:cursor-not-allowed',
 
   parentVariants: {
     variant: {
@@ -165,12 +168,8 @@ const inputFieldStyle = tva({
 
 cssInterop(InputWrapper, { className: 'style' });
 cssInterop(UIInput.Slot, { className: 'style' });
-cssInterop(UIInput.Input, {
-  className: {
-    target: 'style', nativeStyleToProp: { textAlign: true },
-  },
-});
-// @ts-ignore
+cssInterop(UIInput.Input, { className: { target: 'style', nativeStyleToProp: { textAlign: true } } });
+//@ts-ignore
 cssInterop(UIInput.Icon, {
   className: {
     target: 'style',
@@ -178,7 +177,7 @@ cssInterop(UIInput.Icon, {
       height: true,
       width: true,
       fill: true,
-      color: true,
+      color: 'classNameColor',
       stroke: true,
     },
   },
@@ -197,9 +196,7 @@ const Input = React.forwardRef<React.ElementRef<typeof UIInput>, IInputProps>(
         className={inputStyle({
           variant, size, class: className,
         })}
-        context={{
-          variant, size,
-        }} />
+        context={{ variant, size }} />
     );
   },
 );
@@ -252,9 +249,7 @@ type IInputSlotProps = React.ComponentProps<typeof UIInput.Slot> &
 const InputSlot = React.forwardRef<
   React.ElementRef<typeof UIInput.Slot>,
   IInputSlotProps
->(({
-  className, ...props
-}, ref) => {
+>(({ className, ...props }, ref) => {
   return (
     <UIInput.Slot
       ref={ref}
@@ -269,12 +264,8 @@ type IInputFieldProps = React.ComponentProps<typeof UIInput.Input> &
 const InputField = React.forwardRef<
   React.ElementRef<typeof UIInput.Input>,
   IInputFieldProps
->(({
-  className, ...props
-}, ref) => {
-  const {
-    variant: parentVariant, size: parentSize,
-  } = useStyleContext(SCOPE);
+>(({ className, ...props }, ref) => {
+  const { variant: parentVariant, size: parentSize } = useStyleContext(SCOPE);
 
   return (
     <UIInput.Input

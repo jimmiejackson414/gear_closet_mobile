@@ -2,6 +2,8 @@
 
 declare namespace NodeJS {
   interface ProcessEnv {
+    EXPO_PUBLIC_ORIGIN_URL: string;
+
     // Cloudinary
     EXPO_PUBLIC_CLOUDINARY_API_KEY: string;
     EXPO_PUBLIC_CLOUDINARY_API_SECRET: string;
@@ -17,6 +19,7 @@ declare namespace NodeJS {
     // Facebook Auth
     EXPO_PUBLIC_FACEBOOK_APP_ID: string;
     EXPO_PUBLIC_FACEBOOK_APP_SECRET: string;
+    EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN: string;
 
     // Apple Auth
     EXPO_PUBLIC_APPLE_CLIENT_ID: string;

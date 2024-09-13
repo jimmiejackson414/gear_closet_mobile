@@ -82,11 +82,12 @@ type IPrimitiveIcon = {
   stroke?: string;
   as?: React.ElementType;
   className?: string;
+  classNameColor?: string;
 };
 
 const PrimitiveIcon = React.forwardRef<
   React.ElementRef<typeof Svg>,
-  IPrimitiveIcon & React.ComponentPropsWithoutRef<typeof Svg>
+  IPrimitiveIcon
 >(
   (
     {
@@ -94,48 +95,48 @@ const PrimitiveIcon = React.forwardRef<
       width,
       fill,
       color,
+      classNameColor,
       size,
-      stroke = 'currentColor',
+      stroke,
       as: AsComp,
       ...props
     },
     ref,
   ) => {
+    color = color ?? classNameColor;
     const sizeProps = useMemo(() => {
       if (size) return { size };
-      if (height && width) return {
-        height, width,
-      };
+      if (height && width) return { height, width };
       if (height) return { height };
       if (width) return { width };
       return {};
     }, [size, height, width]);
 
-    const colorProps =
-      stroke === 'currentColor' && color !== undefined ? color : stroke;
+    let colorProps = {};
+    if (fill) {
+      colorProps = { ...colorProps, fill: fill };
+    }
+    if (stroke !== 'currentColor') {
+      colorProps = { ...colorProps, stroke: stroke };
+    } else if (stroke === 'currentColor' && color !== undefined) {
+      colorProps = { ...colorProps, stroke: color };
+    }
 
     if (AsComp) {
-      return (
-        <AsComp
-          fill={fill}
-          ref={ref}
-          {...props}
-          {...sizeProps}
-          stroke={colorProps} />
-      );
-    }
-    return (
-      <Svg
-        fill={fill}
-        height={height}
+      return <AsComp
         ref={ref}
-        stroke={colorProps}
-        width={width}
-        {...props} />
-    );
+        {...props}
+        {...sizeProps}
+        {...colorProps} />;
+    }
+    return <Svg
+      height={height}
+      ref={ref}
+      width={width}
+      {...colorProps}
+      {...props} />;
   },
 );
-
 PrimitiveIcon.displayName = 'PrimitiveIcon';
 
 const Root =
@@ -163,6 +164,7 @@ cssInterop(UIAccordion, { className: 'style' });
 cssInterop(UIAccordion.Item, { className: 'style' });
 cssInterop(UIAccordion.Header, { className: 'style' });
 cssInterop(UIAccordion.Trigger, { className: 'style' });
+//@ts-ignore
 cssInterop(UIAccordion.Icon, { className: 'style' });
 cssInterop(UIAccordion.TitleText, { className: 'style' });
 cssInterop(UIAccordion.Content, { className: 'style' });
@@ -174,9 +176,8 @@ cssInterop(UIAccordion.Icon, {
     nativeStyleToProp: {
       height: true,
       width: true,
-      // @ts-ignore
       fill: true,
-      color: true,
+      color: 'classNameColor',
       stroke: true,
     },
   },
@@ -232,21 +233,15 @@ const Accordion = React.forwardRef<
     <UIAccordion
       ref={ref}
       {...props}
-      className={accordionStyle({
-        variant, class: className,
-      })}
-      context={{
-        variant, size,
-      }} />
+      className={accordionStyle({ variant, class: className })}
+      context={{ variant, size }} />
   );
 });
 
 const AccordionItem = React.forwardRef<
   React.ElementRef<typeof UIAccordion.Item>,
   IAccordionItemProps
->(({
-  className, ...props
-}, ref) => {
+>(({ className, ...props }, ref) => {
   const { variant } = useStyleContext(SCOPE);
   return (
     <UIAccordion.Item
@@ -262,9 +257,7 @@ const AccordionItem = React.forwardRef<
 const AccordionContent = React.forwardRef<
   React.ElementRef<typeof UIAccordion.Content>,
   IAccordionContentProps
->(({
-  className, ...props
-}, ref) => {
+>(({ className, ...props }, ref) => {
   return (
     <UIAccordion.Content
       ref={ref}
@@ -276,9 +269,7 @@ const AccordionContent = React.forwardRef<
 const AccordionContentText = React.forwardRef<
   React.ElementRef<typeof UIAccordion.ContentText>,
   IAccordionContentTextProps
->(({
-  className, ...props
-}, ref) => {
+>(({ className, ...props }, ref) => {
   const { size } = useStyleContext(SCOPE);
   return (
     <UIAccordion.ContentText
@@ -333,9 +324,7 @@ const AccordionIcon = React.forwardRef<
 const AccordionHeader = React.forwardRef<
   React.ElementRef<typeof UIAccordion.Header>,
   IAccordionHeaderProps
->(({
-  className, ...props
-}, ref) => {
+>(({ className, ...props }, ref) => {
   return (
     <UIAccordion.Header
       ref={ref}
@@ -347,9 +336,7 @@ const AccordionHeader = React.forwardRef<
 const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof UIAccordion.Trigger>,
   IAccordionTriggerProps
->(({
-  className, ...props
-}, ref) => {
+>(({ className, ...props }, ref) => {
   return (
     <UIAccordion.Trigger
       ref={ref}
@@ -360,9 +347,7 @@ const AccordionTrigger = React.forwardRef<
 const AccordionTitleText = React.forwardRef<
   React.ElementRef<typeof UIAccordion.TitleText>,
   IAccordionTitleTextProps
->(({
-  className, ...props
-}, ref) => {
+>(({ className, ...props }, ref) => {
   const { size } = useStyleContext(SCOPE);
   return (
     <UIAccordion.TitleText

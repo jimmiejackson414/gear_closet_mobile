@@ -1,14 +1,12 @@
 'use client';
 import React, { useMemo } from 'react';
 import { createCheckbox } from '@gluestack-ui/checkbox';
-import { View, Pressable, Text } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import type { TextProps, ViewProps } from 'react-native';
 import { tva } from '@gluestack-ui/nativewind-utils/tva';
 import { Svg } from 'react-native-svg';
-import {
-  withStyleContext,
-  useStyleContext,
-} from '@gluestack-ui/nativewind-utils/withStyleContext';
+import { useStyleContext,
+  withStyleContext } from '@gluestack-ui/nativewind-utils/withStyleContext';
 import { withStyleContextAndStates } from '@gluestack-ui/nativewind-utils/withStyleContextAndStates';
 import { cssInterop } from 'nativewind';
 import { withStates } from '@gluestack-ui/nativewind-utils/withStates';
@@ -19,14 +17,20 @@ const IndicatorWrapper = React.forwardRef<
   React.ElementRef<typeof View>,
   ViewProps
 >(({ ...props }, ref) => {
-  return <View {...props} ref={ref} />;
+  return <View
+    {...props}
+    ref={ref} />;
 });
+IndicatorWrapper.displayName = 'IndicatorWrapper';
 
 const LabelWrapper = React.forwardRef<React.ElementRef<typeof Text>, TextProps>(
   ({ ...props }, ref) => {
-    return <Text {...props} ref={ref} />;
-  }
+    return <Text
+      {...props}
+      ref={ref} />;
+  },
 );
+LabelWrapper.displayName = 'LabelWrapper';
 
 type IPrimitiveIcon = React.ComponentPropsWithoutRef<typeof Svg> & {
   height?: number | string;
@@ -37,44 +41,72 @@ type IPrimitiveIcon = React.ComponentPropsWithoutRef<typeof Svg> & {
   stroke?: string;
   as?: React.ElementType;
   className?: string;
+  classNameColor?: string;
 };
 
 const IconWrapper = React.forwardRef<
   React.ElementRef<typeof PrimitiveIcon>,
   IPrimitiveIcon
 >(({ ...props }, ref) => {
-  return <PrimitiveIcon {...props} ref={ref} />;
+  return <PrimitiveIcon
+    {...props}
+    ref={ref} />;
 });
+IconWrapper.displayName = 'IconWrapper';
 
 const PrimitiveIcon = React.forwardRef<
   React.ElementRef<typeof Svg>,
   IPrimitiveIcon
->(({ height, width, fill, color, size, stroke, as: AsComp, ...props }, ref) => {
-  const sizeProps = useMemo(() => {
-    if (size) return { size };
-    if (height && width) return { height, width };
-    if (height) return { height };
-    if (width) return { width };
-    return {};
-  }, [size, height, width]);
+>(
+  (
+    {
+      height,
+      width,
+      fill,
+      color,
+      classNameColor,
+      size,
+      stroke,
+      as: AsComp,
+      ...props
+    },
+    ref,
+  ) => {
+    color = color ?? classNameColor;
+    const sizeProps = useMemo(() => {
+      if (size) return { size };
+      if (height && width) return { height, width };
+      if (height) return { height };
+      if (width) return { width };
+      return {};
+    }, [size, height, width]);
 
-  let colorProps = {};
-  if (color) {
-    colorProps = { ...colorProps, color: color };
-  }
-  if (stroke) {
-    colorProps = { ...colorProps, stroke: stroke };
-  }
-  if (fill) {
-    colorProps = { ...colorProps, fill: fill };
-  }
-  if (AsComp) {
-    return <AsComp ref={ref} {...sizeProps} {...colorProps} {...props} />;
-  }
-  return (
-    <Svg ref={ref} height={height} width={width} {...colorProps} {...props} />
-  );
-});
+    let colorProps = {};
+    if (fill) {
+      colorProps = { ...colorProps, fill: fill };
+    }
+    if (stroke !== 'currentColor') {
+      colorProps = { ...colorProps, stroke: stroke };
+    } else if (stroke === 'currentColor' && color !== undefined) {
+      colorProps = { ...colorProps, stroke: color };
+    }
+
+    if (AsComp) {
+      return <AsComp
+        ref={ref}
+        {...props}
+        {...sizeProps}
+        {...colorProps} />;
+    }
+    return <Svg
+      height={height}
+      ref={ref}
+      width={width}
+      {...colorProps}
+      {...props} />;
+  },
+);
+PrimitiveIcon.displayName = 'PrimitiveIcon';
 
 const SCOPE = 'CHECKBOX';
 const UICheckbox = createCheckbox({
@@ -94,15 +126,16 @@ cssInterop(UICheckbox, { className: 'style' });
 cssInterop(UICheckbox.Group, { className: 'style' });
 cssInterop(LabelWrapper, { className: 'style' });
 cssInterop(IndicatorWrapper, { className: 'style' });
+//@ts-ignore
 cssInterop(IconWrapper, {
   className: {
     target: 'style',
     nativeStyleToProp: {
       height: true,
       width: true,
-      // @ts-ignore
+      //@ts-ignore
       fill: true,
-      color: true,
+      color: 'classNameColor',
       stroke: true,
     },
   },
@@ -161,7 +194,9 @@ type ICheckboxProps = React.ComponentPropsWithoutRef<typeof UICheckbox> &
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof UICheckbox>,
   ICheckboxProps
->(({ className, size = 'md', ...props }, ref) => {
+>(({
+  className, size = 'md', ...props
+}, ref) => {
   return (
     <UICheckbox
       className={checkboxStyle({
@@ -169,11 +204,8 @@ const Checkbox = React.forwardRef<
         size,
       })}
       {...props}
-      context={{
-        size,
-      }}
-      ref={ref}
-    />
+      context={{ size }}
+      ref={ref} />
   );
 });
 
@@ -191,14 +223,11 @@ const CheckboxIndicator = React.forwardRef<
   return (
     <UICheckbox.Indicator
       className={checkboxIndicatorStyle({
-        parentVariants: {
-          size: parentSize,
-        },
+        parentVariants: { size: parentSize },
         class: className,
       })}
       {...props}
-      ref={ref}
-    />
+      ref={ref} />
   );
 });
 
@@ -214,14 +243,11 @@ const CheckboxLabel = React.forwardRef<
   return (
     <UICheckbox.Label
       className={checkboxLabelStyle({
-        parentVariants: {
-          size: parentSize,
-        },
+        parentVariants: { size: parentSize },
         class: className,
       })}
       {...props}
-      ref={ref}
-    />
+      ref={ref} />
   );
 });
 
@@ -233,7 +259,9 @@ type ICheckboxIconProps = React.ComponentPropsWithoutRef<
 const CheckboxIcon = React.forwardRef<
   React.ElementRef<typeof UICheckbox.Icon>,
   ICheckboxIconProps
->(({ className, size, ...props }, ref) => {
+>(({
+  className, size, ...props
+}, ref) => {
   const { size: parentSize } = useStyleContext(SCOPE);
 
   if (typeof size === 'number') {
@@ -242,8 +270,7 @@ const CheckboxIcon = React.forwardRef<
         ref={ref}
         {...props}
         className={checkboxIconStyle({ class: className })}
-        size={size}
-      />
+        size={size} />
     );
   } else if (
     (props.height !== undefined || props.width !== undefined) &&
@@ -253,23 +280,19 @@ const CheckboxIcon = React.forwardRef<
       <UICheckbox.Icon
         ref={ref}
         {...props}
-        className={checkboxIconStyle({ class: className })}
-      />
+        className={checkboxIconStyle({ class: className })} />
     );
   }
 
   return (
     <UICheckbox.Icon
       className={checkboxIconStyle({
-        parentVariants: {
-          size: parentSize,
-        },
+        parentVariants: { size: parentSize },
         class: className,
         size,
       })}
       {...props}
-      ref={ref}
-    />
+      ref={ref} />
   );
 });
 

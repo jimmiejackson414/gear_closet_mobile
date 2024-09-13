@@ -5,14 +5,12 @@ import { z } from 'zod';
 import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
 import { LockKeyhole } from 'lucide-react-native';
+import { toast } from 'sonner-native';
 import { Button, ButtonSpinner, ButtonText, Center, Text, VStack } from '@/components/ui';
 import FormInput from '@/components/common/FormInput';
 import theme from '@/lib/theme';
-
-interface Props {
-  onSubmit: (data: { password: string }) => void;
-  submitting: boolean;
-}
+import { useAuthScreenContext } from '@/context/AuthScreenProvider';
+import { useSupabase } from '@/context/SupabaseProvider';
 
 const createSchema = z.object({
   password: z.string()
@@ -25,7 +23,12 @@ const createSchema = z.object({
     message: 'Passwords do not match',
   });
 
-const CreateScreen: React.FC<Props> = ({ onSubmit, submitting }) => {
+const CreateScreen: React.FC = () => {
+  const { signUp } = useSupabase();
+  const {
+    setSubmitting, storedEmail, submitting,
+  } = useAuthScreenContext();
+
   const form = useForm({
     resolver: zodResolver(createSchema),
     defaultValues: { password: '', passwordConfirm: '' },
@@ -33,9 +36,16 @@ const CreateScreen: React.FC<Props> = ({ onSubmit, submitting }) => {
 
   const { handleSubmit } = form;
 
-  const handleFormSubmit = () => {
-    const { password } = form.getValues();
-    onSubmit({ password });
+  const onSignUp = async () => {
+    try {
+      setSubmitting(true);
+      const { password } = form.getValues();
+      await signUp(storedEmail, password);
+    } catch (err) {
+      toast.error('An error occurred. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -72,7 +82,7 @@ const CreateScreen: React.FC<Props> = ({ onSubmit, submitting }) => {
             action="primary"
             className="mt-6"
             isDisabled={submitting}
-            onPress={handleSubmit(handleFormSubmit)}
+            onPress={handleSubmit(onSignUp)}
             size="lg"
             variant="solid">
             {submitting && <ButtonSpinner color={theme.colors.gray[400]} />}

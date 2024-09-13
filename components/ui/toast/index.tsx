@@ -1,14 +1,12 @@
 'use client';
 import React from 'react';
 import { createToast, createToastHook } from '@gluestack-ui/toast';
-import { Text, View, Platform } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import { tva } from '@gluestack-ui/nativewind-utils/tva';
 import { cssInterop } from 'nativewind';
-import { Motion, AnimatePresence } from '@legendapp/motion';
-import {
-  withStyleContext,
-  useStyleContext,
-} from '@gluestack-ui/nativewind-utils/withStyleContext';
+import { AnimatePresence, Motion } from '@legendapp/motion';
+import { useStyleContext,
+  withStyleContext } from '@gluestack-ui/nativewind-utils/withStyleContext';
 import { withStyleContextAndStates } from '@gluestack-ui/nativewind-utils/withStyleContextAndStates';
 import type { VariantProps } from '@gluestack-ui/nativewind-utils';
 
@@ -49,18 +47,10 @@ const toastStyle = tva({
 const toastTitleStyle = tva({
   base: 'text-typography-0 font-medium font-body tracking-md text-left',
   variants: {
-    isTruncated: {
-      true: '',
-    },
-    bold: {
-      true: 'font-bold',
-    },
-    underline: {
-      true: 'underline',
-    },
-    strikeThrough: {
-      true: 'line-through',
-    },
+    isTruncated: { true: '' },
+    bold: { true: 'font-bold' },
+    underline: { true: 'underline' },
+    strikeThrough: { true: 'line-through' },
     size: {
       '2xs': 'text-2xs',
       'xs': 'text-xs',
@@ -120,18 +110,10 @@ const toastTitleStyle = tva({
 const toastDescriptionStyle = tva({
   base: 'font-normal font-body tracking-md text-left',
   variants: {
-    isTruncated: {
-      true: '',
-    },
-    bold: {
-      true: 'font-bold',
-    },
-    underline: {
-      true: 'underline',
-    },
-    strikeThrough: {
-      true: 'line-through',
-    },
+    isTruncated: { true: '' },
+    bold: { true: 'font-bold' },
+    underline: { true: 'underline' },
+    strikeThrough: { true: 'line-through' },
     size: {
       '2xs': 'text-2xs',
       'xs': 'text-xs',
@@ -161,16 +143,20 @@ type IToastProps = React.ComponentProps<typeof UIToast> & {
 export const Toast = React.forwardRef<
   React.ElementRef<typeof UIToast>,
   IToastProps
->(({ className, variant = 'solid', action = 'muted', ...props }, ref) => {
+>(({
+  className, variant = 'solid', action = 'muted', ...props
+}, ref) => {
   return (
     <UIToast
-      ref={ref}
-      className={toastStyle({ variant, action, class: className })}
+      className={toastStyle({
+        variant, action, class: className,
+      })}
       context={{ variant, action }}
-      {...props}
-    />
+      ref={ref}
+      {...props} />
   );
 });
+Toast.displayName = 'Toast';
 
 type IToastTitleProps = React.ComponentProps<typeof UIToast.Title> & {
   className?: string;
@@ -179,7 +165,9 @@ type IToastTitleProps = React.ComponentProps<typeof UIToast.Title> & {
 export const ToastTitle = React.forwardRef<
   React.ElementRef<typeof UIToast.Title>,
   IToastTitleProps
->(({ className, size = 'md', ...props }, ref) => {
+>(({
+  className, size = 'md', ...props
+}, ref) => {
   const { variant: parentVariant, action: parentAction } =
     useStyleContext(SCOPE);
   return (
@@ -193,10 +181,10 @@ export const ToastTitle = React.forwardRef<
           variant: parentVariant,
           action: parentAction,
         },
-      })}
-    />
+      })} />
   );
 });
+ToastTitle.displayName = 'ToastTitle';
 
 type IToastDescriptionProps = React.ComponentProps<
   typeof UIToast.Description
@@ -207,7 +195,9 @@ type IToastDescriptionProps = React.ComponentProps<
 export const ToastDescription = React.forwardRef<
   React.ElementRef<typeof UIToast.Description>,
   IToastDescriptionProps
->(({ className, size = 'md', ...props }, ref) => {
+>(({
+  className, size = 'md', ...props
+}, ref) => {
   const { variant: parentVariant } = useStyleContext(SCOPE);
   return (
     <UIToast.Description
@@ -216,10 +206,8 @@ export const ToastDescription = React.forwardRef<
       className={toastDescriptionStyle({
         size,
         class: className,
-        parentVariants: {
-          variant: parentVariant,
-        },
-      })}
-    />
+        parentVariants: { variant: parentVariant },
+      })} />
   );
 });
+ToastDescription.displayName = 'ToastDescription';

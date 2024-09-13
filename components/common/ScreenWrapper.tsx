@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { ScrollView, ScrollViewProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ActivityIndicator, ScrollView, ScrollViewProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import useAppStore from '@/stores/appStore';
 
 type Props = ScrollViewProps & {
   children: React.ReactNode;
@@ -9,56 +10,69 @@ type Props = ScrollViewProps & {
   contentContainerStyle?: StyleProp<ViewStyle>;
 };
 
-export default function ScreenWrapper({
+const ScreenWrapper = ({
   children,
   withScrollView = true,
   style,
   contentContainerStyle,
   ...rest
-}: Props) {
-  const insets = useSafeAreaInsets();
-
-  const containerStyle: StyleProp<ViewStyle> = [
-    styles.container,
-    {
-      backgroundColor: 'transparent',
-      paddingTop: insets.top,
-      paddingBottom: insets.bottom,
-      paddingLeft: insets.left,
-      paddingRight: insets.right,
-    },
-    style,
-  ];
-
-  const combinedContentContainerStyle: StyleProp<ViewStyle> = [
-    { flexGrow: 1 },
-    contentContainerStyle,
-  ];
+}: Props) => {
+  const isLoading = useAppStore((state) => state.isLoading);
 
   return (
-    <SafeAreaView style={containerStyle}>
+    <SafeAreaView
+      edges={['bottom', 'left', 'right']}
+      style={[styles.safeArea, style]}>
       {withScrollView ? (
         <ScrollView
           {...rest}
-          alwaysBounceVertical={false}
-          contentContainerStyle={combinedContentContainerStyle}
-          keyboardShouldPersistTaps="always"
+          contentContainerStyle={[styles.scrollViewContent, contentContainerStyle]}
+          keyboardShouldPersistTaps="handled"
+          pointerEvents={isLoading ? 'none' : 'auto'}
           showsVerticalScrollIndicator={false}
-          style={{ backgroundColor: 'transparent' }}>
-          {children}
+          style={styles.scrollView}>
+          <View style={styles.innerView}>
+            {children}
+          </View>
         </ScrollView>
       ) : (
-        <View style={containerStyle}>
+        <View
+          pointerEvents={isLoading ? 'none' : 'auto'}
+          style={[styles.innerView, contentContainerStyle]}>
           {children}
+        </View>
+      )}
+      {isLoading && (
+        <View style={styles.overlay}>
+          <ActivityIndicator
+            color="#0000ff"
+            size="large" />
         </View>
       )}
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: 'transparent',
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingTop: 16,
+  },
+  scrollView: { flex: 1 },
+  scrollViewContent: { flexGrow: 1 },
+  innerView: {
+    flex: 1,
+    flexGrow: 1,
+    justifyContent: 'flex-start',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
+
+export default ScreenWrapper;

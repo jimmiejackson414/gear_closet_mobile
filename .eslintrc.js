@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['expo'],
+  extends: ['expo', 'plugin:@tanstack/eslint-plugin-query/recommended'],
   plugins: ['@stylistic', 'react'],
   root: true,
   rules: {
@@ -46,5 +46,6 @@ module.exports = {
     'react/jsx-props-no-multi-spaces': 2,
     'react/jsx-tag-spacing': [1, { beforeSelfClosing: 'always' }],
     'sort-imports': [1, { ignoreDeclarationSort: true }],
+    '@typescript-eslint/no-unused-vars': [1, { 'caughtErrors': 'none' }],
   },
 };

@@ -5,12 +5,12 @@ import { Link } from 'expo-router';
 import type { Provider } from '@supabase/supabase-js';
 import { Box, Button, ButtonIcon, ButtonSpinner, ButtonText, Card, Center, Text, VStack } from '@/components/ui';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
+import { useSupabase } from '@/context/SupabaseProvider';
 import { useAuthLayout } from '@/hooks';
 import theme from '@/lib/theme';
-// import AppleIcon from '@/assets/images/apple.svg';
 import GoogleIcon from '@/assets/images/google.svg';
 import FacebookIcon from '@/assets/images/facebook.svg';
-import { useSupabase } from '@/context/SupabaseProvider';
+// import AppleIcon from '@/assets/images/apple.svg';
 
 const WelcomeScreen = () => {
   const opacity = useRef(new Animated.Value(0)).current;
@@ -54,9 +54,13 @@ const WelcomeScreen = () => {
         onLoad={() => setImageLoaded(true)}
         source={{ uri: backgroundImage }}
         style={styles.background}>
-        <ScreenWrapper contentContainerStyle={styles.content}>
+        <ScreenWrapper
+          contentContainerStyle={styles.content}
+          withScrollView={false}>
           <Card
+            className="shadow-md"
             size="lg"
+            style={styles.card}
             variant="glass">
             <Center>
               <Image
@@ -140,14 +144,11 @@ const WelcomeScreen = () => {
 const styles = StyleSheet.create({
   background: { flex: 1 },
   card: {
-    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+    backgroundColor: 'rgba(255, 255, 255, 0.75)',
     borderRadius: 24,
-    borderTopColor: theme.colors.primary[400],
-    borderTopWidth: 5,
     padding: 26,
   },
   content: {
-    backgroundColor: 'transparent',
     flexGrow: 1,
     justifyContent: 'center',
     padding: 8,

@@ -1,15 +1,34 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Stack } from 'expo-router';
+import '@/handlers/gesture-handler';
+import useAppStore from '@/stores/appStore';
+import { useProfile } from '@/services/user/useProfile';
+import { useErrorHandling, useLoading  } from '@/hooks';
 
 const ProtectedLayout = () => {
+  const {
+    data, error, isLoading,
+  } = useProfile();
+  const setProfile = useAppStore((state) => state.setProfile);
+
+  useLoading(isLoading);
+  useErrorHandling(error, 'Failed to fetch profile data');
+
+  useEffect(() => {
+    if (data) setProfile(data);
+  }, [data, setProfile]);
   return (
-    <Tabs screenOptions={{
-      headerShown: false,
-      tabBarShowLabel: false,
-    }}>
-      <Tabs.Screen name="home" />
-      <Tabs.Screen name="profile" />
-    </Tabs>
+    <Stack>
+      <Stack.Screen
+        name="(drawer)"
+        options={{ headerShown: false }} />
+      <Stack.Screen
+        name="onboarding"
+        options={{ headerShown: false }} />
+      <Stack.Screen
+        name="modal"
+        options={{ headerShown: false, presentation: 'modal' }} />
+    </Stack>
   );
 };
 

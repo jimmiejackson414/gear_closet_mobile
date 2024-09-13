@@ -1,14 +1,13 @@
 'use client';
 import React from 'react';
 import { createTooltip } from '@gluestack-ui/tooltip';
-import { View, Text, Platform } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import type { VariantProps } from '@gluestack-ui/nativewind-utils';
 import { tva } from '@gluestack-ui/nativewind-utils/tva';
 import { withStyleContext } from '@gluestack-ui/nativewind-utils/withStyleContext';
 import { cssInterop } from 'nativewind';
 import { withStyleContextAndStates } from '@gluestack-ui/nativewind-utils/withStyleContextAndStates';
-
-import { Motion, AnimatePresence } from '@legendapp/motion';
+import { AnimatePresence, Motion } from '@legendapp/motion';
 
 export const UITooltip = createTooltip({
   Root:
@@ -20,32 +19,18 @@ export const UITooltip = createTooltip({
   AnimatePresence: AnimatePresence,
 });
 
-const tooltipStyle = tva({
-  base: 'w-full h-full web:pointer-events-none',
-});
+const tooltipStyle = tva({ base: 'w-full h-full web:pointer-events-none' });
 
-const tooltipContentStyle = tva({
-  base: 'py-1 px-3 rounded-sm bg-background-900 web:pointer-events-auto',
-});
+const tooltipContentStyle = tva({ base: 'py-1 px-3 rounded-sm bg-background-900 web:pointer-events-auto' });
 
 const tooltipTextStyle = tva({
   base: 'font-normal tracking-normal web:select-none text-xs text-typography-50',
 
   variants: {
-    isTruncated: {
-      true: {
-        props: 'line-clamp-1 truncate',
-      },
-    },
-    bold: {
-      true: 'font-bold',
-    },
-    underline: {
-      true: 'underline',
-    },
-    strikeThrough: {
-      true: 'line-through',
-    },
+    isTruncated: { true: { props: 'line-clamp-1 truncate' } },
+    bold: { true: 'font-bold' },
+    underline: { true: 'underline' },
+    strikeThrough: { true: 'line-through' },
     size: {
       '2xs': 'text-2xs',
       'xs': 'text-xs',
@@ -59,15 +44,9 @@ const tooltipTextStyle = tva({
       '5xl': 'text-5xl',
       '6xl': 'text-6xl',
     },
-    sub: {
-      true: 'text-xs',
-    },
-    italic: {
-      true: 'italic',
-    },
-    highlight: {
-      true: 'bg-yellow-500',
-    },
+    sub: { true: 'text-xs' },
+    italic: { true: 'italic' },
+    highlight: { true: 'bg-yellow-500' },
   },
 });
 
@@ -88,12 +67,12 @@ export const Tooltip = React.forwardRef<
 >(({ className, ...props }, ref) => {
   return (
     <UITooltip
-      ref={ref}
       className={tooltipStyle({ class: className })}
-      {...props}
-    />
+      ref={ref}
+      {...props} />
   );
 });
+Tooltip.displayName = 'Tooltip';
 
 export const TooltipContent = React.forwardRef<
   React.ElementRef<typeof UITooltip.Content>,
@@ -103,23 +82,23 @@ export const TooltipContent = React.forwardRef<
     <UITooltip.Content
       ref={ref}
       {...props}
-      className={tooltipContentStyle({
-        class: className,
-      })}
-      pointerEvents="auto"
-    />
+      className={tooltipContentStyle({ class: className })}
+      pointerEvents="auto" />
   );
 });
+TooltipContent.displayName = 'TooltipContent';
 
 export const TooltipText = React.forwardRef<
   React.ElementRef<typeof UITooltip.Text>,
   ITooltipTextProps & { className?: string }
->(({ size, className, ...props }, ref) => {
+>(({
+  size, className, ...props
+}, ref) => {
   return (
     <UITooltip.Text
-      ref={ref}
       className={tooltipTextStyle({ size, class: className })}
-      {...props}
-    />
+      ref={ref}
+      {...props} />
   );
 });
+TooltipText.displayName = 'TooltipText';
