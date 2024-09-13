@@ -18,7 +18,8 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
   return (
     <DrawerContentScrollView
       {...props}
-      contentContainerStyle={styles.container}>
+      contentContainerStyle={styles.container}
+      key="drawer-content-scroll-view">
       <DrawerItemList {...props} />
       <View style={styles.flexSpace} />
       <TouchableOpacity

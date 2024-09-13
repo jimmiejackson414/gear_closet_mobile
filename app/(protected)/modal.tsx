@@ -27,12 +27,11 @@ const NotificationsModal = () => {
         variant="outline">
         <ButtonIcon
           as={X}
+          className="text-gray-500"
           size="lg" />
       </Button>
       <Text bold>
-        Notifications (
-        {unreadNotifications.length}
-        )
+        {`Notifications (${unreadNotifications.length})`}
       </Text>
       <Divider className="my-4" />
       {unreadNotifications.map((notification) => (

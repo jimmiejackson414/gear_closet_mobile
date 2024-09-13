@@ -16,7 +16,7 @@ export type ForumPost = {
   topic_title: string;
   updated_at: string;
   username: string;
-  categoryColor?: string;
+  category_color?: string;
 };
 
 export type ForumLatestPosts = {

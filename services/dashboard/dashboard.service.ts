@@ -14,6 +14,14 @@ const client = axios.create({
 const fetchForumPosts = async () => {
   try {
     const { data } = await client.get<ForumResponse>('/api/forums');
+
+    // map over latest_posts to add `category_color` property
+    if (data) {
+      data.latest_posts = data.latest_posts.map(post => {
+        const category = data.categories.find(category => category.id === post.category_id);
+        return { ...post, category_color: category?.color };
+      });
+    }
     return data;
   } catch (error) {
     console.error('Error fetching forum posts:', error);

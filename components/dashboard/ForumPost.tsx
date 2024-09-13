@@ -1,9 +1,9 @@
 import { A } from '@expo/html-elements';
-import { useMemo } from 'react';
-import { Avatar, AvatarImage, Box, Text } from '../ui';
+import dayjs from 'dayjs';
+import { Box, Text } from '../ui';
 import useAppStore from '@/stores/appStore';
-import type { ForumPost as ForumPostType } from '@/types/helpers';
 import { truncate } from '@/helpers';
+import type { ForumPost as ForumPostType } from '@/services/dashboard/types';
 
 interface Props {
   post: ForumPostType;
@@ -11,28 +11,38 @@ interface Props {
 
 const ForumPost: React.FC<Props> = ({ post }) => {
   const isPaidMember = useAppStore(state => state.isPaidMember());
-
-  const avatarSrc = useMemo(() => {
-    return post.avatar_template.replace('{size}', '50');
-  }, [post.avatar_template]);
+  const forumsUrl = process.env.EXPO_PUBLIC_FORUMS_URL;
 
   return (
     <A
       className="w-full"
-      href={isPaidMember ? `${process.env.EXPO_PUBLIC_FORUMS_URL}/${post.topic_slug}` : undefined}>
-      <Box className="flex items-center gap-4 w-full">
+      href={isPaidMember ? `${forumsUrl}/${post.topic_slug}` : undefined}>
+      <Box className="flex flex-row items-start gap-4 w-full">
         <Box
-          className="h-3 rounded-full w-3"
-          style={{ backgroundColor: post.categoryColor }} />
-        <Avatar className="rounded-full w-12 h-12">
-          <AvatarImage source={{ uri: avatarSrc }} />
-        </Avatar>
-        <Box className="flex grow flex-col">
-          <Box className="flex items-center gap-4">
+          className="h-3 rounded-full w-3 mt-2"
+          style={{ backgroundColor: `#${post.category_color}` }} />
+        <Box className="flex flex-col">
+          <Text
+            bold
+            className="text-gray-700">
+            {truncate(post.topic_title, 40)}
+          </Text>
+          <Text>
+            {truncate(post.raw, 50)}
+          </Text>
+          <Box className="flex flex-row items-center justify-between">
             <Text
-              bold
-              className="text-gray-700">
-              {truncate(post.topic_title, 25)}
+              className="text-gray-400"
+              size="sm">
+              {dayjs(post.created_at)
+                .format('MMM DD, YYYY')}
+            </Text>
+            <Text
+              className="text-gray-400"
+              size="sm">
+              {post.reply_count}
+              {' '}
+              replies
             </Text>
           </Box>
         </Box>
