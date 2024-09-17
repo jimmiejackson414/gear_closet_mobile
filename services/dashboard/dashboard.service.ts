@@ -24,7 +24,6 @@ const fetchForumPosts = async () => {
     }
     return data;
   } catch (error) {
-    console.error('Error fetching forum posts:', error);
     return null;
   }
 };
@@ -48,7 +47,6 @@ export const fetchDashboardData = async (): Promise<DashboardResponse | null> =>
 
     return { ...data, forums };
   } catch (error) {
-    console.error('Error fetching dashboard data:', error);
     return null;
   }
 };
