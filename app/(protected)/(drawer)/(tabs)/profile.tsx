@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { Edit } from 'lucide-react-native';
-import { Avatar, AvatarFallbackText, AvatarImage, Box, Fab, FabIcon, Text } from '@/components/ui';
+import { toast } from 'sonner-native';
+import { Avatar, AvatarFallbackText, AvatarImage, Box, ButtonSpinner, Fab, FabIcon, FabLabel, Text } from '@/components/ui';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import { useProfile } from '@/services/user/useProfile';
 import { useErrorHandling, useLoading } from '@/hooks';
 import { buildImageSrc, friendlyUsername, initials } from '@/helpers';
+import theme from '@/lib/theme';
 
 const ProfileScreen = () => {
   const {
@@ -13,6 +16,29 @@ const ProfileScreen = () => {
   useLoading(isLoading);
   useErrorHandling(error, 'Failed to fetch profile data');
 
+  const [isSaving, setIsSaving] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const renderFabContent = () => {
+    if (isSaving) return <ButtonSpinner color={theme.colors.gray[400]} />;
+    else if (isEditing) return <FabLabel>Save</FabLabel>;
+    else return <FabIcon
+      as={Edit}
+      stroke="white" />;
+  };
+
+  const handleFabPress = () => {
+    if (isEditing) {
+      setIsSaving(true);
+      setTimeout(() => {
+        setIsSaving(false);
+        setIsEditing(false);
+        toast.success('Profile updated successfully');
+      }, 2000);
+    } else {
+      setIsEditing(true);
+    }
+  };
   return (
     <ScreenWrapper>
       <Box className="h-full items-center">
@@ -45,11 +71,10 @@ const ProfileScreen = () => {
         </Box>
         <Fab
           className="bg-primary-500 hover:bg-primary-600 active:bg-primary-600 transition-all ease-in-out duration-200"
+          onPress={handleFabPress}
           placement="bottom right"
           size="lg">
-          <FabIcon
-            as={Edit}
-            stroke="white" />
+          {renderFabContent()}
         </Fab>
       </Box>
     </ScreenWrapper>
