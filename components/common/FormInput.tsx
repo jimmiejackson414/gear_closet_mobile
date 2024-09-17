@@ -2,7 +2,8 @@ import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import type { LucideIcon } from 'lucide-react-native'; // Import from lucide
 import type { TextInputProps } from 'react-native';
-import { FormControl, FormControlError, FormControlErrorText, FormControlHelper, FormControlHelperText, FormControlLabel, FormControlLabelText, Input, InputField, InputIcon, InputSlot } from '@/components/ui';
+import { Text } from 'react-native-paper';
+// import { FormControl, FormControlError, FormControlErrorText, FormControlHelper, FormControlHelperText, FormControlLabel, FormControlLabelText, Input, InputField, InputIcon, InputSlot } from '@/components/ui';
 
 interface FormInputProps {
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
@@ -52,55 +53,56 @@ const FormInput: React.FC<FormInputProps> = ({
   });
 
   return (
-    <FormControl
-      className="w-full"
-      isDisabled={isDisabled}
-      isInvalid={!!error}
-      isReadOnly={isReadOnly}
-      isRequired={isRequired}>
-      <FormControlLabel className="mb-1">
-        <FormControlLabelText className="text-typography-700">
-          {label}
-        </FormControlLabelText>
-      </FormControlLabel>
-      <Input
-        className={`w-full ${className}`}
-        isDisabled={isDisabled}
-        size="lg"
-        variant="outline">
-        {Icon && (
-          <InputSlot>
-            <InputIcon
-              as={Icon}
-              className="pl-10" />
-          </InputSlot>
-        )}
-        <InputField
-          autoCapitalize={autoCapitalize}
-          autoComplete={autoComplete}
-          autoFocus={autoFocus}
-          keyboardType={keyboardType}
-          onBlur={onBlur}
-          onChangeText={onChange}
-          placeholder={placeholder}
-          type={type}
-          value={value} />
-      </Input>
-      {helperText && !error && (
-        <FormControlHelper>
-          <FormControlHelperText>
-            {helperText}
-          </FormControlHelperText>
-        </FormControlHelper>
-      )}
-      {error && (
-        <FormControlError>
-          <FormControlErrorText>
-            {error.message}
-          </FormControlErrorText>
-        </FormControlError>
-      )}
-    </FormControl>
+    <Text>FormInput</Text>
+    // <FormControl
+    //   className="w-full"
+    //   isDisabled={isDisabled}
+    //   isInvalid={!!error}
+    //   isReadOnly={isReadOnly}
+    //   isRequired={isRequired}>
+    //   <FormControlLabel className="mb-1">
+    //     <FormControlLabelText className="text-typography-700">
+    //       {label}
+    //     </FormControlLabelText>
+    //   </FormControlLabel>
+    //   <Input
+    //     className={`w-full ${className}`}
+    //     isDisabled={isDisabled}
+    //     size="lg"
+    //     variant="outline">
+    //     {Icon && (
+    //       <InputSlot>
+    //         <InputIcon
+    //           as={Icon}
+    //           className="pl-10" />
+    //       </InputSlot>
+    //     )}
+    //     <InputField
+    //       autoCapitalize={autoCapitalize}
+    //       autoComplete={autoComplete}
+    //       autoFocus={autoFocus}
+    //       keyboardType={keyboardType}
+    //       onBlur={onBlur}
+    //       onChangeText={onChange}
+    //       placeholder={placeholder}
+    //       type={type}
+    //       value={value} />
+    //   </Input>
+    //   {helperText && !error && (
+    //     <FormControlHelper>
+    //       <FormControlHelperText>
+    //         {helperText}
+    //       </FormControlHelperText>
+    //     </FormControlHelper>
+    //   )}
+    //   {error && (
+    //     <FormControlError>
+    //       <FormControlErrorText>
+    //         {error.message}
+    //       </FormControlErrorText>
+    //     </FormControlError>
+    //   )}
+    // </FormControl>
   );
 };
 

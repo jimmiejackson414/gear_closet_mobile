@@ -2,13 +2,16 @@ import { Drawer } from 'expo-router/drawer';
 import { Bell, House, NotebookText, TentTree, UserCog, Users } from 'lucide-react-native';
 import { Link } from 'expo-router';
 import { StyleSheet } from 'react-native';
-import { Box, Button, Icon } from '@/components/ui';
+// import { Box, Button, Icon } from '@/components/ui';
+import { Button, Icon, Text } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 import DrawerContent from '@/components/common/DrawerContent';
-import theme from '@/lib/theme';
+// import theme from '@/lib/theme';
 import useAppStore from '@/stores/appStore';
 
 const DrawerLayout = () => {
   const unreadNotifications = useAppStore((state) => state.unreadNotifications());
+  const theme = useTheme();
 
   return (
     <Drawer
@@ -22,13 +25,13 @@ const DrawerLayout = () => {
             asChild
             href="/modal">
             <Button
-              className="mr-6 relative"
-              variant="link">
+              mode="text"
+              style={{ marginRight: 20, position: 'relative' }}>
               <Icon
-                as={Bell}
-                size="md"
-                stroke={theme.colors.gray[500]} />
-              {!!unreadNotifications.length && <Box style={styles.notificationDot} />}
+                color={theme.colors.backdrop}
+                size={20}
+                source={{ uri: Bell }} />
+              {/* {!!unreadNotifications.length && <Box style={styles.notificationDot} />} */}
             </Button>
           </Link>
         ),
@@ -40,9 +43,9 @@ const DrawerLayout = () => {
           headerTitle: 'Home',
           drawerIcon: ({ color }) => (
             <Icon
-              as={House}
               color={color}
-              size={'md'} />
+              size={20}
+              source={{ uri: House }} />
           ),
         }} />
       <Drawer.Screen
@@ -52,9 +55,9 @@ const DrawerLayout = () => {
           headerTitle: 'Closet',
           drawerIcon: ({ color }) => (
             <Icon
-              as={TentTree}
               color={color}
-              size={'md'} />
+              size={20}
+              source={{ uri: TentTree }} />
           ),
         }} />
       <Drawer.Screen
@@ -64,9 +67,9 @@ const DrawerLayout = () => {
           headerTitle: 'Friends',
           drawerIcon: ({ color }) => (
             <Icon
-              as={Users}
               color={color}
-              size={'md'} />
+              size={20}
+              source={{ uri: Users }} />
           ),
         }} />
       <Drawer.Screen
@@ -76,9 +79,9 @@ const DrawerLayout = () => {
           headerTitle: 'Planning',
           drawerIcon: ({ color }) => (
             <Icon
-              as={NotebookText}
               color={color}
-              size={'md'} />
+              size={20}
+              source={{ uri: NotebookText }} />
           ),
         }} />
       <Drawer.Screen
@@ -88,25 +91,25 @@ const DrawerLayout = () => {
           headerTitle: 'Profile',
           drawerIcon: ({ color }) => (
             <Icon
-              as={UserCog}
               color={color}
-              size={'md'} />
+              size={20}
+              source={{ uri: UserCog }} />
           ),
         }} />
     </Drawer>
   );
 };
 
-const styles = StyleSheet.create({
-  notificationDot: {
-    position: 'absolute',
-    top: 1,
-    right: -1,
-    backgroundColor: theme.colors.red[500],
-    borderRadius: 999,
-    height: 6,
-    width: 6,
-  },
-});
+// const styles = StyleSheet.create({
+//   notificationDot: {
+//     position: 'absolute',
+//     top: 1,
+//     right: -1,
+//     backgroundColor: theme.colors.red[500],
+//     borderRadius: 999,
+//     height: 6,
+//     width: 6,
+//   },
+// });
 
 export default DrawerLayout;

@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { NativeSyntheticEvent, StyleSheet, TextInput, TextInputKeyPressEventData, View } from 'react-native';
-import theme from '@/lib/theme';
+// import theme from '@/lib/theme';
 
 interface Props {
   length?: number;
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderWidth: 1,
-    borderColor: theme.colors.gray[400],
+    // borderColor: theme.colors.gray[400],
     textAlign: 'center',
     fontSize: 18,
   },

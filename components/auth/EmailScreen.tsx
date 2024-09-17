@@ -5,11 +5,12 @@ import { Mail } from 'lucide-react-native';
 import { Image } from 'expo-image';
 import { toast } from 'sonner-native';
 import { StyleSheet } from 'react-native';
+import { Text } from 'react-native-paper';
 import { useSupabase } from '@/context/SupabaseProvider';
 import { useAuthScreenContext } from '@/context/AuthScreenProvider';
-import { Button, ButtonSpinner, ButtonText, Center, Text, VStack } from '@/components/ui';
+// import { Button, ButtonSpinner, ButtonText, Center, Text, VStack } from '@/components/ui';
 import FormInput from '@/components/common/FormInput';
-import theme from '@/lib/theme';
+// import theme from '@/lib/theme';
 
 const emailSchema = z.object({
   email: z.string()
@@ -51,7 +52,8 @@ const EmailScreen: React.FC = () => {
 
   return (
     <FormProvider {...form}>
-      <Center>
+      <Text>Email Screen</Text>
+      {/* <Center>
         <Image
           contentFit="contain"
           source={require('../../assets/gear-closet-icon.png')}
@@ -81,7 +83,7 @@ const EmailScreen: React.FC = () => {
             <ButtonText>Continue</ButtonText>
           </Button>
         </VStack>
-      </Center>
+      </Center> */}
     </FormProvider>
   );
 };

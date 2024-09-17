@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv';
 import axios from 'axios';
-import { ForumCategories, ForumLatestPosts } from '@/types/helpers';
+import { ForumCategories, ForumLatestPosts } from '@/services/dashboard/types';
 
 dotenv.config();
 

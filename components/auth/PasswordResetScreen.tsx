@@ -8,10 +8,11 @@ import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-na
 import { LockKeyhole } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import { toast } from 'sonner-native';
+import { Text } from 'react-native-paper';
 import { useSupabase } from '@/context/SupabaseProvider';
 import { useAuthScreenContext } from '@/context/AuthScreenProvider';
 import { supabase } from '@/lib/supabase';
-import { Button, ButtonText, Center, Text, VStack } from '@/components/ui';
+// import { Button, ButtonText, Center, Text, VStack } from '@/components/ui';
 import FormInput from '@/components/common/FormInput';
 import CodeInput from '@/components/common/CodeInput';
 
@@ -85,59 +86,60 @@ const PasswordResetScreen = () => {
   }, [step]);
 
   return (
-    <Center>
-      <Image
-        contentFit="contain"
-        source={require('../../assets/gear-closet-icon.png')}
-        style={styles.icon} />
-      <Animated.View style={animatedStyle}>
-        {step === 1 && (
-          <VStack
-            className="w-full justify-center"
-            space="lg">
-            <Text className="mb-4 text-center justify-self-center">Please enter your code</Text>
-            <CodeInput
-              length={6}
-              onChangeCode={setResetCode} />
-            <Button onPress={handleVerifyCode}>
-              <ButtonText>Verify Code</ButtonText>
-            </Button>
-          </VStack>
-        )}
-        {step === 2 && (
-          <FormProvider {...form}>
-            <VStack
-              className="w-full justify-center"
-              space="lg">
-              <Text className="mb-8">Enter your new password</Text>
-              <FormInput
-                autoComplete="password-new"
-                autoFocus
-                icon={LockKeyhole}
-                isDisabled={submitting}
-                isRequired
-                keyboardType="email-address"
-                label="New password"
-                name="password"
-                type="password" />
-              <FormInput
-                icon={LockKeyhole}
-                isDisabled={submitting}
-                isRequired
-                keyboardType="email-address"
-                label="Confirm new password"
-                name="passwordConfirm"
-                type="password" />
-              <Button
-                isDisabled={submitting || !watchedFields.password || !watchedFields.passwordConfirm}
-                onPress={handleSubmit(handleResetPassword)}>
-                <ButtonText>Reset Password</ButtonText>
-              </Button>
-            </VStack>
-          </FormProvider>
-        )}
-      </Animated.View>
-    </Center>
+    <Text>Password Reset Screen</Text>
+    // <Center>
+    //   <Image
+    //     contentFit="contain"
+    //     source={require('../../assets/gear-closet-icon.png')}
+    //     style={styles.icon} />
+    //   <Animated.View style={animatedStyle}>
+    //     {step === 1 && (
+    //       <VStack
+    //         className="w-full justify-center"
+    //         space="lg">
+    //         <Text className="mb-4 text-center justify-self-center">Please enter your code</Text>
+    //         <CodeInput
+    //           length={6}
+    //           onChangeCode={setResetCode} />
+    //         <Button onPress={handleVerifyCode}>
+    //           <ButtonText>Verify Code</ButtonText>
+    //         </Button>
+    //       </VStack>
+    //     )}
+    //     {step === 2 && (
+    //       <FormProvider {...form}>
+    //         <VStack
+    //           className="w-full justify-center"
+    //           space="lg">
+    //           <Text className="mb-8">Enter your new password</Text>
+    //           <FormInput
+    //             autoComplete="password-new"
+    //             autoFocus
+    //             icon={LockKeyhole}
+    //             isDisabled={submitting}
+    //             isRequired
+    //             keyboardType="email-address"
+    //             label="New password"
+    //             name="password"
+    //             type="password" />
+    //           <FormInput
+    //             icon={LockKeyhole}
+    //             isDisabled={submitting}
+    //             isRequired
+    //             keyboardType="email-address"
+    //             label="Confirm new password"
+    //             name="passwordConfirm"
+    //             type="password" />
+    //           <Button
+    //             isDisabled={submitting || !watchedFields.password || !watchedFields.passwordConfirm}
+    //             onPress={handleSubmit(handleResetPassword)}>
+    //             <ButtonText>Reset Password</ButtonText>
+    //           </Button>
+    //         </VStack>
+    //       </FormProvider>
+    //     )}
+    //   </Animated.View>
+    // </Center>
   );
 };
 

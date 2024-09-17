@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { Edit } from 'lucide-react-native';
+import { Text } from 'react-native-paper';
 import { toast } from 'sonner-native';
-import { Avatar, AvatarFallbackText, AvatarImage, Box, ButtonSpinner, Fab, FabIcon, FabLabel, Text } from '@/components/ui';
+// import { Avatar, AvatarFallbackText, AvatarImage, Box, ButtonSpinner, Fab, FabIcon, FabLabel, Text } from '@/components/ui';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import { useProfile } from '@/services/user/useProfile';
 import { useErrorHandling, useLoading } from '@/hooks';
 import { buildImageSrc, friendlyUsername, initials } from '@/helpers';
-import theme from '@/lib/theme';
+// import theme from '@/lib/theme';
 
 const ProfileScreen = () => {
   const {
@@ -19,13 +20,13 @@ const ProfileScreen = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  const renderFabContent = () => {
-    if (isSaving) return <ButtonSpinner color={theme.colors.gray[400]} />;
-    else if (isEditing) return <FabLabel>Save</FabLabel>;
-    else return <FabIcon
-      as={Edit}
-      stroke="white" />;
-  };
+  // const renderFabContent = () => {
+  //   if (isSaving) return <ButtonSpinner color={theme.colors.gray[400]} />;
+  //   else if (isEditing) return <FabLabel>Save</FabLabel>;
+  //   else return <FabIcon
+  //     as={Edit}
+  //     stroke="white" />;
+  // };
 
   const handleFabPress = () => {
     if (isEditing) {
@@ -41,7 +42,8 @@ const ProfileScreen = () => {
   };
   return (
     <ScreenWrapper>
-      <Box className="h-full items-center">
+      <Text>Profile Screen</Text>
+      {/* <Box className="h-full items-center">
         <Box className="flex flex-row gap-8 items-center">
           <Avatar size="2xl">
             <AvatarFallbackText>
@@ -76,7 +78,7 @@ const ProfileScreen = () => {
           size="lg">
           {renderFabContent()}
         </Fab>
-      </Box>
+      </Box> */}
     </ScreenWrapper>
   );
 };

@@ -6,9 +6,10 @@ import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
 import { LockKeyhole } from 'lucide-react-native';
 import { toast } from 'sonner-native';
-import { Button, ButtonSpinner, ButtonText, Center, Text, VStack } from '@/components/ui';
+// import { Button, ButtonSpinner, ButtonText, Center, Text, VStack } from '@/components/ui';
+import { Text } from 'react-native-paper';
 import FormInput from '@/components/common/FormInput';
-import theme from '@/lib/theme';
+// import theme from '@/lib/theme';
 import { useAuthScreenContext } from '@/context/AuthScreenProvider';
 import { useSupabase } from '@/context/SupabaseProvider';
 
@@ -50,7 +51,8 @@ const CreateScreen: React.FC = () => {
 
   return (
     <FormProvider {...form}>
-      <Center>
+      <Text>Create Screen</Text>
+      {/* <Center>
         <Image
           contentFit="contain"
           source={require('../../assets/gear-closet-icon.png')}
@@ -89,7 +91,7 @@ const CreateScreen: React.FC = () => {
             <ButtonText>Create Account</ButtonText>
           </Button>
         </VStack>
-      </Center>
+      </Center> */}
     </FormProvider>
   );
 };

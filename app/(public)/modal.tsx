@@ -3,7 +3,8 @@ import { StyleSheet } from 'react-native';
 import { X } from 'lucide-react-native';
 import { useNavigation } from 'expo-router';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { Box, Button, ButtonIcon, Progress, ProgressFilledTrack } from '@/components/ui';
+// import { Box, Button, ButtonIcon, Progress, ProgressFilledTrack } from '@/components/ui';
+import { Text } from 'react-native-paper';
 import { AuthScreenProvider, useAuthScreenContext } from '@/context/AuthScreenProvider';
 import EmailScreen from '@/components/auth/EmailScreen';
 import PasswordScreen from '@/components/auth/PasswordScreen';
@@ -28,35 +29,36 @@ const ModalContent = () => {
   }, [screen]);
 
   return (
-    <Box style={styles.modal}>
-      <Button
-        action="secondary"
-        className="rounded-full p-3.5 w-12 h-12"
-        onPress={() => navigation.goBack()}
-        size="lg"
-        style={styles.closeButton}
-        variant="outline">
-        <ButtonIcon
-          as={X}
-          size="lg" />
-      </Button>
-      <Animated.View style={animatedStyle}>
-        {screen === 'email' && <EmailScreen />}
-        {screen === 'password' && <PasswordScreen />}
-        {screen === 'create' && <CreateScreen />}
-        {screen === 'forgotPassword' && <ForgotPasswordScreen />}
-        {screen === 'passwordRecovery' && <PasswordRecoveryScreen />}
-        {screen === 'passwordReset' && <PasswordResetScreen />}
-      </Animated.View>
-      {(screen === 'email' || screen === 'password') && (
-        <Progress
-          className="mt-8"
-          size="sm"
-          value={screen === 'email' ? 50 : 100}>
-          <ProgressFilledTrack />
-        </Progress>
-      )}
-    </Box>
+    <Text>Modal Content</Text>
+    // <Box style={styles.modal}>
+    //   <Button
+    //     action="secondary"
+    //     className="rounded-full p-3.5 w-12 h-12"
+    //     onPress={() => navigation.goBack()}
+    //     size="lg"
+    //     style={styles.closeButton}
+    //     variant="outline">
+    //     <ButtonIcon
+    //       as={X}
+    //       size="lg" />
+    //   </Button>
+    //   <Animated.View style={animatedStyle}>
+    //     {screen === 'email' && <EmailScreen />}
+    //     {screen === 'password' && <PasswordScreen />}
+    //     {screen === 'create' && <CreateScreen />}
+    //     {screen === 'forgotPassword' && <ForgotPasswordScreen />}
+    //     {screen === 'passwordRecovery' && <PasswordRecoveryScreen />}
+    //     {screen === 'passwordReset' && <PasswordResetScreen />}
+    //   </Animated.View>
+    //   {(screen === 'email' || screen === 'password') && (
+    //     <Progress
+    //       className="mt-8"
+    //       size="sm"
+    //       value={screen === 'email' ? 50 : 100}>
+    //       <ProgressFilledTrack />
+    //     </Progress>
+    //   )}
+    // </Box>
   );
 };
 
@@ -66,17 +68,17 @@ const Modal = () => (
   </AuthScreenProvider>
 );
 
-const styles = StyleSheet.create({
-  closeButton: {
-    position: 'absolute',
-    right: 16,
-    top: 16,
-  },
-  modal: {
-    flex: 1,
-    paddingHorizontal: 32,
-    paddingTop: 80,
-  },
-});
+// const styles = StyleSheet.create({
+//   closeButton: {
+//     position: 'absolute',
+//     right: 16,
+//     top: 16,
+//   },
+//   modal: {
+//     flex: 1,
+//     paddingHorizontal: 32,
+//     paddingTop: 80,
+//   },
+// });
 
 export default Modal;

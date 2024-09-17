@@ -5,11 +5,12 @@ import { z } from 'zod';
 import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
 import { LockKeyhole } from 'lucide-react-native';
+import { Text } from 'react-native-paper';
 import { useSupabase } from '@/context/SupabaseProvider';
 import { useAuthScreenContext } from '@/context/AuthScreenProvider';
-import { Button, ButtonSpinner, ButtonText, Center, Text, VStack } from '@/components/ui';
+// import { Button, ButtonSpinner, ButtonText, Center, Text, VStack } from '@/components/ui';
 import FormInput from '@/components/common/FormInput';
-import theme from '@/lib/theme';
+// import theme from '@/lib/theme';
 
 const passwordSchema = z.object({
   password: z.string()
@@ -52,7 +53,8 @@ const PasswordScreen: React.FC = () => {
 
   return (
     <FormProvider {...form}>
-      <Center>
+      <Text>Password Screen</Text>
+      {/* <Center>
         <Image
           contentFit="contain"
           source={require('../../assets/gear-closet-icon.png')}
@@ -91,7 +93,7 @@ const PasswordScreen: React.FC = () => {
             </Button>
           )}
         </VStack>
-      </Center>
+      </Center> */}
     </FormProvider>
   );
 };

@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Animated, ImageBackground, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 import { Link } from 'expo-router';
+import { Text } from 'react-native-paper';
+// import { Box, Button, ButtonIcon, ButtonSpinner, ButtonText, Card, Center, Text, VStack } from '@/components/ui';
 import type { Provider } from '@supabase/supabase-js';
-import { Box, Button, ButtonIcon, ButtonSpinner, ButtonText, Card, Center, Text, VStack } from '@/components/ui';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import { useSupabase } from '@/context/SupabaseProvider';
 import { useAuthLayout } from '@/hooks';
-import theme from '@/lib/theme';
+// import theme from '@/lib/theme';
 import GoogleIcon from '@/assets/images/google.svg';
 import FacebookIcon from '@/assets/images/facebook.svg';
 // import AppleIcon from '@/assets/images/apple.svg';
@@ -57,7 +58,8 @@ const WelcomeScreen = () => {
         <ScreenWrapper
           contentContainerStyle={styles.content}
           withScrollView={false}>
-          <Card
+          <Text>Welcome Screen</Text>
+          {/* <Card
             className="shadow-md"
             size="lg"
             style={styles.card}
@@ -72,9 +74,9 @@ const WelcomeScreen = () => {
                 style={styles.tagline}>
                 Sign up or log in to get started
               </Text>
-              <VStack space="md">
-                {/* Note: Re-add once purchase of Apple Developer account is complete */}
-                {/* <Button
+              <VStack space="md"> */}
+          {/* Note: Re-add once purchase of Apple Developer account is complete */}
+          {/* <Button
                   action="secondary"
                   isDisabled={submitting}
                   onPress={() => handleOAuthSignin('apple')}
@@ -86,7 +88,7 @@ const WelcomeScreen = () => {
                   {submitting && <ButtonSpinner color={theme.colors.gray[400]} />}
                   <ButtonText>Continue with Apple</ButtonText>
                 </Button> */}
-                <Button
+          {/* <Button
                   action="secondary"
                   isDisabled={submitting}
                   onPress={() => handleOAuthSignin('google')}
@@ -134,7 +136,7 @@ const WelcomeScreen = () => {
                 </Text>
               </VStack>
             </Center>
-          </Card>
+          </Card> */}
         </ScreenWrapper>
       </ImageBackground>
     </Animated.View>
@@ -158,32 +160,32 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: 16,
   },
-  dividerLine: {
-    backgroundColor: theme.colors.background.dark,
-    flex: 1,
-    height: 1,
-  },
-  dividerText: {
-    color: theme.colors.typography[400],
-    fontSize: 16,
-    marginHorizontal: 16,
-  },
-  icon: {
-    height: 64,
-    marginBottom: 8,
-    width: 64,
-  },
-  smallPrint: {
-    color: theme.colors.typography[950],
-    fontWeight: '300',
-    marginTop: 16,
-    textAlign: 'center',
-  },
-  tagline: {
-    color: theme.colors.typography[700],
-    marginBottom: 16,
-    textAlign: 'center',
-  },
+  // dividerLine: {
+  //   backgroundColor: theme.colors.background.dark,
+  //   flex: 1,
+  //   height: 1,
+  // },
+  // dividerText: {
+  //   color: theme.colors.typography[400],
+  //   fontSize: 16,
+  //   marginHorizontal: 16,
+  // },
+  // icon: {
+  //   height: 64,
+  //   marginBottom: 8,
+  //   width: 64,
+  // },
+  // smallPrint: {
+  //   color: theme.colors.typography[950],
+  //   fontWeight: '300',
+  //   marginTop: 16,
+  //   textAlign: 'center',
+  // },
+  // tagline: {
+  //   color: theme.colors.typography[700],
+  //   marginBottom: 16,
+  //   textAlign: 'center',
+  // },
   title: {
     alignItems: 'center',
     marginBottom: 16,

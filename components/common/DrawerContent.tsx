@@ -1,10 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { DrawerContentComponentProps, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
+import { Icon } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import { LogOut } from 'lucide-react-native';
+import { useTheme } from 'react-native-paper';
 import { useSupabase } from '@/context/SupabaseProvider';
-import { Icon } from '@/components/ui';
+// import { Icon } from '@/components/ui';
 
 const DrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
   const router = useRouter();
@@ -15,6 +17,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
     router.replace('/welcome');
   };
 
+  const theme = useTheme();
   return (
     <DrawerContentScrollView
       {...props}
@@ -26,10 +29,13 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
         onPress={onLogout}
         style={styles.logoutButton}>
         <Icon
-          as={LogOut}
-          color="#000"
-          size="md"
-          style={styles.logoutIcon} />
+          color={theme.colors.backdrop}
+          size={20}
+          source={({ size, color }: { size: number, color: string }) => (
+            <LogOut
+              color={color}
+              size={size} />
+          )} />
         <Text style={styles.logoutText}>Logout</Text>
       </TouchableOpacity>
     </DrawerContentScrollView>

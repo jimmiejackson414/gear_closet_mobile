@@ -5,11 +5,12 @@ import { Image } from 'expo-image';
 import { Mail } from 'lucide-react-native';
 import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner-native';
+import { Text } from 'react-native-paper';
 import { useAuthScreenContext } from '@/context/AuthScreenProvider';
 import { useSupabase } from '@/context/SupabaseProvider';
-import { Button, ButtonSpinner, ButtonText, Center, Text, VStack } from '@/components/ui';
+// import { Button, ButtonSpinner, ButtonText, Center, Text, VStack } from '@/components/ui';
 import FormInput from '@/components/common/FormInput';
-import theme from '@/lib/theme';
+// import theme from '@/lib/theme';
 
 const emailSchema = z.object({
   email: z.string()
@@ -49,7 +50,8 @@ const ForgotPasswordScreen: React.FC = () => {
 
   return (
     <FormProvider {...form}>
-      <Center>
+      <Text>Forgot Password Screen</Text>
+      {/* <Center>
         <Image
           contentFit="contain"
           source={require('../../assets/gear-closet-icon.png')}
@@ -85,7 +87,7 @@ const ForgotPasswordScreen: React.FC = () => {
             <ButtonText>Submit</ButtonText>
           </Button>
         </VStack>
-      </Center>
+      </Center> */}
     </FormProvider>
   );
 };
