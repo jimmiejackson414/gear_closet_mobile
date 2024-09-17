@@ -82,7 +82,7 @@ const DrawerLayout = () => {
           ),
         }} />
       <Drawer.Screen
-        name="profile"
+        name="(tabs)"
         options={{
           drawerLabel: 'Profile',
           headerTitle: 'Profile',
