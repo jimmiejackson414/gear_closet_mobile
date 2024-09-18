@@ -1,6 +1,8 @@
 import { Tables } from '@/types';
 import { supabase } from '@/lib/supabase';
 
+export { default as makeStyles } from './makeStyles';
+
 interface FriendlyUsernameOptions {
   includeTrailName?: boolean;
 }

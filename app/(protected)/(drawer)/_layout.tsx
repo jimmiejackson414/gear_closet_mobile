@@ -1,17 +1,15 @@
 import { Drawer } from 'expo-router/drawer';
-import { Bell, House, NotebookText, TentTree, UserCog, Users } from 'lucide-react-native';
+import { BellIcon, House, NotebookText, TentTree, UserCog, Users } from 'lucide-react-native';
 import { Link } from 'expo-router';
-import { StyleSheet } from 'react-native';
-// import { Box, Button, Icon } from '@/components/ui';
-import { Button, Icon, Text } from 'react-native-paper';
-import { useTheme } from 'react-native-paper';
+import { Badge, Icon, IconButton } from 'react-native-paper';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import DrawerContent from '@/components/common/DrawerContent';
-// import theme from '@/lib/theme';
 import useAppStore from '@/stores/appStore';
+import { makeStyles } from '@/helpers';
 
 const DrawerLayout = () => {
   const unreadNotifications = useAppStore((state) => state.unreadNotifications());
-  const theme = useTheme();
+  const styles = useStyles();
 
   return (
     <Drawer
@@ -24,15 +22,15 @@ const DrawerLayout = () => {
           <Link
             asChild
             href="/modal">
-            <Button
-              mode="text"
-              style={{ marginRight: 20, position: 'relative' }}>
-              <Icon
-                color={theme.colors.backdrop}
-                size={20}
-                source={{ uri: Bell }} />
-              {/* {!!unreadNotifications.length && <Box style={styles.notificationDot} />} */}
-            </Button>
+            <TouchableOpacity style={{
+              marginHorizontal: 8, flexDirection: 'row', alignItems: 'center',
+            }}>
+              <IconButton icon={({ size }) => <BellIcon size={size} />} />
+              <Badge
+                size={8}
+                style={styles.badge}
+                visible={!!unreadNotifications.length} />
+            </TouchableOpacity>
           </Link>
         ),
       }}>
@@ -100,16 +98,13 @@ const DrawerLayout = () => {
   );
 };
 
-// const styles = StyleSheet.create({
-//   notificationDot: {
-//     position: 'absolute',
-//     top: 1,
-//     right: -1,
-//     backgroundColor: theme.colors.red[500],
-//     borderRadius: 999,
-//     height: 6,
-//     width: 6,
-//   },
-// });
+const useStyles = makeStyles((theme) => ({
+  badge: {
+    position: 'absolute',
+    top: 4,
+    right: 12,
+    backgroundColor: theme.colors.error,
+  },
+}));
 
 export default DrawerLayout;

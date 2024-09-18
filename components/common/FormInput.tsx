@@ -1,109 +1,71 @@
 import React from 'react';
-import { useController, useFormContext } from 'react-hook-form';
-import type { LucideIcon } from 'lucide-react-native'; // Import from lucide
-import type { TextInputProps } from 'react-native';
-import { Text } from 'react-native-paper';
-// import { FormControl, FormControlError, FormControlErrorText, FormControlHelper, FormControlHelperText, FormControlLabel, FormControlLabelText, Input, InputField, InputIcon, InputSlot } from '@/components/ui';
+import { Controller } from 'react-hook-form';
+import { View } from 'react-native';
+import { HelperText, TextInput } from 'react-native-paper';
 
 interface FormInputProps {
-  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
-  autoComplete?: TextInputProps['autoComplete'];
-  autoFocus?: boolean;
-  className?: string;
-  defaultValue?: string;
-  helperText?: string;
-  icon?: LucideIcon;
-  isDisabled?: boolean;
-  isReadOnly?: boolean;
-  isRequired?: boolean;
-  keyboardType?: TextInputProps['keyboardType'];
-  label: string;
   name: string;
+  control: any;
+  label: string;
   placeholder?: string;
-  type?: 'text' | 'password';
+  secureTextEntry?: boolean;
+  left?: React.ReactNode;
+  right?: React.ReactNode;
+  [key: string]: any;
 }
 
 const FormInput: React.FC<FormInputProps> = ({
   autoCapitalize = 'none',
   autoComplete,
   autoFocus = false,
-  className,
-  defaultValue,
-  helperText,
-  icon: Icon, // Destructure icon prop
-  isDisabled = false,
-  isRequired = false,
-  isReadOnly = false,
+  control,
+  dense = false,
+  disabled = false,
   keyboardType = 'default',
   label,
+  left,
   name,
   placeholder,
-  type = 'text',
-}) => {
-  const { control } = useFormContext();
-  const {
-    field: {
-      onChange, onBlur, value,
-    },
-    fieldState: { error },
-  } = useController({
-    name,
-    control,
-    defaultValue,
-  });
-
-  return (
-    <Text>FormInput</Text>
-    // <FormControl
-    //   className="w-full"
-    //   isDisabled={isDisabled}
-    //   isInvalid={!!error}
-    //   isReadOnly={isReadOnly}
-    //   isRequired={isRequired}>
-    //   <FormControlLabel className="mb-1">
-    //     <FormControlLabelText className="text-typography-700">
-    //       {label}
-    //     </FormControlLabelText>
-    //   </FormControlLabel>
-    //   <Input
-    //     className={`w-full ${className}`}
-    //     isDisabled={isDisabled}
-    //     size="lg"
-    //     variant="outline">
-    //     {Icon && (
-    //       <InputSlot>
-    //         <InputIcon
-    //           as={Icon}
-    //           className="pl-10" />
-    //       </InputSlot>
-    //     )}
-    //     <InputField
-    //       autoCapitalize={autoCapitalize}
-    //       autoComplete={autoComplete}
-    //       autoFocus={autoFocus}
-    //       keyboardType={keyboardType}
-    //       onBlur={onBlur}
-    //       onChangeText={onChange}
-    //       placeholder={placeholder}
-    //       type={type}
-    //       value={value} />
-    //   </Input>
-    //   {helperText && !error && (
-    //     <FormControlHelper>
-    //       <FormControlHelperText>
-    //         {helperText}
-    //       </FormControlHelperText>
-    //     </FormControlHelper>
-    //   )}
-    //   {error && (
-    //     <FormControlError>
-    //       <FormControlErrorText>
-    //         {error.message}
-    //       </FormControlErrorText>
-    //     </FormControlError>
-    //   )}
-    // </FormControl>
-  );
-};
+  readOnly = false,
+  right,
+  secureTextEntry,
+  ...rest
+}) => (
+  <Controller
+    control={control}
+    name={name}
+    render={({
+      field: {
+        onChange, onBlur, value,
+      }, fieldState: { error },
+    }) => (
+      <View>
+        <TextInput
+          autoCapitalize={autoCapitalize}
+          autoComplete={autoComplete}
+          autoFocus={autoFocus}
+          dense={dense}
+          disabled={disabled}
+          error={!!error}
+          keyboardType={keyboardType}
+          label={label}
+          left={left}
+          mode="outlined"
+          onBlur={onBlur}
+          onChangeText={onChange}
+          placeholder={placeholder}
+          readOnly={readOnly}
+          right={right}
+          secureTextEntry={secureTextEntry}
+          value={value}
+          {...rest} />
+        <HelperText
+          type="error"
+          visible={!!error}>
+          {error?.message}
+        </HelperText>
+      </View>
+    )} />
+);
 
 export default FormInput;

@@ -1,14 +1,13 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, ImageBackground, StyleSheet, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Animated, ImageBackground, View } from 'react-native';
 import { Image } from 'expo-image';
 import { Link } from 'expo-router';
-import { Button, Icon, Surface, Text } from 'react-native-paper';
+import { Button, Surface, Text } from 'react-native-paper';
 import type { Provider } from '@supabase/supabase-js';
 import { Colors } from '@/constants/colors';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import { useSupabase } from '@/context/SupabaseProvider';
 import { useAuthLayout, useTheme } from '@/hooks';
-// import theme from '@/lib/theme';
 import GoogleIcon from '@/assets/images/google.svg';
 import FacebookIcon from '@/assets/images/facebook.svg';
 import makeStyles from '@/helpers/makeStyles';
@@ -17,7 +16,6 @@ import makeStyles from '@/helpers/makeStyles';
 const WelcomeScreen = () => {
   const { colorScheme } = useTheme();
   const styles = useStyles({ colorScheme });
-  console.log({ colorScheme });
 
   const opacity = useRef(new Animated.Value(0)).current;
   const [imageLoaded, setImageLoaded] = useState(false);

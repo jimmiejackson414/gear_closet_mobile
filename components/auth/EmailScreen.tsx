@@ -4,12 +4,13 @@ import { z } from 'zod';
 import { Mail } from 'lucide-react-native';
 import { Image } from 'expo-image';
 import { toast } from 'sonner-native';
-import { StyleSheet } from 'react-native';
-import { Text } from 'react-native-paper';
+import { View } from 'react-native';
+import { Button, Text } from 'react-native-paper';
 import { useSupabase } from '@/context/SupabaseProvider';
 import { useAuthScreenContext } from '@/context/AuthScreenProvider';
 // import { Button, ButtonSpinner, ButtonText, Center, Text, VStack } from '@/components/ui';
 import FormInput from '@/components/common/FormInput';
+import { makeStyles } from '@/helpers';
 // import theme from '@/lib/theme';
 
 const emailSchema = z.object({
@@ -48,53 +49,54 @@ const EmailScreen: React.FC = () => {
     }
   };
 
-  const { handleSubmit } = form;
+  const { control, handleSubmit } = form;
 
+  const styles = useStyles();
   return (
     <FormProvider {...form}>
-      <Text>Email Screen</Text>
-      {/* <Center>
+      <View style={styles.center}>
         <Image
           contentFit="contain"
           source={require('../../assets/gear-closet-icon.png')}
           style={styles.icon} />
-        <Text className="mb-8">Let's start with your email</Text>
-        <VStack
-          className="w-full"
-          space="lg">
+        <Text style={{ marginVertical: 8 }}>Let's start with your email</Text>
+        <View style={{ width: '100%' }}>
           <FormInput
             autoComplete="email"
             autoFocus
+            control={control}
+            disabled={submitting}
             icon={Mail}
-            isDisabled={submitting}
-            isRequired
             keyboardType="email-address"
             label="Email"
             name="email"
             placeholder="Enter your email" />
           <Button
-            action="primary"
-            className="mt-6"
-            isDisabled={submitting}
+            disabled={submitting}
+            loading={submitting}
+            mode="contained"
             onPress={handleSubmit(onCheckEmail)}
-            size="lg"
-            variant="solid">
-            {submitting && <ButtonSpinner color={theme.colors.gray[400]} />}
-            <ButtonText>Continue</ButtonText>
+            style={{ marginTop: 24 }}>
+            Continue
           </Button>
-        </VStack>
-      </Center> */}
+        </View>
+      </View>
     </FormProvider>
   );
 };
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles(() => ({
+  center: {
+    alignItems: 'center',
+    flexGrow: 1,
+    justifyContent: 'center',
+  },
   icon: {
     height: 64,
     marginBottom: 8,
     marginTop: 64,
     width: 64,
   },
-});
+}));
 
 export default EmailScreen;

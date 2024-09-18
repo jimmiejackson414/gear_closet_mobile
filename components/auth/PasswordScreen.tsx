@@ -3,14 +3,13 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Image } from 'expo-image';
-import { StyleSheet } from 'react-native';
-import { LockKeyhole } from 'lucide-react-native';
-import { Text } from 'react-native-paper';
+import { View } from 'react-native';
+import { EyeIcon, EyeOffIcon } from 'lucide-react-native';
+import { Button, Text, TextInput } from 'react-native-paper';
 import { useSupabase } from '@/context/SupabaseProvider';
 import { useAuthScreenContext } from '@/context/AuthScreenProvider';
-// import { Button, ButtonSpinner, ButtonText, Center, Text, VStack } from '@/components/ui';
 import FormInput from '@/components/common/FormInput';
-// import theme from '@/lib/theme';
+import { makeStyles } from '@/helpers';
 
 const passwordSchema = z.object({
   password: z.string()
@@ -18,6 +17,7 @@ const passwordSchema = z.object({
 });
 
 const PasswordScreen: React.FC = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const { signInWithPassword } = useSupabase();
   const {
@@ -29,7 +29,7 @@ const PasswordScreen: React.FC = () => {
     defaultValues: { password: '' },
   });
 
-  const { handleSubmit } = form;
+  const { control, handleSubmit } = form;
 
   const onSignIn = async () => {
     try {
@@ -51,60 +51,74 @@ const PasswordScreen: React.FC = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
+  const styles = useStyles();
   return (
     <FormProvider {...form}>
-      <Text>Password Screen</Text>
-      {/* <Center>
+      <View style={styles.center}>
         <Image
           contentFit="contain"
           source={require('../../assets/gear-closet-icon.png')}
           style={styles.icon} />
-        <Text className="mb-8">Enter your password</Text>
-        <VStack
-          className="w-full"
-          space="lg">
+        <Text style={{ marginVertical: 8 }}>Enter your password</Text>
+        <View style={{ width: '100%' }}>
           <FormInput
             autoComplete="password"
             autoFocus
-            icon={LockKeyhole}
-            isDisabled={submitting}
-            isRequired
+            control={control}
+            disabled={submitting}
+            keyboardType="default"
             label="Password"
             name="password"
             placeholder="Enter your password"
-            type="password" />
+            right={
+              <TextInput.Icon icon={({ size }) =>
+                !showPassword ? (
+                  <EyeIcon
+                    height={size}
+                    onPress={() => setShowPassword(prev => !prev)}
+                    width={size} />
+                ) : (
+                  <EyeOffIcon
+                    height={size}
+                    onPress={() => setShowPassword(prev => !prev)}
+                    width={size} />
+                )
+              } />
+            }
+            secureTextEntry={!showPassword} />
           <Button
-            action="primary"
-            className="mt-6"
-            isDisabled={submitting}
+            disabled={submitting}
+            loading={submitting}
+            mode="contained"
             onPress={handleSubmit(onSignIn)}
-            size="lg"
-            variant="solid">
-            {submitting && <ButtonSpinner color={theme.colors.gray[400]} />}
-            <ButtonText>Continue</ButtonText>
+            style={{ marginTop: 24 }}>
+            Continue
           </Button>
           {showForgotPassword && (
             <Button
-              action="primary"
-              onPress={() => setScreen('forgotPassword')}
-              size="md"
-              variant="link">
-              <ButtonText>Forgot password?</ButtonText>
+              mode="text"
+              onPress={() => setScreen('forgotPassword')}>
+              Forgot password?
             </Button>
           )}
-        </VStack>
-      </Center> */}
+        </View>
+      </View>
     </FormProvider>
   );
 };
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles(() => ({
+  center: {
+    alignItems: 'center',
+    flexGrow: 1,
+    justifyContent: 'center',
+  },
   icon: {
     height: 64,
     marginBottom: 8,
     marginTop: 64,
     width: 64,
   },
-});
+}));
 
 export default PasswordScreen;
