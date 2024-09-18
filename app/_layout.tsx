@@ -8,8 +8,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from 'react-native-paper';
 import { SupabaseProvider } from '@/context/SupabaseProvider';
 import { APIProvider } from '@/services/common/api-provider';
-import 'react-native-reanimated';
 import { darkTheme, lightTheme } from '@/theme';
+import 'react-native-reanimated';
 
 if (process.env.NODE_ENV === 'production') {
   LogBox.ignoreAllLogs(true);
