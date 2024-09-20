@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { ActivityIndicator, ScrollView, ScrollViewProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import useAppStore from '@/stores/appStore';

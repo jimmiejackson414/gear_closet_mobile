@@ -8,10 +8,8 @@ import { View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { useSupabase } from '@/context/SupabaseProvider';
 import { useAuthScreenContext } from '@/context/AuthScreenProvider';
-// import { Button, ButtonSpinner, ButtonText, Center, Text, VStack } from '@/components/ui';
 import FormInput from '@/components/common/FormInput';
 import { makeStyles } from '@/helpers';
-// import theme from '@/lib/theme';
 
 const emailSchema = z.object({
   email: z.string()

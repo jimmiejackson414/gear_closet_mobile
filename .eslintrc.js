@@ -29,6 +29,7 @@ module.exports = {
     '@stylistic/quotes': [1, 'single'],
     '@stylistic/semi': [1, 'always'],
     '@stylistic/newline-per-chained-call': [1, { ignoreChainWithDepth: 1 }],
+    '@stylistic/space-infix-ops': [1, { int32Hint: false }],
     'import/newline-after-import': [1, { count: 1 }],
     'import/order': [1, { 'newlines-between': 'never' }],
     'react/jsx-closing-bracket-location': [1, 'after-props'],

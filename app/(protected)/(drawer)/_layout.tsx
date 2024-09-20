@@ -18,6 +18,7 @@ const DrawerLayout = () => {
       screenOptions={{
         headerShown: true,
         swipeEdgeWidth: 0,
+        headerStyle: { backgroundColor: 'white' },
         headerRight: () => (
           <Link
             asChild

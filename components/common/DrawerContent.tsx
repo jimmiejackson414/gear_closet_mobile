@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { DrawerContentComponentProps, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { Icon } from 'react-native-paper';
@@ -6,7 +5,6 @@ import { useRouter } from 'expo-router';
 import { LogOut } from 'lucide-react-native';
 import { useTheme } from 'react-native-paper';
 import { useSupabase } from '@/context/SupabaseProvider';
-// import { Icon } from '@/components/ui';
 
 const DrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
   const router = useRouter();
@@ -31,11 +29,15 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
         <Icon
           color={theme.colors.backdrop}
           size={20}
+          source={{ uri: <LogOut /> }} />
+        {/* <Icon
+          color={theme.colors.backdrop}
+          size={20}
           source={({ size, color }: { size: number, color: string }) => (
             <LogOut
               color={color}
               size={size} />
-          )} />
+          )} /> */}
         <Text style={styles.logoutText}>Logout</Text>
       </TouchableOpacity>
     </DrawerContentScrollView>
