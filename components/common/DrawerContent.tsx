@@ -29,15 +29,12 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
         <Icon
           color={theme.colors.backdrop}
           size={20}
-          source={{ uri: <LogOut /> }} />
-        {/* <Icon
-          color={theme.colors.backdrop}
-          size={20}
           source={({ size, color }: { size: number, color: string }) => (
             <LogOut
               color={color}
-              size={size} />
-          )} /> */}
+              size={size}
+              style={{ marginRight: 20 }} />
+          )} />
         <Text style={styles.logoutText}>Logout</Text>
       </TouchableOpacity>
     </DrawerContentScrollView>

@@ -34,7 +34,6 @@ const { LightTheme, DarkTheme } = adaptNavigationTheme({
 const CombinedDefaultTheme = merge(LightTheme, customLightTheme);
 const CombinedDarkTheme = merge(DarkTheme, customDarkTheme);
 
-
 const RootLayout = () => {
   const navigationRef = useNavigationContainerRef();
   useReactNavigationDevTools(navigationRef);
@@ -44,6 +43,7 @@ const RootLayout = () => {
       colorScheme === 'dark'
         ? CombinedDarkTheme
         : CombinedDefaultTheme;
+  console.log({ paperTheme });
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ClickOutsideProvider>

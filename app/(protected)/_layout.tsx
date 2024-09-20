@@ -18,7 +18,7 @@ const ProtectedLayout = () => {
     if (data) setProfile(data);
   }, [data, setProfile]);
   return (
-    <Stack screenOptions={{ headerStyle: { backgroundColor: 'white' } }}>
+    <Stack>
       <Stack.Screen
         name="(drawer)"
         options={{ headerShown: false }} />

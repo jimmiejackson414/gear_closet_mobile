@@ -1,5 +1,5 @@
 import { LockIcon, MessagesSquareIcon } from 'lucide-react-native';
-import { Button, Card, Icon, IconButton, Text, Tooltip, useTheme } from 'react-native-paper';
+import { Card, Icon, IconButton, Text, Tooltip, useTheme } from 'react-native-paper';
 import { View } from 'react-native';
 import ForumPost from './ForumPost';
 import { ForumResponse } from '@/services/dashboard/types';
@@ -28,29 +28,32 @@ const ForumsWidget: React.FC<Props> = ({ data }) => {
                 size={20} />
             )} />
         )}
+        leftStyle={{ marginRight: 0 }}
         right={props => (
-          <Tooltip
-            {...props}
-            enterTouchDelay={100}
-            leaveTouchDelay={100}
-            title="Upgrade to access the forums">
-            <IconButton
-              icon={() => <LockIcon
-                color={theme.colors.onSurfaceVariant}
-                size={18} />}
-              size={14} />
-          </Tooltip>
+          !isPaidMember ? (
+            <Tooltip
+              {...props}
+              enterTouchDelay={100}
+              leaveTouchDelay={100}
+              title="Upgrade to access the forums">
+              <IconButton
+                icon={() => <LockIcon
+                  color={theme.colors.onSurfaceVariant}
+                  size={15} />}
+                size={15} />
+            </Tooltip>
+          ) : null
         )}
         title="Latest From The Community"
-        titleStyle={{ fontWeight: 'bold' }}
+        titleStyle={{ fontWeight: 'bold', marginBottom: 0 }}
         titleVariant="bodyLarge" />
       <Card.Content>
         {!data ? (
-          <Text style={{ marginTop: 16, textAlign: 'center' }}>
+          <Text style={{ textAlign: 'center' }}>
             An error occurred while fetching from the forums.
           </Text>
         ) : (
-          <View style={{ marginTop: 24 }}>
+          <View>
             {data.latest_posts.map(post => (
               <View
                 key={post.id}
@@ -58,6 +61,27 @@ const ForumsWidget: React.FC<Props> = ({ data }) => {
                 <ForumPost post={post} />
               </View>
             ))}
+            <View style={{ gap: 16, flexDirection: 'row' }}>
+              {data.categories.map(category => (
+                <View
+                  key={category.id}
+                  style={{
+                    alignItems: 'center', backgroundColor: `#${category.color}`, borderRadius: 24, flexDirection: 'row', gap: 8, padding: 8,
+                  }}>
+                  <View style={{
+                    backgroundColor: `#${category.color}`, borderRadius: 24, height: 12, width: 12,
+                  }} />
+                  <View>
+                    <Text style={{ color: theme.colors.onSurfaceVariant, fontWeight: 'bold' }}>
+                      {category.name}
+                    </Text>
+                    <Text style={{ color: theme.colors.onSurfaceVariant }}>
+                      {`${category.topic_count} topics`}
+                    </Text>
+                  </View>
+                </View>
+              ))}
+            </View>
           </View>
         )}
       </Card.Content>
