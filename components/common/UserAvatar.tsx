@@ -1,19 +1,27 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { forwardRef } from 'react';
-import { Avatar } from 'react-native-paper';
+import { Avatar, Icon } from 'react-native-paper';
+import GcIcon from '@/assets/gear-closet-icon.svg';
 import { buildImageSrc, initials } from '@/helpers';
 import type { Tables } from '@/types';
 import type { ExtendedUser } from '@/types/helpers';
 
 interface Props {
-  profile: ExtendedUser | Tables<'profiles'>;
+  profile?: ExtendedUser | Tables<'profiles'> | null;
   size?: number;
 }
 
 const UserAvatar = forwardRef<any, Props>(({ profile, size = 64 }, _ref) => {
-  const avatarSrc = buildImageSrc(profile?.image);
+  if (!profile) {
+    return <Avatar.Icon
+      icon={({ size }) => <Icon
+        size={size}
+        source={() => <GcIcon />} />}
+      size={size} />;
+  }
 
+  const avatarSrc = buildImageSrc(profile?.image);
   if (avatarSrc) {
     return (
       <Avatar.Image
