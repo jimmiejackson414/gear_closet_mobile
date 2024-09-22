@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { ProfileApiResponse } from '@/services/user/types';
-import { ExtendedNotification } from '@/types/helpers';
 import { SubscriptionLevel } from '@/types';
+import type { ProfileApiResponse } from '@/services/user/types';
+import type { ExtendedNotification } from '@/types/helpers';
 
 interface AppState {
   isLoading: boolean;

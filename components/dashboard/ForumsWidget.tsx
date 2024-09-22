@@ -1,101 +1,90 @@
-import { useState } from 'react';
-import { Lock, MessagesSquare } from 'lucide-react-native';
-import { useClickOutside } from 'react-native-click-outside';
-import ForumPost from './ForumPost';
-import { Box, Button, Card, Grid, GridItem, Icon, Text, Tooltip, TooltipContent, TooltipText, VStack, View } from '@/components/ui';
-import { ForumResponse } from '@/services/dashboard/types';
+import { View } from 'react-native';
+import { LockIcon, MessagesSquareIcon } from 'lucide-react-native';
+import { Card, Icon, IconButton, Text, Tooltip, useTheme } from 'react-native-paper';
 import useAppStore from '@/stores/appStore';
+import ForumPost from './ForumPost';
+import type { ForumResponse } from '@/services/dashboard/types';
 
 interface Props {
   data?: ForumResponse | null;
 }
 
 const ForumsWidget: React.FC<Props> = ({ data }) => {
-  const [isOpen, setOpen] = useState(false);
   const isPaidMember = useAppStore(state => state.isPaidMember());
-  const ref = useClickOutside<View>(() => setOpen(false));
 
+  const theme = useTheme();
   return (
     <Card
-      size="lg"
-      variant="elevated">
-      <Box className="items-center flex-row gap-4">
-        <Icon
-          as={MessagesSquare}
-          className="text-primary-500"
-          size="xl" />
-        <Text
-          bold
-          className="flex-grow"
-          size="lg">
-          Latest From The Community
-        </Text>
-        {!isPaidMember && (
-          <View ref={ref}>
-            <Tooltip
-              isOpen={isOpen}
-              placement="left"
-              trigger={triggerProps => (
-                <Button
-                  {...triggerProps}
-                  onPress={() => setOpen(o => !o)}
-                  size="sm"
-                  variant="link">
-                  <Icon
-                    as={Lock}
-                    className="text-gray-600"
-                    size="xl" />
-                </Button>
-              )}>
-              <TooltipContent>
-                <TooltipText size="lg">
-                  Upgrade to access the forums
-                </TooltipText>
-              </TooltipContent>
-            </Tooltip>
-          </View>
+      mode="elevated"
+      style={{ marginHorizontal: 1 }}
+      theme={{ colors: { elevation: { level1: theme.colors.onPrimary } } }}>
+      <Card.Title
+        left={props => (
+          <Icon
+            {...props}
+            source={() => (
+              <MessagesSquareIcon
+                color={theme.colors.primary}
+                size={20} />
+            )} />
         )}
-      </Box>
-      {!data ? (
-        <Text className="mt-4 text-center">An error occurred while fetching from the forums.</Text>
-      ) : (
-        <Box className="mt-8">
-          {data.latest_posts.map(post => (
-            <VStack
-              className="mb-8"
-              key={post.id}
-              space="lg">
-              <ForumPost post={post} />
-            </VStack>
-          ))}
-          <Grid
-            _extra={{ className: 'grid-cols-2' }}
-            className="gap-4">
-            {data.categories.map(category => (
-              <GridItem
-                _extra={{ className: 'col-span-1' }}
-                className="border border-gray-200 gap-4 items-center p-4 rounded-2xl"
-                key={category.id}>
-                <Grid
-                  _extra={{ className: 'grid-cols-[auto,1fr]' }}
-                  className="gap-4 items-center">
-                  <Box
-                    className="h-3 rounded-full w-3"
-                    style={{ backgroundColor: `#${category.color}` }} />
-                  <Box className="flex justify-center flex-col">
-                    <Text bold>
+        leftStyle={{ marginRight: 0 }}
+        right={props => (
+          !isPaidMember ? (
+            <Tooltip
+              {...props}
+              enterTouchDelay={100}
+              leaveTouchDelay={100}
+              title="Upgrade to access the forums">
+              <IconButton
+                icon={() => <LockIcon
+                  color={theme.colors.onSurfaceVariant}
+                  size={15} />}
+                size={15} />
+            </Tooltip>
+          ) : null
+        )}
+        title="Latest From The Community"
+        titleStyle={{ fontWeight: 'bold', marginBottom: 0 }}
+        titleVariant="bodyLarge" />
+      <Card.Content>
+        {!data ? (
+          <Text style={{ textAlign: 'center' }}>
+            An error occurred while fetching from the forums.
+          </Text>
+        ) : (
+          <View>
+            {data.latest_posts.map(post => (
+              <View
+                key={post.id}
+                style={{ marginBottom: 24, gap: 16 }}>
+                <ForumPost post={post} />
+              </View>
+            ))}
+            <View style={{ gap: 16, flexDirection: 'row' }}>
+              {data.categories.map(category => (
+                <View
+                  key={category.id}
+                  style={{
+                    alignItems: 'center', backgroundColor: `#${category.color}`, borderRadius: 24, flexDirection: 'row', gap: 8, padding: 8,
+                  }}>
+                  <View style={{
+                    backgroundColor: `#${category.color}`, borderRadius: 24, height: 12, width: 12,
+                  }} />
+                  <View>
+                    <Text style={{ color: theme.colors.onSurfaceVariant, fontWeight: 'bold' }}>
                       {category.name}
                     </Text>
-                    <Text className="text-gray-400">
+                    <Text style={{ color: theme.colors.onSurfaceVariant }}>
                       {`${category.topic_count} topics`}
                     </Text>
-                  </Box>
-                </Grid>
-              </GridItem>
-            ))}
-          </Grid>
-        </Box>
-      )}
+                  </View>
+                </View>
+              ))}
+            </View>
+          </View>
+        )}
+      </Card.Content>
     </Card>
   );
 };

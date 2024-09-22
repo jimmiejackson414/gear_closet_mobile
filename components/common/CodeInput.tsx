@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
-import { NativeSyntheticEvent, StyleSheet, TextInput, TextInputKeyPressEventData, View } from 'react-native';
-import theme from '@/lib/theme';
+import { TextInput, View } from 'react-native';
+import { makeStyles } from '@/helpers';
+import type { NativeSyntheticEvent, TextInputKeyPressEventData } from 'react-native';
 
 interface Props {
   length?: number;
@@ -28,6 +29,7 @@ const CodeInput: React.FC<Props> = ({ length = 6, onChangeCode }) => {
     }
   };
 
+  const styles = useStyles();
   return (
     <View style={styles.container}>
       {code.map((digit, index) => (
@@ -45,7 +47,7 @@ const CodeInput: React.FC<Props> = ({ length = 6, onChangeCode }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles((theme) => ({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -55,10 +57,10 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderWidth: 1,
-    borderColor: theme.colors.gray[400],
+    borderColor: theme.colors.backdrop,
     textAlign: 'center',
     fontSize: 18,
   },
-});
+}));
 
 export default CodeInput;

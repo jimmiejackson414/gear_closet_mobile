@@ -1,12 +1,12 @@
-import { StyleSheet } from 'react-native';
+import { View } from 'react-native';
+import { useNavigation } from 'expo-router';
 import dayjs from 'dayjs';
 import durationPlugin from 'dayjs/plugin/duration';
 import relativePlugin from 'dayjs/plugin/relativeTime';
 import { X } from 'lucide-react-native';
-import { useNavigation } from 'expo-router';
-import { Box, Button, ButtonIcon, Divider, Text } from '@/components/ui';
+import { Badge, Divider, IconButton, Text } from 'react-native-paper';
+import { makeStyles } from '@/helpers';
 import useAppStore from '@/stores/appStore';
-import theme from '@/lib/theme';
 
 dayjs.extend(durationPlugin);
 dayjs.extend(relativePlugin);
@@ -16,67 +16,61 @@ const NotificationsModal = () => {
   const readNotifications = useAppStore((state) => state.readNotifications());
   const unreadNotifications = useAppStore((state) => state.unreadNotifications());
 
+  const styles = useStyles();
   return (
-    <Box style={styles.modal}>
-      <Button
-        action="secondary"
-        className="rounded-full p-3.5 w-12 h-12"
+    <View style={styles.modal}>
+      <IconButton
+        icon={({ size }) => <X size={size} />}
+        mode="outlined"
         onPress={() => navigation.goBack()}
-        size="lg"
-        style={styles.closeButton}
-        variant="outline">
-        <ButtonIcon
-          as={X}
-          className="text-gray-500"
-          size="lg" />
-      </Button>
-      <Text bold>
+        style={styles.closeButton} />
+      <Text style={{ fontWeight: 'bold' }}>
         {`Notifications (${unreadNotifications.length})`}
       </Text>
-      <Divider className="my-4" />
+      <Divider style={{ marginVertical: 16 }} />
       {unreadNotifications.map((notification) => (
-        <Box
+        <View
           key={notification.id}
           style={styles.notification}>
-          <Box style={styles.notificationDot}>
-          </Box>
-          <Text
-            bold
-            size="lg">
+          <Badge
+            size={8}
+            style={styles.notificationDot}
+            visible={true} />
+          <Text variant="bodyLarge">
             {notification.title}
           </Text>
           <Text>
             {notification.content}
           </Text>
-          <Text size="xs">
+          <Text variant="bodySmall">
             {dayjs()
               .to(dayjs(notification.created_at))}
           </Text>
-          <Divider className="my-4" />
-        </Box>
+          <Divider style={{ marginVertical: 16 }} />
+        </View>
       ))}
       {readNotifications.map((notification) => (
-        <Box
+        <View
           key={notification.id}
           style={styles.notification}>
-          <Text size="lg">
+          <Text variant="bodyLarge">
             {notification.title}
           </Text>
           <Text>
             {notification.content}
           </Text>
-          <Text size="xs">
+          <Text variant="bodySmall">
             {dayjs()
               .to(dayjs(notification.created_at))}
           </Text>
-          <Divider className="my-4" />
-        </Box>
+          <Divider style={{ marginVertical: 16 }} />
+        </View>
       ))}
-    </Box>
+    </View>
   );
 };
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles((theme) => ({
   closeButton: {
     position: 'absolute',
     right: 16,
@@ -92,11 +86,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 8,
     left: -16,
-    backgroundColor: theme.colors.red[500],
-    borderRadius: 999,
-    height: 6,
-    width: 6,
+    backgroundColor: theme.colors.error,
   },
-});
+}));
 
 export default NotificationsModal;

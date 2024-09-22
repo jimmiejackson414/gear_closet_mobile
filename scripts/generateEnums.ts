@@ -7,7 +7,8 @@ function transformEnumName(name: string): string {
   return name
     .replace(/_enum$/, '') // Remove '_enum' suffix
     .split('_')
-    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+    .map(part => part.charAt(0)
+      .toUpperCase() + part.slice(1))
     .join('');
 }
 
@@ -56,7 +57,8 @@ function extractEnums(content: string): Record<string, string[]> {
 function createEnumStrings(enums: Record<string, string[]>): string {
   return Object.entries(enums)
     .map(([enumName, enumValues]) => {
-      const enumMembers = enumValues.map(value => `${value} = "${value}"`).join(',\n  ');
+      const enumMembers = enumValues.map(value => `${value} = "${value}"`)
+        .join(',\n  ');
       return `export enum ${enumName} {\n  ${enumMembers}\n}`;
     })
     .join('\n\n');

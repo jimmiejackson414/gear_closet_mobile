@@ -1,5 +1,5 @@
-import { ProfileApiResponse } from './types';
 import { supabase } from '@/lib/supabase';
+import type { ProfileApiResponse } from './types';
 
 /**
  * Fetches the profile data for the current user

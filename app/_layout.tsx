@@ -1,15 +1,18 @@
-import { LogBox } from 'react-native';
+import { AppRegistry, LogBox } from 'react-native';
 import { Stack, useNavigationContainerRef } from 'expo-router';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { ClickOutsideProvider } from 'react-native-click-outside';
-import { Toaster } from 'sonner-native';
 import { useReactNavigationDevTools } from '@dev-plugins/react-navigation';
+import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme, ThemeProvider } from '@react-navigation/native';
+import merge from 'deepmerge';
+import { ClickOutsideProvider } from 'react-native-click-outside';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
-import { SupabaseProvider } from '@/context/SupabaseProvider';
-import { APIProvider } from '@/services/common/api-provider';
+import { MD3DarkTheme, MD3LightTheme, PaperProvider, adaptNavigationTheme } from 'react-native-paper';
 import 'react-native-reanimated';
-import '@/global.css';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Toaster } from 'sonner-native';
+import { Colors } from '@/constants/colors';
+import { SupabaseProvider } from '@/context/SupabaseProvider';
+import { useTheme } from '@/hooks';
+import { APIProvider } from '@/services/common/api-provider';
 
 if (process.env.NODE_ENV === 'production') {
   LogBox.ignoreAllLogs(true);
@@ -20,29 +23,51 @@ export {
   ErrorBoundary,
 } from 'expo-router';
 
+const customDarkTheme = { ...MD3DarkTheme, colors: Colors.dark };
+const customLightTheme = { ...MD3LightTheme, colors: Colors.light };
+
+const { LightTheme, DarkTheme } = adaptNavigationTheme({
+  reactNavigationLight: NavigationDefaultTheme,
+  reactNavigationDark: NavigationDarkTheme,
+});
+
+const CombinedDefaultTheme = merge(LightTheme, customLightTheme);
+const CombinedDarkTheme = merge(DarkTheme, customDarkTheme);
+
 const RootLayout = () => {
   const navigationRef = useNavigationContainerRef();
   useReactNavigationDevTools(navigationRef);
 
+  const { colorScheme } = useTheme();
+  const paperTheme =
+      colorScheme === 'dark'
+        ? CombinedDarkTheme
+        : CombinedDefaultTheme;
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ClickOutsideProvider>
         <SupabaseProvider>
           <APIProvider>
-            <GluestackUIProvider>
-              <SafeAreaProvider>
-                <Stack screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name="(protected)" />
-                  <Stack.Screen name="(public)" />
-                </Stack>
-                <Toaster position="bottom-center" />
-              </SafeAreaProvider>
-            </GluestackUIProvider>
+            <PaperProvider
+              settings={{ rippleEffectEnabled: false }}
+              theme={paperTheme}>
+              <ThemeProvider value={paperTheme}>
+                <SafeAreaProvider>
+                  <Stack screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name="(protected)" />
+                    <Stack.Screen name="(public)" />
+                  </Stack>
+                  <Toaster position="bottom-center" />
+                </SafeAreaProvider>
+              </ThemeProvider>
+            </PaperProvider>
           </APIProvider>
         </SupabaseProvider>
       </ClickOutsideProvider>
     </GestureHandlerRootView>
   );
 };
+
+AppRegistry.registerComponent('RootLayout', () => RootLayout);
 
 export default RootLayout;

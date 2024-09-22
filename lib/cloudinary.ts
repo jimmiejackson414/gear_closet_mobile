@@ -15,7 +15,9 @@ let cachedImageUrls: string[] = [];
 const cacheImageUrls = async () => {
   const imageUrls = [];
   for (let i = 1; i <= 14; i++) {
-    const imageUrl = cld.image(`${authPagesPath}/background${i}`).format('auto').toURL();
+    const imageUrl = cld.image(`${authPagesPath}/background${i}`)
+      .format('auto')
+      .toURL();
     imageUrls.push(imageUrl);
   }
   cachedImageUrls = imageUrls;

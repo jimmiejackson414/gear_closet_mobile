@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import '@/handlers/gesture-handler';
-import useAppStore from '@/stores/appStore';
-import { useProfile } from '@/services/user/useProfile';
 import { useErrorHandling, useLoading  } from '@/hooks';
+import { useProfile } from '@/services/user/useProfile';
+import useAppStore from '@/stores/appStore';
 
 const ProtectedLayout = () => {
   const {

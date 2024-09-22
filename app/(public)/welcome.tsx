@@ -1,18 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Animated, ImageBackground, StyleSheet } from 'react-native';
-import { Image } from 'expo-image';
+import { useEffect, useRef, useState } from 'react';
+import { Animated, ImageBackground, View } from 'react-native';
 import { Link } from 'expo-router';
-import type { Provider } from '@supabase/supabase-js';
-import { Box, Button, ButtonIcon, ButtonSpinner, ButtonText, Card, Center, Text, VStack } from '@/components/ui';
-import ScreenWrapper from '@/components/common/ScreenWrapper';
-import { useSupabase } from '@/context/SupabaseProvider';
-import { useAuthLayout } from '@/hooks';
-import theme from '@/lib/theme';
-import GoogleIcon from '@/assets/images/google.svg';
+import { Image } from 'expo-image';
+import { Button, Surface, Text } from 'react-native-paper';
 import FacebookIcon from '@/assets/images/facebook.svg';
+import GoogleIcon from '@/assets/images/google.svg';
+import ScreenWrapper from '@/components/common/ScreenWrapper';
+import { Colors } from '@/constants/colors';
+import { useSupabase } from '@/context/SupabaseProvider';
+import makeStyles from '@/helpers/makeStyles';
+import { useAuthLayout, useTheme } from '@/hooks';
+import type { Provider } from '@supabase/supabase-js';
 // import AppleIcon from '@/assets/images/apple.svg';
 
 const WelcomeScreen = () => {
+  const { colorScheme } = useTheme();
+  const styles = useStyles({ colorScheme });
+
   const opacity = useRef(new Animated.Value(0)).current;
   const [imageLoaded, setImageLoaded] = useState(false);
   useEffect(() => {
@@ -55,24 +59,21 @@ const WelcomeScreen = () => {
         source={{ uri: backgroundImage }}
         style={styles.background}>
         <ScreenWrapper
-          contentContainerStyle={styles.content}
+          contentContainerStyle={styles.contentContainer}
           withScrollView={false}>
-          <Card
-            className="shadow-md"
-            size="lg"
-            style={styles.card}
-            variant="glass">
-            <Center>
+          <Surface style={styles.card}>
+            <View style={styles.content}>
               <Image
                 contentFit="contain"
                 source={require('../../assets/gear-closet-icon.png')}
                 style={styles.icon} />
               <Text
-                size="lg"
-                style={styles.tagline}>
+                style={styles.tagline}
+                theme={{ colors: { onSurface: Colors.light.onSurface } }}
+                variant="titleLarge">
                 Sign up or log in to get started
               </Text>
-              <VStack space="md">
+              <View style={{ gap: 12 }}>
                 {/* Note: Re-add once purchase of Apple Developer account is complete */}
                 {/* <Button
                   action="secondary"
@@ -87,71 +88,80 @@ const WelcomeScreen = () => {
                   <ButtonText>Continue with Apple</ButtonText>
                 </Button> */}
                 <Button
-                  action="secondary"
-                  isDisabled={submitting}
+                  dark={false}
+                  disabled={submitting}
+                  icon={({ size }) => (
+                    <GoogleIcon
+                      height={size}
+                      width={size} />
+                  )}
+                  loading={submitting}
+                  mode="contained"
                   onPress={() => handleOAuthSignin('google')}
-                  size="lg"
-                  variant="outline">
-                  <ButtonIcon
-                    as={GoogleIcon}
-                    className="mr-8"
-                    size="lg" />
-                  {submitting && <ButtonSpinner color={theme.colors.gray[400]} />}
-                  <ButtonText>Continue with Google</ButtonText>
+                  textColor={Colors.light.onPrimary}>
+                  Continue with Google
                 </Button>
                 <Button
-                  action="secondary"
-                  isDisabled={submitting}
+                  dark={false}
+                  disabled={submitting}
+                  icon={({ size }) => (
+                    <FacebookIcon
+                      height={size}
+                      width={size} />
+                  )}
+                  loading={submitting}
+                  mode="contained"
                   onPress={() => handleOAuthSignin('facebook')}
-                  size="lg"
-                  variant="outline">
-                  <ButtonIcon
-                    as={FacebookIcon}
-                    className="mr-8"
-                    size="lg" />
-                  {submitting && <ButtonSpinner color={theme.colors.gray[400]} />}
-                  <ButtonText>Continue with Facebook</ButtonText>
+                  textColor={Colors.light.onPrimary}>
+                  Continue with Facebook
                 </Button>
-                <Box style={styles.divider}>
-                  <Box style={styles.dividerLine} />
+                <View style={styles.divider}>
+                  <View style={styles.dividerLine} />
                   <Text style={styles.dividerText}>or</Text>
-                  <Box style={styles.dividerLine} />
-                </Box>
+                  <View style={styles.dividerLine} />
+                </View>
                 <Link
                   asChild
                   href="/modal">
                   <Button
-                    action="primary"
-                    size="lg"
-                    variant="solid">
-                    <ButtonText>Continue with email</ButtonText>
+                    dark={true}
+                    mode="outlined"
+                    textColor={Colors.light.primary}>
+                    Continue with email
                   </Button>
                 </Link>
                 <Text
-                  size="xs"
-                  style={styles.smallPrint}>
+                  style={styles.smallPrint}
+                  theme={{ colors: { onSurface: Colors.light.onSurface } }}
+                  variant="bodySmall">
                   By continuing to use GearCloset, you agree to our Terms of Service and Privacy Policy.
                 </Text>
-              </VStack>
-            </Center>
-          </Card>
+              </View>
+            </View>
+          </Surface>
         </ScreenWrapper>
       </ImageBackground>
     </Animated.View>
   );
 };
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles(() => ({
   background: { flex: 1 },
   card: {
-    backgroundColor: 'rgba(255, 255, 255, 0.75)',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
     borderRadius: 24,
     padding: 26,
   },
-  content: {
+  contentContainer: {
     flexGrow: 1,
     justifyContent: 'center',
     padding: 8,
+  },
+  content: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
   },
   divider: {
     alignItems: 'center',
@@ -159,12 +169,12 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   dividerLine: {
-    backgroundColor: theme.colors.background.dark,
+    backgroundColor: Colors.light.onSurface,
     flex: 1,
     height: 1,
   },
   dividerText: {
-    color: theme.colors.typography[400],
+    color: Colors.light.onSurface,
     fontSize: 16,
     marginHorizontal: 16,
   },
@@ -174,13 +184,11 @@ const styles = StyleSheet.create({
     width: 64,
   },
   smallPrint: {
-    color: theme.colors.typography[950],
     fontWeight: '300',
     marginTop: 16,
     textAlign: 'center',
   },
   tagline: {
-    color: theme.colors.typography[700],
     marginBottom: 16,
     textAlign: 'center',
   },
@@ -189,6 +197,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     textAlign: 'center',
   },
-});
+}));
 
 export default WelcomeScreen;

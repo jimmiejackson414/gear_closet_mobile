@@ -1,5 +1,5 @@
-import { Tables } from '@/types';
-import { ExtendedNotification, SubscriptionType } from '@/types/helpers';
+import type { Tables } from '@/types';
+import type { ExtendedNotification, SubscriptionType } from '@/types/helpers';
 
 export type ProfileApiResponse = Tables<'profiles'> & {
   onboarding_steps: Tables<'onboarding_steps'>[];

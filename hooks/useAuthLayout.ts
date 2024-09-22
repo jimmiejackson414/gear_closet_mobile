@@ -28,13 +28,15 @@ const useAuthLayout = () => {
     if (nextBackgroundImage) {
       setBackgroundImage(nextBackgroundImage);
       setLoading(true);
-      fetchImage().then(({ image }) => {
-        setNextBackgroundImage(image);
-        setLoading(false);
-      }).catch(error => {
-        console.error('Error fetching next image from Cloudinary:', error);
-        setLoading(false);
-      });
+      fetchImage()
+        .then(({ image }) => {
+          setNextBackgroundImage(image);
+          setLoading(false);
+        })
+        .catch(error => {
+          console.error('Error fetching next image from Cloudinary:', error);
+          setLoading(false);
+        });
     }
   };
 

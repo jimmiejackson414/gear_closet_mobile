@@ -1,15 +1,15 @@
-import { StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { Image } from 'expo-image';
 import { Mail } from 'lucide-react-native';
 import { FormProvider, useForm } from 'react-hook-form';
+import { Button, Text, TextInput } from 'react-native-paper';
 import { toast } from 'sonner-native';
+import { z } from 'zod';
+import FormInput from '@/components/common/FormInput';
 import { useAuthScreenContext } from '@/context/AuthScreenProvider';
 import { useSupabase } from '@/context/SupabaseProvider';
-import { Button, ButtonSpinner, ButtonText, Center, Text, VStack } from '@/components/ui';
-import FormInput from '@/components/common/FormInput';
-import theme from '@/lib/theme';
+import { makeStyles } from '@/helpers';
 
 const emailSchema = z.object({
   email: z.string()
@@ -27,7 +27,7 @@ const ForgotPasswordScreen: React.FC = () => {
     defaultValues: { email: storedEmail },
   });
 
-  const { handleSubmit } = form;
+  const { control, handleSubmit } = form;
 
   const onSubmitForgotPassword = async () => {
     try {
@@ -47,56 +47,54 @@ const ForgotPasswordScreen: React.FC = () => {
     }
   };
 
+  const styles = useStyles();
   return (
     <FormProvider {...form}>
-      <Center>
+      <View style={styles.center}>
         <Image
           contentFit="contain"
           source={require('../../assets/gear-closet-icon.png')}
           style={styles.icon} />
-        <Text
-          bold
-          size="lg">
+        <Text variant="headlineSmall">
           Forgot Your Password?
         </Text>
-        <Text className="mb-8">Click submit to continue</Text>
-        <VStack
-          className="w-full"
-          space="lg">
+        <Text style={{ marginVertical: 8 }}>Click submit to continue</Text>
+        <View style={{ width: '100%' }}>
           <FormInput
             autoComplete="email"
-            autoFocus
-            className="!bg-gray-200 data-[disabled=true]:bg-gray-200 !text-gray-300"
-            icon={Mail}
-            isDisabled={true}
-            isRequired
+            control={control}
+            disabled={true}
             keyboardType="email-address"
             label="Email"
+            left={<TextInput.Icon icon={({ size }) => <Mail size={size} />} />}
             name="email"
             placeholder="Enter your email" />
           <Button
-            action="primary"
-            className="mt-6"
-            isDisabled={submitting}
+            disabled={submitting}
+            loading={submitting}
+            mode="contained"
             onPress={handleSubmit(onSubmitForgotPassword)}
-            size="lg"
-            variant="solid">
-            {submitting && <ButtonSpinner color={theme.colors.gray[400]} />}
-            <ButtonText>Submit</ButtonText>
+            style={{ marginTop: 24 }}>
+            Submit
           </Button>
-        </VStack>
-      </Center>
+        </View>
+      </View>
     </FormProvider>
   );
 };
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles(() => ({
+  center: {
+    alignItems: 'center',
+    flexGrow: 1,
+    justifyContent: 'center',
+  },
   icon: {
     height: 64,
     marginBottom: 8,
     marginTop: 64,
     width: 64,
   },
-});
+}));
 
 export default ForgotPasswordScreen;

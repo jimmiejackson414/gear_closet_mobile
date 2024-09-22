@@ -1,14 +1,16 @@
-import { Drawer } from 'expo-router/drawer';
-import { Bell, House, NotebookText, TentTree, UserCog, Users } from 'lucide-react-native';
 import { Link } from 'expo-router';
-import { StyleSheet } from 'react-native';
-import { Box, Button, Icon } from '@/components/ui';
+import { Drawer } from 'expo-router/drawer';
+import { BellIcon, House, NotebookText, TentTree, UserCog, Users } from 'lucide-react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Badge, Icon, IconButton, useTheme } from 'react-native-paper';
 import DrawerContent from '@/components/common/DrawerContent';
-import theme from '@/lib/theme';
+import { makeStyles } from '@/helpers';
 import useAppStore from '@/stores/appStore';
 
 const DrawerLayout = () => {
   const unreadNotifications = useAppStore((state) => state.unreadNotifications());
+  const styles = useStyles();
+  const theme = useTheme();
 
   return (
     <Drawer
@@ -17,19 +19,24 @@ const DrawerLayout = () => {
       screenOptions={{
         headerShown: true,
         swipeEdgeWidth: 0,
+        headerStyle: { backgroundColor: 'white' },
         headerRight: () => (
           <Link
             asChild
             href="/modal">
-            <Button
-              className="mr-6 relative"
-              variant="link">
-              <Icon
-                as={Bell}
-                size="md"
-                stroke={theme.colors.gray[500]} />
-              {!!unreadNotifications.length && <Box style={styles.notificationDot} />}
-            </Button>
+            <TouchableOpacity style={{
+              marginHorizontal: 8, flexDirection: 'row', alignItems: 'center',
+            }}>
+              <IconButton icon={({ size }) => (
+                <BellIcon
+                  color={theme.colors.secondary}
+                  size={size} />
+              )} />
+              <Badge
+                size={8}
+                style={styles.badge}
+                visible={!!unreadNotifications.length} />
+            </TouchableOpacity>
           </Link>
         ),
       }}>
@@ -40,9 +47,9 @@ const DrawerLayout = () => {
           headerTitle: 'Home',
           drawerIcon: ({ color }) => (
             <Icon
-              as={House}
               color={color}
-              size={'md'} />
+              size={20}
+              source={{ uri: House }} />
           ),
         }} />
       <Drawer.Screen
@@ -52,9 +59,9 @@ const DrawerLayout = () => {
           headerTitle: 'Closet',
           drawerIcon: ({ color }) => (
             <Icon
-              as={TentTree}
               color={color}
-              size={'md'} />
+              size={20}
+              source={{ uri: TentTree }} />
           ),
         }} />
       <Drawer.Screen
@@ -64,9 +71,9 @@ const DrawerLayout = () => {
           headerTitle: 'Friends',
           drawerIcon: ({ color }) => (
             <Icon
-              as={Users}
               color={color}
-              size={'md'} />
+              size={20}
+              source={{ uri: Users }} />
           ),
         }} />
       <Drawer.Screen
@@ -76,9 +83,9 @@ const DrawerLayout = () => {
           headerTitle: 'Planning',
           drawerIcon: ({ color }) => (
             <Icon
-              as={NotebookText}
               color={color}
-              size={'md'} />
+              size={20}
+              source={{ uri: NotebookText }} />
           ),
         }} />
       <Drawer.Screen
@@ -88,25 +95,22 @@ const DrawerLayout = () => {
           headerTitle: 'Profile',
           drawerIcon: ({ color }) => (
             <Icon
-              as={UserCog}
               color={color}
-              size={'md'} />
+              size={20}
+              source={{ uri: UserCog }} />
           ),
         }} />
     </Drawer>
   );
 };
 
-const styles = StyleSheet.create({
-  notificationDot: {
+const useStyles = makeStyles((theme) => ({
+  badge: {
     position: 'absolute',
-    top: 1,
-    right: -1,
-    backgroundColor: theme.colors.red[500],
-    borderRadius: 999,
-    height: 6,
-    width: 6,
+    top: 4,
+    right: 12,
+    backgroundColor: theme.colors.error,
   },
-});
+}));
 
 export default DrawerLayout;

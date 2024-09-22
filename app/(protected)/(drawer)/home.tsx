@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useDashboard } from '@/services/dashboard/useDashboard';
+import { View } from 'react-native';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
-import UpcomingTripsWidget from '@/components/dashboard/UpcomingTripsWidget';
-import type { ExtendedFriend } from '@/types/helpers';
-import type { Tables } from '@/types';
-import InvitationsWidget from '@/components/dashboard/InvitationsWidget';
-import FriendsWidget from '@/components/dashboard/FriendsWidget';
 import ForumsWidget from '@/components/dashboard/ForumsWidget';
-import { VStack } from '@/components/ui';
+import FriendsWidget from '@/components/dashboard/FriendsWidget';
+import InvitationsWidget from '@/components/dashboard/InvitationsWidget';
+import UpcomingTripsWidget from '@/components/dashboard/UpcomingTripsWidget';
 import { useErrorHandling, useLoading  } from '@/hooks';
-import { ForumResponse } from '@/services/dashboard/types';
+import { useDashboard } from '@/services/dashboard/useDashboard';
+import type { ForumResponse } from '@/services/dashboard/types';
+import type { Tables } from '@/types';
+import type { ExtendedFriend } from '@/types/helpers';
 
 const HomeScreen = () => {
   const {
@@ -34,12 +34,12 @@ const HomeScreen = () => {
 
   return (
     <ScreenWrapper>
-      <VStack space="xl">
+      <View style={{ gap: 16 }}>
         <UpcomingTripsWidget data={trips} />
         <InvitationsWidget data={tripFriends} />
         <FriendsWidget data={{ friends: [ ...friends ], total: data?.total_friends_count ?? 0 }} />
         <ForumsWidget data={forumsData} />
-      </VStack>
+      </View>
     </ScreenWrapper>
   );
 };
