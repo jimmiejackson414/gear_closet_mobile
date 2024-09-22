@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { useDashboard } from '@/services/dashboard/useDashboard';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
-import UpcomingTripsWidget from '@/components/dashboard/UpcomingTripsWidget';
-import type { ExtendedFriend } from '@/types/helpers';
-import type { Tables } from '@/types';
-import InvitationsWidget from '@/components/dashboard/InvitationsWidget';
-import FriendsWidget from '@/components/dashboard/FriendsWidget';
 import ForumsWidget from '@/components/dashboard/ForumsWidget';
+import FriendsWidget from '@/components/dashboard/FriendsWidget';
+import InvitationsWidget from '@/components/dashboard/InvitationsWidget';
+import UpcomingTripsWidget from '@/components/dashboard/UpcomingTripsWidget';
 import { useErrorHandling, useLoading  } from '@/hooks';
-import { ForumResponse } from '@/services/dashboard/types';
+import { useDashboard } from '@/services/dashboard/useDashboard';
+import type { ForumResponse } from '@/services/dashboard/types';
+import type { Tables } from '@/types';
+import type { ExtendedFriend } from '@/types/helpers';
 
 const HomeScreen = () => {
   const {

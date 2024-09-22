@@ -1,13 +1,13 @@
 import { Fragment } from 'react';
+import { View } from 'react-native';
+import { Link } from 'expo-router';
 import dayjs from 'dayjs';
 import durationPlugin from 'dayjs/plugin/duration';
 import relativePlugin from 'dayjs/plugin/relativeTime';
 import { FootprintsIcon, MoveRightIcon } from 'lucide-react-native';
-import { Link } from 'expo-router';
 import { Button, Card, Divider, Icon, Text, useTheme } from 'react-native-paper';
-import { View } from 'react-native';
-import type { Tables } from '@/types';
 import { makeStyles } from '@/helpers';
+import type { Tables } from '@/types';
 
 dayjs.extend(durationPlugin);
 dayjs.extend(relativePlugin);
@@ -42,7 +42,7 @@ const UpcomingTripsWidget: React.FC<Props> = ({ data }) => {
       <Card.Content>
         {!data.length ? (
           <View style={{ justifyContent: 'center' }}>
-            <Text>
+            <Text style={{ textAlign: 'center' }}>
               You don't have any upcoming trips!
             </Text>
             <Link
@@ -96,11 +96,6 @@ const UpcomingTripsWidget: React.FC<Props> = ({ data }) => {
 };
 
 const useStyles = makeStyles(() => ({
-  header: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: 16,
-  },
   listItem: {
     alignItems: 'center',
     flexDirection: 'row',

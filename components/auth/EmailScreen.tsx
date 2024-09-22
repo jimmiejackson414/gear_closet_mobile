@@ -1,14 +1,14 @@
-import { FormProvider, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Mail } from 'lucide-react-native';
-import { Image } from 'expo-image';
-import { toast } from 'sonner-native';
 import { View } from 'react-native';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Image } from 'expo-image';
+import { Mail } from 'lucide-react-native';
+import { FormProvider, useForm } from 'react-hook-form';
 import { Button, Text } from 'react-native-paper';
-import { useSupabase } from '@/context/SupabaseProvider';
-import { useAuthScreenContext } from '@/context/AuthScreenProvider';
+import { toast } from 'sonner-native';
+import { z } from 'zod';
 import FormInput from '@/components/common/FormInput';
+import { useAuthScreenContext } from '@/context/AuthScreenProvider';
+import { useSupabase } from '@/context/SupabaseProvider';
 import { makeStyles } from '@/helpers';
 
 const emailSchema = z.object({

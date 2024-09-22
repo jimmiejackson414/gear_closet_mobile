@@ -1,5 +1,5 @@
-import { ConfigContext, ExpoConfig } from '@expo/config';
 import * as dotenv from 'dotenv';
+import type { ConfigContext, ExpoConfig } from '@expo/config';
 
 dotenv.config();
 

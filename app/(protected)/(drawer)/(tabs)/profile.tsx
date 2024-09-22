@@ -4,9 +4,9 @@ import { Text } from 'react-native-paper';
 import { toast } from 'sonner-native';
 // import { Avatar, AvatarFallbackText, AvatarImage, Box, ButtonSpinner, Fab, FabIcon, FabLabel, Text } from '@/components/ui';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
-import { useProfile } from '@/services/user/useProfile';
-import { useErrorHandling, useLoading } from '@/hooks';
 import { buildImageSrc, friendlyUsername, initials } from '@/helpers';
+import { useErrorHandling, useLoading } from '@/hooks';
+import { useProfile } from '@/services/user/useProfile';
 // import theme from '@/lib/theme';
 
 const ProfileScreen = () => {

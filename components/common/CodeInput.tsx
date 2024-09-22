@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
-import { NativeSyntheticEvent, TextInput, TextInputKeyPressEventData, View } from 'react-native';
+import { TextInput, View } from 'react-native';
 import { makeStyles } from '@/helpers';
+import type { NativeSyntheticEvent, TextInputKeyPressEventData } from 'react-native';
 
 interface Props {
   length?: number;

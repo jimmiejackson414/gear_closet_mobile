@@ -1,18 +1,18 @@
 import { AppRegistry, LogBox } from 'react-native';
 import { Stack, useNavigationContainerRef } from 'expo-router';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { ClickOutsideProvider } from 'react-native-click-outside';
-import { Toaster } from 'sonner-native';
 import { useReactNavigationDevTools } from '@dev-plugins/react-navigation';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { MD3DarkTheme, MD3LightTheme, PaperProvider, adaptNavigationTheme } from 'react-native-paper';
 import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme, ThemeProvider } from '@react-navigation/native';
 import merge from 'deepmerge';
-import { Colors } from '@/constants/colors';
-import { useTheme } from '@/hooks';
-import { SupabaseProvider } from '@/context/SupabaseProvider';
-import { APIProvider } from '@/services/common/api-provider';
+import { ClickOutsideProvider } from 'react-native-click-outside';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { MD3DarkTheme, MD3LightTheme, PaperProvider, adaptNavigationTheme } from 'react-native-paper';
 import 'react-native-reanimated';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Toaster } from 'sonner-native';
+import { Colors } from '@/constants/colors';
+import { SupabaseProvider } from '@/context/SupabaseProvider';
+import { useTheme } from '@/hooks';
+import { APIProvider } from '@/services/common/api-provider';
 
 if (process.env.NODE_ENV === 'production') {
   LogBox.ignoreAllLogs(true);
@@ -43,7 +43,6 @@ const RootLayout = () => {
       colorScheme === 'dark'
         ? CombinedDarkTheme
         : CombinedDefaultTheme;
-  console.log({ paperTheme });
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ClickOutsideProvider>

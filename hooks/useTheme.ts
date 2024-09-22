@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Appearance, ColorSchemeName } from 'react-native';
+import { Appearance } from 'react-native';
 import { useRouter } from 'expo-router';
+import type { ColorSchemeName } from 'react-native';
 
 const useTheme = () => {
   const router = useRouter();

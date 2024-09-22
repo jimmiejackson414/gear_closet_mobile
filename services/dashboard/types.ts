@@ -1,5 +1,5 @@
-import { Tables } from '@/types';
-import { ExtendedFriend } from '@/types/helpers';
+import type { Tables } from '@/types';
+import type { ExtendedFriend } from '@/types/helpers';
 
 export type ForumPost = {
   avatar_template: string;

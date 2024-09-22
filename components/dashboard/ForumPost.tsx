@@ -2,8 +2,8 @@ import { View } from 'react-native';
 import { A } from '@expo/html-elements';
 import dayjs from 'dayjs';
 import { Text, useTheme } from 'react-native-paper';
-import useAppStore from '@/stores/appStore';
 import { makeStyles, truncate } from '@/helpers';
+import useAppStore from '@/stores/appStore';
 import type { ForumPost as ForumPostType } from '@/services/dashboard/types';
 
 interface Props {

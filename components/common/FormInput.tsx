@@ -1,6 +1,5 @@
-import React from 'react';
-import { Controller } from 'react-hook-form';
 import { View } from 'react-native';
+import { Controller } from 'react-hook-form';
 import { HelperText, TextInput } from 'react-native-paper';
 
 interface FormInputProps {

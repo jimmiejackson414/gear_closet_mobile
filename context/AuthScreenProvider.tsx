@@ -1,6 +1,7 @@
-import { useRouter } from 'expo-router';
-import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { Linking } from 'react-native';
+import { useRouter } from 'expo-router';
+import type { ReactNode } from 'react';
 
 export type TScreenStates = 'email' | 'password' | 'create' | 'forgotPassword' | 'passwordRecovery' | 'passwordReset';
 

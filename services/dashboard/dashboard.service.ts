@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { DashboardResponse, ForumResponse, GetDashboardData } from './types';
 import { supabase } from '@/lib/supabase';
+import type { DashboardResponse, ForumResponse, GetDashboardData } from './types';
 
 const client = axios.create({
   baseURL: process.env.EXPO_PUBLIC_ORIGIN_URL,

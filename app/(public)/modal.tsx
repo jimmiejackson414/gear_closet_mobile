@@ -1,16 +1,16 @@
 import { useEffect } from 'react';
 import { View } from 'react-native';
-import { X } from 'lucide-react-native';
 import { useNavigation } from 'expo-router';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import { X } from 'lucide-react-native';
 import { IconButton, ProgressBar, useTheme } from 'react-native-paper';
-import { AuthScreenProvider, useAuthScreenContext } from '@/context/AuthScreenProvider';
-import EmailScreen from '@/components/auth/EmailScreen';
-import PasswordScreen from '@/components/auth/PasswordScreen';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import CreateScreen from '@/components/auth/CreateScreen';
+import EmailScreen from '@/components/auth/EmailScreen';
 import ForgotPasswordScreen from '@/components/auth/ForgotPasswordScreen';
 import PasswordRecoveryScreen from '@/components/auth/PasswordRecovery';
 import PasswordResetScreen from '@/components/auth/PasswordResetScreen';
+import PasswordScreen from '@/components/auth/PasswordScreen';
+import { AuthScreenProvider, useAuthScreenContext } from '@/context/AuthScreenProvider';
 import makeStyles from '@/helpers/makeStyles';
 
 const ModalContent = () => {

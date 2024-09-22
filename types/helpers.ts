@@ -1,5 +1,5 @@
-import { Stripe } from 'stripe';
 import type { Tables } from '@/types';
+import type { Stripe } from 'stripe';
 
 export type SubscriptionType = Tables<'subscriptions'> & {
   prices: Tables<'prices'>;

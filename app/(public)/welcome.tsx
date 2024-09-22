@@ -1,16 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Animated, ImageBackground, View } from 'react-native';
-import { Image } from 'expo-image';
 import { Link } from 'expo-router';
+import { Image } from 'expo-image';
 import { Button, Surface, Text } from 'react-native-paper';
-import type { Provider } from '@supabase/supabase-js';
-import { Colors } from '@/constants/colors';
-import ScreenWrapper from '@/components/common/ScreenWrapper';
-import { useSupabase } from '@/context/SupabaseProvider';
-import { useAuthLayout, useTheme } from '@/hooks';
-import GoogleIcon from '@/assets/images/google.svg';
 import FacebookIcon from '@/assets/images/facebook.svg';
+import GoogleIcon from '@/assets/images/google.svg';
+import ScreenWrapper from '@/components/common/ScreenWrapper';
+import { Colors } from '@/constants/colors';
+import { useSupabase } from '@/context/SupabaseProvider';
 import makeStyles from '@/helpers/makeStyles';
+import { useAuthLayout, useTheme } from '@/hooks';
+import type { Provider } from '@supabase/supabase-js';
 // import AppleIcon from '@/assets/images/apple.svg';
 
 const WelcomeScreen = () => {

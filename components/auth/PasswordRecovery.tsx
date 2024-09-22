@@ -1,5 +1,5 @@
-import { Image } from 'expo-image';
 import { View } from 'react-native';
+import { Image } from 'expo-image';
 import { Text } from 'react-native-paper';
 import { makeStyles } from '@/helpers';
 

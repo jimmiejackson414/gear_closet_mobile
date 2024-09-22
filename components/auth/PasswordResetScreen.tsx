@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { FormProvider, useForm } from 'react-hook-form';
-import { Image } from 'expo-image';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { EyeIcon, EyeOffIcon } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
-import { toast } from 'sonner-native';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Image } from 'expo-image';
+import { EyeIcon, EyeOffIcon } from 'lucide-react-native';
+import { FormProvider, useForm } from 'react-hook-form';
 import { Button, Text, TextInput } from 'react-native-paper';
-import { useSupabase } from '@/context/SupabaseProvider';
-import { useAuthScreenContext } from '@/context/AuthScreenProvider';
-import { supabase } from '@/lib/supabase';
-import FormInput from '@/components/common/FormInput';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import { toast } from 'sonner-native';
+import { z } from 'zod';
 import CodeInput from '@/components/common/CodeInput';
+import FormInput from '@/components/common/FormInput';
+import { useAuthScreenContext } from '@/context/AuthScreenProvider';
+import { useSupabase } from '@/context/SupabaseProvider';
 import { makeStyles } from '@/helpers';
+import { supabase } from '@/lib/supabase';
 
 const passwordSchema = z.object({
   password: z.string()

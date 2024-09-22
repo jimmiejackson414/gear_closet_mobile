@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
-import { MD3Theme, useTheme } from 'react-native-paper';
-import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { useTheme } from 'react-native-paper';
+import type { ImageStyle, TextStyle, ViewStyle } from 'react-native';
+import type { MD3Theme } from 'react-native-paper';
 
 type NamedStyles<T> = { [P in keyof T]: ViewStyle | TextStyle | ImageStyle };
 

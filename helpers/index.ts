@@ -1,5 +1,5 @@
-import { Tables } from '@/types';
 import { supabase } from '@/lib/supabase';
+import type { Tables } from '@/types';
 
 export { default as makeStyles } from './makeStyles';
 

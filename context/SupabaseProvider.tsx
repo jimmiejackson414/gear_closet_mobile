@@ -1,12 +1,12 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { AppState, Platform } from 'react-native';
+import { SplashScreen, useRouter, useSegments } from 'expo-router';
 import { GoogleSignin, isErrorWithCode } from '@react-native-google-signin/google-signin';
 import { AccessToken, AuthenticationToken, GraphRequest, GraphRequestManager, LoginManager } from 'react-native-fbsdk-next';
 // import * as AppleAuthentication from 'expo-apple-authentication';
-import { Provider, Session, User } from '@supabase/supabase-js';
-import { SplashScreen, useRouter, useSegments } from 'expo-router';
 // import { jwtDecode } from 'jwt-decode';
 import { supabase } from '../lib/supabase';
+import type { Provider, Session, User } from '@supabase/supabase-js';
 
 SplashScreen.preventAutoHideAsync();
 

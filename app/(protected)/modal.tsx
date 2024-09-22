@@ -1,12 +1,12 @@
 import { View } from 'react-native';
+import { useNavigation } from 'expo-router';
 import dayjs from 'dayjs';
 import durationPlugin from 'dayjs/plugin/duration';
 import relativePlugin from 'dayjs/plugin/relativeTime';
 import { X } from 'lucide-react-native';
-import { useNavigation } from 'expo-router';
 import { Badge, Divider, IconButton, Text } from 'react-native-paper';
-import useAppStore from '@/stores/appStore';
 import { makeStyles } from '@/helpers';
+import useAppStore from '@/stores/appStore';
 
 dayjs.extend(durationPlugin);
 dayjs.extend(relativePlugin);
