@@ -18,7 +18,7 @@ const createSchema = z.object({
   passwordConfirm: z.string()
     .min(6, 'Password must be at least 6 characters.'),
 })
-  .refine((data) => data.password === data.passwordConfirm, {
+  .refine(data => data.password === data.passwordConfirm, {
     path: ['passwordConfirm'],
     message: 'Passwords do not match',
   });

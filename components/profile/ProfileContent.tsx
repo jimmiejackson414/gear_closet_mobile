@@ -1,14 +1,28 @@
 import { useState } from 'react';
 import { View } from 'react-native';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { EditIcon, SaveIcon } from 'lucide-react-native';
+import { FormProvider, useForm } from 'react-hook-form';
 import { ActivityIndicator, AnimatedFAB, Text } from 'react-native-paper';
 import { toast } from 'sonner-native';
+import { z } from 'zod';
+import FormInput from '@/components/common/FormInput';
+import ScreenWrapper from '@/components/common/ScreenWrapper';
+import UserAvatar from '@/components/common/UserAvatar';
 import { friendlyUsername, makeStyles } from '@/helpers';
 import { useErrorHandling, useLoading } from '@/hooks';
 import { useProfile } from '@/services/user/useProfile';
-import ScreenWrapper from '../common/ScreenWrapper';
-import UserAvatar from '../common/UserAvatar';
 import type { NativeScrollEvent } from 'react-native';
+
+const profileSchema = z.object({
+  first_name: z.string()
+    .min(1, 'First name is required'),
+  last_name: z.string()
+    .min(1, 'Last name is required'),
+  trail_name: z.string(),
+  email: z.string()
+    .email('Please enter a valid email address'),
+});
 
 const ProfileContent = () => {
   const {
@@ -16,6 +30,17 @@ const ProfileContent = () => {
   } = useProfile();
   useErrorHandling(error, 'Failed to fetch profile data');
   useLoading(isLoading);
+
+  const form = useForm({
+    resolver: zodResolver(profileSchema),
+    defaultValues: {
+      first_name: data?.first_name || '',
+      last_name: data?.last_name || '',
+      trail_name: data?.trail_name || '',
+      email: data?.email || '',
+    },
+  });
+  const { control, handleSubmit } = form;
 
   const [isExtended, setIsExtended] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -78,6 +103,28 @@ const ProfileContent = () => {
             )}
           </View>
         </View>
+        <View style={styles.formWrapper}>
+          <FormProvider {...form}>
+            <FormInput
+              autoComplete="first_name"
+              control={control}
+              disabled={isSaving || !isEditing}
+              label="First Name"
+              name="first_name"  />
+            <FormInput
+              autoComplete="last_name"
+              control={control}
+              disabled={isSaving || !isEditing}
+              label="Last Name"
+              name="last_name"  />
+            <FormInput
+              autoComplete="trail_name"
+              control={control}
+              disabled={isSaving || !isEditing}
+              label="Trail Name"
+              name="trail_name"  />
+          </FormProvider>
+        </View>
         <AnimatedFAB
           animateFrom='right'
           disabled={isSaving}
@@ -109,6 +156,11 @@ const useStyles = makeStyles(() => ({
     bottom: 16,
     right: 16,
     position: 'absolute',
+  },
+  formWrapper: {
+    flexDirection: 'column',
+    width: '100%',
+    marginTop: 24,
   },
   wrapper: {
     height: '100%',

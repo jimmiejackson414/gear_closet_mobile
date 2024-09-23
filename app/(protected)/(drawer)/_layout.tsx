@@ -8,13 +8,13 @@ import { makeStyles } from '@/helpers';
 import useAppStore from '@/stores/appStore';
 
 const DrawerLayout = () => {
-  const unreadNotifications = useAppStore((state) => state.unreadNotifications());
+  const unreadNotifications = useAppStore(state => state.unreadNotifications());
   const styles = useStyles();
   const theme = useTheme();
 
   return (
     <Drawer
-      drawerContent={(props) => <DrawerContent {...props} />}
+      drawerContent={props => <DrawerContent {...props} />}
       initialRouteName="home"
       screenOptions={{
         headerShown: true,
@@ -104,7 +104,7 @@ const DrawerLayout = () => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   badge: {
     position: 'absolute',
     top: 4,

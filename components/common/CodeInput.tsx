@@ -37,9 +37,9 @@ const CodeInput: React.FC<Props> = ({ length = 6, onChangeCode }) => {
           key={index}
           keyboardType="numeric"
           maxLength={1}
-          onChangeText={(text) => handleChangeText(text, index)}
-          onKeyPress={(e) => handleKeyPress(e, index)}
-          ref={(ref) => (inputs.current[index] = ref)}
+          onChangeText={text => handleChangeText(text, index)}
+          onKeyPress={e => handleKeyPress(e, index)}
+          ref={ref => (inputs.current[index] = ref)}
           style={styles.input}
           value={digit} />
       ))}
@@ -47,7 +47,7 @@ const CodeInput: React.FC<Props> = ({ length = 6, onChangeCode }) => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',

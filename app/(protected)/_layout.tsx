@@ -9,7 +9,7 @@ const ProtectedLayout = () => {
   const {
     data, error, isLoading,
   } = useProfile();
-  const setProfile = useAppStore((state) => state.setProfile);
+  const setProfile = useAppStore(state => state.setProfile);
 
   useLoading(isLoading);
   useErrorHandling(error, 'Failed to fetch profile data');

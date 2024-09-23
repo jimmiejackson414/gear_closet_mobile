@@ -23,7 +23,7 @@ const useAppStore = create<AppState>()(
 
     setProfile: (profile: ProfileApiResponse) => set({ profile }),
 
-    addNotification: (notification: ExtendedNotification) => set((state) => {
+    addNotification: (notification: ExtendedNotification) => set(state => {
       if (state.profile) {
         return {
           profile: {
@@ -35,12 +35,12 @@ const useAppStore = create<AppState>()(
       return state;
     }),
 
-    removeNotification: (notification: ExtendedNotification) => set((state) => {
+    removeNotification: (notification: ExtendedNotification) => set(state => {
       if (state.profile) {
         return {
           profile: {
             ...state.profile,
-            notifications: state.profile.notifications.filter((n) => n.id !== notification.id),
+            notifications: state.profile.notifications.filter(n => n.id !== notification.id),
           },
         };
       }
@@ -49,12 +49,12 @@ const useAppStore = create<AppState>()(
 
     readNotifications: () => {
       const { profile } = get();
-      return (profile?.notifications?.filter((n) => n.read_on_date) || []) as ExtendedNotification[];
+      return (profile?.notifications?.filter(n => n.read_on_date) || []) as ExtendedNotification[];
     },
 
     unreadNotifications: () => {
       const { profile } = get();
-      return (profile?.notifications?.filter((n) => !n.read_on_date) || []) as ExtendedNotification[];
+      return (profile?.notifications?.filter(n => !n.read_on_date) || []) as ExtendedNotification[];
     },
 
     isPaidMember: () => {

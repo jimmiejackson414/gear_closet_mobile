@@ -6,7 +6,7 @@ import { Icon , useTheme } from 'react-native-paper';
 import { useSupabase } from '@/context/SupabaseProvider';
 import type { DrawerContentComponentProps } from '@react-navigation/drawer';
 
-const DrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
+const DrawerContent: React.FC<DrawerContentComponentProps> = props => {
   const router = useRouter();
   const { signOut } = useSupabase();
 

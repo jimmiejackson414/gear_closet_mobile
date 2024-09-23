@@ -6,13 +6,13 @@ import merge from 'deepmerge';
 import { ClickOutsideProvider } from 'react-native-click-outside';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { MD3DarkTheme, MD3LightTheme, PaperProvider, adaptNavigationTheme } from 'react-native-paper';
-import 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Toaster } from 'sonner-native';
 import { Colors } from '@/constants/colors';
 import { SupabaseProvider } from '@/context/SupabaseProvider';
 import { useTheme } from '@/hooks';
 import { APIProvider } from '@/services/common/api-provider';
+import 'react-native-reanimated';
 
 if (process.env.NODE_ENV === 'production') {
   LogBox.ignoreAllLogs(true);

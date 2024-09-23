@@ -17,7 +17,7 @@ const ScreenWrapper = ({
   contentContainerStyle,
   ...rest
 }: Props) => {
-  const isLoading = useAppStore((state) => state.isLoading);
+  const isLoading = useAppStore(state => state.isLoading);
 
   return (
     <SafeAreaView

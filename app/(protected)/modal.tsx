@@ -13,8 +13,8 @@ dayjs.extend(relativePlugin);
 
 const NotificationsModal = () => {
   const navigation = useNavigation();
-  const readNotifications = useAppStore((state) => state.readNotifications());
-  const unreadNotifications = useAppStore((state) => state.unreadNotifications());
+  const readNotifications = useAppStore(state => state.readNotifications());
+  const unreadNotifications = useAppStore(state => state.unreadNotifications());
 
   const styles = useStyles();
   return (
@@ -28,7 +28,7 @@ const NotificationsModal = () => {
         {`Notifications (${unreadNotifications.length})`}
       </Text>
       <Divider style={{ marginVertical: 16 }} />
-      {unreadNotifications.map((notification) => (
+      {unreadNotifications.map(notification => (
         <View
           key={notification.id}
           style={styles.notification}>
@@ -49,7 +49,7 @@ const NotificationsModal = () => {
           <Divider style={{ marginVertical: 16 }} />
         </View>
       ))}
-      {readNotifications.map((notification) => (
+      {readNotifications.map(notification => (
         <View
           key={notification.id}
           style={styles.notification}>
@@ -70,7 +70,7 @@ const NotificationsModal = () => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   closeButton: {
     position: 'absolute',
     right: 16,
