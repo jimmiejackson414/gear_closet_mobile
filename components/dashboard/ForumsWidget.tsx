@@ -1,7 +1,7 @@
 import { View } from 'react-native';
 import { LockIcon, MessagesSquareIcon } from 'lucide-react-native';
 import { Card, Icon, IconButton, Text, Tooltip, useTheme } from 'react-native-paper';
-import useAppStore from '@/stores/appStore';
+import { useIsPaidMember } from '@/services/profile/hooks';
 import ForumPost from './ForumPost';
 import type { ForumResponse } from '@/services/dashboard/types';
 
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const ForumsWidget: React.FC<Props> = ({ data }) => {
-  const isPaidMember = useAppStore(state => state.isPaidMember());
+  const { data: isPaidMember } = useIsPaidMember();
 
   const theme = useTheme();
   return (

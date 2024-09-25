@@ -5,10 +5,10 @@ import { Avatar, Icon } from 'react-native-paper';
 import GcIcon from '@/assets/gear-closet-icon.svg';
 import { buildImageSrc, initials } from '@/helpers';
 import type { Tables } from '@/types';
-import type { ExtendedUser } from '@/types/helpers';
+import type { ExtendedProfile } from '@/types/helpers';
 
 interface Props {
-  profile?: ExtendedUser | Tables<'profiles'> | null;
+  profile?: ExtendedProfile | Tables<'profiles'> | null;
   size?: number;
 }
 

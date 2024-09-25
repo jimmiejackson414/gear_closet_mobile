@@ -45,7 +45,7 @@ const ScreenWrapper = ({
       {isLoading && (
         <View style={styles.overlay}>
           <ActivityIndicator
-            color="#0000ff"
+            color="#005389"
             size="large" />
         </View>
       )}

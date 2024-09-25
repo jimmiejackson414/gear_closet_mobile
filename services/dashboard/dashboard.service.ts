@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { supabase } from '@/lib/supabase';
-import type { DashboardResponse, ForumResponse, GetDashboardData } from './types';
+import type { ForumResponse, GetDashboardData } from './types';
 
 const client = axios.create({
   baseURL: process.env.EXPO_PUBLIC_ORIGIN_URL,
@@ -36,7 +36,7 @@ const fetchForumPosts = async () => {
   * Fetches the dashboard data for the current user
  * @returns DashboardData | null
  */
-export const fetchDashboardData = async (): Promise<DashboardResponse | null> => {
+export const fetchDashboardData = async () => {
   try {
     const { data: { user } } = await supabase.auth.getUser();
 

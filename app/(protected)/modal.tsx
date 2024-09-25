@@ -7,17 +7,14 @@ import { X } from 'lucide-react-native';
 import { Badge, Divider, IconButton, Text } from 'react-native-paper';
 import { makeStyles } from '@/helpers';
 import { useReadNotifications } from '@/services/profile/hooks';
-// import useAppStore from '@/stores/appStore';
 
 dayjs.extend(durationPlugin);
 dayjs.extend(relativePlugin);
 
 const NotificationsModal = () => {
   const navigation = useNavigation();
-  const { data: readNotifications, isLoading: isLoadingRead } = useReadNotifications();
-  const { data: unreadNotifications, isLoading: isLoadingUnread } = useReadNotifications();
-  // const readNotifications = useAppStore(state => state.readNotifications());
-  // const unreadNotifications = useAppStore(state => state.unreadNotifications());
+  const { data: readNotifications = [] } = useReadNotifications();
+  const { data: unreadNotifications = [] } = useReadNotifications();
 
   const styles = useStyles();
   return (

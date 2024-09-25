@@ -29,20 +29,24 @@ export const fetchProfile = async (): Promise<ExtendedProfile> => {
 /**
  * Updates the user's profile
  * @param profile
- * @returns profile | null
+ * @returns ExtendedProfile
  */
-export const updateProfile = async (profile: TablesUpdate<'profiles'>) => {
-  try {
-    const { data, error } = await supabase.from('profiles')
-      .update(profile)
-      .match({ id: profile.id });
+export const updateProfile = async (profile: TablesUpdate<'profiles'>): Promise<ExtendedProfile> => {
+  const { data, error } = await supabase.from('profiles')
+    .update(profile)
+    .match({ id: profile.id })
+    .select(`
+      *,
+      onboarding_steps(*),
+      notifications!notifications_profile_id_fkey(*, sender:sender_id(*)),
+      subscriptions(*, prices(*))
+    `)
+    .returns<ExtendedProfile>()
+    .single();
 
-    if (error) throw new Error(error.message);
+  if (error || !data) throw new Error(error?.message || 'Profile update failed');
 
-    return data;
-  } catch (error) {
-    return null;
-  }
+  return data;
 };
 
 /**

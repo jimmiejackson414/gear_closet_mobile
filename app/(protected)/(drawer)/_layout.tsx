@@ -5,10 +5,10 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Badge, Icon, IconButton, useTheme } from 'react-native-paper';
 import DrawerContent from '@/components/common/DrawerContent';
 import { makeStyles } from '@/helpers';
-import useAppStore from '@/stores/appStore';
+import { useReadNotifications } from '@/services/profile/hooks';
 
 const DrawerLayout = () => {
-  const unreadNotifications = useAppStore(state => state.unreadNotifications());
+  const { data: unreadNotifications = [] } = useReadNotifications();
   const styles = useStyles();
   const theme = useTheme();
 

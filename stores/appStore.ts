@@ -7,7 +7,7 @@ interface AppState {
 }
 
 const useAppStore = create<AppState>()(
-  devtools((set, get) => ({
+  devtools(set => ({
     isLoading: false,
 
     setLoading: (loading: boolean) => set({ isLoading: loading }),

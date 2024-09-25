@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { SubscriptionLevel } from '@/types';
 import { fetchProfile, updateProfile } from './profile.service';
 import type { ExtendedNotification, ExtendedProfile } from '@/types/helpers';
-import type { UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
+import type { UseMutationOptions, UseQueryResult } from '@tanstack/react-query';
 
 const keys = { getProfile: ['profile'] };
 
@@ -10,7 +10,7 @@ const keys = { getProfile: ['profile'] };
  * Profile Query
  */
 export const useProfile = <TData = ExtendedProfile>(
-  options?: Omit<UseQueryOptions<ExtendedProfile, Error, TData>, 'queryKey'>,
+  select?: (profile: ExtendedProfile) => TData,
 ): UseQueryResult<TData, Error> => {
   return useQuery<ExtendedProfile, Error, TData>({
     queryKey: keys.getProfile,
@@ -18,20 +18,22 @@ export const useProfile = <TData = ExtendedProfile>(
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: true,
     refetchOnReconnect: true,
-    ...options,
+    select,
   });
 };
 
 /**
  * Profile Mutation
  */
-export const useUpdateProfileMutation = (options: any) => {
+export const useUpdateProfileMutation = (
+  options?: UseMutationOptions<ExtendedProfile, Error, Partial<ExtendedProfile>>,
+) => {
   const queryClient = useQueryClient();
-  return useMutation({
+  return useMutation<ExtendedProfile, Error, Partial<ExtendedProfile>>({
     mutationFn: updateProfile,
-    onSuccess: () => {
+    onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: keys.getProfile });
-      if (options.onSuccess) options.onSuccess();
+      if (options?.onSuccess) options.onSuccess(data, variables, context);
     },
     ...options,
   });
@@ -41,27 +43,19 @@ export const useUpdateProfileMutation = (options: any) => {
  * Derived State Hooks
  */
 export const useReadNotifications = (): UseQueryResult<ExtendedNotification[], Error> => {
-  return useProfile<ExtendedNotification[]>({
-    select: (profile: ExtendedProfile) => {
-      // TODO: Figure out why this is returning ExtendedNotification[] | undefined, instead of just ExtendedNotification[]
-      return profile.notifications?.filter(n => n.read_on_date) || [];
-    },
+  return useProfile<ExtendedNotification[]>((profile: ExtendedProfile) => {
+    return profile.notifications?.filter(n => n.read_on_date) || [];
   });
 };
 
 export const useUnreadNotifications = (): UseQueryResult<ExtendedNotification[], Error> => {
-  return useProfile<ExtendedNotification[]>({
-    select: (profile: ExtendedProfile) => {
-      // TODO: Figure out why this is returning ExtendedNotification[] | undefined, instead of just ExtendedNotification[]
-      return profile.notifications?.filter(n => !n.read_on_date) || [];
-    },
+  return useProfile<ExtendedNotification[]>((profile: ExtendedProfile) => {
+    return profile.notifications?.filter(n => !n.read_on_date) || [];
   });
 };
 
 export const useIsPaidMember = (): UseQueryResult<boolean, Error> => {
-  return useProfile<boolean>({
-    select: (profile: ExtendedProfile) => {
-      return profile.subscriptions[0]?.prices.identifier === SubscriptionLevel.ANNUAL || profile.subscriptions[0]?.prices.identifier === SubscriptionLevel.MONTHLY || profile.subscriptions[0]?.prices.identifier === SubscriptionLevel.LIFE;
-    },
+  return useProfile<boolean>((profile: ExtendedProfile) => {
+    return profile.subscriptions[0]?.prices.identifier === SubscriptionLevel.ANNUAL || profile.subscriptions[0]?.prices.identifier === SubscriptionLevel.MONTHLY || profile.subscriptions[0]?.prices.identifier === SubscriptionLevel.LIFE;
   });
 };
