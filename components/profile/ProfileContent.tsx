@@ -8,10 +8,12 @@ import { toast } from 'sonner-native';
 import { z } from 'zod';
 import FormInput from '@/components/common/FormInput';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
+import SelectInput from '@/components/common/SelectInput';
 import UserAvatar from '@/components/common/UserAvatar';
 import { friendlyUsername, makeStyles } from '@/helpers';
 import { useErrorHandling, useLoading } from '@/hooks';
 import { useProfile, useUpdateProfileMutation } from '@/services/profile';
+import { MeasuringSystem } from '@/types';
 import type { NativeScrollEvent } from 'react-native';
 
 const profileSchema = z.object({
@@ -22,6 +24,7 @@ const profileSchema = z.object({
   trail_name: z.string(),
   email: z.string()
     .email('Please enter a valid email address'),
+  measuring_system: z.enum([MeasuringSystem.IMPERIAL, MeasuringSystem.METRIC]),
 });
 
 const ProfileContent = () => {
@@ -38,6 +41,7 @@ const ProfileContent = () => {
       last_name: data?.last_name || '',
       trail_name: data?.trail_name || '',
       email: data?.email || '',
+      measuring_system: data?.measuring_system || MeasuringSystem.IMPERIAL,
     },
   });
   const { control, handleSubmit } = form;
@@ -134,8 +138,16 @@ const ProfileContent = () => {
               autoComplete="email"
               control={control}
               disabled={isSaving || !isEditing}
-              label="Trail Name"
-              name="trail_name"  />
+              label="Email"
+              name="email"  />
+            <SelectInput
+              control={control}
+              label="Preferred measuring system"
+              name="measuring_system"
+              options={[
+                { label: 'Imperial (lb, oz)', value: MeasuringSystem.IMPERIAL },
+                { label: 'Metric (kg, g)', value: MeasuringSystem.METRIC },
+              ]} />
           </FormProvider>
         </View>
         <AnimatedFAB
