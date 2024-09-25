@@ -113,19 +113,25 @@ const ProfileContent = () => {
         <View style={styles.formWrapper}>
           <FormProvider {...form}>
             <FormInput
-              autoComplete="first_name"
+              autoComplete="given-name"
               control={control}
               disabled={isSaving || !isEditing}
               label="First Name"
               name="first_name"  />
             <FormInput
-              autoComplete="last_name"
+              autoComplete="family-name"
               control={control}
               disabled={isSaving || !isEditing}
               label="Last Name"
               name="last_name"  />
             <FormInput
-              autoComplete="trail_name"
+              autoComplete="nickname"
+              control={control}
+              disabled={isSaving || !isEditing}
+              label="Trail Name"
+              name="trail_name"  />
+            <FormInput
+              autoComplete="email"
               control={control}
               disabled={isSaving || !isEditing}
               label="Trail Name"

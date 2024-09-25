@@ -1,15 +1,24 @@
 import { View } from 'react-native';
 import { Controller } from 'react-hook-form';
 import { HelperText, TextInput } from 'react-native-paper';
+import type { Control } from 'react-hook-form';
+import type { TextInputProps } from 'react-native';
 
 interface FormInputProps {
-  name: string;
-  control: any;
+  autoComplete?: TextInputProps['autoComplete'];
+  autoCapitalize?: TextInputProps['autoCapitalize'];
+  autoFocus?: boolean;
+  keyboardType?: TextInputProps['keyboardType'];
+  dense?: boolean;
+  disabled?: boolean;
+  readOnly?: boolean;
+  control: Control<any>;
   label: string;
-  placeholder?: string;
-  secureTextEntry?: boolean;
   left?: React.ReactNode;
+  name: string;
+  placeholder?: string;
   right?: React.ReactNode;
+  secureTextEntry?: boolean;
   [key: string]: any;
 }
 
