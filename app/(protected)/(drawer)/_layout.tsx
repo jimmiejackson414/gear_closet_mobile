@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Badge, Icon, IconButton, useTheme } from 'react-native-paper';
 import DrawerContent from '@/components/common/DrawerContent';
 import { makeStyles } from '@/helpers';
-import { useReadNotifications } from '@/services/profile/hooks';
+import { useReadNotifications } from '@/services/profile';
 
 const DrawerLayout = () => {
   const { data: unreadNotifications = [] } = useReadNotifications();

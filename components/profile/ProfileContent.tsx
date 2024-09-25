@@ -11,7 +11,7 @@ import ScreenWrapper from '@/components/common/ScreenWrapper';
 import UserAvatar from '@/components/common/UserAvatar';
 import { friendlyUsername, makeStyles } from '@/helpers';
 import { useErrorHandling, useLoading } from '@/hooks';
-import { useProfile, useUpdateProfileMutation } from '@/services/profile/hooks';
+import { useProfile, useUpdateProfileMutation } from '@/services/profile';
 import type { NativeScrollEvent } from 'react-native';
 
 const profileSchema = z.object({

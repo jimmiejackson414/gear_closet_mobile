@@ -3,8 +3,8 @@ import { A } from '@expo/html-elements';
 import dayjs from 'dayjs';
 import { Text, useTheme } from 'react-native-paper';
 import { makeStyles, truncate } from '@/helpers';
-import { useIsPaidMember } from '@/services/profile/hooks';
-import type { ForumPost as ForumPostType } from '@/services/dashboard/types';
+import { useIsPaidMember } from '@/services/profile';
+import type { ForumPost as ForumPostType } from '@/services/dashboard';
 
 interface Props {
   post: ForumPostType;

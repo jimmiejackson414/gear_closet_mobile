@@ -6,7 +6,7 @@ import relativePlugin from 'dayjs/plugin/relativeTime';
 import { X } from 'lucide-react-native';
 import { Badge, Divider, IconButton, Text } from 'react-native-paper';
 import { makeStyles } from '@/helpers';
-import { useReadNotifications } from '@/services/profile/hooks';
+import { useReadNotifications } from '@/services/profile';
 
 dayjs.extend(durationPlugin);
 dayjs.extend(relativePlugin);

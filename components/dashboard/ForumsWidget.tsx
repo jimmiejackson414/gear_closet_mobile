@@ -1,9 +1,9 @@
 import { View } from 'react-native';
 import { LockIcon, MessagesSquareIcon } from 'lucide-react-native';
 import { Card, Icon, IconButton, Text, Tooltip, useTheme } from 'react-native-paper';
-import { useIsPaidMember } from '@/services/profile/hooks';
+import { useIsPaidMember } from '@/services/profile';
 import ForumPost from './ForumPost';
-import type { ForumResponse } from '@/services/dashboard/types';
+import type { ForumResponse } from '@/services/dashboard';
 
 interface Props {
   data?: ForumResponse | null;

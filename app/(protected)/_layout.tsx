@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 import '@/handlers/gesture-handler';
 import { useErrorHandling, useLoading  } from '@/hooks';
-import { useProfile } from '@/services/profile/hooks';
+import { useProfile } from '@/services/profile';
 
 const ProtectedLayout = () => {
   const { error, isLoading } = useProfile();
