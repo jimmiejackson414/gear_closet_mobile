@@ -5,7 +5,7 @@ import { GoogleSignin, isErrorWithCode } from '@react-native-google-signin/googl
 import { AccessToken, AuthenticationToken, GraphRequest, GraphRequestManager, LoginManager } from 'react-native-fbsdk-next';
 // import * as AppleAuthentication from 'expo-apple-authentication';
 // import { jwtDecode } from 'jwt-decode';
-import { supabase } from '../lib/supabase';
+import { supabase } from '@/lib/supabase';
 import type { Provider, Session, User } from '@supabase/supabase-js';
 
 SplashScreen.preventAutoHideAsync();

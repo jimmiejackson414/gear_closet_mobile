@@ -60,8 +60,6 @@
       ]
     },
     "web": {
-      "favicon": "./assets/favicon.png",
-      "bundler": "metro",
       "output": "server"
     },
     "plugins": [

@@ -97,15 +97,6 @@ module.exports = {
       'warn',
       { 'allowSameFolder': true, 'prefix': '@' },
     ],
-    'no-unused-vars': [
-      'warn',
-      {
-        vars: 'all',
-        varsIgnorePattern: '^React$',
-        args: 'after-used',
-        ignoreRestSiblings: true,
-      },
-    ],
     'no-restricted-imports': [
       'error',
       {
@@ -118,7 +109,7 @@ module.exports = {
         ],
       },
     ],
-    '@typescript-eslint/no-unused-vars': [1, { caughtErrors: 'none' }],
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', caughtErrors: 'none' }],
     '@typescript-eslint/consistent-type-imports': ['warn', { prefer: 'type-imports' }],
   },
   settings: {

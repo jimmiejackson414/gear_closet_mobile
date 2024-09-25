@@ -26,8 +26,10 @@ export type ExtendedPack = Tables<'packs'> & {
   categories: ExtendedCategory[];
 };
 
-export type ExtendedUser = Tables<'profiles'> & {
+export type ExtendedProfile = Tables<'profiles'> & {
   onboarding_steps: Tables<'onboarding_steps'>[];
+  notifications: ExtendedNotification[];
+  subscriptions: SubscriptionType[];
 };
 
 export type ExtendedFriend = Tables<'friends'> & {

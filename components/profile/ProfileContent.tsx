@@ -11,7 +11,7 @@ import ScreenWrapper from '@/components/common/ScreenWrapper';
 import UserAvatar from '@/components/common/UserAvatar';
 import { friendlyUsername, makeStyles } from '@/helpers';
 import { useErrorHandling, useLoading } from '@/hooks';
-import { useProfile } from '@/services/user/useProfile';
+import { useProfile, useUpdateProfileMutation } from '@/services/profile/hooks';
 import type { NativeScrollEvent } from 'react-native';
 
 const profileSchema = z.object({
@@ -52,10 +52,17 @@ const ProfileContent = () => {
     setIsExtended(currentScrollPosition <= 0);
   };
 
-  const handleFabPress = () => {
+  const updateProfileMutation = useUpdateProfileMutation();
+  const handleSaveProfile = async () => {
+    const values = form.getValues();
+    await updateProfileMutation.mutateAsync(values);
+  };
+
+  const handleFabPress = async () => {
     if (isEditing) {
       setIsSaving(true);
       setFabLabel('Saving...');
+      await handleSubmit(handleSaveProfile)();
       setTimeout(() => {
         setIsSaving(false);
         setIsEditing(false);

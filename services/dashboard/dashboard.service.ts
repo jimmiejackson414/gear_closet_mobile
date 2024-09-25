@@ -11,6 +11,10 @@ const client = axios.create({
   },
 });
 
+/**
+ * Fetches the latest forum posts
+ * @returns ForumResponse | null
+ */
 const fetchForumPosts = async () => {
   try {
     const { data } = await client.get<ForumResponse>('/api/forums');

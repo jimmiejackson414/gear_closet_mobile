@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchDashboardData } from './dashboard.service';
 
-export const useDashboard = () => {
+export const useDashboardQuery = () => {
   return useQuery({
     queryKey: ['dashboardData'],
     queryFn: fetchDashboardData,
