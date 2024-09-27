@@ -154,23 +154,21 @@ const ProfileContent = () => {
           </View>
         </View>
       </ScreenWrapper>
-      <View style={styles.fabContainer}>
-        <AnimatedFAB
-          animateFrom='right'
-          disabled={isSaving}
-          extended={isExtended}
-          icon={({ color, size }) => {
-            const IconComponent = getFabIcon();
-            return <IconComponent
-              color={color}
-              size={size} />;
-          }}
-          iconMode="dynamic"
-          label={fabLabel}
-          onPress={handleFabPress}
-          // style={styles.fabStyle}
-          visible={true} />
-      </View>
+      <AnimatedFAB
+        animateFrom='right'
+        disabled={isSaving}
+        extended={isExtended}
+        icon={({ color, size }) => {
+          const IconComponent = getFabIcon();
+          return <IconComponent
+            color={color}
+            size={size} />;
+        }}
+        iconMode="dynamic"
+        label={fabLabel}
+        onPress={handleFabPress}
+        style={styles.fabStyle}
+        visible={true} />
     </View>
   );
 };
@@ -190,6 +188,12 @@ const useStyles = makeStyles(() => ({
     position: 'absolute',
     bottom: 16,
     right: 16,
+  },
+  fabStyle: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
   },
   formWrapper: {
     flexDirection: 'column',
