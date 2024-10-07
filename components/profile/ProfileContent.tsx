@@ -146,6 +146,7 @@ const ProfileContent = () => {
                 disabled={isSaving || !isEditing}
                 label="Preferred measuring system"
                 name="measuring_system"
+                onValueChange={value => console.log('Selected value: ', value)}
                 options={[
                   { label: 'Imperial (lb, oz)', value: MeasuringSystem.IMPERIAL },
                   { label: 'Metric (kg, g)', value: MeasuringSystem.METRIC },
