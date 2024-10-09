@@ -6,6 +6,7 @@ import { Icon } from 'react-native-paper';
 import { useSupabase } from '@/context/SupabaseProvider';
 import { useAppTheme } from '@/hooks';
 import type { DrawerContentComponentProps } from '@react-navigation/drawer';
+import type { IconProps } from 'react-native-paper/lib/typescript/components/MaterialCommunityIcon';
 
 const DrawerContent: React.FC<DrawerContentComponentProps> = props => {
   const router = useRouter();
@@ -28,9 +29,9 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = props => {
         onPress={onLogout}
         style={styles.logoutButton}>
         <Icon
-          color={theme.colors.backdrop}
+          color={theme.colors.onBackground}
           size={20}
-          source={({ size, color }: { size: number, color: string }) => (
+          source={({ size, color }: IconProps) => (
             <LogOut
               color={color}
               size={size}
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
     marginBottom: 36,
   },
   logoutIcon: { marginRight: 32 },
-  logoutText: { color: 'rgba(28, 28, 30, 0.68' },
+  logoutText: { color: 'rgba(28, 27, 31, 0.68' },
 });
 
 export default DrawerContent;

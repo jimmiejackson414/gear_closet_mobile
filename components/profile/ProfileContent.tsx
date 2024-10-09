@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { EditIcon, SaveIcon } from 'lucide-react-native';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -84,16 +84,23 @@ const ProfileContent = () => {
     return isEditing ? SaveIcon : EditIcon;
   };
 
+  const openAvatarSheet = () => {
+    // TODO: Implement bottom sheet with options of "Take new photo", "Select photo", "View in full screen"
+    console.log('Avatar sheet opened');
+  };
+
   const styles = useStyles();
   return (
     <View style={styles.container}>
       <ScreenWrapper onScroll={onScroll}>
         <View style={styles.wrapper}>
           <View style={styles.content}>
-            <UserAvatar
-              includeSubscriptionBadge
-              profile={data}
-              size={128} />
+            <TouchableOpacity onPress={openAvatarSheet}>
+              <UserAvatar
+                includeSubscriptionBadge
+                profile={data}
+                size={128} />
+            </TouchableOpacity>
             <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
               <Text
                 style={{ fontWeight: 'bold', textAlign: 'center' }}

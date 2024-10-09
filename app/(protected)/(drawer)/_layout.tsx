@@ -7,6 +7,7 @@ import DrawerContent from '@/components/common/DrawerContent';
 import { makeStyles } from '@/helpers';
 import { useAppTheme } from '@/hooks';
 import { useReadNotifications } from '@/services/profile';
+import type { IconProps } from 'react-native-paper/lib/typescript/components/MaterialCommunityIcon';
 
 const DrawerLayout = () => {
   const { data: unreadNotifications = [] } = useReadNotifications();
@@ -20,7 +21,8 @@ const DrawerLayout = () => {
       screenOptions={{
         headerShown: true,
         swipeEdgeWidth: 0,
-        headerStyle: { backgroundColor: 'white' },
+        drawerStyle: { backgroundColor: theme.colors.background },
+        headerStyle: { backgroundColor: theme.colors.onPrimary },
         headerRight: () => (
           <Link
             asChild
@@ -50,7 +52,11 @@ const DrawerLayout = () => {
             <Icon
               color={color}
               size={20}
-              source={{ uri: House }} />
+              source={({ size, color }: IconProps) => (
+                <House
+                  color={color}
+                  size={size} />
+              )} />
           ),
         }} />
       <Drawer.Screen
@@ -62,7 +68,11 @@ const DrawerLayout = () => {
             <Icon
               color={color}
               size={20}
-              source={{ uri: TentTree }} />
+              source={({ size, color }: IconProps) => (
+                <TentTree
+                  color={color}
+                  size={size} />
+              )} />
           ),
         }} />
       <Drawer.Screen
@@ -74,7 +84,11 @@ const DrawerLayout = () => {
             <Icon
               color={color}
               size={20}
-              source={{ uri: Users }} />
+              source={({ size, color }: IconProps) => (
+                <Users
+                  color={color}
+                  size={size} />
+              )} />
           ),
         }} />
       <Drawer.Screen
@@ -86,7 +100,11 @@ const DrawerLayout = () => {
             <Icon
               color={color}
               size={20}
-              source={{ uri: NotebookText }} />
+              source={({ size, color }: IconProps) => (
+                <NotebookText
+                  color={color}
+                  size={size} />
+              )} />
           ),
         }} />
       <Drawer.Screen
@@ -98,7 +116,11 @@ const DrawerLayout = () => {
             <Icon
               color={color}
               size={20}
-              source={{ uri: UserCog }} />
+              source={({ size, color }: IconProps) => (
+                <UserCog
+                  color={color}
+                  size={size} />
+              )} />
           ),
         }} />
     </Drawer>
