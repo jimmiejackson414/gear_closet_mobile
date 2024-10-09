@@ -1,18 +1,25 @@
+import { MD3DarkTheme, MD3LightTheme } from 'react-native-paper';
+
 export const Colors = {
   light: {
-    primary: 'rgb(0, 83, 137)',
+    ...MD3LightTheme.colors,
+    primary: '#005389',
     onPrimary: 'rgb(255, 255, 255)',
     primaryContainer: 'rgb(56, 120, 179)',
     onPrimaryContainer: 'rgb(255, 255, 255)',
-    secondary: 'rgb(84, 95, 110)',
+    secondary: '#545f6e',
     onSecondary: 'rgb(255, 255, 255)',
     secondaryContainer: 'rgb(147, 159, 175)',
     onSecondaryContainer: 'rgb(5, 17, 29)',
-    tertiary: 'rgb(79, 100, 70)',
+    tertiary: '#4f6446',
     onTertiary: 'rgb(255, 255, 255)',
     tertiaryContainer: 'rgb(207, 231, 193)',
     onTertiaryContainer: 'rgb(56, 76, 47)',
-    error: 'rgb(186, 26, 26)',
+    quarternary: 'rgb(249, 219, 109)',
+    onQuarternary: 'rgb(34, 27, 0)',
+    quarternaryContainer: 'rgb(251, 225, 134)',
+    onQuarternaryContainer: 'rgb(34, 27, 0)',
+    error: '#ba1a1a',
     onError: 'rgb(255, 255, 255)',
     errorContainer: 'rgb(255, 218, 214)',
     onErrorContainer: 'rgb(65, 0, 2)',
@@ -42,6 +49,7 @@ export const Colors = {
     backdrop: 'rgba(44, 49, 55, 0.4)',
   },
   dark: {
+    ...MD3DarkTheme.colors,
     primary: 'rgb(156, 202, 255)',
     onPrimary: 'rgb(0, 50, 86)',
     primaryContainer: 'rgb(18, 94, 152)',
@@ -54,6 +62,10 @@ export const Colors = {
     onTertiary: 'rgb(34, 53, 27)',
     tertiaryContainer: 'rgb(196, 220, 182)',
     onTertiaryContainer: 'rgb(49, 68, 41)',
+    quarternary: '#DEC56E',
+    onQuarternary: '#3B2F00',
+    quarternaryContainer: '#554500',
+    onQuarternaryContainer: '#FBE186',
     error: 'rgb(255, 180, 171)',
     onError: 'rgb(105, 0, 5)',
     errorContainer: 'rgb(147, 0, 10)',
@@ -83,4 +95,11 @@ export const Colors = {
     onSurfaceDisabled: 'rgba(226, 226, 230, 0.38)',
     backdrop: 'rgba(44, 49, 55, 0.4)',
   },
+};
+
+const customLightTheme = { ...MD3LightTheme, colors: Colors.light };
+const customDarkTheme = { ...MD3DarkTheme, colors: Colors.dark };
+
+export {
+  customLightTheme, customDarkTheme,
 };

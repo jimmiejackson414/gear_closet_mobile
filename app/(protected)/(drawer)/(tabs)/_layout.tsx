@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { BellIcon, BellRingIcon, CreditCardIcon, UserIcon, UserPenIcon, WalletCardsIcon } from 'lucide-react-native';
-import { BottomNavigation, Icon, useTheme } from 'react-native-paper';
+import { BottomNavigation, Icon } from 'react-native-paper';
 import NotificationsContent from '@/components/profile/NotificationsContent';
 import ProfileContent from '@/components/profile/ProfileContent';
 import SubscriptionContent from '@/components/profile/SubscriptionContent';
+import { useAppTheme } from '@/hooks';
 
 const ProfileRoute = () => <ProfileContent />;
 const NotificationsRoute = () => <NotificationsContent />;
@@ -86,7 +87,7 @@ const ProfileLayout = () => {
     subscription: SubscriptionRoute,
   });
 
-  const theme = useTheme();
+  const theme = useAppTheme();
   return (
     <BottomNavigation
       activeColor={theme.colors.tertiary}

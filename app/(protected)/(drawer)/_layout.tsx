@@ -2,15 +2,16 @@ import { Link } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
 import { BellIcon, House, NotebookText, TentTree, UserCog, Users } from 'lucide-react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Badge, Icon, IconButton, useTheme } from 'react-native-paper';
+import { Badge, Icon, IconButton } from 'react-native-paper';
 import DrawerContent from '@/components/common/DrawerContent';
 import { makeStyles } from '@/helpers';
+import { useAppTheme } from '@/hooks';
 import { useReadNotifications } from '@/services/profile';
 
 const DrawerLayout = () => {
   const { data: unreadNotifications = [] } = useReadNotifications();
   const styles = useStyles();
-  const theme = useTheme();
+  const theme = useAppTheme();
 
   return (
     <Drawer

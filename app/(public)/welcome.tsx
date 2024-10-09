@@ -9,12 +9,12 @@ import ScreenWrapper from '@/components/common/ScreenWrapper';
 import { Colors } from '@/constants/colors';
 import { useSupabase } from '@/context/SupabaseProvider';
 import makeStyles from '@/helpers/makeStyles';
-import { useAuthLayout, useTheme } from '@/hooks';
+import { useAppTheme, useAuthLayout } from '@/hooks';
 import type { Provider } from '@supabase/supabase-js';
 // import AppleIcon from '@/assets/images/apple.svg';
 
 const WelcomeScreen = () => {
-  const { colorScheme } = useTheme();
+  const { colorScheme } = useAppTheme();
   const styles = useStyles({ colorScheme });
 
   const opacity = useRef(new Animated.Value(0)).current;

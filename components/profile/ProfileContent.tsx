@@ -91,6 +91,7 @@ const ProfileContent = () => {
         <View style={styles.wrapper}>
           <View style={styles.content}>
             <UserAvatar
+              includeSubscriptionBadge
               profile={data}
               size={128} />
             <View style={{ flexDirection: 'column', justifyContent: 'center' }}>

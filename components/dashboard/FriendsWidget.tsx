@@ -1,8 +1,9 @@
 import { View } from 'react-native';
 import { Link } from 'expo-router';
 import { UsersIcon } from 'lucide-react-native';
-import { Button, Card, Icon, Text, useTheme } from 'react-native-paper';
+import { Button, Card, Icon, Text } from 'react-native-paper';
 import UserAvatar from '@/components/common/UserAvatar';
+import { useAppTheme } from '@/hooks';
 import type { ExtendedFriend } from '@/types/helpers';
 
 interface Props {
@@ -13,7 +14,7 @@ interface Props {
 }
 
 const FriendsWidget: React.FC<Props> = ({ data }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
 
   return (
     <Card

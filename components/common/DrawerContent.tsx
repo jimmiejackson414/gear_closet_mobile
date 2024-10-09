@@ -2,8 +2,9 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { LogOut } from 'lucide-react-native';
-import { Icon , useTheme } from 'react-native-paper';
+import { Icon } from 'react-native-paper';
 import { useSupabase } from '@/context/SupabaseProvider';
+import { useAppTheme } from '@/hooks';
 import type { DrawerContentComponentProps } from '@react-navigation/drawer';
 
 const DrawerContent: React.FC<DrawerContentComponentProps> = props => {
@@ -15,7 +16,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = props => {
     router.replace('/welcome');
   };
 
-  const theme = useTheme();
+  const theme = useAppTheme();
   return (
     <DrawerContentScrollView
       {...props}

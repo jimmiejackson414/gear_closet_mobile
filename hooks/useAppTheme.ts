@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Appearance } from 'react-native';
 import { useRouter } from 'expo-router';
+import { customDarkTheme, customLightTheme } from '@/constants/colors';
 import type { ColorSchemeName } from 'react-native';
+
+export type AppTheme = typeof customLightTheme;
 
 const useTheme = () => {
   const router = useRouter();
@@ -28,7 +31,13 @@ const useTheme = () => {
     router.setParams({ colorScheme: newScheme });
   };
 
-  return { toggleTheme, colorScheme: localColorScheme };
+  const theme: AppTheme = localColorScheme === 'light' ? customLightTheme : customDarkTheme;
+
+  return {
+    ...theme,
+    colorScheme: localColorScheme,
+    toggleTheme,
+  };
 };
 
 export default useTheme;

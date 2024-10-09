@@ -1,6 +1,7 @@
 import { View } from 'react-native';
 import { LockIcon, MessagesSquareIcon } from 'lucide-react-native';
-import { Card, Icon, IconButton, Text, Tooltip, useTheme } from 'react-native-paper';
+import { Card, Icon, IconButton, Text, Tooltip } from 'react-native-paper';
+import { useAppTheme } from '@/hooks';
 import { useIsPaidMember } from '@/services/profile';
 import ForumPost from './ForumPost';
 import type { ForumResponse } from '@/services/dashboard';
@@ -12,7 +13,7 @@ interface Props {
 const ForumsWidget: React.FC<Props> = ({ data }) => {
   const { data: isPaidMember } = useIsPaidMember();
 
-  const theme = useTheme();
+  const theme = useAppTheme();
   return (
     <Card
       mode="elevated"
