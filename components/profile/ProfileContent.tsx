@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { EditIcon, SaveIcon } from 'lucide-react-native';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -84,9 +85,32 @@ const ProfileContent = () => {
     return isEditing ? SaveIcon : EditIcon;
   };
 
+  const { showActionSheetWithOptions } = useActionSheet();
   const openAvatarSheet = () => {
-    // TODO: Implement bottom sheet with options of "Take new photo", "Select photo", "View in full screen"
-    console.log('Avatar sheet opened');
+    const options = ['Take new photo', 'Select photo', 'View in full screen', 'Cancel'];
+    const cancelButtonIndex = 3;
+
+    showActionSheetWithOptions({
+      options,
+      cancelButtonIndex,
+    }, (selectedIndex?: number) => {
+      switch (selectedIndex) {
+        case 0:
+          console.log('Take new photo');
+          break;
+        case 1:
+          console.log('Select photo');
+          break;
+        case 2:
+          console.log('View in full screen');
+          break;
+        case cancelButtonIndex:
+          console.log('Cancel');
+          break;
+        default:
+          break;
+      }
+    });
   };
 
   const styles = useStyles();
@@ -163,6 +187,7 @@ const ProfileContent = () => {
           </View>
         </View>
       </ScreenWrapper>
+
       <AnimatedFAB
         animateFrom='right'
         disabled={isSaving}

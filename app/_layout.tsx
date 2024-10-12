@@ -1,6 +1,7 @@
 import { AppRegistry, LogBox } from 'react-native';
 import { Stack, useNavigationContainerRef } from 'expo-router';
 import { useReactNavigationDevTools } from '@dev-plugins/react-navigation';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme, ThemeProvider } from '@react-navigation/native';
 import merge from 'deepmerge';
 import { ClickOutsideProvider } from 'react-native-click-outside';
@@ -50,13 +51,15 @@ const RootLayout = () => {
               settings={{ rippleEffectEnabled: false }}
               theme={paperTheme}>
               <ThemeProvider value={paperTheme}>
-                <SafeAreaProvider>
-                  <Stack screenOptions={{ headerShown: false }}>
-                    <Stack.Screen name="(protected)" />
-                    <Stack.Screen name="(public)" />
-                  </Stack>
-                  <Toaster position="bottom-center" />
-                </SafeAreaProvider>
+                <ActionSheetProvider>
+                  <SafeAreaProvider>
+                    <Stack screenOptions={{ headerShown: false }}>
+                      <Stack.Screen name="(protected)" />
+                      <Stack.Screen name="(public)" />
+                    </Stack>
+                    <Toaster position="bottom-center" />
+                  </SafeAreaProvider>
+                </ActionSheetProvider>
               </ThemeProvider>
             </PaperProvider>
           </APIProvider>
