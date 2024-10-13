@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "gear_closet_mobile",
+    "name": "Gear Closet",
     "slug": "gear-closet-mobile",
     "scheme": "gear-closet-mobile",
     "version": "1.0.0",
@@ -92,6 +92,7 @@
           "origin": ""
         }
       ],
+      "expo-image-picker",
       "expo-apple-authentication",
       "expo-secure-store"
     ],

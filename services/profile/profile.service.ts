@@ -50,6 +50,36 @@ export const updateProfile = async (profile: TablesUpdate<'profiles'>): Promise<
 };
 
 /**
+ * Updates the user's avatar
+ * @param avatar
+ * @returns ExtendedProfile
+ */
+export const updateAvatar = async (avatar: string): Promise<ExtendedProfile> => {
+  const profileId = await supabase.auth.getUser()
+    ?.then(u => u?.data?.user?.id);
+  if (!profileId) throw new Error('User not authenticated');
+
+  // get the list of files in the user's avatar directory
+  const { data: files, error: listError } = await supabase.storage.from('avatars')
+    .list(`${profileId}/`);
+  if (listError) throw new Error(listError.message);
+
+  // delete the existing avatar
+  if (files?.length > 0) {
+    const { error: deleteError } = await supabase.storage.from('avatars')
+      .remove(files.map(f => f.name));
+    if (deleteError) throw new Error(deleteError.message);
+  }
+
+  // upload the new file
+  const { error: uploadError } = await supabase.storage.from('avatars')
+    .upload(`${profileId}/${avatar}`, avatar, { upsert: true });
+  if (uploadError) throw new Error(uploadError.message);
+
+  return fetchProfile();
+};
+
+/**
  * Updates a user's notification
  * @param id
  * @returns notification | null

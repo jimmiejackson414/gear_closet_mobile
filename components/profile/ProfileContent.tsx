@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { EditIcon, SaveIcon } from 'lucide-react-native';
+import * as ImagePicker from 'expo-image-picker';
+import { EditIcon, SaveIcon, XIcon } from 'lucide-react-native';
 import { FormProvider, useForm } from 'react-hook-form';
-import { ActivityIndicator, AnimatedFAB, Text } from 'react-native-paper';
+import { ActivityIndicator, AnimatedFAB, IconButton, Modal, Portal, Text } from 'react-native-paper';
 import { toast } from 'sonner-native';
 import { z } from 'zod';
 import FormInput from '@/components/common/FormInput';
@@ -13,7 +14,7 @@ import ScreenWrapper from '@/components/common/ScreenWrapper';
 import UserAvatar from '@/components/common/UserAvatar';
 import { friendlyUsername, makeStyles } from '@/helpers';
 import { useErrorHandling, useLoading } from '@/hooks';
-import { useProfile, useUpdateProfileMutation } from '@/services/profile';
+import { useProfile, useUpdateAvatarMutation, useUpdateProfileMutation } from '@/services/profile';
 import { MeasuringSystem } from '@/types';
 import type { NativeScrollEvent } from 'react-native';
 
@@ -45,8 +46,8 @@ const ProfileContent = () => {
       measuring_system: data?.measuring_system || MeasuringSystem.IMPERIAL,
     },
   });
-  const { control, handleSubmit } = form;
 
+  const { control, handleSubmit } = form;
   const [isExtended, setIsExtended] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -64,19 +65,25 @@ const ProfileContent = () => {
   };
 
   const handleFabPress = async () => {
-    if (isEditing) {
-      setIsSaving(true);
-      setFabLabel('Saving...');
-      await handleSubmit(handleSaveProfile)();
-      setTimeout(() => {
-        setIsSaving(false);
-        setIsEditing(false);
-        setFabLabel('Edit Profile');
-        toast.success('Profile updated successfully');
-      }, 2000);
-    } else {
-      setIsEditing(true);
-      setFabLabel('Save Profile');
+    try {
+      if (isEditing) {
+        setIsSaving(true);
+        setFabLabel('Saving...');
+        await handleSubmit(handleSaveProfile)();
+        setTimeout(() => {
+          setIsSaving(false);
+          setIsEditing(false);
+          setFabLabel('Edit Profile');
+          toast.success('Profile updated successfully');
+        }, 2000);
+      } else {
+        setIsEditing(true);
+        setFabLabel('Save Profile');
+      }
+    } catch (error) {
+      toast.error('Failed to update profile');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -85,6 +92,54 @@ const ProfileContent = () => {
     return isEditing ? SaveIcon : EditIcon;
   };
 
+  // Image picker
+  const updateAvatarMutation = useUpdateAvatarMutation();
+  const [isAvatarFullscreen, setIsAvatarFullscreen] = useState(false);
+  const pickImage = async () => {
+    const { status: cameraRollStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (cameraRollStatus !== 'granted') {
+      toast.error('Camera roll permission is required to select photos');
+      return;
+    }
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const avatar = result.assets[0].uri;
+      await updateAvatarMutation.mutateAsync(avatar);
+    }
+  };
+
+  // Image taker
+  const takeImage = async () => {
+    const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
+    console.log({ cameraStatus });
+
+    if (cameraStatus !== 'granted') {
+      toast.error('Camera permission is required to take photos');
+      return;
+    }
+
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const avatar = result.assets[0].uri;
+      await updateAvatarMutation.mutateAsync(avatar);
+    }
+  };
+
+  // Avatar action sheet
   const { showActionSheetWithOptions } = useActionSheet();
   const openAvatarSheet = () => {
     const options = ['Take new photo', 'Select photo', 'View in full screen', 'Cancel'];
@@ -96,16 +151,16 @@ const ProfileContent = () => {
     }, (selectedIndex?: number) => {
       switch (selectedIndex) {
         case 0:
-          console.log('Take new photo');
+          takeImage();
           break;
         case 1:
-          console.log('Select photo');
+          pickImage();
           break;
         case 2:
-          console.log('View in full screen');
+          setIsAvatarFullscreen(true);
           break;
         case cancelButtonIndex:
-          console.log('Cancel');
+          // Cancelled and closed ActionSheet
           break;
         default:
           break;
@@ -188,6 +243,7 @@ const ProfileContent = () => {
         </View>
       </ScreenWrapper>
 
+      {/* Edit FAB Button */}
       <AnimatedFAB
         animateFrom='right'
         disabled={isSaving}
@@ -203,11 +259,43 @@ const ProfileContent = () => {
         onPress={handleFabPress}
         style={styles.fabStyle}
         visible={true} />
+
+      {/* Avatar Fullscreen Modal */}
+      <Portal>
+        {isAvatarFullscreen && (
+          <View style={styles.portalBackground}>
+            <Modal
+              contentContainerStyle={styles.modalContainer}
+              onDismiss={() => setIsAvatarFullscreen(false)}
+              visible={isAvatarFullscreen}>
+              <TouchableOpacity
+                onPress={() => setIsAvatarFullscreen(false)}
+                style={styles.modalCloseButton}>
+                <IconButton icon={({ size }) => (
+                  <XIcon
+                    color="white"
+                    size={size} />
+                )} />
+              </TouchableOpacity>
+              <View style={styles.avatarContainer}>
+                <UserAvatar
+                  profile={data}
+                  size={250} />
+              </View>
+            </Modal>
+          </View>
+        )}
+      </Portal>
     </View>
   );
 };
   
 const useStyles = makeStyles(() => ({
+  avatarContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     position: 'relative',
@@ -233,6 +321,23 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'column',
     width: '100%',
     marginTop: 24,
+  },
+  modalCloseButton: {
+    position: 'absolute',
+    top: 16,
+    right: 16,
+    zIndex: 1,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+  },
+  portalBackground: {
+    flex: 1,
+    backgroundColor: 'black',
   },
   wrapper: {
     height: '100%',

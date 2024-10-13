@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { SubscriptionLevel } from '@/types';
-import { fetchProfile, updateProfile } from './profile.service';
+import { fetchProfile, updateAvatar, updateProfile } from './profile.service';
 import type { ExtendedNotification, ExtendedProfile } from '@/types/helpers';
 import type { UseMutationOptions, UseQueryResult } from '@tanstack/react-query';
 
@@ -31,6 +31,23 @@ export const useUpdateProfileMutation = (
   const queryClient = useQueryClient();
   return useMutation<ExtendedProfile, Error, Partial<ExtendedProfile>>({
     mutationFn: updateProfile,
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: keys.getProfile });
+      if (options?.onSuccess) options.onSuccess(data, variables, context);
+    },
+    ...options,
+  });
+};
+
+/**
+ * Update avatar mutation
+ */
+export const useUpdateAvatarMutation = (
+  options?: UseMutationOptions<ExtendedProfile, Error, string>,
+) => {
+  const queryClient = useQueryClient();
+  return useMutation<ExtendedProfile, Error, string>({
+    mutationFn: updateAvatar,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: keys.getProfile });
       if (options?.onSuccess) options.onSuccess(data, variables, context);
