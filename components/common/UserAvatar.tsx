@@ -10,6 +10,7 @@ import type { ExtendedProfile } from '@/types/helpers';
 
 interface Props {
   includeSubscriptionBadge?: boolean;
+  disabled?: boolean;
   profile?: ExtendedProfile | Tables<'profiles'> | null;
   size?: number;
 }
@@ -32,10 +33,10 @@ const getBadgeColor = (subscription: SubscriptionLevel, theme: AppTheme) => {
 };
 
 const UserAvatar = forwardRef<any, Props>(({
-  includeSubscriptionBadge = false, profile, size = 64,
+  disabled, includeSubscriptionBadge = false, profile, size = 64,
 }, _ref) => {
-  const styles = useStyles();
   const theme = useAppTheme();
+  const styles = useStyles({ theme, disabled });
 
   const renderAvatar = () => {
     if (!profile) {
@@ -95,10 +96,11 @@ const UserAvatar = forwardRef<any, Props>(({
   
 UserAvatar.displayName = 'UserAvatar';
   
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme, { disabled }) => ({
   container: {
     position: 'relative',
     alignItems: 'center',
+    opacity: disabled ? 0.5 : 1,
   },
   badgeContainer: {
     flex: 1,

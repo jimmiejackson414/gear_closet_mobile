@@ -54,9 +54,9 @@ export const updateProfile = async (profile: TablesUpdate<'profiles'>): Promise<
  * @param avatar
  * @returns ExtendedProfile
  */
-export const updateAvatar = async (avatar: string): Promise<ExtendedProfile> => {
-  const profileId = await supabase.auth.getUser()
-    ?.then(u => u?.data?.user?.id);
+export const updateAvatar = async (avatar: File): Promise<ExtendedProfile> => {
+  const { data } = await supabase.auth.getUser();
+  const profileId = data?.user?.id;
   if (!profileId) throw new Error('User not authenticated');
 
   // get the list of files in the user's avatar directory
@@ -73,10 +73,10 @@ export const updateAvatar = async (avatar: string): Promise<ExtendedProfile> => 
 
   // upload the new file
   const { error: uploadError } = await supabase.storage.from('avatars')
-    .upload(`${profileId}/${avatar}`, avatar, { upsert: true });
+    .upload(`${profileId}/${avatar.name}`, avatar, { upsert: true });
   if (uploadError) throw new Error(uploadError.message);
 
-  return fetchProfile();
+  return await fetchProfile();
 };
 
 /**

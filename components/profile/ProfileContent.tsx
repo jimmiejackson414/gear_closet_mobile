@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { Alert, Linking, TouchableOpacity, View } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as ImagePicker from 'expo-image-picker';
@@ -96,52 +96,100 @@ const ProfileContent = () => {
   const updateAvatarMutation = useUpdateAvatarMutation();
   const [isAvatarFullscreen, setIsAvatarFullscreen] = useState(false);
   const pickImage = async () => {
-    const { status: cameraRollStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    try {
+      const { status: mediaLibraryStatus } = await ImagePicker.getMediaLibraryPermissionsAsync();
+    
+      if (mediaLibraryStatus !== 'granted') {
+        const { status: requestStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    
+        if (requestStatus !== 'granted') {
+          Alert.alert(
+            'Media Library Permission',
+            'Media library permission is required to select photos. Please enable it in the app settings.',
+            [
+              { text: 'Cancel', style: 'cancel' },
+              { text: 'Open Settings', onPress: () => Linking.openSettings() },
+            ],
+          );
+          return;
+        }
+      }
+    
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+    
+      if (!result.canceled) {
+        setIsSaving(true);
+        const avatar = result.assets[0].uri;
 
-    if (cameraRollStatus !== 'granted') {
-      toast.error('Camera roll permission is required to select photos');
-      return;
-    }
+        // fetch the Blob from the URI
+        const response = await fetch(avatar);
+        const blob = await response.blob();
 
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      const avatar = result.assets[0].uri;
-      await updateAvatarMutation.mutateAsync(avatar);
+        // Create a file object from the blob
+        const file = new File([blob], result.assets[0].fileName as string, { type: result.assets[0].mimeType });
+        await updateAvatarMutation.mutateAsync(file);
+      }
+    } finally {
+      setIsSaving(false);
     }
   };
 
   // Image taker
   const takeImage = async () => {
-    const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
-    console.log({ cameraStatus });
+    try {
+      const { status: cameraStatus } = await ImagePicker.getCameraPermissionsAsync();
+  
+      if (cameraStatus !== 'granted') {
+        const { status: requestStatus } = await ImagePicker.requestCameraPermissionsAsync();
+  
+        if (requestStatus !== 'granted') {
+          Alert.alert(
+            'Camera Permission',
+            'Camera permission is required to take photos. Please enable it in the app settings.',
+            [
+              { text: 'Cancel', style: 'cancel' },
+              { text: 'Open Settings', onPress: () => Linking.openSettings() },
+            ],
+          );
+          return;
+        }
+      }
+  
+      let result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+  
+      if (!result.canceled) {
+        setIsSaving(true);
+        const avatar = result.assets[0].uri;
 
-    if (cameraStatus !== 'granted') {
-      toast.error('Camera permission is required to take photos');
-      return;
-    }
+        // fetch the Blob from the URI
+        const response = await fetch(avatar);
+        const blob = await response.blob();
 
-    let result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      const avatar = result.assets[0].uri;
-      await updateAvatarMutation.mutateAsync(avatar);
+        // Create a file object from the blob
+        const file = new File([blob], result.assets[0].fileName as string, { type: result.assets[0].mimeType });
+        await updateAvatarMutation.mutateAsync(file);
+        // TODO: Figure out why new avatar is not being returned correctly
+      }
+    } finally {
+      setIsSaving(false);
     }
   };
 
   // Avatar action sheet
   const { showActionSheetWithOptions } = useActionSheet();
   const openAvatarSheet = () => {
+    if (isSaving || isLoading) return;
+
     const options = ['Take new photo', 'Select photo', 'View in full screen', 'Cancel'];
     const cancelButtonIndex = 3;
 
@@ -176,6 +224,7 @@ const ProfileContent = () => {
           <View style={styles.content}>
             <TouchableOpacity onPress={openAvatarSheet}>
               <UserAvatar
+                disabled={isLoading || isSaving}
                 includeSubscriptionBadge
                 profile={data}
                 size={128} />
@@ -207,30 +256,30 @@ const ProfileContent = () => {
               <FormInput
                 autoComplete="given-name"
                 control={control}
-                disabled={isSaving || !isEditing}
+                disabled={isSaving || !isEditing || isLoading}
                 label="First Name"
                 name="first_name"  />
               <FormInput
                 autoComplete="family-name"
                 control={control}
-                disabled={isSaving || !isEditing}
+                disabled={isSaving || !isEditing || isLoading}
                 label="Last Name"
                 name="last_name"  />
               <FormInput
                 autoComplete="nickname"
                 control={control}
-                disabled={isSaving || !isEditing}
+                disabled={isSaving || !isEditing || isLoading}
                 label="Trail Name"
                 name="trail_name"  />
               <FormInput
                 autoComplete="email"
                 control={control}
-                disabled={isSaving || !isEditing}
+                disabled={isSaving || !isEditing || isLoading}
                 label="Email"
                 name="email"  />
               <FormPicker
                 control={control}
-                disabled={isSaving || !isEditing}
+                disabled={isSaving || !isEditing || isLoading}
                 label="Preferred measuring system"
                 name="measuring_system"
                 onValueChange={value => console.log('Selected value: ', value)}
@@ -246,7 +295,7 @@ const ProfileContent = () => {
       {/* Edit FAB Button */}
       <AnimatedFAB
         animateFrom='right'
-        disabled={isSaving}
+        disabled={isSaving || isLoading}
         extended={isExtended}
         icon={({ color, size }) => {
           const IconComponent = getFabIcon();

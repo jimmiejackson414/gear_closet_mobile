@@ -43,10 +43,10 @@ export const useUpdateProfileMutation = (
  * Update avatar mutation
  */
 export const useUpdateAvatarMutation = (
-  options?: UseMutationOptions<ExtendedProfile, Error, string>,
+  options?: UseMutationOptions<ExtendedProfile, Error, File>,
 ) => {
   const queryClient = useQueryClient();
-  return useMutation<ExtendedProfile, Error, string>({
+  return useMutation<ExtendedProfile, Error, File>({
     mutationFn: updateAvatar,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: keys.getProfile });
