@@ -3,6 +3,7 @@ import { SubscriptionLevel } from '@/types';
 import { fetchProfile, updateAvatar, updateProfile } from './profile.service';
 import type { ExtendedNotification, ExtendedProfile } from '@/types/helpers';
 import type { UseMutationOptions, UseQueryResult } from '@tanstack/react-query';
+import type { ImagePickerAsset } from 'expo-image-picker';
 
 const keys = { getProfile: ['profile'] };
 
@@ -43,10 +44,10 @@ export const useUpdateProfileMutation = (
  * Update avatar mutation
  */
 export const useUpdateAvatarMutation = (
-  options?: UseMutationOptions<ExtendedProfile, Error, File>,
+  options?: UseMutationOptions<ExtendedProfile, Error, ImagePickerAsset>,
 ) => {
   const queryClient = useQueryClient();
-  return useMutation<ExtendedProfile, Error, File>({
+  return useMutation<ExtendedProfile, Error, ImagePickerAsset>({
     mutationFn: updateAvatar,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: keys.getProfile });

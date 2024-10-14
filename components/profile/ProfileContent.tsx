@@ -98,10 +98,10 @@ const ProfileContent = () => {
   const pickImage = async () => {
     try {
       const { status: mediaLibraryStatus } = await ImagePicker.getMediaLibraryPermissionsAsync();
-    
+
       if (mediaLibraryStatus !== 'granted') {
         const { status: requestStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    
+
         if (requestStatus !== 'granted') {
           Alert.alert(
             'Media Library Permission',
@@ -114,27 +114,29 @@ const ProfileContent = () => {
           return;
         }
       }
-    
+
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [1, 1],
         quality: 1,
       });
-    
+
       if (!result.canceled) {
         setIsSaving(true);
-        const avatar = result.assets[0].uri;
+        const asset = result.assets[0];
 
-        // fetch the Blob from the URI
-        const response = await fetch(avatar);
-        const blob = await response.blob();
-
-        // Create a file object from the blob
-        const file = new File([blob], result.assets[0].fileName as string, { type: result.assets[0].mimeType });
-        await updateAvatarMutation.mutateAsync(file);
+        try {
+          await updateAvatarMutation.mutateAsync(asset);
+          toast.success('Avatar updated successfully!');
+        } catch (error: any) {
+          toast.error(error.message || 'Failed to update avatar.');
+        } finally {
+          setIsSaving(false);
+        }
       }
-    } finally {
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to pick image.');
       setIsSaving(false);
     }
   };
@@ -143,10 +145,10 @@ const ProfileContent = () => {
   const takeImage = async () => {
     try {
       const { status: cameraStatus } = await ImagePicker.getCameraPermissionsAsync();
-  
+
       if (cameraStatus !== 'granted') {
         const { status: requestStatus } = await ImagePicker.requestCameraPermissionsAsync();
-  
+
         if (requestStatus !== 'granted') {
           Alert.alert(
             'Camera Permission',
@@ -159,28 +161,37 @@ const ProfileContent = () => {
           return;
         }
       }
-  
+
       let result = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [1, 1],
         quality: 1,
       });
-  
+
       if (!result.canceled) {
         setIsSaving(true);
-        const avatar = result.assets[0].uri;
+        const asset = result.assets[0];
 
-        // fetch the Blob from the URI
-        const response = await fetch(avatar);
-        const blob = await response.blob();
-
-        // Create a file object from the blob
-        const file = new File([blob], result.assets[0].fileName as string, { type: result.assets[0].mimeType });
-        await updateAvatarMutation.mutateAsync(file);
-        // TODO: Figure out why new avatar is not being returned correctly
+        try {
+          await updateAvatarMutation.mutateAsync(asset);
+          toast.success('Avatar updated successfully!');
+        } catch (error) {
+          if (error instanceof Error) {
+            toast.error(error.message || 'Failed to update avatar.');
+          } else {
+            toast.error('Failed to update avatar.');
+          }
+        } finally {
+          setIsSaving(false);
+        }
       }
-    } finally {
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message || 'Failed to take image.');
+      } else {
+        toast.error('Failed to take image.');
+      }
       setIsSaving(false);
     }
   };

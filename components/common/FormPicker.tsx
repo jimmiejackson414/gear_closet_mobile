@@ -29,11 +29,6 @@ const FormPicker: React.FC<Props> = ({
   const theme = useAppTheme();
   const styles = useStyles({ theme, disabled });
 
-  const handlePress = () => {
-    console.log('TextInput pressed');
-    setVisible(true);
-  };
-
   const hideDialog = () => setVisible(false);
 
   return (
@@ -48,7 +43,7 @@ const FormPicker: React.FC<Props> = ({
               editable={false}
               label={label}
               mode="outlined"
-              onPress={handlePress}
+              onPress={() => setVisible(true)}
               right={
                 <TextInput.Icon icon={({ size }) => <ChevronDownIcon
                   color={theme.colors.primary}
