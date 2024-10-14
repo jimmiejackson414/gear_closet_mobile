@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert, Linking, TouchableOpacity, View } from 'react-native';
+import { Alert, Keyboard, Linking, TouchableOpacity, View } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as ImagePicker from 'expo-image-picker';
@@ -27,11 +27,14 @@ const profileSchema = z.object({
   email: z.string()
     .email('Please enter a valid email address'),
   measuring_system: z.enum([MeasuringSystem.IMPERIAL, MeasuringSystem.METRIC]),
-  country: z.string(),
+  country: z.string()
+    .optional(),
   new_password: z.string()
-    .min(6, 'Password must be at least 6 characters.'),
+    .min(6, 'Password must be at least 6 characters.')
+    .optional(),
   password_confirm: z.string()
-    .min(6, 'Password must be at least 6 characters.'),
+    .min(6, 'Password must be at least 6 characters.')
+    .optional(),
 })
   .refine(data => data.new_password === data.password_confirm, {
     path: ['passwordConfirm'],
@@ -70,7 +73,12 @@ const ProfileContent = () => {
   const updateProfileMutation = useUpdateProfileMutation();
   const handleSaveProfile = async () => {
     const values = form.getValues();
-    await updateProfileMutation.mutateAsync(values);
+
+    try {
+      await updateProfileMutation.mutateAsync(values);
+    } catch (error) {
+      toast.error('Failed to update profile');
+    }
   };
 
   const handleFabPress = async () => {
@@ -78,13 +86,22 @@ const ProfileContent = () => {
       if (isEditing) {
         setIsSaving(true);
         setFabLabel('Saving...');
-        await handleSubmit(handleSaveProfile)();
-        setTimeout(() => {
-          setIsSaving(false);
-          setIsEditing(false);
-          setFabLabel('Edit Profile');
-          toast.success('Profile updated successfully');
-        }, 2000);
+        await handleSubmit(
+          async () => {
+            await handleSaveProfile();
+            setTimeout(() => {
+              setIsSaving(false);
+              setIsEditing(false);
+              setFabLabel('Edit Profile');
+              toast.success('Profile updated successfully');
+              Keyboard.dismiss();
+            }, 1500);
+          },
+          () => {
+            toast.error('Please fill in the required fields');
+            setIsSaving(false);
+          },
+        )();
       } else {
         setIsEditing(true);
         setFabLabel('Save Profile');

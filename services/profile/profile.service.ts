@@ -34,9 +34,13 @@ export const fetchProfile = async (): Promise<ExtendedProfile> => {
  * @returns ExtendedProfile
  */
 export const updateProfile = async (profile: TablesUpdate<'profiles'>): Promise<ExtendedProfile> => {
+  const { data: userData } = await supabase.auth.getUser();
+  const profileId = userData?.user?.id;
+  if (!profileId) throw new Error('User not authenticated');
+
   const { data, error } = await supabase.from('profiles')
     .update(profile)
-    .match({ id: profile.id })
+    .match({ id: profileId })
     .select(`
       *,
       onboarding_steps(*),
