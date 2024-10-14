@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as ImagePicker from 'expo-image-picker';
 import { EditIcon, SaveIcon, XIcon } from 'lucide-react-native';
 import { FormProvider, useForm } from 'react-hook-form';
-import { ActivityIndicator, AnimatedFAB, Divider, IconButton, Modal, Portal, Text } from 'react-native-paper';
+import { ActivityIndicator, AnimatedFAB, IconButton, Modal, Portal, Text } from 'react-native-paper';
 import { toast } from 'sonner-native';
 import { z } from 'zod';
 import FormInput from '@/components/common/FormInput';
@@ -29,17 +29,7 @@ const profileSchema = z.object({
   measuring_system: z.enum([MeasuringSystem.IMPERIAL, MeasuringSystem.METRIC]),
   country: z.string()
     .optional(),
-  new_password: z.string()
-    .min(6, 'Password must be at least 6 characters.')
-    .optional(),
-  password_confirm: z.string()
-    .min(6, 'Password must be at least 6 characters.')
-    .optional(),
-})
-  .refine(data => data.new_password === data.password_confirm, {
-    path: ['passwordConfirm'],
-    message: 'Passwords do not match',
-  });
+});
 
 const ProfileContent = () => {
   const {
@@ -56,6 +46,7 @@ const ProfileContent = () => {
       trail_name: data?.trail_name || '',
       email: data?.email || '',
       measuring_system: data?.measuring_system || MeasuringSystem.IMPERIAL,
+      country: data?.country || '',
     },
   });
 
@@ -89,13 +80,11 @@ const ProfileContent = () => {
         await handleSubmit(
           async () => {
             await handleSaveProfile();
-            setTimeout(() => {
-              setIsSaving(false);
-              setIsEditing(false);
-              setFabLabel('Edit Profile');
-              toast.success('Profile updated successfully');
-              Keyboard.dismiss();
-            }, 1500);
+            setIsSaving(false);
+            setIsEditing(false);
+            setFabLabel('Edit Profile');
+            toast.success('Profile updated successfully');
+            Keyboard.dismiss();
           },
           () => {
             toast.error('Please fill in the required fields');
@@ -330,20 +319,6 @@ const ProfileContent = () => {
                 disabled={isSaving || !isEditing || isLoading}
                 label="Country"
                 name="country"  />
-              <Divider style={{ marginBottom: 16 }} />
-              <FormInput
-                autoComplete="new-password"
-                control={control}
-                disabled={isSaving || !isEditing || isLoading}
-                label="New Password"
-                name="new_password"
-                secureTextEntry />
-              <FormInput
-                control={control}
-                disabled={isSaving || !isEditing || isLoading}
-                label="Confirm Password"
-                name="confirm_password"
-                secureTextEntry />
             </FormProvider>
           </View>
         </View>

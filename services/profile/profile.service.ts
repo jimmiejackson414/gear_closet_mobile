@@ -33,13 +33,13 @@ export const fetchProfile = async (): Promise<ExtendedProfile> => {
  * @param profile
  * @returns ExtendedProfile
  */
-export const updateProfile = async (profile: TablesUpdate<'profiles'>): Promise<ExtendedProfile> => {
+export const updateProfile = async (payload: TablesUpdate<'profiles'>): Promise<ExtendedProfile> => {
   const { data: userData } = await supabase.auth.getUser();
   const profileId = userData?.user?.id;
   if (!profileId) throw new Error('User not authenticated');
 
   const { data, error } = await supabase.from('profiles')
-    .update(profile)
+    .update(payload)
     .match({ id: profileId })
     .select(`
       *,
@@ -49,6 +49,12 @@ export const updateProfile = async (profile: TablesUpdate<'profiles'>): Promise<
     `)
     .returns<ExtendedProfile>()
     .single();
+
+  if (payload.email) {
+    const { error: emailError } = await supabase.auth.updateUser({ email: payload.email });
+
+    if (emailError) throw new Error(emailError.message || 'User email update failed');
+  }
 
   if (error || !data) throw new Error(error?.message || 'Profile update failed');
 
