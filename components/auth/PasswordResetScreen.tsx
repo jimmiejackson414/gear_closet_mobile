@@ -3,9 +3,8 @@ import { View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Image } from 'expo-image';
-import { EyeIcon, EyeOffIcon } from 'lucide-react-native';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Button, Text, TextInput } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { toast } from 'sonner-native';
 import { z } from 'zod';
@@ -30,7 +29,6 @@ const passwordSchema = z.object({
 const PasswordResetScreen = () => {
   const [step, setStep] = useState(1);
   const [submitting, setSubmitting] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
 
   const { verifyResetCode } = useSupabase();
   const {
@@ -120,50 +118,19 @@ const PasswordResetScreen = () => {
                 autoFocus
                 control={control}
                 disabled={submitting}
-                keyboardType="passwordReset"
+                keyboardType="visible-password"
                 label="New password"
                 name="password"
                 placeholder="Enter your new password"
-                right={
-                  <TextInput.Icon icon={({ size }) =>
-                    !showPassword ? (
-                      <EyeIcon
-                        height={size}
-                        onPress={() => setShowPassword(prev => !prev)}
-                        width={size} />
-                    ) : (
-                      <EyeOffIcon
-                        height={size}
-                        onPress={() => setShowPassword(prev => !prev)}
-                        width={size} />
-                    )
-                  } />
-                }
-                secureTextEntry={!showPassword} />
+                secureTextEntry />
               <FormInput
-                autoComplete="password-confirm"
                 control={control}
                 disabled={submitting}
-                keyboardType="passwordConfirm"
+                keyboardType="visible-password"
                 label="Confirm password"
                 name="passwordConfirm"
                 placeholder="Confirm your new password"
-                right={
-                  <TextInput.Icon icon={({ size }) =>
-                    !showPassword ? (
-                      <EyeIcon
-                        height={size}
-                        onPress={() => setShowPassword(prev => !prev)}
-                        width={size} />
-                    ) : (
-                      <EyeOffIcon
-                        height={size}
-                        onPress={() => setShowPassword(prev => !prev)}
-                        width={size} />
-                    )
-                  } />
-                }
-                secureTextEntry={!showPassword} />
+                secureTextEntry />
               <Button
                 disabled={submitting || !watchedFields.password || !watchedFields.passwordConfirm}
                 onPress={handleSubmit(handleResetPassword)}>

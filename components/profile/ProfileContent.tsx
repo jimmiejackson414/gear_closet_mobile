@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as ImagePicker from 'expo-image-picker';
 import { EditIcon, SaveIcon, XIcon } from 'lucide-react-native';
 import { FormProvider, useForm } from 'react-hook-form';
-import { ActivityIndicator, AnimatedFAB, IconButton, Modal, Portal, Text } from 'react-native-paper';
+import { ActivityIndicator, AnimatedFAB, Divider, IconButton, Modal, Portal, Text } from 'react-native-paper';
 import { toast } from 'sonner-native';
 import { z } from 'zod';
 import FormInput from '@/components/common/FormInput';
@@ -27,7 +27,16 @@ const profileSchema = z.object({
   email: z.string()
     .email('Please enter a valid email address'),
   measuring_system: z.enum([MeasuringSystem.IMPERIAL, MeasuringSystem.METRIC]),
-});
+  country: z.string(),
+  new_password: z.string()
+    .min(6, 'Password must be at least 6 characters.'),
+  password_confirm: z.string()
+    .min(6, 'Password must be at least 6 characters.'),
+})
+  .refine(data => data.new_password === data.password_confirm, {
+    path: ['passwordConfirm'],
+    message: 'Passwords do not match',
+  });
 
 const ProfileContent = () => {
   const {
@@ -119,7 +128,7 @@ const ProfileContent = () => {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [1, 1],
-        quality: 1,
+        quality: .5,
       });
 
       if (!result.canceled) {
@@ -166,7 +175,7 @@ const ProfileContent = () => {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [1, 1],
-        quality: 1,
+        quality: .5,
       });
 
       if (!result.canceled) {
@@ -298,6 +307,26 @@ const ProfileContent = () => {
                   { label: 'Imperial (lb, oz)', value: MeasuringSystem.IMPERIAL },
                   { label: 'Metric (kg, g)', value: MeasuringSystem.METRIC },
                 ]} />
+              <FormInput
+                autoComplete="postal-address-country"
+                control={control}
+                disabled={isSaving || !isEditing || isLoading}
+                label="Country"
+                name="country"  />
+              <Divider style={{ marginBottom: 16 }} />
+              <FormInput
+                autoComplete="new-password"
+                control={control}
+                disabled={isSaving || !isEditing || isLoading}
+                label="New Password"
+                name="new_password"
+                secureTextEntry />
+              <FormInput
+                control={control}
+                disabled={isSaving || !isEditing || isLoading}
+                label="Confirm Password"
+                name="confirm_password"
+                secureTextEntry />
             </FormProvider>
           </View>
         </View>

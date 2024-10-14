@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native
 import { BlurView } from '@react-native-community/blur';
 import { ChevronDownIcon } from 'lucide-react-native';
 import { Controller } from 'react-hook-form';
-import { Button, Dialog, Portal, TextInput } from 'react-native-paper';
+import { Button, Dialog, HelperText, Portal, TextInput } from 'react-native-paper';
 import { makeStyles } from '@/helpers';
 import { useAppTheme } from '@/hooks';
 import type { Control } from 'react-hook-form';
@@ -36,13 +36,18 @@ const FormPicker: React.FC<Props> = ({
       <Controller
         control={control}
         name={name}
-        render={({ field: { onChange, value } }) => (
+        render={({
+          field: {
+            onChange, onBlur, value,
+          }, fieldState: { error },
+        }) => (
           <>
             <TextInput
               disabled={disabled}
               editable={false}
               label={label}
               mode="outlined"
+              onBlur={onBlur}
               onPress={() => setVisible(true)}
               right={
                 <TextInput.Icon icon={({ size }) => <ChevronDownIcon
@@ -50,6 +55,11 @@ const FormPicker: React.FC<Props> = ({
                   size={size} />} />}
               style={styles.textInput}
               value={options.find(option => option.value === value)?.label || ''} />
+            <HelperText
+              type="error"
+              visible={!!error}>
+              {error?.message}
+            </HelperText>
             <Portal>
               {visible && (
                 <BlurView
