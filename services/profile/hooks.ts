@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { SubscriptionLevel } from '@/types';
-import { fetchProfile, updateAvatar, updatePreferences, updateProfile } from './profile.service';
-import type { Tables } from '@/types';
+import { fetchProfile, updateAvatar, updatePreference, updateProfile } from './profile.service';
+import type { TablesUpdate } from '@/types';
 import type { ExtendedNotification, ExtendedProfile } from '@/types/helpers';
 import type { UseMutationOptions, UseQueryResult } from '@tanstack/react-query';
 import type { ImagePickerAsset } from 'expo-image-picker';
@@ -61,24 +61,33 @@ export const useUpdateAvatarMutation = (
 /**
  * Update profile preferences mutation
  */
-export const useUpdatePreferencesMutation = (
-  options?: UseMutationOptions<ExtendedProfile, Error, Tables<'preferences'>[]>,
+export const useUpdatePreferenceMutation = (
+  options?: UseMutationOptions<ExtendedProfile, Error, TablesUpdate<'preferences'>>,
 ) => {
   const queryClient = useQueryClient();
-  return useMutation<ExtendedProfile, Error, Tables<'preferences'>[]>({
-    mutationFn: updatePreferences,
-    // TODO: optimistic update
-    onMutate: async variables => {
+  return useMutation<ExtendedProfile, Error, TablesUpdate<'preferences'>>({
+    mutationFn: updatePreference,
+    onMutate: async newPreference => {
       await queryClient.cancelQueries({ queryKey: keys.getProfile });
       const previousData = queryClient.getQueryData<ExtendedProfile>(keys.getProfile);
+
       queryClient.setQueryData<ExtendedProfile>(keys.getProfile, old => {
-        return { ...old, preferences: variables };
+        if (!old) return old;
+        const updatedPreferences = old.preferences.map(pref =>
+          pref.id === newPreference.id ? { ...pref, ...newPreference } : pref,
+        );
+        return { ...old, preferences: updatedPreferences };
       });
-      return { previousData };
+
+      return { previousData, newPreference };
     },
-    onSuccess: (data, variables, context) => {
+    onError: (error, newPreference, context: any) => {
+      if (context?.previousData) {
+        queryClient.setQueryData<ExtendedProfile>(keys.getProfile, context.previousData);
+      }
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: keys.getProfile });
-      if (options?.onSuccess) options.onSuccess(data, variables, context);
     },
     ...options,
   });

@@ -51,7 +51,7 @@ const ProfileContent = () => {
   });
 
   const { control, handleSubmit } = form;
-  const [isExtended, setIsExtended] = useState(false);
+  const [isExtended, setIsExtended] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [fabLabel, setFabLabel] = useState('Edit Profile');
