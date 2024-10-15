@@ -1,12 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { SubscriptionLevel } from '@/types';
-import { fetchProfile, updateAvatar, updatePreference, updateProfile } from './profile.service';
+import { fetchProfile, fetchSubscription, updateAvatar, updatePreference, updateProfile } from './profile.service';
 import type { TablesUpdate } from '@/types';
-import type { ExtendedNotification, ExtendedProfile } from '@/types/helpers';
+import type { ExtendedNotification, ExtendedProfile, SubscriptionApiResponse } from '@/types/helpers';
 import type { UseMutationOptions, UseQueryResult } from '@tanstack/react-query';
 import type { ImagePickerAsset } from 'expo-image-picker';
 
-const keys = { getProfile: ['profile'] };
+const keys = { getProfile: ['profile'], getSubscription: ['subscription'] };
 
 /**
  * Profile Query
@@ -17,6 +17,22 @@ export const useProfile = <TData = ExtendedProfile>(
   return useQuery<ExtendedProfile, Error, TData>({
     queryKey: keys.getProfile,
     queryFn: fetchProfile,
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
+    select,
+  });
+};
+
+/**
+ * Stripe subscription
+ */
+export const useSubscription = <TData = SubscriptionApiResponse>(
+  select?: (subscription: SubscriptionApiResponse) => TData,
+): UseQueryResult<TData, Error> => {
+  return useQuery<SubscriptionApiResponse, Error, TData>({
+    queryKey: keys.getSubscription,
+    queryFn: fetchSubscription,
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: true,
     refetchOnReconnect: true,

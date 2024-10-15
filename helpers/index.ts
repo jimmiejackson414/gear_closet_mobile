@@ -7,6 +7,19 @@ interface FriendlyUsernameOptions {
   includeTrailName?: boolean;
 }
 
+export const capitalize = (text: string | undefined | null) => {
+  if (!text) return '';
+
+  const splitStr = text.toLowerCase()
+    .split(' ');
+
+  for (let i = 0; i < splitStr.length; i += 1) {
+    splitStr[i] = splitStr[i].charAt(0)
+      .toUpperCase() + splitStr[i].substring(1);
+  }
+  return splitStr.join(' ');
+};
+
 export const initials = (user: Tables<'profiles'> | null | undefined) => {
   const base = 'GC';
   if (!user) return base;

@@ -1,14 +1,15 @@
 import { decode } from 'base64-arraybuffer';
+import { toast } from 'sonner-native';
 import { supabase } from '@/lib/supabase';
 import type { TablesUpdate } from '@/types';
-import type { ExtendedProfile } from '@/types/helpers';
+import type { ExtendedProfile, SubscriptionApiResponse } from '@/types/helpers';
 import type { ImagePickerAsset } from 'expo-image-picker';
 
 /**
  * Fetches the profile data for the current user
  * @returns ExtendedProfile
  */
-export const fetchProfile = async (): Promise<ExtendedProfile> => {
+export const fetchProfile = async () => {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error('User not authenticated');
 
@@ -30,11 +31,36 @@ export const fetchProfile = async (): Promise<ExtendedProfile> => {
 };
 
 /**
+ * Fetches the profile's subscription data from Stripe
+ * @returns Subscription
+ */
+export const fetchSubscription = async (): Promise<SubscriptionApiResponse | null> => {
+  try {
+    const response = await fetch('/api/stripe/subscription');
+    console.log({ response });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Error response:', errorText);
+      throw new Error('Failed to fetch subscription data');
+    }
+
+    const subscription = await response.json();
+    console.log({ subscription });
+    return subscription;
+  } catch (err) {
+    console.error(err);
+    toast.error('Failed to fetch subscription data');
+    return null; // Ensure a value is always returned
+  }
+};
+
+/**
  * Updates the user's profile
  * @param profile
  * @returns ExtendedProfile
  */
-export const updateProfile = async (payload: TablesUpdate<'profiles'>): Promise<ExtendedProfile> => {
+export const updateProfile = async (payload: TablesUpdate<'profiles'>) => {
   const { data: userData } = await supabase.auth.getUser();
   const profileId = userData?.user?.id;
   if (!profileId) throw new Error('User not authenticated');
@@ -68,7 +94,7 @@ export const updateProfile = async (payload: TablesUpdate<'profiles'>): Promise<
  * @returns ExtendedProfile
  */
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-export const updateAvatar = async (asset: ImagePickerAsset): Promise<ExtendedProfile> => {
+export const updateAvatar = async (asset: ImagePickerAsset) => {
   if (!asset) throw new Error('No asset provided');
 
   const { data } = await supabase.auth.getUser();
@@ -157,10 +183,10 @@ export const updateNotification = async (id: string, payload: TablesUpdate<'noti
 
 /**
  * Updates a user's preferences
- * @param <Tables<'preferences'>[]>
+ * @param <Tables<'preferences'>>
  * @returns ExtendedProfile
  */
-export const updatePreference = async (payload: TablesUpdate<'preferences'>): Promise<ExtendedProfile> => {
+export const updatePreference = async (payload: TablesUpdate<'preferences'>) => {
   const { data } = await supabase.auth.getUser();
   const profileId = data?.user?.id;
   if (!profileId) throw new Error('User not authenticated');
