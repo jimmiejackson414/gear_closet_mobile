@@ -154,3 +154,22 @@ export const updateNotification = async (id: string, payload: TablesUpdate<'noti
     return null;
   }
 };
+
+/**
+ * Updates a user's preferences
+ * @param <Tables<'preferences'>[]>
+ * @returns ExtendedProfile
+ */
+export const updatePreferences = async (payload: TablesUpdate<'preferences'>[]): Promise<ExtendedProfile> => {
+  const { data } = await supabase.auth.getUser();
+  const profileId = data?.user?.id;
+  if (!profileId) throw new Error('User not authenticated');
+
+  // TODO: Implement preferences update
+  // const { error } = await supabase.from('preferences')
+  //   .upsert(payload, { onConflict: ['profile_id'] });
+
+  // if (error) throw new Error(error.message);
+
+  return fetchProfile();
+};

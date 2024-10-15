@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { SubscriptionLevel } from '@/types';
-import { fetchProfile, updateAvatar, updateProfile } from './profile.service';
+import { fetchProfile, updateAvatar, updatePreferences, updateProfile } from './profile.service';
+import type { Tables } from '@/types';
 import type { ExtendedNotification, ExtendedProfile } from '@/types/helpers';
 import type { UseMutationOptions, UseQueryResult } from '@tanstack/react-query';
 import type { ImagePickerAsset } from 'expo-image-picker';
@@ -49,6 +50,32 @@ export const useUpdateAvatarMutation = (
   const queryClient = useQueryClient();
   return useMutation<ExtendedProfile, Error, ImagePickerAsset>({
     mutationFn: updateAvatar,
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: keys.getProfile });
+      if (options?.onSuccess) options.onSuccess(data, variables, context);
+    },
+    ...options,
+  });
+};
+
+/**
+ * Update profile preferences mutation
+ */
+export const useUpdatePreferencesMutation = (
+  options?: UseMutationOptions<ExtendedProfile, Error, Tables<'preferences'>[]>,
+) => {
+  const queryClient = useQueryClient();
+  return useMutation<ExtendedProfile, Error, Tables<'preferences'>[]>({
+    mutationFn: updatePreferences,
+    // TODO: optimistic update
+    onMutate: async variables => {
+      await queryClient.cancelQueries({ queryKey: keys.getProfile });
+      const previousData = queryClient.getQueryData<ExtendedProfile>(keys.getProfile);
+      queryClient.setQueryData<ExtendedProfile>(keys.getProfile, old => {
+        return { ...old, preferences: variables };
+      });
+      return { previousData };
+    },
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: keys.getProfile });
       if (options?.onSuccess) options.onSuccess(data, variables, context);
