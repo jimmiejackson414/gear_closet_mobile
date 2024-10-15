@@ -30,6 +30,7 @@ export type ExtendedProfile = Tables<'profiles'> & {
   onboarding_steps: Tables<'onboarding_steps'>[];
   notifications: ExtendedNotification[];
   subscriptions: SubscriptionType[];
+  preferences: Tables<'preferences'>[];
 };
 
 export type ExtendedFriend = Tables<'friends'> & {

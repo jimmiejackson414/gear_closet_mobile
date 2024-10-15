@@ -17,7 +17,8 @@ export const fetchProfile = async (): Promise<ExtendedProfile> => {
       *,
       onboarding_steps(*),
       notifications!notifications_profile_id_fkey(*, sender:sender_id(*)),
-      subscriptions(*, prices(*))
+      subscriptions(*, prices(*)),
+      preferences(*)
     `)
     .eq('id', user.id)
     .returns<ExtendedProfile>()

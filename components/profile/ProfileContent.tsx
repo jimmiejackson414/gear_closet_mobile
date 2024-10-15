@@ -56,11 +56,17 @@ const ProfileContent = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [fabLabel, setFabLabel] = useState('Edit Profile');
 
+  /**
+   * Handle scroll event
+   */
   const onScroll = ({ nativeEvent }: { nativeEvent: NativeScrollEvent }) => {
     const currentScrollPosition = Math.floor(nativeEvent?.contentOffset?.y) ?? 0;
     setIsExtended(currentScrollPosition <= 0);
   };
 
+  /**
+   * Update profile mutation
+   */
   const updateProfileMutation = useUpdateProfileMutation();
   const handleSaveProfile = async () => {
     const values = form.getValues();
@@ -72,6 +78,9 @@ const ProfileContent = () => {
     }
   };
 
+  /**
+   * Handle FAB button press
+   */
   const handleFabPress = async () => {
     try {
       if (isEditing) {
@@ -107,7 +116,9 @@ const ProfileContent = () => {
     return isEditing ? SaveIcon : EditIcon;
   };
 
-  // Image picker
+  /**
+   * Camera roll image picker
+   */
   const updateAvatarMutation = useUpdateAvatarMutation();
   const [isAvatarFullscreen, setIsAvatarFullscreen] = useState(false);
   const pickImage = async () => {
@@ -156,7 +167,9 @@ const ProfileContent = () => {
     }
   };
 
-  // Image taker
+  /**
+   * Camera image taker
+   */
   const takeImage = async () => {
     try {
       const { status: cameraStatus } = await ImagePicker.getCameraPermissionsAsync();
@@ -211,7 +224,9 @@ const ProfileContent = () => {
     }
   };
 
-  // Avatar action sheet
+  /**
+   * ActionSheet for selecting image source
+   */
   const { showActionSheetWithOptions } = useActionSheet();
   const openAvatarSheet = () => {
     if (isSaving || isLoading) return;
