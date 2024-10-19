@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
+import { useNavigation } from 'expo-router';
 import { BellIcon, BellRingIcon, CreditCardIcon, UserIcon, UserPenIcon, WalletCardsIcon } from 'lucide-react-native';
 import { BottomNavigation, Icon } from 'react-native-paper';
 import NotificationsContent from '@/components/profile/NotificationsContent';
@@ -12,7 +13,9 @@ const NotificationsRoute = () => <NotificationsContent />;
 const SubscriptionRoute = () => <SubscriptionContent />;
 
 const ProfileLayout = () => {
+  const navigation = useNavigation();
   const [index, setIndex] = useState(0);
+
   const [routes] = useState([
     {
       key: 'profile',
@@ -87,6 +90,11 @@ const ProfileLayout = () => {
     notifications: NotificationsRoute,
     subscription: SubscriptionRoute,
   });
+
+  // dynamically update header title based on the selected tab
+  useLayoutEffect(() => {
+    navigation.setOptions({ headerTitle: routes[index].title });
+  }, [index, navigation, routes]);
 
   const theme = useAppTheme();
   return (

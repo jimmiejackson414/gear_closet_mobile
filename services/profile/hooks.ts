@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { SubscriptionLevel } from '@/types';
 import { fetchProfile, fetchSubscription, updateAvatar, updatePreference, updateProfile } from './profile.service';
 import type { TablesUpdate } from '@/types';
-import type { ExtendedNotification, ExtendedProfile, SubscriptionApiResponse } from '@/types/helpers';
+import type { ExtendedNotification, ExtendedProfile } from '@/types/helpers';
 import type { UseMutationOptions, UseQueryResult } from '@tanstack/react-query';
 import type { ImagePickerAsset } from 'expo-image-picker';
 
@@ -27,16 +27,13 @@ export const useProfile = <TData = ExtendedProfile>(
 /**
  * Stripe subscription
  */
-export const useSubscription = <TData = SubscriptionApiResponse>(
-  select?: (subscription: SubscriptionApiResponse) => TData,
-): UseQueryResult<TData, Error> => {
-  return useQuery<SubscriptionApiResponse, Error, TData>({
+export const useSubscription = () => {
+  return useQuery({
     queryKey: keys.getSubscription,
     queryFn: fetchSubscription,
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: true,
     refetchOnReconnect: true,
-    select,
   });
 };
 

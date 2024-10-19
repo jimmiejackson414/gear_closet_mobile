@@ -2,10 +2,9 @@ import { forwardRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Avatar, Badge, Icon } from 'react-native-paper';
 import GcIcon from '@/assets/gear-closet-icon.svg';
-import { buildImageSrc, initials, makeStyles } from '@/helpers';
+import { buildImageSrc, getBadgeColor, initials , makeStyles } from '@/helpers';
 import { useAppTheme } from '@/hooks';
 import { SubscriptionLevel, type Tables } from '@/types';
-import type { AppTheme } from '@/hooks/useAppTheme';
 import type { ExtendedProfile } from '@/types/helpers';
 
 interface Props {
@@ -17,19 +16,6 @@ interface Props {
 
 const hasSubscriptionData = (profile: any): profile is ExtendedProfile => {
   return profile && 'subscriptions' in profile;
-};
-
-const getBadgeColor = (subscription: SubscriptionLevel, theme: AppTheme) => {
-  switch (subscription) {
-    case SubscriptionLevel.FREE:
-      return { background: theme.colors.quarternaryContainer, color: theme.colors.onQuarternary };
-    case SubscriptionLevel.MONTHLY:
-      return { background: theme.colors.tertiaryContainer, color: theme.colors.onSurface };
-    case SubscriptionLevel.ANNUAL, SubscriptionLevel.LIFE:
-      return { background: theme.colors.primaryContainer, color: theme.colors.onPrimary };
-    default:
-      return { background: theme.colors.primary, color: theme.colors.onPrimary };
-  }
 };
 
 const UserAvatar = forwardRef<any, Props>(({

@@ -1,9 +1,15 @@
+import axios from 'axios';
 import { decode } from 'base64-arraybuffer';
 import { toast } from 'sonner-native';
 import { supabase } from '@/lib/supabase';
 import type { TablesUpdate } from '@/types';
 import type { ExtendedProfile, SubscriptionApiResponse } from '@/types/helpers';
 import type { ImagePickerAsset } from 'expo-image-picker';
+
+const client = axios.create({
+  baseURL: process.env.EXPO_PUBLIC_ORIGIN_URL,
+  headers: { 'Accept': 'application/json' },
+});
 
 /**
  * Fetches the profile data for the current user
@@ -34,24 +40,22 @@ export const fetchProfile = async () => {
  * Fetches the profile's subscription data from Stripe
  * @returns Subscription
  */
-export const fetchSubscription = async (): Promise<SubscriptionApiResponse | null> => {
+export const fetchSubscription = async () => {
   try {
-    const response = await fetch('/api/stripe/subscription');
-    console.log({ response });
+    
+    const { data: session, error } = await supabase.auth.getSession();
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Error response:', errorText);
-      throw new Error('Failed to fetch subscription data');
+    if (error || !session) {
+      throw new Error('User not authenticated');
     }
 
-    const subscription = await response.json();
-    console.log({ subscription });
-    return subscription;
-  } catch (err) {
-    console.error(err);
+    const token = session.session?.access_token;
+    const { data } = await client.get<SubscriptionApiResponse>('/api/stripe/subscription', { headers: { Authorization: `Bearer ${token}` } });
+    return data;
+  } catch (error) {
+    console.error(error);
     toast.error('Failed to fetch subscription data');
-    return null; // Ensure a value is always returned
+    return null;
   }
 };
 
