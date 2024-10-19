@@ -65,11 +65,16 @@ const SubscriptionContent = () => {
                 variant="bodyLarge">
                 Current Subscription
               </Text>
-              <Chip style={{
-                marginBottom: 16, alignSelf: 'flex-start', backgroundColor: getBadgeColor(data?.subscriptions[0]?.prices?.identifier as SubscriptionLevel, theme).background,
-              }}>
-                {` ${capitalize(subscriptionData?.subscriptions[0]?.items?.data[0]?.price?.nickname)}`}
-              </Chip>
+              {subscriptionData ? (
+                <Chip style={{
+                  marginBottom: 16, alignSelf: 'flex-start', backgroundColor: getBadgeColor(data?.subscriptions[0]?.prices?.identifier as SubscriptionLevel, theme).background,
+                }}>
+                  {` ${capitalize(subscriptionData?.subscriptions[0]?.items?.data[0]?.price?.nickname)}`}
+                </Chip>
+              ) : (
+                null
+              )}
+              
             </View>
             <Button
               compact

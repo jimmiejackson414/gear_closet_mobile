@@ -9,7 +9,7 @@ import ScreenWrapper from '@/components/common/ScreenWrapper';
 import { Colors } from '@/constants/colors';
 import { useSupabase } from '@/context/SupabaseProvider';
 import makeStyles from '@/helpers/makeStyles';
-import { useAppTheme, useAuthLayout } from '@/hooks';
+import { useAppTheme, useAuthLayout, useLoading } from '@/hooks';
 import type { Provider } from '@supabase/supabase-js';
 // import AppleIcon from '@/assets/images/apple.svg';
 
@@ -44,13 +44,14 @@ const WelcomeScreen = () => {
   };
 
   const { backgroundImage, loading } = useAuthLayout();
-  if (loading) {
-    return (
-      <ScreenWrapper contentContainerStyle={styles.content}>
-        <Text>Loading...</Text>
-      </ScreenWrapper>
-    );
-  }
+  useLoading(loading);
+  // if (loading) {
+  //   return (
+  //     <ScreenWrapper contentContainerStyle={styles.content}>
+  //       <Text>Loading...</Text>
+  //     </ScreenWrapper>
+  //   );
+  // }
 
   return (
     <Animated.View style={[styles.background, { opacity }]}>

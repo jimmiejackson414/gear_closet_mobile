@@ -51,7 +51,7 @@ const FriendsWidget: React.FC<Props> = ({ data }) => {
             </Link>
           </View>
         ) : (
-          <View>
+          <View style={{ alignItems: 'flex-start' }}>
             {data.friends.map(friend => (
               <Link
                 asChild
