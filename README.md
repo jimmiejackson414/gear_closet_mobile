@@ -57,5 +57,5 @@ select "React Query"
 ```
 
 ## Other Resources
-* [Lucide Icons](https://lucide.dev/guide/packages/lucide-react-native)
+* [React Native Vector Icons](https://pictogrammers.com/library/mdi/)
 * [Hero Patterns](https://heropatterns.com/)

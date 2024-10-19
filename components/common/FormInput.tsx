@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { View } from 'react-native';
-import { EyeIcon, EyeOffIcon } from 'lucide-react-native';
 import { Controller } from 'react-hook-form';
 import { HelperText, TextInput } from 'react-native-paper';
 import { useAppTheme } from '@/hooks';
@@ -70,21 +69,10 @@ const FormInput: React.FC<FormInputProps> = ({
             readOnly={readOnly}
             right={
               secureTextEntry ? (
-                <TextInput.Icon icon={({ size, color }) =>
-                  !showPassword ? (
-                    <EyeIcon
-                      color={disabled ? theme.colors.secondaryContainer : color}
-                      height={size}
-                      onPress={!disabled ? () => setShowPassword(prev => !prev) : undefined}
-                      width={size} />
-                  ) : (
-                    <EyeOffIcon
-                      color={disabled ? theme.colors.secondaryContainer : color}
-                      height={size}
-                      onPress={!disabled ? () => setShowPassword(prev => !prev) : undefined}
-                      width={size} />
-                  )
-                } />
+                <TextInput.Icon
+                  color={disabled ? theme.colors.secondaryContainer : theme.colors.secondary}
+                  icon={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                  onPress={!disabled ? () => setShowPassword(prev => !prev) : undefined} />
               ) : null
             }
             secureTextEntry={secureTextEntry && !showPassword}

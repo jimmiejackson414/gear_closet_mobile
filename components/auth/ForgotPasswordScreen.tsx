@@ -1,9 +1,8 @@
 import { View } from 'react-native';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Image } from 'expo-image';
-import { Mail } from 'lucide-react-native';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Button, Text, TextInput } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 import { toast } from 'sonner-native';
 import { z } from 'zod';
 import FormInput from '@/components/common/FormInput';
@@ -66,7 +65,6 @@ const ForgotPasswordScreen: React.FC = () => {
             disabled={true}
             keyboardType="email-address"
             label="Email"
-            left={<TextInput.Icon icon={({ size }) => <Mail size={size} />} />}
             name="email"
             placeholder="Enter your email" />
           <Button

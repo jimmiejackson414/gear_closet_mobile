@@ -3,9 +3,8 @@ import { Alert, Keyboard, Linking, TouchableOpacity, View } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as ImagePicker from 'expo-image-picker';
-import { EditIcon, SaveIcon, XIcon } from 'lucide-react-native';
 import { FormProvider, useForm } from 'react-hook-form';
-import { ActivityIndicator, AnimatedFAB, IconButton, Modal, Portal, Text } from 'react-native-paper';
+import { ActivityIndicator, AnimatedFAB, Icon, IconButton, Modal, Portal, Text } from 'react-native-paper';
 import { toast } from 'sonner-native';
 import { z } from 'zod';
 import FormInput from '@/components/common/FormInput';
@@ -109,11 +108,6 @@ const ProfileContent = () => {
     } finally {
       setIsSaving(false);
     }
-  };
-
-  const getFabIcon = () => {
-    if (isSaving) return ActivityIndicator;
-    return isEditing ? SaveIcon : EditIcon;
   };
 
   /**
@@ -345,10 +339,13 @@ const ProfileContent = () => {
         disabled={isSaving || isLoading}
         extended={isExtended}
         icon={({ color, size }) => {
-          const IconComponent = getFabIcon();
-          return <IconComponent
+          if (isSaving) { return <ActivityIndicator
             color={color}
-            size={size} />;
+            size={size} />; }
+          return <Icon
+            color={color}
+            size={size}
+            source={isEditing ? 'content-save' : 'pencil'} />;
         }}
         iconMode="dynamic"
         label={fabLabel}
@@ -367,11 +364,7 @@ const ProfileContent = () => {
               <TouchableOpacity
                 onPress={() => setIsAvatarFullscreen(false)}
                 style={styles.modalCloseButton}>
-                <IconButton icon={({ size }) => (
-                  <XIcon
-                    color="white"
-                    size={size} />
-                )} />
+                <IconButton icon="close" />
               </TouchableOpacity>
               <View style={styles.avatarContainer}>
                 <UserAvatar

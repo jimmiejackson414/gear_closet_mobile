@@ -1,6 +1,5 @@
 import { View } from 'react-native';
 import { Link } from 'expo-router';
-import { UsersIcon } from 'lucide-react-native';
 import { Button, Card, Icon, Text } from 'react-native-paper';
 import UserAvatar from '@/components/common/UserAvatar';
 import { useAppTheme } from '@/hooks';
@@ -22,14 +21,11 @@ const FriendsWidget: React.FC<Props> = ({ data }) => {
       style={{ marginHorizontal: 1 }}
       theme={{ colors: { elevation: { level1: theme.colors.onPrimary } } }}>
       <Card.Title
-        left={props => (
+        left={() => (
           <Icon
-            {...props}
-            source={() => (
-              <UsersIcon
-                color={theme.colors.primary}
-                size={20} />
-            )} />
+            color={theme.colors.primary}
+            size={24}
+            source="account-multiple-outline" />
         )}
         leftStyle={{ marginRight: 0 }}
         title={`Friends (${data.total})`}

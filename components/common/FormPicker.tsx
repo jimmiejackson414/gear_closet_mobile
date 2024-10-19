@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { BlurView } from '@react-native-community/blur';
-import { ChevronDownIcon } from 'lucide-react-native';
 import { Controller } from 'react-hook-form';
 import { Button, Dialog, HelperText, Portal, TextInput } from 'react-native-paper';
 import { makeStyles } from '@/helpers';
@@ -49,10 +48,9 @@ const FormPicker: React.FC<Props> = ({
               mode="outlined"
               onBlur={onBlur}
               onPress={() => setVisible(true)}
-              right={
-                <TextInput.Icon icon={({ size }) => <ChevronDownIcon
-                  color={theme.colors.primary}
-                  size={size} />} />}
+              right={<TextInput.Icon
+                icon="chevron-down"
+                onPress={() => setVisible(true)} />}
               style={styles.textInput}
               value={options.find(option => option.value === value)?.label || ''} />
             <HelperText

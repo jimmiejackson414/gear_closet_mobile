@@ -1,13 +1,11 @@
 import { Link } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
-import { BellIcon, House, NotebookText, TentTree, UserCog, Users } from 'lucide-react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Badge, Icon, IconButton } from 'react-native-paper';
 import DrawerContent from '@/components/common/DrawerContent';
 import { makeStyles } from '@/helpers';
 import { useAppTheme } from '@/hooks';
 import { useReadNotifications } from '@/services/profile';
-import type { IconProps } from 'react-native-paper/lib/typescript/components/MaterialCommunityIcon';
 
 const DrawerLayout = () => {
   const { data: unreadNotifications = [] } = useReadNotifications();
@@ -30,11 +28,9 @@ const DrawerLayout = () => {
             <TouchableOpacity style={{
               marginHorizontal: 8, flexDirection: 'row', alignItems: 'center',
             }}>
-              <IconButton icon={({ size }) => (
-                <BellIcon
-                  color={theme.colors.secondary}
-                  size={size} />
-              )} />
+              <IconButton
+                icon="bell"
+                iconColor={theme.colors.secondary} />
               <Badge
                 size={8}
                 style={styles.badge}
@@ -52,11 +48,7 @@ const DrawerLayout = () => {
             <Icon
               color={color}
               size={20}
-              source={({ size, color }: IconProps) => (
-                <House
-                  color={color}
-                  size={size} />
-              )} />
+              source="home" />
           ),
         }} />
       <Drawer.Screen
@@ -68,11 +60,7 @@ const DrawerLayout = () => {
             <Icon
               color={color}
               size={20}
-              source={({ size, color }: IconProps) => (
-                <TentTree
-                  color={color}
-                  size={size} />
-              )} />
+              source="tent" />
           ),
         }} />
       <Drawer.Screen
@@ -84,11 +72,7 @@ const DrawerLayout = () => {
             <Icon
               color={color}
               size={20}
-              source={({ size, color }: IconProps) => (
-                <Users
-                  color={color}
-                  size={size} />
-              )} />
+              source="account-group" />
           ),
         }} />
       <Drawer.Screen
@@ -100,11 +84,7 @@ const DrawerLayout = () => {
             <Icon
               color={color}
               size={20}
-              source={({ size, color }: IconProps) => (
-                <NotebookText
-                  color={color}
-                  size={size} />
-              )} />
+              source="format-list-bulleted" />
           ),
         }} />
       <Drawer.Screen
@@ -116,11 +96,7 @@ const DrawerLayout = () => {
             <Icon
               color={color}
               size={20}
-              source={({ size, color }: IconProps) => (
-                <UserCog
-                  color={color}
-                  size={size} />
-              )} />
+              source="account-circle" />
           ),
         }} />
     </Drawer>

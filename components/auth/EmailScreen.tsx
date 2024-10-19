@@ -1,7 +1,6 @@
 import { View } from 'react-native';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Image } from 'expo-image';
-import { Mail } from 'lucide-react-native';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Button, Text } from 'react-native-paper';
 import { toast } from 'sonner-native';
@@ -64,7 +63,6 @@ const EmailScreen: React.FC = () => {
             autoFocus
             control={control}
             disabled={submitting}
-            icon={Mail}
             keyboardType="email-address"
             label="Email"
             name="email"

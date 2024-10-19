@@ -4,7 +4,6 @@ import { Link } from 'expo-router';
 import dayjs from 'dayjs';
 import durationPlugin from 'dayjs/plugin/duration';
 import relativePlugin from 'dayjs/plugin/relativeTime';
-import { FootprintsIcon, MoveRightIcon } from 'lucide-react-native';
 import { Button, Card, Divider, Icon, Text } from 'react-native-paper';
 import { makeStyles } from '@/helpers';
 import { useAppTheme } from '@/hooks';
@@ -27,14 +26,11 @@ const UpcomingTripsWidget: React.FC<Props> = ({ data }) => {
       style={{ marginHorizontal: 1 }}
       theme={{ colors: { elevation: { level1: theme.colors.onPrimary } } }}>
       <Card.Title
-        left={props => (
+        left={() => (
           <Icon
-            {...props}
-            source={() => (
-              <FootprintsIcon
-                color={theme.colors.primary}
-                size={20} />
-            )} />
+            color={theme.colors.primary}
+            size={24}
+            source="calendar-check-outline" />
         )}
         leftStyle={{ marginRight: 0 }}
         title="Upcoming Trips"
@@ -69,12 +65,9 @@ const UpcomingTripsWidget: React.FC<Props> = ({ data }) => {
                     <View style={styles.itemContainer}>
                       <View style={styles.leftContainer}>
                         <Icon
-                          size={16}
-                          source={() => (
-                            <MoveRightIcon
-                              size={16}
-                              style={{ marginTop: 2 }} />
-                          )} />
+                          color={theme.colors.primary}
+                          size={24}
+                          source="arrow-right-thin" />
                         <Text>
                           {trip.name}
                         </Text>

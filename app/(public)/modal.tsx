@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { View } from 'react-native';
 import { useNavigation } from 'expo-router';
-import { X } from 'lucide-react-native';
 import { IconButton, ProgressBar } from 'react-native-paper';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import CreateScreen from '@/components/auth/CreateScreen';
@@ -32,7 +31,7 @@ const ModalContent = () => {
   return (
     <View style={styles.modal}>
       <IconButton
-        icon={({ size }) => <X size={size} />}
+        icon="close"
         mode="outlined"
         onPress={() => navigation.goBack()}
         style={styles.closeButton} />

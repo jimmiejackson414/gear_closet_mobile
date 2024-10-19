@@ -1,5 +1,4 @@
 import { View } from 'react-native';
-import { LockIcon, MessagesSquareIcon } from 'lucide-react-native';
 import { Card, Icon, IconButton, Text, Tooltip } from 'react-native-paper';
 import { useAppTheme } from '@/hooks';
 import { useIsPaidMember } from '@/services/profile';
@@ -23,25 +22,21 @@ const ForumsWidget: React.FC<Props> = ({ data }) => {
         left={props => (
           <Icon
             {...props}
-            source={() => (
-              <MessagesSquareIcon
-                color={theme.colors.primary}
-                size={20} />
-            )} />
+            color={theme.colors.primary}
+            size={20}
+            source="forum-outline" />
         )}
         leftStyle={{ marginRight: 0 }}
-        right={props => (
+        right={() => (
           !isPaidMember ? (
             <Tooltip
-              {...props}
               enterTouchDelay={100}
               leaveTouchDelay={100}
               title="Upgrade to access the forums">
               <IconButton
-                icon={() => <LockIcon
-                  color={theme.colors.onSurfaceVariant}
-                  size={15} />}
-                size={15} />
+                icon="lock"
+                iconColor={theme.colors.outline}
+                size={20} />
             </Tooltip>
           ) : null
         )}

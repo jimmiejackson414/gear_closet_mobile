@@ -3,7 +3,6 @@ import { useNavigation } from 'expo-router';
 import dayjs from 'dayjs';
 import durationPlugin from 'dayjs/plugin/duration';
 import relativePlugin from 'dayjs/plugin/relativeTime';
-import { X } from 'lucide-react-native';
 import { Badge, Divider, IconButton, Text } from 'react-native-paper';
 import { makeStyles } from '@/helpers';
 import { useReadNotifications } from '@/services/profile';
@@ -20,7 +19,7 @@ const NotificationsModal = () => {
   return (
     <View style={styles.modal}>
       <IconButton
-        icon={({ size }) => <X size={size} />}
+        icon="close"
         mode="outlined"
         onPress={() => navigation.goBack()}
         style={styles.closeButton} />

@@ -1,7 +1,6 @@
 import { Fragment } from 'react';
 import { View } from 'react-native';
 import { Link } from 'expo-router';
-import { CalendarCheckIcon, ChevronRightIcon } from 'lucide-react-native';
 import { Button, Card, Divider, Icon, Text } from 'react-native-paper';
 import { makeStyles } from '@/helpers';
 import { useAppTheme } from '@/hooks';
@@ -21,14 +20,11 @@ const InvitationsWidget: React.FC<Props> = ({ data }) => {
       style={{ marginHorizontal: 1 }}
       theme={{ colors: { elevation: { level1: theme.colors.onPrimary } } }}>
       <Card.Title
-        left={props => (
+        left={() => (
           <Icon
-            {...props}
-            source={() => (
-              <CalendarCheckIcon
-                color={theme.colors.primary}
-                size={20} />
-            )} />
+            color={theme.colors.primary}
+            size={24}
+            source="mailbox-open-outline" />
         )}
         leftStyle={{ marginRight: 0 }}
         title="Invitations"
@@ -56,11 +52,7 @@ const InvitationsWidget: React.FC<Props> = ({ data }) => {
                       <View style={styles.leftContainer}>
                         <Icon
                           size={16}
-                          source={() => (
-                            <ChevronRightIcon
-                              size={16}
-                              style={{ marginTop: 2 }} />
-                          )} />
+                          source="chevron-right" />
                         <Text>
                           { `You've been invited by ${invitation.id} to join the ${invitation.trip_id} trip` }
                         </Text>
