@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Image } from 'expo-image';
+import * as LocalAuthentication from 'expo-local-authentication';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Button, Text } from 'react-native-paper';
+import { Button, Checkbox, Text } from 'react-native-paper';
 import { z } from 'zod';
 import FormInput from '@/components/common/FormInput';
 import { useAuthScreenContext } from '@/context/AuthScreenProvider';
 import { useSupabase } from '@/context/SupabaseProvider';
 import { makeStyles } from '@/helpers';
+import { useAppTheme } from '@/hooks';
 
 const passwordSchema = z.object({
   password: z.string()
@@ -17,7 +19,9 @@ const passwordSchema = z.object({
 
 const PasswordScreen: React.FC = () => {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const { signInWithPassword } = useSupabase();
+  const [enableBiometrics, setEnableBiometrics] = useState(false);
+  const [biometricLabel, setBiometricLabel] = useState('Enable Biometric Authentication');
+  const { signInWithPassword, enableBiometrics: enableBiometricsAuth } = useSupabase();
   const {
     errors, setErrors, setScreen, setSubmitting, storedEmail, submitting,
   } = useAuthScreenContext();
@@ -34,12 +38,31 @@ const PasswordScreen: React.FC = () => {
       setSubmitting(true);
       const { password } = form.getValues();
       await signInWithPassword(storedEmail, password);
+
+      if (enableBiometrics) {
+        await enableBiometricsAuth(storedEmail, password);
+      }
     } catch (err) {
       setErrors({ password: { message: 'Invalid password' } });
     } finally {
       setSubmitting(false);
     }
   };
+
+  useEffect(() => {
+    const setBiometricTypeLabel = async () => {
+      const types = await LocalAuthentication.supportedAuthenticationTypesAsync();
+      if (types.includes(LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION)) {
+        setBiometricLabel('Enable Face ID');
+      } else if (types.includes(LocalAuthentication.AuthenticationType.FINGERPRINT)) {
+        setBiometricLabel('Enable Fingerprint');
+      } else {
+        setBiometricLabel('Enable Biometric Authentication');
+      }
+    };
+
+    setBiometricTypeLabel();
+  }, []);
 
   useEffect(() => {
     if (errors.password?.message === 'Invalid password') {
@@ -49,6 +72,7 @@ const PasswordScreen: React.FC = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
+  const theme = useAppTheme();
   const styles = useStyles();
   return (
     <FormProvider {...form}>
@@ -69,14 +93,25 @@ const PasswordScreen: React.FC = () => {
             name="password"
             placeholder="Enter your password"
             secureTextEntry />
+          <Checkbox.Item
+            color={theme.colors.tertiary}
+            disabled={submitting}
+            label={biometricLabel}
+            labelStyle={{ textAlign: 'left' }}
+            mode="android"
+            onPress={() => setEnableBiometrics(prev => !prev)}
+            position="leading"
+            status={enableBiometrics ? 'checked' : 'unchecked'}
+            style={{ paddingLeft: 0 }} />
           <Button
             disabled={submitting}
             loading={submitting}
             mode="contained"
             onPress={handleSubmit(onSignIn)}
-            style={{ marginTop: 24 }}>
+            style={{ marginTop: 8 }}>
             Continue
           </Button>
+          
           {showForgotPassword && (
             <Button
               mode="text"

@@ -2,9 +2,12 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { AppState, Platform } from 'react-native';
 import { SplashScreen, useRouter, useSegments } from 'expo-router';
 import { GoogleSignin, isErrorWithCode } from '@react-native-google-signin/google-signin';
+import * as LocalAuthentication from 'expo-local-authentication';
+import * as SecureStore from 'expo-secure-store';
 import { AccessToken, AuthenticationToken, GraphRequest, GraphRequestManager, LoginManager } from 'react-native-fbsdk-next';
 // import * as AppleAuthentication from 'expo-apple-authentication';
 // import { jwtDecode } from 'jwt-decode';
+import { toast } from 'sonner-native';
 import { supabase } from '@/lib/supabase';
 import type { Provider, Session, User } from '@supabase/supabase-js';
 
@@ -19,7 +22,9 @@ type SupabaseContextProps = {
   user: User | null;
   session: Session | null;
   initialized?: boolean;
+  authenticateWithBiometrics: () => Promise<void>;
   checkForEmail: (email: string) => Promise<boolean>;
+  enableBiometrics: (email: string, password: string) => Promise<void>;
   sendPasswordReset: (email: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
   signInWithPassword: (email: string, password: string) => Promise<void>;
@@ -35,7 +40,9 @@ type SupabaseProviderProps = {
 export const SupabaseContext = createContext<SupabaseContextProps>({
   user: null,
   session: null,
+  authenticateWithBiometrics: async () => {},
   checkForEmail: async () => false,
+  enableBiometrics: async () => {},
   sendPasswordReset: async () => {},
   signUp: async () => {},
   signInWithPassword: async () => {},
@@ -66,7 +73,11 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     }
   });
 
-  // helper function
+  /**
+   * Check if email exists in the database
+   * @param email
+   * @returns boolean
+   */
   const checkForEmail = async (email: string) => {
     const { data, error } = await supabase.from('profiles')
       .select('email')
@@ -77,27 +88,42 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     return Boolean(data);
   };
 
-  // signup function via email and password
+  /**
+   * signup function via email and password
+   * @param email
+   * @param password
+   */
   const signUp = async (email: string, password: string) => {
     const { error } = await supabase.auth.signUp({ email, password });
     if (error) throw error;
     setIsNewUser(true);
   };
 
-  // signin function via email and password
+  /**
+   * signin function via email and password
+   * @param email
+   * @param password
+   */
   const signInWithPassword = async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
     setIsNewUser(false);
   };
 
-  // send password reset email
+  /**
+   * send password reset email
+   * @param email
+   */
   const sendPasswordReset = async (email: string) => {
     const { error } = await supabase.auth.resetPasswordForEmail(email);
     if (error) throw error;
   };
 
-  // verify reset code function
+  /**
+   * verify reset code function
+   * @param email
+   * @param code
+   */
   const verifyResetCode = async (email: string, code: string) => {
     const { error } = await supabase.auth.verifyOtp({
       email,
@@ -108,7 +134,9 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     if (error) throw error;
   };
 
-  // signin function via google oauth
+  /**
+   * Signin function via google oauth
+   */
   const signInWithGoogle = async () => {
     await GoogleSignin.hasPlayServices();
     const response = await GoogleSignin.signIn();
@@ -132,7 +160,10 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     if (error) throw error;
   };
 
-  // helper function to fetch email from facebook
+  /**
+   * Helper function to fetch email from facebook
+   * @returns email from facebook
+   */
   const fetchEmailFromFacebook = async () => {
     return new Promise<string>((resolve, reject) => {
       const graphRequest = new GraphRequest(
@@ -157,8 +188,10 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     });
   };
 
-  // signin function via facebook oauth
-  // TODO: Supabase bug currently exists with facebook oauth in verifying access token
+  /**
+   * Signin function via facebook oauth
+   */
+  // Note: Supabase bug currently exists with facebook oauth in verifying access token
   const signInWithFacebook = async () => {
     const loginResult = await LoginManager.logInWithPermissions(['public_profile', 'email']);
   
@@ -222,7 +255,10 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
   //   }
   // };
 
-  // navigate to the appropriate oauth signin function
+  /**
+   * Navigate to the appropriate oauth signin function
+   * @param provider
+   */
   const signInWithOAuth = async (provider: Provider) => {
     try {
       switch (provider) {
@@ -245,7 +281,60 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     }
   };
 
-  // signout function
+  /**
+   * Enable biometric authentication
+   * @param email
+   * @param password
+   */
+  const enableBiometrics = async (email: string, password: string) => {
+    const hasHardware = await LocalAuthentication.hasHardwareAsync();
+    if (!hasHardware) {
+      toast.error('Biometrics not supported on this device');
+      return;
+    }
+
+    const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+    if (!isEnrolled) {
+      toast.error('No biometrics enrolled on this device');
+      return;
+    }
+
+    const result = await LocalAuthentication.authenticateAsync({ promptMessage: 'Enable biometric authentication' });
+
+    if (result.success) {
+      await SecureStore.setItemAsync('biometric_token', JSON.stringify({ email, password }));
+      toast.success('Biometric authentication enabled');
+    } else {
+      toast.error('Biometric authentication failed');
+    }
+  };
+
+  /**
+   * Authenticate with biometrics
+   */
+  const authenticateWithBiometrics = async () => {
+    const result = await LocalAuthentication.authenticateAsync({ promptMessage: 'Enable biometric authentication' });
+
+    if (result.success) {
+      const credentials = await SecureStore.getItemAsync('biometric_token');
+      if (credentials) {
+        const { email, password } = JSON.parse(credentials);
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+        if (error) {
+          toast.error('Authentication failed');
+        } else {
+          toast.success('Authentication successful');
+        }
+      }
+    } else {
+      toast.error('Authentication failed');
+    }
+  };
+
+  /**
+   * Signout of the application
+   */
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
@@ -260,6 +349,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
       setUser(session ? session.user : null);
       setInitialized(true);
     });
+
     return () => {
       data.subscription.unsubscribe();
     };
@@ -297,15 +387,17 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
 
   return (
     <SupabaseContext.Provider value={{
-      user,
-      session,
-      initialized,
+      authenticateWithBiometrics,
       checkForEmail,
+      enableBiometrics,
+      initialized,
       sendPasswordReset,
-      signUp,
-      signInWithPassword,
+      session,
       signInWithOAuth,
+      signInWithPassword,
       signOut,
+      signUp,
+      user,
       verifyResetCode,
     }}>
       {children}

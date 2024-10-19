@@ -94,6 +94,12 @@
           "origin": "http://localhost:8081"
         }
       ],
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID for authentication"
+        }
+      ],
       "expo-image-picker",
       "expo-apple-authentication",
       "expo-secure-store"

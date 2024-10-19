@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Animated, ImageBackground, View } from 'react-native';
 import { Link } from 'expo-router';
 import { Image } from 'expo-image';
@@ -31,7 +31,7 @@ const WelcomeScreen = () => {
   }, [imageLoaded, opacity]);
 
   const [submitting, setSubmitting] = useState(false);
-  const { signInWithOAuth } = useSupabase();
+  const { signInWithOAuth, authenticateWithBiometrics } = useSupabase();
   const handleOAuthSignin = async (provider: Provider) => {
     try {
       setSubmitting(true);
@@ -43,15 +43,21 @@ const WelcomeScreen = () => {
     }
   };
 
+  const handleBiometricAuth = useCallback(async () => {
+    try {
+      setSubmitting(true);
+      await authenticateWithBiometrics();
+    } finally {
+      setSubmitting(false);
+    }
+  }, [authenticateWithBiometrics]);
+
+  useEffect(() => {
+    handleBiometricAuth();
+  }, [handleBiometricAuth]);
+
   const { backgroundImage, loading } = useAuthLayout();
   useLoading(loading);
-  // if (loading) {
-  //   return (
-  //     <ScreenWrapper contentContainerStyle={styles.content}>
-  //       <Text>Loading...</Text>
-  //     </ScreenWrapper>
-  //   );
-  // }
 
   return (
     <Animated.View style={[styles.background, { opacity }]}>
