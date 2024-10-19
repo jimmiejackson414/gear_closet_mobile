@@ -64,18 +64,6 @@ const DrawerLayout = () => {
           ),
         }} />
       <Drawer.Screen
-        name="friends"
-        options={{
-          drawerLabel: 'Friends',
-          headerTitle: 'Friends',
-          drawerIcon: ({ color }) => (
-            <Icon
-              color={color}
-              size={20}
-              source="account-group" />
-          ),
-        }} />
-      <Drawer.Screen
         name="planning"
         options={{
           drawerLabel: 'Planning',
@@ -85,6 +73,18 @@ const DrawerLayout = () => {
               color={color}
               size={20}
               source="format-list-bulleted" />
+          ),
+        }} />
+      <Drawer.Screen
+        name="friends"
+        options={{
+          drawerLabel: 'Friends',
+          headerTitle: 'Friends',
+          drawerIcon: ({ color }) => (
+            <Icon
+              color={color}
+              size={20}
+              source="account-group" />
           ),
         }} />
       <Drawer.Screen
