@@ -5,8 +5,9 @@ import dayjs from 'dayjs';
 import durationPlugin from 'dayjs/plugin/duration';
 import relativePlugin from 'dayjs/plugin/relativeTime';
 import { FootprintsIcon, MoveRightIcon } from 'lucide-react-native';
-import { Button, Card, Divider, Icon, Text, useTheme } from 'react-native-paper';
+import { Button, Card, Divider, Icon, Text } from 'react-native-paper';
 import { makeStyles } from '@/helpers';
+import { useAppTheme } from '@/hooks';
 import type { Tables } from '@/types';
 
 dayjs.extend(durationPlugin);
@@ -18,7 +19,7 @@ interface Props {
 
 const UpcomingTripsWidget: React.FC<Props> = ({ data }) => {
   const styles = useStyles();
-  const theme = useTheme();
+  const theme = useAppTheme();
 
   return (
     <Card

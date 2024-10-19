@@ -2,8 +2,9 @@ import { Fragment } from 'react';
 import { View } from 'react-native';
 import { Link } from 'expo-router';
 import { CalendarCheckIcon, ChevronRightIcon } from 'lucide-react-native';
-import { Button, Card, Divider, Icon, Text, useTheme } from 'react-native-paper';
+import { Button, Card, Divider, Icon, Text } from 'react-native-paper';
 import { makeStyles } from '@/helpers';
+import { useAppTheme } from '@/hooks';
 import type { Tables } from '@/types';
 
 interface Props {
@@ -11,7 +12,7 @@ interface Props {
 }
 
 const InvitationsWidget: React.FC<Props> = ({ data }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   const styles = useStyles();
 
   return (

@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Image } from 'expo-image';
-import { EyeIcon, EyeOffIcon } from 'lucide-react-native';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Button, Text, TextInput } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 import { z } from 'zod';
 import FormInput from '@/components/common/FormInput';
 import { useAuthScreenContext } from '@/context/AuthScreenProvider';
@@ -17,7 +16,6 @@ const passwordSchema = z.object({
 });
 
 const PasswordScreen: React.FC = () => {
-  const [showPassword, setShowPassword] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const { signInWithPassword } = useSupabase();
   const {
@@ -70,22 +68,7 @@ const PasswordScreen: React.FC = () => {
             label="Password"
             name="password"
             placeholder="Enter your password"
-            right={
-              <TextInput.Icon icon={({ size }) =>
-                !showPassword ? (
-                  <EyeIcon
-                    height={size}
-                    onPress={() => setShowPassword(prev => !prev)}
-                    width={size} />
-                ) : (
-                  <EyeOffIcon
-                    height={size}
-                    onPress={() => setShowPassword(prev => !prev)}
-                    width={size} />
-                )
-              } />
-            }
-            secureTextEntry={!showPassword} />
+            secureTextEntry />
           <Button
             disabled={submitting}
             loading={submitting}

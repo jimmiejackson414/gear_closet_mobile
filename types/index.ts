@@ -539,6 +539,53 @@ export type Database = {
           },
         ]
       }
+      preferences: {
+        Row: {
+          created_at: string | null
+          id: number
+          preference_group:
+            | Database['public']['Enums']['preference_group']
+            | null
+          preference_key: string
+          preference_label: string
+          preference_value: boolean
+          profile_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          preference_group?:
+            | Database['public']['Enums']['preference_group']
+            | null
+          preference_key: string
+          preference_label: string
+          preference_value?: boolean
+          profile_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          preference_group?:
+            | Database['public']['Enums']['preference_group']
+            | null
+          preference_key?: string
+          preference_label?: string
+          preference_value?: boolean
+          profile_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'preferences_profile_id_fkey'
+            columns: ['profile_id']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       prices: {
         Row: {
           active: boolean | null
@@ -1302,6 +1349,7 @@ export type Database = {
     Enums: {
       friend_request_status: 'PENDING' | 'ACCEPTED' | 'DECLINED'
       measuring_system: 'IMPERIAL' | 'METRIC'
+      preference_group: 'EMAIL' | 'PUSH'
       pricing_plan_interval: 'day' | 'week' | 'month' | 'year'
       pricing_type: 'one_time' | 'recurring'
       resource_type: 'USER' | 'GROUP'
@@ -1448,6 +1496,11 @@ export enum FriendRequestStatus {
 export enum MeasuringSystem {
   IMPERIAL = 'IMPERIAL',
   METRIC = 'METRIC',
+}
+
+export enum PreferenceGroup {
+  EMAIL = 'EMAIL',
+  PUSH = 'PUSH',
 }
 
 export enum PricingPlanInterval {

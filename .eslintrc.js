@@ -1,7 +1,7 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   extends: ['expo', 'plugin:@tanstack/eslint-plugin-query/recommended'],
-  plugins: ['@stylistic', 'react', 'import', '@typescript-eslint'],
+  plugins: ['@stylistic', 'react', 'import', '@typescript-eslint', 'no-relative-import-paths'],
   root: true,
   parserOptions: {
     project: './tsconfig.eslint.json',
@@ -36,18 +36,20 @@ module.exports = {
     '@stylistic/semi': [1, 'always'],
     '@stylistic/newline-per-chained-call': [1, { ignoreChainWithDepth: 1 }],
     '@stylistic/space-infix-ops': [1, { int32Hint: false }],
+    '@stylistic/arrow-parens': ['warn', 'as-needed'],
     'import/newline-after-import': [1, { count: 1 }],
     'import/no-duplicates': 'warn',
     'import/order': [
       'warn',
       {
         groups: [
-          'builtin', // Built-in types are first
-          'external', // External imports
-          'internal', // Internal imports
-          ['sibling', 'parent', 'index'], // Relative imports
-          'type', // Type imports last
-          'object', // Side-effect imports last
+          'builtin', // Built-in modules like 'fs' or 'path'
+          'external', // External modules like 'react' or 'lodash'
+          'internal', // Internal modules like 'src/utils'
+          'parent', // Parent imports like '../utils'
+          'sibling', // Sibling imports like './Button'
+          'index', // Index imports like './'
+          'type', // Type imports
         ],
         pathGroups: [
           {
@@ -72,7 +74,6 @@ module.exports = {
           order: 'asc',
           caseInsensitive: true,
         },
-        warnOnUnassignedImports: true,
       },
     ],
     'react/jsx-uses-react': 'off',
@@ -92,15 +93,9 @@ module.exports = {
     'react/jsx-props-no-multi-spaces': 2,
     'react/jsx-tag-spacing': [1, { beforeSelfClosing: 'always' }],
     'sort-imports': [1, { ignoreDeclarationSort: true }],
-    '@typescript-eslint/no-unused-vars': [1, { caughtErrors: 'none' }],
-    'no-unused-vars': [
+    'no-relative-import-paths/no-relative-import-paths': [
       'warn',
-      {
-        vars: 'all',
-        varsIgnorePattern: '^React$',
-        args: 'after-used',
-        ignoreRestSiblings: true,
-      },
+      { 'allowSameFolder': true, 'prefix': '@' },
     ],
     'no-restricted-imports': [
       'error',
@@ -114,7 +109,12 @@ module.exports = {
         ],
       },
     ],
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', caughtErrors: 'none' }],
     '@typescript-eslint/consistent-type-imports': ['warn', { prefer: 'type-imports' }],
   },
-  settings: { react: { version: 'detect' } },
+  settings: {
+    react: {
+      version: 'detect'
+    },
+  },
 };

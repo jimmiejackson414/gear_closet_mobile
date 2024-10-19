@@ -1,16 +1,21 @@
-import { useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
+import { useNavigation } from 'expo-router';
 import { BellIcon, BellRingIcon, CreditCardIcon, UserIcon, UserPenIcon, WalletCardsIcon } from 'lucide-react-native';
-import { BottomNavigation, Icon, useTheme } from 'react-native-paper';
+import { BottomNavigation, Icon } from 'react-native-paper';
 import NotificationsContent from '@/components/profile/NotificationsContent';
 import ProfileContent from '@/components/profile/ProfileContent';
 import SubscriptionContent from '@/components/profile/SubscriptionContent';
+import { useAppTheme } from '@/hooks';
+import type { IconProps } from 'react-native-paper/lib/typescript/components/MaterialCommunityIcon';
 
 const ProfileRoute = () => <ProfileContent />;
 const NotificationsRoute = () => <NotificationsContent />;
 const SubscriptionRoute = () => <SubscriptionContent />;
 
 const ProfileLayout = () => {
+  const navigation = useNavigation();
   const [index, setIndex] = useState(0);
+
   const [routes] = useState([
     {
       key: 'profile',
@@ -18,7 +23,7 @@ const ProfileLayout = () => {
       focusedIcon: () => (
         <Icon
           size={20}
-          source={({ size, color }: { size: number, color: string }) => (
+          source={({ size, color }: IconProps) => (
             <UserPenIcon
               color={color}
               size={size} />
@@ -27,7 +32,7 @@ const ProfileLayout = () => {
       unfocusedIcon: () => (
         <Icon
           size={20}
-          source={({ size, color }: { size: number, color: string }) => (
+          source={({ size, color }: IconProps) => (
             <UserIcon
               color={color}
               size={size} />
@@ -40,7 +45,7 @@ const ProfileLayout = () => {
       focusedIcon: () => (
         <Icon
           size={20}
-          source={({ size, color }: { size: number, color: string }) => (
+          source={({ size, color }: IconProps) => (
             <BellRingIcon
               color={color}
               size={size} />
@@ -49,7 +54,7 @@ const ProfileLayout = () => {
       unfocusedIcon: () => (
         <Icon
           size={20}
-          source={({ size, color }: { size: number, color: string }) => (
+          source={({ size, color }: IconProps) => (
             <BellIcon
               color={color}
               size={size} />
@@ -62,7 +67,7 @@ const ProfileLayout = () => {
       focusedIcon: () => (
         <Icon
           size={20}
-          source={({ size, color }: { size: number, color: string }) => (
+          source={({ size, color }: IconProps) => (
             <WalletCardsIcon
               color={color}
               size={size} />
@@ -71,7 +76,7 @@ const ProfileLayout = () => {
       unfocusedIcon: () => (
         <Icon
           size={20}
-          source={({ size, color }: { size: number, color: string }) => (
+          source={({ size, color }: IconProps) => (
             <CreditCardIcon
               color={color}
               size={size} />
@@ -86,7 +91,12 @@ const ProfileLayout = () => {
     subscription: SubscriptionRoute,
   });
 
-  const theme = useTheme();
+  // dynamically update header title based on the selected tab
+  useLayoutEffect(() => {
+    navigation.setOptions({ headerTitle: routes[index].title });
+  }, [index, navigation, routes]);
+
+  const theme = useAppTheme();
   return (
     <BottomNavigation
       activeColor={theme.colors.tertiary}

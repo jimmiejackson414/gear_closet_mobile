@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { View } from 'react-native';
 import { useNavigation } from 'expo-router';
 import { X } from 'lucide-react-native';
-import { IconButton, ProgressBar, useTheme } from 'react-native-paper';
+import { IconButton, ProgressBar } from 'react-native-paper';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import CreateScreen from '@/components/auth/CreateScreen';
 import EmailScreen from '@/components/auth/EmailScreen';
@@ -12,12 +12,13 @@ import PasswordResetScreen from '@/components/auth/PasswordResetScreen';
 import PasswordScreen from '@/components/auth/PasswordScreen';
 import { AuthScreenProvider, useAuthScreenContext } from '@/context/AuthScreenProvider';
 import makeStyles from '@/helpers/makeStyles';
+import { useAppTheme } from '@/hooks';
 
 const ModalContent = () => {
   const navigation = useNavigation();
   const opacity = useSharedValue(1);
   const animatedStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
-  const theme = useTheme();
+  const theme = useAppTheme();
   const styles = useStyles();
 
   const { screen } = useAuthScreenContext();

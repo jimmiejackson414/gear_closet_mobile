@@ -1,10 +1,8 @@
-import { useState } from 'react';
 import { View } from 'react-native';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Image } from 'expo-image';
-import { EyeIcon, EyeOffIcon } from 'lucide-react-native';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Button, Text, TextInput } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 import { toast } from 'sonner-native';
 import { z } from 'zod';
 import FormInput from '@/components/common/FormInput';
@@ -18,13 +16,12 @@ const createSchema = z.object({
   passwordConfirm: z.string()
     .min(6, 'Password must be at least 6 characters.'),
 })
-  .refine((data) => data.password === data.passwordConfirm, {
+  .refine(data => data.password === data.passwordConfirm, {
     path: ['passwordConfirm'],
     message: 'Passwords do not match',
   });
 
 const CreateScreen: React.FC = () => {
-  const [showPassword, setShowPassword] = useState(false);
   const { signUp } = useSupabase();
   const {
     setSubmitting, storedEmail, submitting,
@@ -67,22 +64,7 @@ const CreateScreen: React.FC = () => {
             label="Password"
             name="password"
             placeholder="Enter your password"
-            right={
-              <TextInput.Icon icon={({ size }) =>
-                !showPassword ? (
-                  <EyeIcon
-                    height={size}
-                    onPress={() => setShowPassword(prev => !prev)}
-                    width={size} />
-                ) : (
-                  <EyeOffIcon
-                    height={size}
-                    onPress={() => setShowPassword(prev => !prev)}
-                    width={size} />
-                )
-              } />
-            }
-            secureTextEntry={!showPassword}
+            secureTextEntry
             type="password" />
           <FormInput
             autoComplete="password"
@@ -91,22 +73,7 @@ const CreateScreen: React.FC = () => {
             label="Confirm Password"
             name="passwordConfirm"
             placeholder="Confirm your password"
-            right={
-              <TextInput.Icon icon={({ size }) =>
-                !showPassword ? (
-                  <EyeIcon
-                    height={size}
-                    onPress={() => setShowPassword(prev => !prev)}
-                    width={size} />
-                ) : (
-                  <EyeOffIcon
-                    height={size}
-                    onPress={() => setShowPassword(prev => !prev)}
-                    width={size} />
-                )
-              } />
-            }
-            secureTextEntry={!showPassword}
+            secureTextEntry
             type="password" />
           <Button
             disabled={submitting}

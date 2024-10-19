@@ -1,18 +1,19 @@
 import { View } from 'react-native';
 import { LockIcon, MessagesSquareIcon } from 'lucide-react-native';
-import { Card, Icon, IconButton, Text, Tooltip, useTheme } from 'react-native-paper';
-import useAppStore from '@/stores/appStore';
+import { Card, Icon, IconButton, Text, Tooltip } from 'react-native-paper';
+import { useAppTheme } from '@/hooks';
+import { useIsPaidMember } from '@/services/profile';
 import ForumPost from './ForumPost';
-import type { ForumResponse } from '@/services/dashboard/types';
+import type { ForumResponse } from '@/services/dashboard';
 
 interface Props {
   data?: ForumResponse | null;
 }
 
 const ForumsWidget: React.FC<Props> = ({ data }) => {
-  const isPaidMember = useAppStore(state => state.isPaidMember());
+  const { data: isPaidMember } = useIsPaidMember();
 
-  const theme = useTheme();
+  const theme = useAppTheme();
   return (
     <Card
       mode="elevated"

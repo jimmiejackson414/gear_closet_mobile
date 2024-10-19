@@ -2,24 +2,27 @@ import { Link } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
 import { BellIcon, House, NotebookText, TentTree, UserCog, Users } from 'lucide-react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Badge, Icon, IconButton, useTheme } from 'react-native-paper';
+import { Badge, Icon, IconButton } from 'react-native-paper';
 import DrawerContent from '@/components/common/DrawerContent';
 import { makeStyles } from '@/helpers';
-import useAppStore from '@/stores/appStore';
+import { useAppTheme } from '@/hooks';
+import { useReadNotifications } from '@/services/profile';
+import type { IconProps } from 'react-native-paper/lib/typescript/components/MaterialCommunityIcon';
 
 const DrawerLayout = () => {
-  const unreadNotifications = useAppStore((state) => state.unreadNotifications());
+  const { data: unreadNotifications = [] } = useReadNotifications();
   const styles = useStyles();
-  const theme = useTheme();
+  const theme = useAppTheme();
 
   return (
     <Drawer
-      drawerContent={(props) => <DrawerContent {...props} />}
+      drawerContent={props => <DrawerContent {...props} />}
       initialRouteName="home"
       screenOptions={{
         headerShown: true,
         swipeEdgeWidth: 0,
-        headerStyle: { backgroundColor: 'white' },
+        drawerStyle: { backgroundColor: theme.colors.background },
+        headerStyle: { backgroundColor: theme.colors.onPrimary },
         headerRight: () => (
           <Link
             asChild
@@ -49,7 +52,11 @@ const DrawerLayout = () => {
             <Icon
               color={color}
               size={20}
-              source={{ uri: House }} />
+              source={({ size, color }: IconProps) => (
+                <House
+                  color={color}
+                  size={size} />
+              )} />
           ),
         }} />
       <Drawer.Screen
@@ -61,7 +68,11 @@ const DrawerLayout = () => {
             <Icon
               color={color}
               size={20}
-              source={{ uri: TentTree }} />
+              source={({ size, color }: IconProps) => (
+                <TentTree
+                  color={color}
+                  size={size} />
+              )} />
           ),
         }} />
       <Drawer.Screen
@@ -73,7 +84,11 @@ const DrawerLayout = () => {
             <Icon
               color={color}
               size={20}
-              source={{ uri: Users }} />
+              source={({ size, color }: IconProps) => (
+                <Users
+                  color={color}
+                  size={size} />
+              )} />
           ),
         }} />
       <Drawer.Screen
@@ -85,7 +100,11 @@ const DrawerLayout = () => {
             <Icon
               color={color}
               size={20}
-              source={{ uri: NotebookText }} />
+              source={({ size, color }: IconProps) => (
+                <NotebookText
+                  color={color}
+                  size={size} />
+              )} />
           ),
         }} />
       <Drawer.Screen
@@ -97,14 +116,18 @@ const DrawerLayout = () => {
             <Icon
               color={color}
               size={20}
-              source={{ uri: UserCog }} />
+              source={({ size, color }: IconProps) => (
+                <UserCog
+                  color={color}
+                  size={size} />
+              )} />
           ),
         }} />
     </Drawer>
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   badge: {
     position: 'absolute',
     top: 4,

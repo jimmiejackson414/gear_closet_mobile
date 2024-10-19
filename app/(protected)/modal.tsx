@@ -6,15 +6,15 @@ import relativePlugin from 'dayjs/plugin/relativeTime';
 import { X } from 'lucide-react-native';
 import { Badge, Divider, IconButton, Text } from 'react-native-paper';
 import { makeStyles } from '@/helpers';
-import useAppStore from '@/stores/appStore';
+import { useReadNotifications } from '@/services/profile';
 
 dayjs.extend(durationPlugin);
 dayjs.extend(relativePlugin);
 
 const NotificationsModal = () => {
   const navigation = useNavigation();
-  const readNotifications = useAppStore((state) => state.readNotifications());
-  const unreadNotifications = useAppStore((state) => state.unreadNotifications());
+  const { data: readNotifications = [] } = useReadNotifications();
+  const { data: unreadNotifications = [] } = useReadNotifications();
 
   const styles = useStyles();
   return (
@@ -28,7 +28,7 @@ const NotificationsModal = () => {
         {`Notifications (${unreadNotifications.length})`}
       </Text>
       <Divider style={{ marginVertical: 16 }} />
-      {unreadNotifications.map((notification) => (
+      {unreadNotifications.map(notification => (
         <View
           key={notification.id}
           style={styles.notification}>
@@ -49,7 +49,7 @@ const NotificationsModal = () => {
           <Divider style={{ marginVertical: 16 }} />
         </View>
       ))}
-      {readNotifications.map((notification) => (
+      {readNotifications.map(notification => (
         <View
           key={notification.id}
           style={styles.notification}>
@@ -70,7 +70,7 @@ const NotificationsModal = () => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   closeButton: {
     position: 'absolute',
     right: 16,

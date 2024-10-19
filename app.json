@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "gear_closet_mobile",
+    "name": "Gear Closet",
     "slug": "gear-closet-mobile",
+    "description": "Gear Closet allows you to track your gear weights, build pack lists, and connect with your friends to plan for your next adventure.",
     "scheme": "gear-closet-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -60,7 +61,7 @@
       ]
     },
     "web": {
-      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
       "output": "server"
     },
     "plugins": [
@@ -90,9 +91,10 @@
       [
         "expo-router",
         {
-          "origin": ""
+          "origin": "http://localhost:8081"
         }
       ],
+      "expo-image-picker",
       "expo-apple-authentication",
       "expo-secure-store"
     ],

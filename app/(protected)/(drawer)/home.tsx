@@ -6,15 +6,14 @@ import FriendsWidget from '@/components/dashboard/FriendsWidget';
 import InvitationsWidget from '@/components/dashboard/InvitationsWidget';
 import UpcomingTripsWidget from '@/components/dashboard/UpcomingTripsWidget';
 import { useErrorHandling, useLoading  } from '@/hooks';
-import { useDashboard } from '@/services/dashboard/useDashboard';
-import type { ForumResponse } from '@/services/dashboard/types';
+import { type ForumResponse, useDashboardQuery } from '@/services/dashboard';
 import type { Tables } from '@/types';
 import type { ExtendedFriend } from '@/types/helpers';
 
 const HomeScreen = () => {
   const {
     data, error, isLoading,
-  } = useDashboard();
+  } = useDashboardQuery();
 
   useLoading(isLoading);
   useErrorHandling(error, 'Failed to fetch dashboard data');
