@@ -377,4 +377,6 @@ export async function POST(request: Request) {
     }
   }
 
+  // Return a response to acknowledge receipt of the event
+  return Response.json({ received: true }, { status: 200 });
 }
