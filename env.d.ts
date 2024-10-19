@@ -2,42 +2,54 @@
 
 declare namespace NodeJS {
   interface ProcessEnv {
+    EXPO_PUBLIC_ORIGIN_URL: string;
+
+    // Cloudinary
+    EXPO_PUBLIC_CLOUDINARY_API_KEY: string;
+    EXPO_PUBLIC_CLOUDINARY_API_SECRET: string;
+    EXPO_PUBLIC_CLOUDINARY_CLOUD_NAME: string;
+    EXPO_PUBLIC_CLOUDINARY_AUTH_PAGES_PATH: string;
+    EXPO_PUBLIC_CLOUDINARY_AVATARS_PATH: string;
+
+    // Application
+    EXPO_PUBLIC_JWT_SECRET: string;
+    EXPO_PUBLIC_TOKEN_IDENTIFIER: string;
+    EXPO_PUBLIC_COOKIE_KEY: string;
+
+    // Facebook Auth
+    EXPO_PUBLIC_FACEBOOK_APP_ID: string;
+    EXPO_PUBLIC_FACEBOOK_APP_SECRET: string;
+    EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN: string;
+
+    // Apple Auth
+    EXPO_PUBLIC_APPLE_CLIENT_ID: string;
+
+    // Google Auth and Analytics
+    EXPO_PUBLIC_GOOGLE_API_SECRET: string;
+    EXPO_PUBLIC_GOOGLE_CLIENT_ID: string;
+    EXPO_PUBLIC_GOOGLE_ANALYTICS_ID: string;
+
+    // Supabase
     EXPO_PUBLIC_SUPABASE_URL: string;
     EXPO_PUBLIC_SUPABASE_KEY: string;
     EXPO_PUBLIC_SUPABASE_SERVICE_KEY: string;
 
-    REACT_APP_CLOUDINARY_API_KEY: string;
-    REACT_APP_CLOUDINARY_API_SECRET: string;
-    REACT_APP_CLOUDINARY_CLOUD_NAME: string;
-    REACT_APP_CLOUDINARY_AUTH_PAGES_PATH: string;
-    REACT_APP_CLOUDINARY_AVATARS_PATH: string;
+    // Stripe
+    EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY: string;
+    EXPO_STRIPE_SECRET: string;
+    EXPO_STRIPE_WEBHOOK_SECRET: string;
 
-    REACT_APP_JWT_SECRET: string;
-    REACT_APP_TOKEN_IDENTIFIER: string;
-    REACT_APP_COOKIE_KEY: string;
+    // Forums
+    EXPO_PUBLIC_FORUMS_URL: string;
+    EXPO_FORUMS_API_KEY: string;
+    EXPO_FORUMS_API_USERNAME: string;
 
-    REACT_APP_FACEBOOK_APP_ID: string;
-    REACT_APP_FACEBOOK_APP_SECRET: string;
+    // Cypress
+    EXPO_PLAYWRIGHT_BASE_URL: string;
+    EXPO_PLAYWRIGHT_USERNAME: string;
+    EXPO_PLAYWRIGHT_PASSWORD: string;
 
-    REACT_APP_TWITTER_API_KEY: string;
-    REACT_APP_TWITTER_API_SECRET: string;
-
-    REACT_APP_GOOGLE_API_KEY: string;
-    REACT_APP_GOOGLE_API_SECRET: string;
-    REACT_APP_GOOGLE_ANALYTICS_ID: string;
-
-    NUXT_STRIPE_PUBLISHABLE_KEY: string;
-    NUXT_STRIPE_SECRET: string;
-    NUXT_STRIPE_WEBHOOK_SECRET: string;
-
-    NUXT_PUBLIC_FORUMS_URL: string;
-    NUXT_FORUMS_API_KEY: string;
-    NUXT_FORUMS_API_USERNAME: string;
-
-    NUXT_PLAYWRIGHT_BASE_URL: string;
-    NUXT_PLAYWRIGHT_USERNAME: string;
-    NUXT_PLAYWRIGHT_PASSWORD: string;
-
-    NUXT_SENDGRID_KEY: string;
+    // Sendgrid
+    EXPO_SENDGRID_KEY: string;
   }
 }
