@@ -37,6 +37,7 @@ module.exports = {
     '@stylistic/newline-per-chained-call': [1, { ignoreChainWithDepth: 1 }],
     '@stylistic/space-infix-ops': [1, { int32Hint: false }],
     '@stylistic/arrow-parens': ['warn', 'as-needed'],
+    '@stylistic/jsx-quotes': ['warn', 'prefer-double'],
     'import/newline-after-import': [1, { count: 1 }],
     'import/no-duplicates': 'warn',
     'import/order': [
@@ -97,6 +98,13 @@ module.exports = {
       'warn',
       { 'allowSameFolder': true, 'prefix': '@' },
     ],
+    'no-unused-vars': [
+      'warn',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+      }
+    ],
     'no-restricted-imports': [
       'error',
       {
@@ -109,7 +117,13 @@ module.exports = {
         ],
       },
     ],
-    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', caughtErrors: 'none' }],
+    '@typescript-eslint/no-unused-vars': ['warn',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrors: 'none'
+      }
+    ],
     '@typescript-eslint/consistent-type-imports': ['warn', { prefer: 'type-imports' }],
   },
   settings: {

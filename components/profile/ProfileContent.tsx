@@ -335,7 +335,7 @@ const ProfileContent = () => {
 
       {/* Edit FAB Button */}
       <AnimatedFAB
-        animateFrom='right'
+        animateFrom="right"
         disabled={isSaving || isLoading}
         extended={isExtended}
         icon={({ color, size }) => {
