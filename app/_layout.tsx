@@ -2,7 +2,7 @@ import { AppRegistry, LogBox } from 'react-native';
 import { Stack, useNavigationContainerRef } from 'expo-router';
 import { useReactNavigationDevTools } from '@dev-plugins/react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
-import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme , ThemeProvider } from '@react-navigation/native';
 import merge from 'deepmerge';
 import { ClickOutsideProvider } from 'react-native-click-outside';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -36,6 +36,7 @@ const RootLayout = () => {
   const navigationRef = useNavigationContainerRef();
   useReactNavigationDevTools(navigationRef);
 
+  // Get the current color scheme
   const { colorScheme } = useAppTheme();
   const paperTheme =
       colorScheme === 'dark'

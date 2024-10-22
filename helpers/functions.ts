@@ -38,6 +38,24 @@ export const capitalize = (text: string | undefined | null) => {
 };
 
 /**
+ * Debounces a function
+ * @param func
+ * @param waitFor
+ * @returns
+ */
+export const debounce = <F extends (..._args: any[]) => any>(func: F, waitFor: number) => {
+  let timeoutId: NodeJS.Timeout | null = null;
+
+  return (...args: Parameters<F>): ReturnType<F> | void => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    timeoutId = setTimeout(() => func(...args), waitFor);
+  };
+};
+
+/**
  * Returns a friendly username
  * @param user
  * @param options

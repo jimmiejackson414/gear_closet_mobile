@@ -23,14 +23,14 @@ type SupabaseContextProps = {
   session: Session | null;
   initialized?: boolean;
   authenticateWithBiometrics: () => Promise<void>;
-  checkForEmail: (email: string) => Promise<boolean>;
-  enableBiometrics: (email: string, password: string) => Promise<void>;
-  sendPasswordReset: (email: string) => Promise<void>;
-  signUp: (email: string, password: string) => Promise<void>;
-  signInWithPassword: (email: string, password: string) => Promise<void>;
-  signInWithOAuth: (provider: Provider) => Promise<void>;
+  checkForEmail: (_email: string) => Promise<boolean>;
+  enableBiometrics: (_email: string, _password: string) => Promise<void>;
+  sendPasswordReset: (_email: string) => Promise<void>;
+  signUp: (_email: string, _password: string) => Promise<void>;
+  signInWithPassword: (_email: string, _password: string) => Promise<void>;
+  signInWithOAuth: (_provider: Provider) => Promise<void>;
   signOut: () => Promise<void>;
-  verifyResetCode: (email: string, code: string) => Promise<void>;
+  verifyResetCode: (_email: string, _code: string) => Promise<void>;
 };
 
 type SupabaseProviderProps = {

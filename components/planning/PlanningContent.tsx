@@ -12,34 +12,39 @@ import { useAppTheme, useErrorHandling, useLoading } from '@/hooks';
 import { usePlanningQuery } from '@/services/planning';
 
 const PlanningContent = () => {
-  const [tripId, setTripId] = useState(String(0));
-  const { trip } = useLocalSearchParams();
-  const {
-    data, error, isLoading,
-  } = usePlanningQuery(Number(tripId));
-  useLoading(isLoading);
-  useErrorHandling(error, 'Failed to fetch planning data');
+  // const [tripId, setTripId] = useState<string | null>(null);
+  // const {
+  //   data, error, isLoading,
+  // } = usePlanningQuery(trip ? Number(tripId) : 0);
 
-  useEffect(() => {
-    const initializeTripId = async () => {
-      let identifier = '0';
+  // const tripOptions: Option[] = data?.trips.map(t => ({ label: t.name || '', value: String(t.id) })) || [];
 
-      console.log({ trip });
-      if (trip) {
-        identifier = decrypt(trip) || '0';
-      } else {
-        const encryptedTripId = await AsyncStorage.getItem('selectedTripId');
-        if (encryptedTripId) {
-          identifier = decrypt(encryptedTripId) || '0';
-        }
-      }
-      console.log({ identifier });
-      setTripId(String(identifier));
-    };
-    initializeTripId();
-  }, [trip]);
+  // const { trip: searchTrip } = useLocalSearchParams();
+  // useLoading(isLoading);
+  // useErrorHandling(error, 'Failed to fetch planning data');
 
-  const tripOptions: Option[] = data?.trips.map(t => ({ label: t.name || '', value: String(t.id) })) || [];
+  // useEffect(() => {
+  //   const initializeTripId = async () => {
+  //     let identifier: string | null = null;
+
+  //     if (searchTrip) {
+  //       identifier = decrypt(searchTrip);
+  //     } else {
+  //       const encryptedTripId = await AsyncStorage.getItem('selectedTripId');
+  //       if (encryptedTripId) {
+  //         identifier = decrypt(encryptedTripId);
+  //       }
+  //     }
+
+  //     if (identifier) {
+  //       setTripId(String(identifier));
+  //     } else if (tripOptions.length > 0) {
+  //       setTripId(String(tripOptions[0].value));
+  //     }
+  //   };
+
+  //   initializeTripId();
+  // }, [searchTrip, tripOptions]);
 
   const handleCreateTrip = () => {
     console.log('Add Trip');
@@ -55,7 +60,7 @@ const PlanningContent = () => {
           blurType="light"
           reducedTransparencyFallbackColor="white"
           style={styles.blurView}>
-          <Dropdown
+          {/* <Dropdown
             hideMenuHeader
             label="Selected Trip"
             menuDownIcon={
@@ -73,7 +78,7 @@ const PlanningContent = () => {
             mode="outlined"
             onSelect={(value?: string) => setTripId(value || '0')}
             options={tripOptions}
-            value={tripId} />
+            value={tripId} /> */}
         </BlurView>
         <Button
           compact
