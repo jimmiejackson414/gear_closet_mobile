@@ -44,33 +44,39 @@ const ProfileLayout = () => {
         name="profile"
         options={{
           tabBarLabel: 'Profile',
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({
+            color, focused, size,
+          }) => (
             <Icon
               color={color}
               size={size}
-              source="account-edit" />
+              source={ focused ? 'account-edit' : 'account-edit-outline' } />
           ),
         }} />
       <Tabs.Screen
         name="notifications"
         options={{
           tabBarLabel: 'Notifications',
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({
+            color, focused, size,
+          }) => (
             <Icon
               color={color}
               size={size}
-              source="bell-ring" />
+              source={ focused ? 'bell-ring' : 'bell-ring-outline' } />
           ),
         }} />
       <Tabs.Screen
         name="subscription"
         options={{
           tabBarLabel: 'Subscription',
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({
+            color, focused, size,
+          }) => (
             <Icon
               color={color}
               size={size}
-              source="credit-card" />
+              source={ focused ? 'credit-card' : 'credit-card-outline' } />
           ),
         }} />
     </Tabs>
