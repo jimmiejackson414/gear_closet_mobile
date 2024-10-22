@@ -18,7 +18,7 @@ interface Props {
   label: string;
   options: Item[];
   name: string;
-  onValueChange?: (value: string) => void;
+  onValueChange?: (_value: string) => void;
 }
 
 const FormPicker: React.FC<Props> = ({

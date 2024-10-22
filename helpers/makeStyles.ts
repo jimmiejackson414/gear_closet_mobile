@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 import { useAppTheme } from '@/hooks';

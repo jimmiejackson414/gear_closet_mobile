@@ -16,6 +16,8 @@ export const fetchPlanningData = async ({ queryKey }: { queryKey: QueryKey }) =>
       .returns<PlanningPageData>();
 
     if (error || !data) throw new Error(error?.message || 'Planning data not found');
+
+    return data;
   } catch (error) {
     toast.error('Failed to fetch planning data');
     return null;

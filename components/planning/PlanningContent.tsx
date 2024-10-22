@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BlurView } from '@react-native-community/blur';
-import { Button, Divider, Menu, Text } from 'react-native-paper';
+import { Button, Divider, Icon, Text } from 'react-native-paper';
+import { Dropdown, type Option } from 'react-native-paper-dropdown';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import { makeStyles } from '@/helpers';
 import { decrypt } from '@/helpers/encryption';
@@ -10,74 +12,100 @@ import { useAppTheme, useErrorHandling, useLoading } from '@/hooks';
 import { usePlanningQuery } from '@/services/planning';
 
 const PlanningContent = () => {
-  const [tripId, setTripId] = useState(0);
+  const [tripId, setTripId] = useState(String(0));
   const { trip } = useLocalSearchParams();
   const {
     data, error, isLoading,
-  } = usePlanningQuery(tripId);
+  } = usePlanningQuery(Number(tripId));
   useLoading(isLoading);
   useErrorHandling(error, 'Failed to fetch planning data');
 
   useEffect(() => {
     const initializeTripId = async () => {
-      let identifier = 0;
+      let identifier = '0';
 
+      console.log({ trip });
       if (trip) {
-        identifier = Number(decrypt(trip as string)) || 0;
+        identifier = decrypt(trip) || '0';
       } else {
         const encryptedTripId = await AsyncStorage.getItem('selectedTripId');
         if (encryptedTripId) {
-          identifier = Number(decrypt(encryptedTripId)) || 0;
+          identifier = decrypt(encryptedTripId) || '0';
         }
       }
-      setTripId(identifier);
+      console.log({ identifier });
+      setTripId(String(identifier));
     };
     initializeTripId();
   }, [trip]);
 
-  const [menuVisible, setMenuVisible] = useState(false);
-  const openMenu = () => setMenuVisible(true);
-  const closeMenu = () => setMenuVisible(false);
+  const tripOptions: Option[] = data?.trips.map(t => ({ label: t.name || '', value: String(t.id) })) || [];
+
+  const handleCreateTrip = () => {
+    console.log('Add Trip');
+  };
 
   const theme = useAppTheme();
   const styles = useStyles();
   return (
-    <ScreenWrapper>
-      <BlurView
-        blurAmount={10}
-        blurType="light"
-        reducedTransparencyFallbackColor="white"
-        style={styles.blurView}>
-        <Menu
-          anchor={<Button
-            icon="swap-horizontal"
-            onPress={openMenu}>
-            Change trips
-          </Button>}
-          anchorPosition="bottom"
-          contentStyle={{ backgroundColor: theme.colors.onPrimaryContainer }}
-          onDismiss={closeMenu}
-          visible={menuVisible}>
-          <Menu.Item
-            onPress={() => {}}
-            title="Item 1" />
-          <Menu.Item
-            onPress={() => {}}
-            title="Item 2" />
-        </Menu>
-      </BlurView>
+    <ScreenWrapper style={styles.screenWrapper}>
+      <View style={styles.settingsRow}>
+        <BlurView
+          blurAmount={10}
+          blurType="light"
+          reducedTransparencyFallbackColor="white"
+          style={styles.blurView}>
+          <Dropdown
+            hideMenuHeader
+            label="Selected Trip"
+            menuDownIcon={
+              <Icon
+                color={theme.colors.primary}
+                size={24}
+                source="chevron-down" />
+            }
+            menuUpIcon={
+              <Icon
+                color={theme.colors.primary}
+                size={24}
+                source="chevron-up" />
+            }
+            mode="outlined"
+            onSelect={(value?: string) => setTripId(value || '0')}
+            options={tripOptions}
+            value={tripId} />
+        </BlurView>
+        <Button
+          compact
+          icon="plus"
+          mode="contained"
+          onPress={handleCreateTrip}>
+          Create Trip
+        </Button>
+      </View>
+      <Divider style={{ marginVertical: 16 }} />
+      <View>
+        <Text>Planning Content</Text>
+      </View>
     </ScreenWrapper>
   );
 };
 
-export default PlanningContent;
-
 const useStyles = makeStyles(() => ({
-  blurView: {
-    alignItems: 'flex-start',
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 10,
+  screenWrapper: {
     flex: 1,
     justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    width: '100%',
   },
+  settingsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 16,
+    width: '100%',
+  },
+  blurView: { backgroundColor: 'rgba(255, 255, 255, 0.1)', width: '50%' },
 }));
+
+export default PlanningContent;
