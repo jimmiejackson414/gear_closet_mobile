@@ -17,9 +17,9 @@ const FriendsWidget: React.FC<Props> = ({ data }) => {
 
   return (
     <Card
+      elevation={0}
       mode="elevated"
-      style={{ marginHorizontal: 1 }}
-      theme={{ colors: { elevation: { level1: theme.colors.onPrimary } } }}>
+      style={{ backgroundColor: theme.colors.onPrimary }}>
       <Card.Title
         left={() => (
           <Icon
@@ -30,7 +30,7 @@ const FriendsWidget: React.FC<Props> = ({ data }) => {
         leftStyle={{ marginRight: 0 }}
         title={`Friends (${data.total})`}
         titleStyle={{ fontWeight: 'bold', marginBottom: 0 }}
-        titleVariant='bodyLarge' />
+        titleVariant="bodyLarge" />
       <Card.Content>
         {!data.friends.length ? (
           <View>

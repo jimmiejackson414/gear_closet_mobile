@@ -20,7 +20,9 @@ const DrawerLayout = () => {
         headerShown: true,
         swipeEdgeWidth: 0,
         drawerStyle: { backgroundColor: theme.colors.background },
-        headerStyle: { backgroundColor: theme.colors.onPrimary },
+        headerStyle: {
+          backgroundColor: theme.colors.surface, borderBottomWidth: 0, shadowOpacity: 0,
+        },
         headerRight: () => (
           <Link
             asChild

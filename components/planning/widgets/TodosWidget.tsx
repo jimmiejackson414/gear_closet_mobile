@@ -1,5 +1,5 @@
-import { Text } from 'react-native';
-import { Card } from 'react-native-paper';
+import { View } from 'react-native';
+import { Card, Icon, Text } from 'react-native-paper';
 import { makeStyles } from '@/helpers';
 import { useAppTheme } from '@/hooks';
 import type { Tables } from '@/types';
@@ -15,18 +15,31 @@ const TodosWidget: React.FC<Props> = ({ data }) => {
 
   return (
     <Card
-      contentStyle={styles.card}
-      mode="outlined">
-      <Text>TodosWidget</Text>
+      elevation={0}
+      mode="elevated"
+      style={styles.card}>
+      <Card.Title
+        left={() => (
+          <Icon
+            color={theme.colors.primary}
+            size={24}
+            source="calendar-check-outline" />
+        )}
+        leftStyle={{ marginRight: 0 }}
+        title="Todos"
+        titleStyle={{ fontWeight: 'bold', marginBottom: 0 }}
+        titleVariant="bodyLarge" />
+      <Card.Content>
+        <View>
+          <Text>
+            Todos Content
+          </Text>
+        </View>
+      </Card.Content>
     </Card>
   );
 };
 
 export default TodosWidget;
 
-const useStyles = makeStyles(theme => ({
-  card: {
-    backgroundColor: theme.colors.surface,
-    padding: 24,
-  },
-}));
+const useStyles = makeStyles(theme => ({ card: { backgroundColor: theme.colors.onPrimary } }));

@@ -22,9 +22,9 @@ const UpcomingTripsWidget: React.FC<Props> = ({ data }) => {
 
   return (
     <Card
+      elevation={0}
       mode="elevated"
-      style={{ marginHorizontal: 1 }}
-      theme={{ colors: { elevation: { level1: theme.colors.onPrimary } } }}>
+      style={{ backgroundColor: theme.colors.onPrimary }}>
       <Card.Title
         left={() => (
           <Icon

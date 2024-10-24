@@ -15,9 +15,9 @@ const ForumsWidget: React.FC<Props> = ({ data }) => {
   const theme = useAppTheme();
   return (
     <Card
+      elevation={0}
       mode="elevated"
-      style={{ marginHorizontal: 1 }}
-      theme={{ colors: { elevation: { level1: theme.colors.onPrimary } } }}>
+      style={{ backgroundColor: theme.colors.onPrimary }}>
       <Card.Title
         left={props => (
           <Icon

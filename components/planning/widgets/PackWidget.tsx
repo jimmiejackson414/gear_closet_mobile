@@ -1,5 +1,5 @@
-import { Text } from 'react-native';
-import { Card } from 'react-native-paper';
+import { View } from 'react-native';
+import { Card, Icon, Text } from 'react-native-paper';
 import { makeStyles } from '@/helpers';
 import { useAppTheme } from '@/hooks';
 import type { ExtendedPack } from '@/types/helpers';
@@ -15,18 +15,31 @@ const PackWidget: React.FC<Props> = ({ data }) => {
 
   return (
     <Card
-      contentStyle={styles.card}
-      mode="outlined">
-      <Text>PackWidget</Text>
+      elevation={0}
+      mode="elevated"
+      style={styles.card}>
+      <Card.Title
+        left={() => (
+          <Icon
+            color={theme.colors.primary}
+            size={24}
+            source="calendar-check-outline" />
+        )}
+        leftStyle={{ marginRight: 0 }}
+        title="Pack"
+        titleStyle={{ fontWeight: 'bold', marginBottom: 0 }}
+        titleVariant="bodyLarge" />
+      <Card.Content>
+        <View>
+          <Text>
+            Pack Widget Content
+          </Text>
+        </View>
+      </Card.Content>
     </Card>
   );
 };
 
-export default PackWidget;
+const useStyles = makeStyles(theme => ({ card: { backgroundColor: theme.colors.onPrimary } }));
 
-const useStyles = makeStyles(theme => ({
-  card: {
-    backgroundColor: theme.colors.surface,
-    padding: 24,
-  },
-}));
+export default PackWidget;
