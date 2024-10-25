@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react';
-import { Appearance } from 'react-native';
+import { Appearance, useColorScheme } from 'react-native';
 import { useRouter } from 'expo-router';
+import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme } from '@react-navigation/native';
+import merge from 'deepmerge';
+import { adaptNavigationTheme } from 'react-native-paper';
 import { customDarkTheme, customLightTheme } from '@/constants/colors';
 import type { ColorSchemeName } from 'react-native';
 
 export type AppTheme = typeof customLightTheme;
 
-const useTheme = () => {
+const useAppTheme = () => {
   const router = useRouter();
-  const [localColorScheme, setLocalColorScheme] = useState<ColorSchemeName>(Appearance.getColorScheme() || 'light');
+  const colorScheme = useColorScheme();
+  const [localColorScheme, setLocalColorScheme] = useState<ColorSchemeName>(colorScheme || 'light');
 
   useEffect(() => {
     const listener = (preferences: { colorScheme: ColorSchemeName }) => {
@@ -31,7 +35,15 @@ const useTheme = () => {
     router.setParams({ colorScheme: newScheme });
   };
 
-  const theme: AppTheme = localColorScheme === 'light' ? customLightTheme : customDarkTheme;
+  const { LightTheme, DarkTheme } = adaptNavigationTheme({
+    reactNavigationLight: NavigationDefaultTheme,
+    reactNavigationDark: NavigationDarkTheme,
+  });
+
+  const CombinedDefaultTheme = merge(LightTheme, customLightTheme);
+  const CombinedDarkTheme = merge(DarkTheme, customDarkTheme);
+
+  const theme: AppTheme = localColorScheme === 'light' ? CombinedDefaultTheme : CombinedDarkTheme;
 
   return {
     theme,
@@ -40,4 +52,4 @@ const useTheme = () => {
   };
 };
 
-export default useTheme;
+export default useAppTheme;

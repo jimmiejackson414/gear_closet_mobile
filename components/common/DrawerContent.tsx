@@ -1,23 +1,19 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useRouter } from 'expo-router';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { Icon, Switch } from 'react-native-paper';
 import { useSupabase } from '@/context/SupabaseProvider';
-import { useAppTheme } from '@/hooks';
+import { makeStyles } from '@/helpers';
+import useAppTheme from '@/hooks/useAppTheme';
 import type { DrawerContentComponentProps } from '@react-navigation/drawer';
 
 const DrawerContent: React.FC<DrawerContentComponentProps> = props => {
-  const router = useRouter();
   const { signOut } = useSupabase();
-
-  const onLogout = async () => {
-    await signOut();
-    router.replace('/welcome');
-  };
 
   const {
     theme, colorScheme, toggleTheme,
   } = useAppTheme();
+  const styles = useStyles(theme);
+
   return (
     <DrawerContentScrollView
       {...props}
@@ -34,7 +30,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = props => {
       </View>
       <View style={styles.flexSpace} />
       <TouchableOpacity
-        onPress={onLogout}
+        onPress={signOut}
         style={styles.logoutButton}>
         <Icon
           color={theme.colors.onBackground}
@@ -46,7 +42,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = props => {
   );
 };
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles(theme => ({
   container: {
     flex: 1,
     justifyContent: 'space-between',
@@ -59,7 +55,7 @@ const styles = StyleSheet.create({
     gap: 32,
     marginBottom: 36,
   },
-  logoutText: { color: 'rgba(28, 27, 31, 0.68)' },
+  logoutText: { color: theme.colors.onBackground },
   themeToggle: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -68,9 +64,9 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   toggleText: {
-    color: 'rgba(28, 27, 31, 0.68)',
-    fontWeight: 500,
+    color: theme.colors.onBackground,
+    fontWeight: '500',
   },
-});
+}));
 
 export default DrawerContent;

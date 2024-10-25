@@ -1,17 +1,14 @@
-import { AppRegistry, LogBox, useColorScheme } from 'react-native';
+import { AppRegistry, LogBox } from 'react-native';
 import { Stack, useNavigationContainerRef } from 'expo-router';
 import { useReactNavigationDevTools } from '@dev-plugins/react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
-import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme } from '@react-navigation/native';
-import merge from 'deepmerge';
 import { ClickOutsideProvider } from 'react-native-click-outside';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { PaperProvider, adaptNavigationTheme } from 'react-native-paper';
+import { PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Toaster } from 'sonner-native';
-import { customDarkTheme, customLightTheme } from '@/constants/colors';
 import { SupabaseProvider } from '@/context/SupabaseProvider';
-// import { useAppTheme } from '@/hooks';
+import useAppTheme from '@/hooks/useAppTheme';
 import { APIProvider } from '@/services/common/api-provider';
 import 'react-native-reanimated';
 
@@ -24,27 +21,13 @@ export {
   ErrorBoundary,
 } from 'expo-router';
 
-const { LightTheme, DarkTheme } = adaptNavigationTheme({
-  reactNavigationLight: NavigationDefaultTheme,
-  reactNavigationDark: NavigationDarkTheme,
-});
-
-const CombinedDefaultTheme = merge(LightTheme, customLightTheme);
-const CombinedDarkTheme = merge(DarkTheme, customDarkTheme);
-
 const RootLayout = () => {
   const navigationRef = useNavigationContainerRef();
   useReactNavigationDevTools(navigationRef);
 
   // Get the current color scheme
-  // const { colorScheme } = useAppTheme();
-  const colorScheme = useColorScheme();
-  const paperTheme =
-      colorScheme === 'dark'
-        ? CombinedDarkTheme
-        : CombinedDefaultTheme;
+  const { theme } = useAppTheme();
 
-  console.log({ colorScheme, paperTheme });
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ClickOutsideProvider>
@@ -52,7 +35,7 @@ const RootLayout = () => {
           <APIProvider>
             <PaperProvider
               settings={{ rippleEffectEnabled: false }}
-              theme={paperTheme}>
+              theme={theme}>
               <ActionSheetProvider>
                 <SafeAreaProvider>
                   <Stack screenOptions={{ headerShown: false }}>
