@@ -46,7 +46,7 @@ const SubscriptionContent = () => {
   };
 
   const [expanded, setExpanded] = useState(false);
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles();
   return (
     <View style={styles.container}>

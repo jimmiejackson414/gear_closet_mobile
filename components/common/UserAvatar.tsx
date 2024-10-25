@@ -21,7 +21,7 @@ const hasSubscriptionData = (profile: any): profile is ExtendedProfile => {
 const UserAvatar = forwardRef<any, Props>(({
   disabled, includeSubscriptionBadge = false, profile, size = 64,
 }, _ref) => {
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles({ theme, disabled });
 
   const renderAvatar = () => {

@@ -25,7 +25,7 @@ const FormPicker: React.FC<Props> = ({
   control, disabled, label, options, name, onValueChange,
 }) => {
   const [visible, setVisible] = useState(false);
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles({ theme, disabled });
 
   const hideDialog = () => setVisible(false);

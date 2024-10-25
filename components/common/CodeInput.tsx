@@ -5,7 +5,7 @@ import type { NativeSyntheticEvent, TextInputKeyPressEventData } from 'react-nat
 
 interface Props {
   length?: number;
-  onChangeCode: (code: string) => void;
+  onChangeCode: (_code: string) => void;
 }
 
 const CodeInput: React.FC<Props> = ({ length = 6, onChangeCode }) => {

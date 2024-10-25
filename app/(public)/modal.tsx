@@ -17,7 +17,7 @@ const ModalContent = () => {
   const navigation = useNavigation();
   const opacity = useSharedValue(1);
   const animatedStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles();
 
   const { screen } = useAuthScreenContext();

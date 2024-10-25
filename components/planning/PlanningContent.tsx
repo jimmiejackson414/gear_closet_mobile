@@ -62,7 +62,7 @@ const PlanningContent = () => {
 
   const handleTripChange = (value: string | number | null) => setTripId(Number(value) ?? null);
 
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles();
   return (
     <ScreenWrapper style={styles.screenWrapper}>

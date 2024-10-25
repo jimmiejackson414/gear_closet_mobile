@@ -18,7 +18,7 @@ interface Props {
 
 const UpcomingTripsWidget: React.FC<Props> = ({ data }) => {
   const styles = useStyles();
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
 
   return (
     <Card

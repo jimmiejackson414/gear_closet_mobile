@@ -8,7 +8,7 @@ export type AppTheme = typeof customLightTheme;
 
 const useTheme = () => {
   const router = useRouter();
-  const [localColorScheme, setLocalColorScheme] = useState<ColorSchemeName>(Appearance.getColorScheme() || 'dark');
+  const [localColorScheme, setLocalColorScheme] = useState<ColorSchemeName>(Appearance.getColorScheme() || 'light');
 
   useEffect(() => {
     const listener = (preferences: { colorScheme: ColorSchemeName }) => {
@@ -34,7 +34,7 @@ const useTheme = () => {
   const theme: AppTheme = localColorScheme === 'light' ? customLightTheme : customDarkTheme;
 
   return {
-    ...theme,
+    theme,
     colorScheme: localColorScheme,
     toggleTheme,
   };

@@ -10,7 +10,7 @@ interface Props {
 
 const ShoppingListWidget: React.FC<Props> = ({ data }) => {
   console.log('shopping items: ', data);
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles(theme);
 
   return (

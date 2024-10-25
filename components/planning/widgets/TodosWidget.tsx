@@ -10,7 +10,7 @@ interface Props {
 
 const TodosWidget: React.FC<Props> = ({ data }) => {
   console.log('todos: ', data);
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles(theme);
 
   return (

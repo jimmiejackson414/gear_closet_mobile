@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { Controller } from 'react-hook-form';
-import { HelperText, Menu, TextInput, useTheme } from 'react-native-paper';
+import { HelperText, Menu, TextInput } from 'react-native-paper';
 import { makeStyles } from '@/helpers';
+import { useAppTheme } from '@/hooks';
 import type { Control } from 'react-hook-form';
 
 export interface Option {
@@ -36,7 +37,7 @@ const FormSelect: React.FC<FormSelectProps> = ({
   ...rest
 }) => {
   const [menuVisible, setMenuVisible] = useState(false);
-  const theme = useTheme();
+  const { theme } = useAppTheme();
 
   const handleSelect = (selectedValue: string | number) => {
     onChange(selectedValue);

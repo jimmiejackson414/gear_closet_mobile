@@ -10,7 +10,7 @@ interface Props {
 
 const HikeDetailsWidget: React.FC<Props> = ({ data }) => {
   console.log('hike details: ', data);
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles(theme);
 
   return (

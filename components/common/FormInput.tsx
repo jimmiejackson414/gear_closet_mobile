@@ -40,7 +40,7 @@ const FormInput: React.FC<FormInputProps> = ({
   ...rest
 }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
 
   return (
     <Controller

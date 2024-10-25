@@ -10,7 +10,7 @@ interface Props {
 
 const PollWidget: React.FC<Props> = ({ data }) => {
   console.log('poll: ', data);
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles(theme);
 
   return (

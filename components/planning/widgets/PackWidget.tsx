@@ -10,7 +10,7 @@ interface Props {
 
 const PackWidget: React.FC<Props> = ({ data }) => {
   console.log('pack: ', data);
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles(theme);
 
   return (

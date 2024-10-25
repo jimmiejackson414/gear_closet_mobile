@@ -12,7 +12,7 @@ interface Props {
 const ForumsWidget: React.FC<Props> = ({ data }) => {
   const { data: isPaidMember } = useIsPaidMember();
 
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   return (
     <Card
       elevation={0}

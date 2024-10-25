@@ -19,7 +19,7 @@ const ProfileLayout = () => {
     }
   }, [segments, navigation]);
 
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   return (
     <Tabs screenOptions={{
       headerShown: false,

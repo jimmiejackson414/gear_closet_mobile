@@ -31,7 +31,7 @@ const NotificationsContent = () => {
   const pushGroup = data?.preferences.filter(p => p.preference_group === PreferenceGroup.PUSH);
   const emailGroup = data?.preferences.filter(p => p.preference_group === PreferenceGroup.EMAIL);
 
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles();
   return (
     <View style={styles.container}>

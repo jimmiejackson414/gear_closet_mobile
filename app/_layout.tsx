@@ -1,8 +1,8 @@
-import { AppRegistry, LogBox } from 'react-native';
+import { AppRegistry, LogBox, useColorScheme } from 'react-native';
 import { Stack, useNavigationContainerRef } from 'expo-router';
 import { useReactNavigationDevTools } from '@dev-plugins/react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
-import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme , ThemeProvider } from '@react-navigation/native';
+import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme } from '@react-navigation/native';
 import merge from 'deepmerge';
 import { ClickOutsideProvider } from 'react-native-click-outside';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -11,7 +11,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Toaster } from 'sonner-native';
 import { customDarkTheme, customLightTheme } from '@/constants/colors';
 import { SupabaseProvider } from '@/context/SupabaseProvider';
-import { useAppTheme } from '@/hooks';
+// import { useAppTheme } from '@/hooks';
 import { APIProvider } from '@/services/common/api-provider';
 import 'react-native-reanimated';
 
@@ -37,12 +37,14 @@ const RootLayout = () => {
   useReactNavigationDevTools(navigationRef);
 
   // Get the current color scheme
-  const { colorScheme } = useAppTheme();
+  // const { colorScheme } = useAppTheme();
+  const colorScheme = useColorScheme();
   const paperTheme =
       colorScheme === 'dark'
         ? CombinedDarkTheme
         : CombinedDefaultTheme;
 
+  console.log({ colorScheme, paperTheme });
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ClickOutsideProvider>
@@ -51,17 +53,15 @@ const RootLayout = () => {
             <PaperProvider
               settings={{ rippleEffectEnabled: false }}
               theme={paperTheme}>
-              <ThemeProvider value={paperTheme}>
-                <ActionSheetProvider>
-                  <SafeAreaProvider>
-                    <Stack screenOptions={{ headerShown: false }}>
-                      <Stack.Screen name="(protected)" />
-                      <Stack.Screen name="(public)" />
-                    </Stack>
-                    <Toaster position="bottom-center" />
-                  </SafeAreaProvider>
-                </ActionSheetProvider>
-              </ThemeProvider>
+              <ActionSheetProvider>
+                <SafeAreaProvider>
+                  <Stack screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name="(protected)" />
+                    <Stack.Screen name="(public)" />
+                  </Stack>
+                  <Toaster position="bottom-center" />
+                </SafeAreaProvider>
+              </ActionSheetProvider>
             </PaperProvider>
           </APIProvider>
         </SupabaseProvider>

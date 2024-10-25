@@ -10,7 +10,7 @@ interface Props {
 
 const TripDetailsWidget: React.FC<Props> = ({ data }) => {
   console.log('trip details: ', data);
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles(theme);
 
   return (

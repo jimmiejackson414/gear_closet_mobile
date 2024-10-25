@@ -15,7 +15,7 @@ const ForumPost: React.FC<Props> = ({ post }) => {
   const { data: isPaidMember } = useIsPaidMember();
   const forumsUrl = process.env.EXPO_PUBLIC_FORUMS_URL;
 
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles();
   return (
     <A

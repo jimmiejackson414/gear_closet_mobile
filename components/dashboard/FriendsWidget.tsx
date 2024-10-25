@@ -13,7 +13,7 @@ interface Props {
 }
 
 const FriendsWidget: React.FC<Props> = ({ data }) => {
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
 
   return (
     <Card

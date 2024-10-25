@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
-import { Icon } from 'react-native-paper';
+import { Icon, Switch } from 'react-native-paper';
 import { useSupabase } from '@/context/SupabaseProvider';
 import { useAppTheme } from '@/hooks';
 import type { DrawerContentComponentProps } from '@react-navigation/drawer';
@@ -15,13 +15,23 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = props => {
     router.replace('/welcome');
   };
 
-  const theme = useAppTheme();
+  const {
+    theme, colorScheme, toggleTheme,
+  } = useAppTheme();
   return (
     <DrawerContentScrollView
       {...props}
       contentContainerStyle={styles.container}
       key="drawer-content-scroll-view">
       <DrawerItemList {...props} />
+      <View style={styles.themeToggle}>
+        <Switch
+          onValueChange={toggleTheme}
+          value={colorScheme === 'dark'} />
+        <Text style={styles.toggleText}>
+          Dark Mode
+        </Text>
+      </View>
       <View style={styles.flexSpace} />
       <TouchableOpacity
         onPress={onLogout}
@@ -49,7 +59,18 @@ const styles = StyleSheet.create({
     gap: 32,
     marginBottom: 36,
   },
-  logoutText: { color: 'rgba(28, 27, 31, 0.68' },
+  logoutText: { color: 'rgba(28, 27, 31, 0.68)' },
+  themeToggle: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 16,
+    padding: 16,
+    marginBottom: 24,
+  },
+  toggleText: {
+    color: 'rgba(28, 27, 31, 0.68)',
+    fontWeight: 500,
+  },
 });
 
 export default DrawerContent;

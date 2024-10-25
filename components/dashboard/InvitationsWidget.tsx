@@ -11,7 +11,7 @@ interface Props {
 }
 
 const InvitationsWidget: React.FC<Props> = ({ data }) => {
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles();
 
   return (

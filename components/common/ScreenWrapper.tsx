@@ -22,7 +22,7 @@ const ScreenWrapper = ({
   ...rest
 }: Props) => {
   const isLoading = useAppStore(state => state.isLoading);
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles(theme);
 
   return (

@@ -10,7 +10,7 @@ import { useReadNotifications } from '@/services/profile';
 const DrawerLayout = () => {
   const { data: unreadNotifications = [] } = useReadNotifications();
   const styles = useStyles();
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
 
   return (
     <Drawer
@@ -21,7 +21,9 @@ const DrawerLayout = () => {
         swipeEdgeWidth: 0,
         drawerStyle: { backgroundColor: theme.colors.background },
         headerStyle: {
-          backgroundColor: theme.colors.surface, borderBottomWidth: 0, shadowOpacity: 0,
+          backgroundColor: theme.colors.backgroundGradient[1],
+          borderBottomWidth: 0,
+          shadowOpacity: 0,
         },
         headerRight: () => (
           <Link

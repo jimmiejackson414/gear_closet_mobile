@@ -72,7 +72,7 @@ const PasswordScreen: React.FC = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles();
   return (
     <FormProvider {...form}>

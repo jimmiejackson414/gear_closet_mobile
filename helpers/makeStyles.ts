@@ -8,7 +8,7 @@ import type { MD3Theme } from 'react-native-paper';
 type NamedStyles<T> = { [P in keyof T]: ViewStyle | TextStyle | ImageStyle };
 
 const makeStyles = <T extends NamedStyles<T>>(styles: (theme: MD3Theme, props: any) => T) => (props?: any) => {
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
 
   return useMemo(() => {
     const css = styles(theme, props);

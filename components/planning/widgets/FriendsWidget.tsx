@@ -10,7 +10,7 @@ interface Props {
 
 const FriendsWidget: React.FC<Props> = ({ data }) => {
   console.log('friends: ', data);
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles(theme);
 
   return (
