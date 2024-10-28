@@ -2,17 +2,15 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { Icon, Switch } from 'react-native-paper';
 import { useSupabase } from '@/context/SupabaseProvider';
+import { useAppTheme } from '@/context/ThemeProvider';
 import { makeStyles } from '@/helpers';
-import useAppTheme from '@/hooks/useAppTheme';
 import type { DrawerContentComponentProps } from '@react-navigation/drawer';
 
 const DrawerContent: React.FC<DrawerContentComponentProps> = props => {
   const { signOut } = useSupabase();
 
-  const {
-    theme, colorScheme, toggleTheme,
-  } = useAppTheme();
-  const styles = useStyles(theme);
+  const { colorScheme, toggleTheme } = useAppTheme();
+  const styles = useStyles();
 
   return (
     <DrawerContentScrollView
@@ -33,7 +31,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = props => {
         onPress={signOut}
         style={styles.logoutButton}>
         <Icon
-          color={theme.colors.onBackground}
+          color={'rgba(28,28,30,0.68)'}
           size={20}
           source="logout" />
         <Text style={styles.logoutText}>Logout</Text>
@@ -42,7 +40,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = props => {
   );
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   container: {
     flex: 1,
     justifyContent: 'space-between',
@@ -55,7 +53,7 @@ const useStyles = makeStyles(theme => ({
     gap: 32,
     marginBottom: 36,
   },
-  logoutText: { color: theme.colors.onBackground },
+  logoutText: { color: 'rgba(28, 28, 30, 0.68)' },
   themeToggle: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -64,7 +62,7 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 24,
   },
   toggleText: {
-    color: theme.colors.onBackground,
+    color: 'rgba(28, 28, 30, 0.68)',
     fontWeight: '500',
   },
 }));

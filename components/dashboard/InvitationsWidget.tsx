@@ -2,8 +2,8 @@ import { Fragment } from 'react';
 import { View } from 'react-native';
 import { Link } from 'expo-router';
 import { Button, Card, Divider, Icon, Text } from 'react-native-paper';
+import { useAppTheme } from '@/context/ThemeProvider';
 import { makeStyles } from '@/helpers';
-import { useAppTheme } from '@/hooks';
 import type { Tables } from '@/types';
 
 interface Props {

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
-import { useAppTheme } from '@/hooks';
+import { useAppTheme } from '@/context/ThemeProvider';
 import type { ImageStyle, TextStyle, ViewStyle } from 'react-native';
 import type { MD3Theme } from 'react-native-paper';
 

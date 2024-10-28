@@ -2,7 +2,7 @@ import { View } from 'react-native';
 import { Link } from 'expo-router';
 import { Button, Card, Icon, Text } from 'react-native-paper';
 import UserAvatar from '@/components/common/UserAvatar';
-import { useAppTheme } from '@/hooks';
+import { useAppTheme } from '@/context/ThemeProvider';
 import type { ExtendedFriend } from '@/types/helpers';
 
 interface Props {

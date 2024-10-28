@@ -98,13 +98,6 @@ module.exports = {
       'warn',
       { 'allowSameFolder': true, 'prefix': '@' },
     ],
-    'no-unused-vars': [
-      'warn',
-      {
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-      }
-    ],
     'no-restricted-imports': [
       'error',
       {

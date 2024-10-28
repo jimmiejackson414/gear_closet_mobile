@@ -1,8 +1,8 @@
 import { useLayoutEffect } from 'react';
 import { Tabs, useNavigation, useSegments } from 'expo-router';
 import { Icon } from 'react-native-paper';
+import { useAppTheme } from '@/context/ThemeProvider';
 import { capitalize } from '@/helpers';
-import { useAppTheme } from '@/hooks';
 
 const ProfileLayout = () => {
   const navigation = useNavigation();

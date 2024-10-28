@@ -8,8 +8,9 @@ import GoogleIcon from '@/assets/images/google.svg';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import { Colors } from '@/constants/colors';
 import { useSupabase } from '@/context/SupabaseProvider';
+import { useAppTheme } from '@/context/ThemeProvider';
 import makeStyles from '@/helpers/makeStyles';
-import { useAppTheme, useAuthLayout, useLoading } from '@/hooks';
+import { useAuthLayout, useLoading } from '@/hooks';
 import type { Provider } from '@supabase/supabase-js';
 // import AppleIcon from '@/assets/images/apple.svg';
 

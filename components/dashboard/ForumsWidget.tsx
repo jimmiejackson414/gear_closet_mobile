@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 import { Card, Icon, IconButton, Text, Tooltip } from 'react-native-paper';
-import { useAppTheme } from '@/hooks';
+import { useAppTheme } from '@/context/ThemeProvider';
 import { useIsPaidMember } from '@/services/profile';
 import ForumPost from './ForumPost';
 import type { ForumResponse } from '@/services/dashboard';

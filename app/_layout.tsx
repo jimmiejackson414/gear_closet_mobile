@@ -8,7 +8,7 @@ import { PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Toaster } from 'sonner-native';
 import { SupabaseProvider } from '@/context/SupabaseProvider';
-import useAppTheme from '@/hooks/useAppTheme';
+import { ThemeProvider, useAppTheme } from '@/context/ThemeProvider';
 import { APIProvider } from '@/services/common/api-provider';
 import 'react-native-reanimated';
 
@@ -21,31 +21,38 @@ export {
   ErrorBoundary,
 } from 'expo-router';
 
+const AppContent = () => {
+  const { theme } = useAppTheme();
+
+  return (
+    <PaperProvider
+      settings={{ rippleEffectEnabled: false }}
+      theme={theme}>
+      <ActionSheetProvider>
+        <SafeAreaProvider>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(protected)" />
+            <Stack.Screen name="(public)" />
+          </Stack>
+          <Toaster position="bottom-center" />
+        </SafeAreaProvider>
+      </ActionSheetProvider>
+    </PaperProvider>
+  );
+};
+
 const RootLayout = () => {
   const navigationRef = useNavigationContainerRef();
   useReactNavigationDevTools(navigationRef);
-
-  // Get the current color scheme
-  const { theme } = useAppTheme();
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ClickOutsideProvider>
         <SupabaseProvider>
           <APIProvider>
-            <PaperProvider
-              settings={{ rippleEffectEnabled: false }}
-              theme={theme}>
-              <ActionSheetProvider>
-                <SafeAreaProvider>
-                  <Stack screenOptions={{ headerShown: false }}>
-                    <Stack.Screen name="(protected)" />
-                    <Stack.Screen name="(public)" />
-                  </Stack>
-                  <Toaster position="bottom-center" />
-                </SafeAreaProvider>
-              </ActionSheetProvider>
-            </PaperProvider>
+            <ThemeProvider>
+              <AppContent />
+            </ThemeProvider>
           </APIProvider>
         </SupabaseProvider>
       </ClickOutsideProvider>

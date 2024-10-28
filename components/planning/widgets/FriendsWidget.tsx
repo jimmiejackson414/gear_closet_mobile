@@ -1,7 +1,7 @@
 import { View } from 'react-native';
 import { Card, Icon, Text } from 'react-native-paper';
+import { useAppTheme } from '@/context/ThemeProvider';
 import { makeStyles } from '@/helpers';
-import { useAppTheme } from '@/hooks';
 import type { Tables } from '@/types';
 
 interface Props {

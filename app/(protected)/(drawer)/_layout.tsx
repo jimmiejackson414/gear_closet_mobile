@@ -3,8 +3,8 @@ import { Drawer } from 'expo-router/drawer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Badge, Icon, IconButton } from 'react-native-paper';
 import DrawerContent from '@/components/common/DrawerContent';
+import { useAppTheme } from '@/context/ThemeProvider';
 import { makeStyles } from '@/helpers';
-import { useAppTheme } from '@/hooks';
 import { useReadNotifications } from '@/services/profile';
 
 const DrawerLayout = () => {

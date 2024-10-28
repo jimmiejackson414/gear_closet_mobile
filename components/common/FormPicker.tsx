@@ -3,8 +3,8 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native
 import { BlurView } from '@react-native-community/blur';
 import { Controller } from 'react-hook-form';
 import { Button, Dialog, HelperText, Portal, TextInput } from 'react-native-paper';
+import { useAppTheme } from '@/context/ThemeProvider';
 import { makeStyles } from '@/helpers';
-import { useAppTheme } from '@/hooks';
 import type { Control } from 'react-hook-form';
 
 interface Item {

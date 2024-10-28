@@ -1,5 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import { useAppTheme } from '@/hooks';
+import { useAppTheme } from '@/context/ThemeProvider';
 import type { ViewProps } from 'react-native';
 
 const GradientBackground: React.FC<ViewProps> = ({

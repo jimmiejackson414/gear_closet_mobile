@@ -2,8 +2,8 @@ import { View } from 'react-native';
 import { A } from '@expo/html-elements';
 import dayjs from 'dayjs';
 import { Text } from 'react-native-paper';
+import { useAppTheme } from '@/context/ThemeProvider';
 import { makeStyles, truncate } from '@/helpers';
-import { useAppTheme } from '@/hooks';
 import { useIsPaidMember } from '@/services/profile';
 import type { ForumPost as ForumPostType } from '@/services/dashboard';
 

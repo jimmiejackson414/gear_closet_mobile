@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { Controller } from 'react-hook-form';
 import { HelperText, Menu, TextInput } from 'react-native-paper';
+import { useAppTheme } from '@/context/ThemeProvider';
 import { makeStyles } from '@/helpers';
-import { useAppTheme } from '@/hooks';
 import type { Control } from 'react-hook-form';
 
 export interface Option {

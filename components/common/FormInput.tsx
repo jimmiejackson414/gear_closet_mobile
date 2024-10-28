@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 import { Controller } from 'react-hook-form';
 import { HelperText, TextInput } from 'react-native-paper';
-import { useAppTheme } from '@/hooks';
+import { useAppTheme } from '@/context/ThemeProvider';
 import type { Control } from 'react-hook-form';
 import type { TextInputProps } from 'react-native';
 

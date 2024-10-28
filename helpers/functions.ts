@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabase';
 import { SubscriptionLevel } from '@/types';
-import type { AppTheme } from '@/hooks/useAppTheme';
+import type { AppTheme } from '@/context/ThemeProvider';
 import type { Tables } from '@/types';
 
 interface FriendlyUsernameOptions {
