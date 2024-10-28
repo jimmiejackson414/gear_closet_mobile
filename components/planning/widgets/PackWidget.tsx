@@ -1,5 +1,6 @@
 import { View } from 'react-native';
-import { Card, Icon, Text } from 'react-native-paper';
+import { Card, Icon } from 'react-native-paper';
+import PackChart from '@/components/common/PackChart';
 import { useAppTheme } from '@/context/ThemeProvider';
 import { makeStyles } from '@/helpers';
 import type { ExtendedPack } from '@/types/helpers';
@@ -9,7 +10,6 @@ interface Props {
 }
 
 const PackWidget: React.FC<Props> = ({ data }) => {
-  console.log('pack: ', data);
   const { theme } = useAppTheme();
   const styles = useStyles(theme);
 
@@ -31,9 +31,7 @@ const PackWidget: React.FC<Props> = ({ data }) => {
         titleVariant="bodyLarge" />
       <Card.Content>
         <View>
-          <Text>
-            Pack Widget Content
-          </Text>
+          <PackChart pack={data} />
         </View>
       </Card.Content>
     </Card>

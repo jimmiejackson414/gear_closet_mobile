@@ -1,7 +1,9 @@
+import convert, { type Mass } from 'convert';
 import { supabase } from '@/lib/supabase';
 import { SubscriptionLevel } from '@/types';
 import type { AppTheme } from '@/context/ThemeProvider';
 import type { Tables } from '@/types';
+import type { ExtendedCategory, ExtendedCategoryItem } from '@/types/helpers';
 
 interface FriendlyUsernameOptions {
   includeTrailName?: boolean;
@@ -17,6 +19,24 @@ export const buildImageSrc = (url: string | undefined | null) => {
   const { data } = supabase.storage.from('avatars')
     .getPublicUrl(url);
   return data?.publicUrl ?? undefined;
+};
+
+/**
+ * Calculates the weight of a category
+ * @param category
+ * @returns number
+ */
+export const calculateCategoryWeight = (category: ExtendedCategory) => {
+  if (!category || !category.category_items?.length) return 0;
+
+  return (category.category_items).reduce(
+    (sum: number, elem: ExtendedCategoryItem) => {
+      const converted = convert(parseFloat(elem.item!.weight || '0'), elem.item!.unit as Mass)
+        .to('mg');
+      return sum + (converted * (elem.item!.quantity || 0) as number);
+    },
+    0,
+  );
 };
 
 /**
