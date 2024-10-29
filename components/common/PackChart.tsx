@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Text, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import convert from 'convert';
 import round from 'lodash.round';
+import { useClickOutside } from 'react-native-click-outside';
 import { PieChart, type pieDataItem } from 'react-native-gifted-charts';
-import { useAppTheme } from '@/context/ThemeProvider';
-import { calculateCategoryWeight, findTheme, makeStyles } from '@/helpers';
+import { Text } from 'react-native-paper';
+import { calculateCategoryWeight, findTheme } from '@/helpers';
 import type { ExtendedPack } from '@/types/helpers';
 
 interface Props {
@@ -12,26 +13,18 @@ interface Props {
 }
 
 const PackChart: React.FC<Props> = ({ pack }) => {
-  console.log('pack: ', pack);
-  const { theme } = useAppTheme();
-  const styles = useStyles();
   const [activeSlice, setActiveSlice] = useState<number | null>(0);
-  console.log({ activeSlice });
+  const chartRef = useClickOutside<View>(() => setActiveSlice(null));
 
   if (!pack) {
     return (
-      <View>
+      <View style={{
+        width: '100%', flexDirection: 'row', justifyContent: 'center',
+      }}>
         <Text>No data</Text>
       </View>
     );
   }
-
-  // color: (params: any) => {
-  //   const theme = findTheme(data.value.pack?.theme as Theme);
-  //   return theme[params.dataIndex % theme.length];
-  // },
-  // const weight = round(convert(categoryWeight, 'mg')
-  // .to('lb'), 2);
 
   const themeColors = findTheme(pack.theme);
   const computedData = pack.categories.map(( category, i ) => {
@@ -41,35 +34,69 @@ const PackChart: React.FC<Props> = ({ pack }) => {
       value: round(convert(value, 'mg')
         .to('lb'), 2),
       color: themeColors[i % themeColors.length],
-      focused: false,
+      focused: i === activeSlice,
     };
   }) satisfies pieDataItem[];
 
   return (
-    <PieChart
-      centerLabelComponent={() => {
-        return (
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+    <View
+      ref={chartRef}
+      style={{ alignItems: 'center' }}>
+      <PieChart
+        centerLabelComponent={
+          activeSlice !== null ? () => (
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <View style={{
+                width: 10,
+                height: 10,
+                borderRadius: 50,
+                backgroundColor: themeColors[activeSlice % themeColors.length],
+              }} />
+              <Text style={{
+                fontSize: 22, fontWeight: 'bold', textAlign: 'center',
+              }}>
+                {`${computedData[activeSlice].value} lbs`}
+              </Text>
+              <Text style={{ fontSize: 14, textAlign: 'center' }}>
+                {pack.categories[activeSlice].name}
+              </Text>
+            </View>
+          ) : undefined
+        }
+        data={computedData}
+        donut
+        innerRadius={60}
+        onPress={(_item: pieDataItem, index: number) => setActiveSlice(index)}
+        radius={90}
+        sectionAutoFocus />
+      <View style={{
+        width: '100%',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-evenly',
+        marginTop: 20,
+        gap: 16,
+      }}>
+        {computedData.map((item, i) => (
+          <TouchableOpacity
+            key={i}
+            onPress={() => setActiveSlice(i)}
+            style={{ flexDirection: 'row' }}>
             <View style={{
-              width: 10, height: 10, borderRadius: 50, backgroundColor: themeColors[activeSlice ? activeSlice % themeColors.length : 0],
+              height: 18,
+              width: 18,
+              marginRight: 10,
+              borderRadius: 4,
+              backgroundColor: item.color || 'red',
             }} />
-            <Text style={{ fontSize: 22, fontWeight: 'bold' }}>
-              {activeSlice !== null ? computedData[activeSlice].value : '0'}
-              %
+            <Text style={{ color: item.color, fontSize: 16 }}>
+              {pack.categories[i].name || 'Unknown'}
             </Text>
-            <Text style={{ fontSize: 14, color: 'white' }}>Excellent</Text>
-          </View>
-        );
-      }}
-      data={computedData}
-      donut
-      innerRadius={60}
-      onPress={({ item }: { item: any }) => setActiveSlice(item)}
-      radius={90}
-      sectionAutoFocus />
+          </TouchableOpacity>
+        ))}
+      </View>
+    </View>
   );
 };
-
-const useStyles = makeStyles(() => {});
 
 export default PackChart;

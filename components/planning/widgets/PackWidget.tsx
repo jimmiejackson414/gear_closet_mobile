@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import { Card, Icon } from 'react-native-paper';
+import { Card, Icon, Text } from 'react-native-paper';
 import PackChart from '@/components/common/PackChart';
 import { useAppTheme } from '@/context/ThemeProvider';
 import { makeStyles } from '@/helpers';
@@ -26,9 +26,28 @@ const PackWidget: React.FC<Props> = ({ data }) => {
             source="calendar-check-outline" />
         )}
         leftStyle={{ marginRight: 0 }}
-        title="Pack"
-        titleStyle={{ fontWeight: 'bold', marginBottom: 0 }}
-        titleVariant="bodyLarge" />
+        title={
+          <View style={{
+            flexDirection: 'row',
+            gap: 16,
+            alignContent: 'center',
+          }}>
+            <Text
+              style={{
+                fontWeight: 'bold',
+                alignSelf: 'center',
+              }}
+              variant="bodyLarge">
+              Pack:
+            </Text>
+            <Text
+              style={{ alignSelf: 'center' }}
+              variant="bodyLarge">
+              {data?.name || 'Unnamed Pack'}
+            </Text>
+          </View>
+        }
+        titleStyle={{ marginBottom: 0, justifyContent: 'center' }} />
       <Card.Content>
         <View>
           <PackChart pack={data} />
