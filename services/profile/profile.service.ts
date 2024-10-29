@@ -16,24 +16,29 @@ const client = axios.create({
  * @returns ExtendedProfile
  */
 export const fetchProfile = async () => {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error('User not authenticated');
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('User not authenticated');
 
-  const { data, error } = await supabase.from('profiles')
-    .select(`
+    const { data, error } = await supabase.from('profiles')
+      .select(`
       *,
       onboarding_steps(*),
       notifications!notifications_profile_id_fkey(*, sender:sender_id(*)),
       subscriptions(*, prices(*)),
       preferences(*)
     `)
-    .eq('id', user.id)
-    .returns<ExtendedProfile>()
-    .single();
+      .eq('id', user.id)
+      .returns<ExtendedProfile>()
+      .single();
 
-  if (error || !data) throw new Error(error?.message || 'Profile not found');
+    if (error || !data) throw new Error(error?.message || 'Profile not found');
 
-  return data;
+    return data;
+  } catch (error) {
+    toast.error('Failed to fetch profile data');
+    return null;
+  }
 };
 
 /**

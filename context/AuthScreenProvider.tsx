@@ -11,11 +11,11 @@ interface AuthScreenContextProps {
   screen: TScreenStates;
   storedEmail: string;
   submitting: boolean;
-  setErrors: (errors: { [key: string]: { [key: string]: string } }) => void;
-  setResetCode: (code: string | undefined) => void;
-  setScreen: (screen: TScreenStates) => void;
-  setStoredEmail: (email: string) => void;
-  setSubmitting: (submitting: boolean) => void;
+  setErrors: (_errors: { [key: string]: { [key: string]: string } }) => void;
+  setResetCode: (_code: string | undefined) => void;
+  setScreen: (_screen: TScreenStates) => void;
+  setStoredEmail: (_email: string) => void;
+  setSubmitting: (_submitting: boolean) => void;
 }
 
 const AuthScreenContext = createContext<AuthScreenContextProps | undefined>(undefined);

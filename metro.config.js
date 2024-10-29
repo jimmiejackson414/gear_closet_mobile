@@ -6,10 +6,13 @@ module.exports = (() => {
 
   const { transformer, resolver } = config;
 
+  // Preserve your existing transformer configuration for SVGs
   config.transformer = {
     ...transformer,
     babelTransformerPath: require.resolve('react-native-svg-transformer/expo'),
   };
+
+  // Update the resolver configuration
   config.resolver = {
     ...resolver,
     assetExts: resolver.assetExts.filter(ext => ext !== 'svg'),

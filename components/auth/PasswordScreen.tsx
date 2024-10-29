@@ -9,8 +9,8 @@ import { z } from 'zod';
 import FormInput from '@/components/common/FormInput';
 import { useAuthScreenContext } from '@/context/AuthScreenProvider';
 import { useSupabase } from '@/context/SupabaseProvider';
+import { useAppTheme } from '@/context/ThemeProvider';
 import { makeStyles } from '@/helpers';
-import { useAppTheme } from '@/hooks';
 
 const passwordSchema = z.object({
   password: z.string()
@@ -72,7 +72,7 @@ const PasswordScreen: React.FC = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles();
   return (
     <FormProvider {...form}>

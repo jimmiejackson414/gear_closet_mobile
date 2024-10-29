@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'sonner-native';
 import { supabase } from '@/lib/supabase';
 import type { ForumResponse, GetDashboardData } from './types';
 
@@ -51,6 +52,7 @@ export const fetchDashboardData = async () => {
 
     return { ...data, forums };
   } catch (error) {
+    toast.error('Failed to fetch dashboard data');
     return null;
   }
 };

@@ -10,14 +10,14 @@ import PasswordRecoveryScreen from '@/components/auth/PasswordRecovery';
 import PasswordResetScreen from '@/components/auth/PasswordResetScreen';
 import PasswordScreen from '@/components/auth/PasswordScreen';
 import { AuthScreenProvider, useAuthScreenContext } from '@/context/AuthScreenProvider';
+import { useAppTheme } from '@/context/ThemeProvider';
 import makeStyles from '@/helpers/makeStyles';
-import { useAppTheme } from '@/hooks';
 
 const ModalContent = () => {
   const navigation = useNavigation();
   const opacity = useSharedValue(1);
   const animatedStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles();
 
   const { screen } = useAuthScreenContext();

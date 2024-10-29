@@ -6,8 +6,9 @@ import { Image } from 'expo-image';
 import { Button, Chip, List, Text } from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome6';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
+import { useAppTheme } from '@/context/ThemeProvider';
 import { capitalize, formatDisplayText, getBadgeColor, makeStyles } from '@/helpers';
-import { useAppTheme, useErrorHandling, useLoading } from '@/hooks';
+import { useErrorHandling, useLoading } from '@/hooks';
 import { useProfile, useSubscription } from '@/services/profile';
 import type { SubscriptionLevel } from '@/types';
 
@@ -46,7 +47,7 @@ const SubscriptionContent = () => {
   };
 
   const [expanded, setExpanded] = useState(false);
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles();
   return (
     <View style={styles.container}>

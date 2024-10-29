@@ -1,33 +1,37 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useRouter } from 'expo-router';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
-import { Icon } from 'react-native-paper';
+import { Icon, Switch } from 'react-native-paper';
 import { useSupabase } from '@/context/SupabaseProvider';
-import { useAppTheme } from '@/hooks';
+import { useAppTheme } from '@/context/ThemeProvider';
+import { makeStyles } from '@/helpers';
 import type { DrawerContentComponentProps } from '@react-navigation/drawer';
 
 const DrawerContent: React.FC<DrawerContentComponentProps> = props => {
-  const router = useRouter();
   const { signOut } = useSupabase();
 
-  const onLogout = async () => {
-    await signOut();
-    router.replace('/welcome');
-  };
+  const { colorScheme, toggleTheme } = useAppTheme();
+  const styles = useStyles();
 
-  const theme = useAppTheme();
   return (
     <DrawerContentScrollView
       {...props}
       contentContainerStyle={styles.container}
       key="drawer-content-scroll-view">
       <DrawerItemList {...props} />
+      <View style={styles.themeToggle}>
+        <Switch
+          onValueChange={toggleTheme}
+          value={colorScheme === 'dark'} />
+        <Text style={styles.toggleText}>
+          Dark Mode
+        </Text>
+      </View>
       <View style={styles.flexSpace} />
       <TouchableOpacity
-        onPress={onLogout}
+        onPress={signOut}
         style={styles.logoutButton}>
         <Icon
-          color={theme.colors.onBackground}
+          color={'rgba(28,28,30,0.68)'}
           size={20}
           source="logout" />
         <Text style={styles.logoutText}>Logout</Text>
@@ -36,7 +40,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = props => {
   );
 };
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles(() => ({
   container: {
     flex: 1,
     justifyContent: 'space-between',
@@ -49,7 +53,18 @@ const styles = StyleSheet.create({
     gap: 32,
     marginBottom: 36,
   },
-  logoutText: { color: 'rgba(28, 27, 31, 0.68' },
-});
+  logoutText: { color: 'rgba(28, 28, 30, 0.68)' },
+  themeToggle: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 16,
+    padding: 16,
+    marginBottom: 24,
+  },
+  toggleText: {
+    color: 'rgba(28, 28, 30, 0.68)',
+    fontWeight: '500',
+  },
+}));
 
 export default DrawerContent;

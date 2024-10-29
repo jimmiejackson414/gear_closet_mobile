@@ -5,8 +5,8 @@ import dayjs from 'dayjs';
 import durationPlugin from 'dayjs/plugin/duration';
 import relativePlugin from 'dayjs/plugin/relativeTime';
 import { Button, Card, Divider, Icon, Text } from 'react-native-paper';
+import { useAppTheme } from '@/context/ThemeProvider';
 import { makeStyles } from '@/helpers';
-import { useAppTheme } from '@/hooks';
 import type { Tables } from '@/types';
 
 dayjs.extend(durationPlugin);
@@ -18,13 +18,13 @@ interface Props {
 
 const UpcomingTripsWidget: React.FC<Props> = ({ data }) => {
   const styles = useStyles();
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
 
   return (
     <Card
+      elevation={0}
       mode="elevated"
-      style={{ marginHorizontal: 1 }}
-      theme={{ colors: { elevation: { level1: theme.colors.onPrimary } } }}>
+      style={{ backgroundColor: theme.colors.onPrimary }}>
       <Card.Title
         left={() => (
           <Icon

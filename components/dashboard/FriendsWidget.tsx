@@ -2,7 +2,7 @@ import { View } from 'react-native';
 import { Link } from 'expo-router';
 import { Button, Card, Icon, Text } from 'react-native-paper';
 import UserAvatar from '@/components/common/UserAvatar';
-import { useAppTheme } from '@/hooks';
+import { useAppTheme } from '@/context/ThemeProvider';
 import type { ExtendedFriend } from '@/types/helpers';
 
 interface Props {
@@ -13,13 +13,13 @@ interface Props {
 }
 
 const FriendsWidget: React.FC<Props> = ({ data }) => {
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
 
   return (
     <Card
+      elevation={0}
       mode="elevated"
-      style={{ marginHorizontal: 1 }}
-      theme={{ colors: { elevation: { level1: theme.colors.onPrimary } } }}>
+      style={{ backgroundColor: theme.colors.onPrimary }}>
       <Card.Title
         left={() => (
           <Icon
@@ -30,7 +30,7 @@ const FriendsWidget: React.FC<Props> = ({ data }) => {
         leftStyle={{ marginRight: 0 }}
         title={`Friends (${data.total})`}
         titleStyle={{ fontWeight: 'bold', marginBottom: 0 }}
-        titleVariant='bodyLarge' />
+        titleVariant="bodyLarge" />
       <Card.Content>
         {!data.friends.length ? (
           <View>

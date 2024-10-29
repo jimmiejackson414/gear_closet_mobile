@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 import { Card, Icon, IconButton, Text, Tooltip } from 'react-native-paper';
-import { useAppTheme } from '@/hooks';
+import { useAppTheme } from '@/context/ThemeProvider';
 import { useIsPaidMember } from '@/services/profile';
 import ForumPost from './ForumPost';
 import type { ForumResponse } from '@/services/dashboard';
@@ -12,12 +12,12 @@ interface Props {
 const ForumsWidget: React.FC<Props> = ({ data }) => {
   const { data: isPaidMember } = useIsPaidMember();
 
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   return (
     <Card
+      elevation={0}
       mode="elevated"
-      style={{ marginHorizontal: 1 }}
-      theme={{ colors: { elevation: { level1: theme.colors.onPrimary } } }}>
+      style={{ backgroundColor: theme.colors.onPrimary }}>
       <Card.Title
         left={props => (
           <Icon

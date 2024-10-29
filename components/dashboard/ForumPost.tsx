@@ -2,8 +2,8 @@ import { View } from 'react-native';
 import { A } from '@expo/html-elements';
 import dayjs from 'dayjs';
 import { Text } from 'react-native-paper';
+import { useAppTheme } from '@/context/ThemeProvider';
 import { makeStyles, truncate } from '@/helpers';
-import { useAppTheme } from '@/hooks';
 import { useIsPaidMember } from '@/services/profile';
 import type { ForumPost as ForumPostType } from '@/services/dashboard';
 
@@ -15,7 +15,7 @@ const ForumPost: React.FC<Props> = ({ post }) => {
   const { data: isPaidMember } = useIsPaidMember();
   const forumsUrl = process.env.EXPO_PUBLIC_FORUMS_URL;
 
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles();
   return (
     <A

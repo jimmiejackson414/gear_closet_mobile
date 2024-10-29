@@ -3,14 +3,14 @@ import { Drawer } from 'expo-router/drawer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Badge, Icon, IconButton } from 'react-native-paper';
 import DrawerContent from '@/components/common/DrawerContent';
+import { useAppTheme } from '@/context/ThemeProvider';
 import { makeStyles } from '@/helpers';
-import { useAppTheme } from '@/hooks';
 import { useReadNotifications } from '@/services/profile';
 
 const DrawerLayout = () => {
   const { data: unreadNotifications = [] } = useReadNotifications();
   const styles = useStyles();
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
 
   return (
     <Drawer
@@ -20,7 +20,11 @@ const DrawerLayout = () => {
         headerShown: true,
         swipeEdgeWidth: 0,
         drawerStyle: { backgroundColor: theme.colors.background },
-        headerStyle: { backgroundColor: theme.colors.onPrimary },
+        headerStyle: {
+          backgroundColor: theme.colors.backgroundGradient[1],
+          borderBottomWidth: 0,
+          shadowOpacity: 0,
+        },
         headerRight: () => (
           <Link
             asChild

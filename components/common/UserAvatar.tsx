@@ -2,8 +2,8 @@ import { forwardRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Avatar, Badge, Icon } from 'react-native-paper';
 import GcIcon from '@/assets/gear-closet-icon.svg';
+import { useAppTheme } from '@/context/ThemeProvider';
 import { buildImageSrc, getBadgeColor, initials , makeStyles } from '@/helpers';
-import { useAppTheme } from '@/hooks';
 import { SubscriptionLevel, type Tables } from '@/types';
 import type { ExtendedProfile } from '@/types/helpers';
 
@@ -21,7 +21,7 @@ const hasSubscriptionData = (profile: any): profile is ExtendedProfile => {
 const UserAvatar = forwardRef<any, Props>(({
   disabled, includeSubscriptionBadge = false, profile, size = 64,
 }, _ref) => {
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles({ theme, disabled });
 
   const renderAvatar = () => {

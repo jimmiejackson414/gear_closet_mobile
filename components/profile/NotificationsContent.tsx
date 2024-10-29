@@ -2,8 +2,9 @@ import { View } from 'react-native';
 import { Checkbox, Text } from 'react-native-paper';
 import { toast } from 'sonner-native';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
+import { useAppTheme } from '@/context/ThemeProvider';
 import { makeStyles } from '@/helpers';
-import { useAppTheme, useErrorHandling, useLoading } from '@/hooks';
+import { useErrorHandling, useLoading } from '@/hooks';
 import { useProfile, useUpdatePreferenceMutation } from '@/services/profile';
 import { PreferenceGroup } from '@/types';
 import type { Tables } from '@/types';
@@ -31,7 +32,7 @@ const NotificationsContent = () => {
   const pushGroup = data?.preferences.filter(p => p.preference_group === PreferenceGroup.PUSH);
   const emailGroup = data?.preferences.filter(p => p.preference_group === PreferenceGroup.EMAIL);
 
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles();
   return (
     <View style={styles.container}>

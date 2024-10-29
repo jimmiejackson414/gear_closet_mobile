@@ -3,8 +3,8 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native
 import { BlurView } from '@react-native-community/blur';
 import { Controller } from 'react-hook-form';
 import { Button, Dialog, HelperText, Portal, TextInput } from 'react-native-paper';
+import { useAppTheme } from '@/context/ThemeProvider';
 import { makeStyles } from '@/helpers';
-import { useAppTheme } from '@/hooks';
 import type { Control } from 'react-hook-form';
 
 interface Item {
@@ -18,14 +18,14 @@ interface Props {
   label: string;
   options: Item[];
   name: string;
-  onValueChange?: (value: string) => void;
+  onValueChange?: (_value: string) => void;
 }
 
 const FormPicker: React.FC<Props> = ({
   control, disabled, label, options, name, onValueChange,
 }) => {
   const [visible, setVisible] = useState(false);
-  const theme = useAppTheme();
+  const { theme } = useAppTheme();
   const styles = useStyles({ theme, disabled });
 
   const hideDialog = () => setVisible(false);

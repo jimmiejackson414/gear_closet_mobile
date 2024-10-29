@@ -3,7 +3,7 @@ import { MD3DarkTheme, MD3LightTheme } from 'react-native-paper';
 export const Colors = {
   light: {
     ...MD3LightTheme.colors,
-    primary: '#005389',
+    primary: 'rgb(0, 83, 137)',
     onPrimary: 'rgb(255, 255, 255)',
     primaryContainer: 'rgb(56, 120, 179)',
     onPrimaryContainer: 'rgb(255, 255, 255)',
@@ -47,6 +47,7 @@ export const Colors = {
     surfaceDisabled: 'rgba(26, 28, 30, 0.12)',
     onSurfaceDisabled: 'rgba(26, 28, 30, 0.38)',
     backdrop: 'rgba(44, 49, 55, 0.4)',
+    backgroundGradient: ['rgb(248, 249, 254)', 'rgb(237, 244, 249)'], // [surface, tertiaryContainer]
   },
   dark: {
     ...MD3DarkTheme.colors,
@@ -94,6 +95,7 @@ export const Colors = {
     surfaceDisabled: 'rgba(226, 226, 230, 0.12)',
     onSurfaceDisabled: 'rgba(226, 226, 230, 0.38)',
     backdrop: 'rgba(44, 49, 55, 0.4)',
+    backgroundGradient: ['rgb(17, 20, 23)', 'rgb(18, 94, 152)'], // [surface, primaryContainer]
   },
 };
 
