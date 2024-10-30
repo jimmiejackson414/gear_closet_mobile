@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { Pressable } from 'react-native';
+import { ActivityIndicator, Pressable } from 'react-native';
 import { type VariantProps, cva } from 'class-variance-authority';
 import { TextClassContext } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
@@ -32,7 +32,7 @@ const buttonVariants = cva(
 );
 
 const buttonTextVariants = cva(
-  'web:whitespace-nowrap text-sm native:text-base font-medium text-foreground web:transition-colors',
+  'web:whitespace-nowrap text-sm native:text-base font-medium text-primary-foreground web:transition-colors',
   {
     variants: {
       variant: {
@@ -58,27 +58,32 @@ const buttonTextVariants = cva(
 );
 
 type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> &
-  VariantProps<typeof buttonVariants>;
+  VariantProps<typeof buttonVariants> & {
+    loading?: boolean;
+  };
 
 const Button = forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>(
   ({
-    className, variant, size, ...props
+    className, variant, size, loading, children, ...props
   }, ref) => {
     return (
       <TextClassContext.Provider value={cn(
-        props.disabled && 'web:pointer-events-none',
+        (props.disabled || loading) && 'web:pointer-events-none',
         buttonTextVariants({ variant, size }),
       )}>
         <Pressable
           className={cn(
-            props.disabled && 'opacity-50 web:pointer-events-none',
+            (props.disabled || loading) && 'opacity-50 web:pointer-events-none',
             buttonVariants({
               variant, size, className,
             }),
           )}
+          disabled={props.disabled || loading}
           ref={ref}
           role="button"
-          {...props} />
+          {...props}>
+          {loading ? <ActivityIndicator color="white" /> : children}
+        </Pressable>
       </TextClassContext.Provider>
     );
   },

@@ -1,12 +1,12 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
-import { useSupabase } from '@/context/SupabaseProvider';
-import { LogOutIcon, MoonStarIcon, SunIcon } from '@/lib/icons';
-import type { DrawerContentComponentProps } from '@react-navigation/drawer';
-import config from '@/helpers/theme';
-import { useColorScheme } from '@/lib/useColorScheme';
-import { setAndroidNavigationBar } from '@/lib/android-navigation-bar';
+import { StyleSheet, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
+import { Separator } from '@/components/ui/separator';
+import { useSupabase } from '@/context/SupabaseProvider';
+import { setAndroidNavigationBar } from '@/lib/android-navigation-bar';
+import { LogOutIcon, MoonStarIcon, SunIcon } from '@/lib/icons';
+import { useColorScheme } from '@/lib/useColorScheme';
+import type { DrawerContentComponentProps } from '@react-navigation/drawer';
 
 const DrawerContent: React.FC<DrawerContentComponentProps> = props => {
   const { signOut } = useSupabase();
@@ -17,7 +17,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = props => {
     setColorScheme(newTheme);
     setAndroidNavigationBar(newTheme);
     AsyncStorage.setItem('theme', newTheme);
-  }
+  };
 
   return (
     <DrawerContentScrollView
@@ -25,15 +25,26 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = props => {
       contentContainerStyle={styles.container}
       key="drawer-content-scroll-view">
       <DrawerItemList {...props} />
+      <Separator />
       <DrawerItem
+        icon={({ size, color }) => {
+          return isDarkColorScheme ?
+            <MoonStarIcon
+              color={color}
+              size={size} /> :
+            <SunIcon
+              color={color}
+              size={size} />;
+        }}
         label="Toggle Theme"
-        onPress={handleThemeToggle}
-        icon={({ size, color }) => isDarkColorScheme ? <MoonStarIcon size={size} color={color} /> : <SunIcon size={size} color={color} />} />
+        onPress={handleThemeToggle} />
       <View style={styles.flexSpace} />
       <DrawerItem
-        onPress={signOut}
+        icon={({ size, color }) => <LogOutIcon
+          color={color}
+          size={size} />}
         label="Logout"
-        icon={({ size, color }) => <LogOutIcon size={size} color={color} />} />
+        onPress={signOut} />
     </DrawerContentScrollView>
   );
 };

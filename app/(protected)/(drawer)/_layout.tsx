@@ -1,24 +1,15 @@
-import { Fragment } from 'react';
-import { Pressable, Text } from 'react-native';
-import { Link } from 'expo-router';
 import { View } from '@rn-primitives/slot';
 import { Drawer } from 'expo-router/drawer';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-// import { Badge, Icon, IconButton } from 'react-native-paper';
 import DrawerContent from '@/components/common/DrawerContent';
 import { Button } from '@/components/ui/button';
 import { Dot } from '@/components/ui/dot';
-import { makeStyles } from '@/helpers';
 import config from '@/helpers/theme';
 import { BellIcon, CircleUserIcon, HomeIcon, ListChecksIcon, TentTreeIcon, UsersIcon } from '@/lib/icons';
-// import { useAppTheme } from '@/context/ThemeProvider';
 import { useReadNotifications } from '@/services/profile';
 
 const DrawerLayout = () => {
   const { data: unreadNotifications = [] } = useReadNotifications();
-  const styles = useStyles();
   const { theme } = config;
-  // const { theme } = useAppTheme();
 
   return (
     <Drawer
@@ -35,7 +26,9 @@ const DrawerLayout = () => {
         },
         headerRight: () => (
           <View style={{ marginRight: 16 }}>
-            <Button variant="ghost" size="icon">
+            <Button
+              size="icon"
+              variant="ghost">
               <BellIcon />
               {!!unreadNotifications.length ? <Dot /> : null}
             </Button>
@@ -72,8 +65,7 @@ const DrawerLayout = () => {
           drawerIcon: ({ color }) => (
             <ListChecksIcon
               color={color}
-              size={20}
-               />
+              size={20} />
           ),
         }} />
       <Drawer.Screen
@@ -101,14 +93,5 @@ const DrawerLayout = () => {
     </Drawer>
   );
 };
-
-const useStyles = makeStyles(theme => ({
-  badge: {
-    position: 'absolute',
-    top: 4,
-    right: 12,
-    backgroundColor: theme.colors.error,
-  },
-}));
 
 export default DrawerLayout;

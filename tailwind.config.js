@@ -42,9 +42,7 @@ module.exports = {
           foreground: 'hsl(var(--card-foreground))',
         },
       },
-      borderWidth: {
-        hairline: hairlineWidth(),
-      },
+      borderWidth: { hairline: hairlineWidth() },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },

@@ -1,18 +1,48 @@
-export const NAV_THEME = {
+export const CUSTOM_THEME = {
   light: {
-    background: 'hsl(0 0% 100%)', // background
-    border: 'hsl(240 5.9% 90%)', // border
-    card: 'hsl(0 0% 100%)', // card
-    notification: 'hsl(0 84.2% 60.2%)', // destructive
-    primary: 'hsl(240 5.9% 10%)', // primary
-    text: 'hsl(240 10% 3.9%)', // foreground
+    accent: 'hsl(166 30% 88%)', // accent
+    accentForeground: 'hsl(204 5% 15%)', // accent-foreground
+    background: 'hsl(204 51% 95%)', // background
+    border: 'hsl(204 30% 82%)', // border
+    card: 'hsl(204 50% 90%)', // card
+    cardForeground: 'hsl(204 5% 15%)', // card-foreground
+    destructiveForeground: 'hsl(204 5% 90%)', // destructive-foreground
+    foreground: 'hsl(204 5% 10%)', // foreground
+    input: 'hsl(204 30% 50%)', // input
+    muted: 'hsl(166 30% 88%)', // muted
+    mutedForeground: 'hsl(204 5% 40%)', // muted-foreground
+    notification: 'hsl(0 51% 50%)', // destructive
+    popover: 'hsl(204 51% 95%)', // popover
+    popoverForeground: 'hsl(204 95% 10%)', // popover-foreground
+    primary: 'hsl(204 100% 26.9%)', // primary
+    primaryForeground: 'hsl(0 0% 100%)', // primary-foreground
+    radius: '1rem', // radius
+    ring: 'hsl(204 100% 26.9%)', // ring
+    secondary: 'hsl(204 30% 88%)', // secondary
+    secondaryForeground: 'hsl(0 0% 0%)', // secondary-foreground
+    text: 'hsl(204 5% 10%)', // text
   },
   dark: {
-    background: 'hsl(240 10% 3.9%)', // background
-    border: 'hsl(240 3.7% 15.9%)', // border
-    card: 'hsl(240 10% 3.9%)', // card
-    notification: 'hsl(0 72% 51%)', // destructive
-    primary: 'hsl(0 0% 98%)', // primary
-    text: 'hsl(0 0% 98%)', // foreground
+    accent: 'hsl(166 30% 25%)', // accent
+    accentForeground: 'hsl(204 5% 90%)', // accent-foreground
+    background: 'hsl(204 50% 10%)', // background
+    border: 'hsl(204 30% 50%)', // border
+    card: 'hsl(204 50% 10%)', // card
+    cardForeground: 'hsl(204 5% 90%)', // card-foreground
+    destructiveForeground: 'hsl(204 5% 90%)', // destructive-foreground
+    foreground: 'hsl(204 5% 90%)', // foreground
+    input: 'hsl(204 30% 50%)', // input
+    muted: 'hsl(166 30% 25%)', // muted
+    mutedForeground: 'hsl(204 5% 65%)', // muted-foreground
+    notification: 'hsl(0 51% 50%)', // destructive
+    popover: 'hsl(204 50% 5%)', // popover
+    popoverForeground: 'hsl(204 5% 90%)', // popover-foreground
+    primary: 'hsl(204 100% 26.9%)', // primary
+    primaryForeground: 'hsl(0 0% 100%)', // primary-foreground
+    radius: '1rem', // radius
+    ring: 'hsl(204 100% 26.9%)', // ring
+    secondary: 'hsl(204 30% 20%)', // secondary
+    secondaryForeground: 'hsl(0 0% 100%)', // secondary-foreground
+    text: 'hsl(204 5% 90%)', // text
   },
 };

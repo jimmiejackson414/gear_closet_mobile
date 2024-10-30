@@ -1,5 +1,6 @@
 export { BellIcon } from './Bell';
 export { CircleUserIcon } from './CircleUser';
+export { XIcon } from './Close';
 export { HomeIcon } from './Home';
 export { InfoIcon } from './Info';
 export { LogOutIcon } from './Logout';

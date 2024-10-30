@@ -12,18 +12,18 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Toaster } from 'sonner-native';
 import { SupabaseProvider } from '@/context/SupabaseProvider';
 import { setAndroidNavigationBar } from '@/lib/android-navigation-bar';
-import { NAV_THEME } from '@/lib/constants';
+import { CUSTOM_THEME } from '@/lib/constants';
 import { useColorScheme } from '@/lib/useColorScheme';
 import { APIProvider } from '@/services/common/api-provider';
 import type { Theme } from '@react-navigation/native';
 
 const LIGHT_THEME: Theme = {
   dark: false,
-  colors: NAV_THEME.light,
+  colors: CUSTOM_THEME.light,
 };
 const DARK_THEME: Theme = {
   dark: true,
-  colors: NAV_THEME.dark,
+  colors: CUSTOM_THEME.dark,
 };
 
 export {

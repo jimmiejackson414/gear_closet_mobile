@@ -1,23 +1,19 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Animated, ImageBackground, StyleSheet, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { Animated, ImageBackground, View } from 'react-native';
 import { Link } from 'expo-router';
 import { Image } from 'expo-image';
-// import { Button, Surface, Text } from 'react-native-paper';
 import FacebookIcon from '@/assets/images/facebook.svg';
 import GoogleIcon from '@/assets/images/google.svg';
-// import ScreenWrapper from '@/components/common/ScreenWrapper';
-import { Colors } from '@/constants/colors';
+import ScreenWrapper from '@/components/common/ScreenWrapper';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Large, Muted, P, Small } from '@/components/ui/typography';
 import { useSupabase } from '@/context/SupabaseProvider';
-// import { useAppTheme } from '@/context/ThemeProvider';
-import makeStyles from '@/helpers/makeStyles';
 import { useAuthLayout, useLoading } from '@/hooks';
 import type { Provider } from '@supabase/supabase-js';
 // import AppleIcon from '@/assets/images/apple.svg';
 
 const WelcomeScreen = () => {
-  // const { colorScheme } = useAppTheme();
-  // const styles = useStyles();
-
   const opacity = useRef(new Animated.Value(0)).current;
   const [imageLoaded, setImageLoaded] = useState(false);
   useEffect(() => {
@@ -61,31 +57,32 @@ const WelcomeScreen = () => {
   useLoading(loading);
 
   return (
-    <Animated.View style={[styles.background, { opacity }]}>
+    <Animated.View style={{ opacity, flex: 1 }}>
       <ImageBackground
+        className="flex-1"
         onLoad={() => setImageLoaded(true)}
-        source={{ uri: backgroundImage }}
-        style={styles.background}>
-        {/* <ScreenWrapper
-          contentContainerStyle={styles.contentContainer}
+        source={{ uri: backgroundImage }}>
+        <ScreenWrapper
+          contentContainerStyle={{
+            justifyContent: 'center', flexGrow: 1, padding: 8,
+          }}
           withScrollView={false}>
-          <Surface style={styles.card}>
-            <View style={styles.content}>
-              <Image
-                contentFit="contain"
-                source={require('../../assets/gear-closet-icon.png')}
-                style={styles.icon} />
-              <Text
-                style={styles.tagline}
-                theme={{ colors: { onSurface: Colors.light.onSurface } }}
-                variant="titleLarge">
-                Sign up or log in to get started
-              </Text>
-              <View style={{ gap: 12 }}>
-                Note: Re-add once purchase of Apple Developer account is complete
-                <Button
-                  action="secondary"
-                  isDisabled={submitting}
+          <Card className="p-6 border-0 w-full max-w-sm rounded-2xl bg-background">
+            <CardContent>
+              <View className="w-full justify-center items-center">
+                <Image
+                  contentFit="contain"
+                  source={require('../../assets/gear-closet-icon.png')}
+                  style={{
+                    height: 64, width: 64, marginBottom: 8,
+                  }} />
+                <Large className="mb-4 text-center">
+                  Sign up or log in to get started
+                </Large>
+                <View className="gap-4">
+                  {/* Note: Re-add once purchase of Apple Developer account is complete */}
+                  {/* <Button
+                  disabled={submitting}
                   onPress={() => handleOAuthSignin('apple')}
                   size="lg"
                   variant="outline">
@@ -94,117 +91,54 @@ const WelcomeScreen = () => {
                     className="mr-8" />
                   {submitting && <ButtonSpinner color={theme.colors.gray[400]} />}
                   <ButtonText>Continue with Apple</ButtonText>
-                </Button>
-                <Button
-                  dark={false}
-                  disabled={submitting}
-                  icon={({ size }) => (
-                    <GoogleIcon
-                      height={size}
-                      width={size} />
-                  )}
-                  loading={submitting}
-                  mode="contained"
-                  onPress={() => handleOAuthSignin('google')}
-                  textColor={Colors.light.onPrimary}>
-                  Continue with Google
-                </Button>
-                <Button
-                  dark={false}
-                  disabled={submitting}
-                  icon={({ size }) => (
-                    <FacebookIcon
-                      height={size}
-                      width={size} />
-                  )}
-                  loading={submitting}
-                  mode="contained"
-                  onPress={() => handleOAuthSignin('facebook')}
-                  textColor={Colors.light.onPrimary}>
-                  Continue with Facebook
-                </Button>
-                <View style={styles.divider}>
-                  <View style={styles.dividerLine} />
-                  <Text style={styles.dividerText}>or</Text>
-                  <View style={styles.dividerLine} />
-                </View>
-                <Link
-                  asChild
-                  href="/modal">
+                </Button> */}
                   <Button
-                    dark={true}
-                    mode="outlined"
-                    textColor={Colors.light.primary}>
-                    Continue with email
+                    disabled={submitting}
+                    loading={submitting}
+                    onPress={() => handleOAuthSignin('google')}
+                    variant="secondary">
+                    <View className="flex gap-4 flex-row items-center">
+                      <GoogleIcon
+                        height={16}
+                        width={16} />
+                      <P>Continue with Google</P>
+                    </View>
                   </Button>
-                </Link>
-                <Text
-                  style={styles.smallPrint}
-                  theme={{ colors: { onSurface: Colors.light.onSurface } }}
-                  variant="bodySmall">
-                  By continuing to use GearCloset, you agree to our Terms of Service and Privacy Policy.
-                </Text>
+                  <Button
+                    disabled={submitting}
+                    loading={submitting}
+                    onPress={() => handleOAuthSignin('facebook')}
+                    variant="secondary">
+                    <View className="flex gap-4 flex-row items-center">
+                      <FacebookIcon
+                        height={16}
+                        width={16} />
+                      <P>Continue with Facebook</P>
+                    </View>
+                  </Button>
+                  <View className="items-center flex-row my-4">
+                    <View className="bg-muted-foreground flex-1 h-px" />
+                    <Small className="mx-4">or</Small>
+                    <View className="bg-muted-foreground flex-1 h-px" />
+                  </View>
+                  <Link
+                    asChild
+                    href="/modal">
+                    <Button variant="outline">
+                      <P>Continue with email</P>
+                    </Button>
+                  </Link>
+                  <Muted className="mt-4 text-center">
+                    By continuing to use GearCloset, you agree to our Terms of Service and Privacy Policy.
+                  </Muted>
+                </View>
               </View>
-            </View>
-          </Surface>
-        </ScreenWrapper> */}
+            </CardContent>
+          </Card>
+        </ScreenWrapper>
       </ImageBackground>
     </Animated.View>
   );
 };
-
-const styles = StyleSheet.create({
-  background: { flex: 1 },
-  card: {
-    justifyContent: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
-    borderRadius: 24,
-    padding: 26,
-  },
-  contentContainer: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    padding: 8,
-  },
-  content: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-  },
-  divider: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    marginVertical: 16,
-  },
-  dividerLine: {
-    // backgroundColor: Colors.light.onSurface,
-    flex: 1,
-    height: 1,
-  },
-  dividerText: {
-    // color: Colors.light.onSurface,
-    fontSize: 16,
-    marginHorizontal: 16,
-  },
-  icon: {
-    height: 64,
-    marginBottom: 8,
-    width: 64,
-  },
-  smallPrint: {
-    fontWeight: '300',
-    marginTop: 16,
-    textAlign: 'center',
-  },
-  tagline: {
-    marginBottom: 16,
-    textAlign: 'center',
-  },
-  title: {
-    alignItems: 'center',
-    marginBottom: 16,
-    textAlign: 'center',
-  },
-});
 
 export default WelcomeScreen;

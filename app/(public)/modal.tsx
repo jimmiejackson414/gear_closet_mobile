@@ -1,24 +1,23 @@
 import { useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { useNavigation } from 'expo-router';
 // import { IconButton, ProgressBar } from 'react-native-paper';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 // import CreateScreen from '@/components/auth/CreateScreen';
-// import EmailScreen from '@/components/auth/EmailScreen';
+import EmailScreen from '@/components/auth/EmailScreen';
 // import ForgotPasswordScreen from '@/components/auth/ForgotPasswordScreen';
 // import PasswordRecoveryScreen from '@/components/auth/PasswordRecovery';
 // import PasswordResetScreen from '@/components/auth/PasswordResetScreen';
 // import PasswordScreen from '@/components/auth/PasswordScreen';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
 import { AuthScreenProvider, useAuthScreenContext } from '@/context/AuthScreenProvider';
-// import { useAppTheme } from '@/context/ThemeProvider';
-import makeStyles from '@/helpers/makeStyles';
+import { XIcon } from '@/lib/icons';
 
 const ModalContent = () => {
   const navigation = useNavigation();
   const opacity = useSharedValue(1);
   const animatedStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
-  // const { theme } = useAppTheme();
-  const styles = useStyles();
 
   const { screen } = useAuthScreenContext();
 
@@ -29,27 +28,28 @@ const ModalContent = () => {
   }, [screen]);
 
   return (
-    <View style={styles.modal}>
-      {/* <IconButton
-        icon="close"
-        mode="outlined"
+    <View className="flex-1 px-8 pt-20">
+      <Button
+        className="absolute top-4 right-4"
         onPress={() => navigation.goBack()}
-        style={styles.closeButton} />
+        size="icon"
+        variant="ghost">
+        <XIcon className="stroke-muted-foreground" />
+      </Button>
       <Animated.View style={animatedStyle}>
         {screen === 'email' && <EmailScreen />}
-        {screen === 'password' && <PasswordScreen />}
+        {/* {screen === 'password' && <PasswordScreen />}
         {screen === 'create' && <CreateScreen />}
         {screen === 'forgotPassword' && <ForgotPasswordScreen />}
         {screen === 'passwordRecovery' && <PasswordRecoveryScreen />}
-        {screen === 'passwordReset' && <PasswordResetScreen />}
+        {screen === 'passwordReset' && <PasswordResetScreen />} */}
       </Animated.View>
       {(screen === 'email' || screen === 'password') && (
-        <ProgressBar
-          color={theme.colors.primary}
-          progress={screen === 'email' ? 0.5 : 1}
-          style={{ marginTop: 32 }} />
-      )} */}
-      <Text>Public Modal</Text>
+        <Progress
+          indicatorClassName="bg-accent"
+          style={{ marginTop: 32 }}
+          value={screen === 'email' ? 50 : 100} />
+      )}
     </View>
   );
 };
@@ -59,18 +59,5 @@ const Modal = () => (
     <ModalContent />
   </AuthScreenProvider>
 );
-
-const useStyles = makeStyles(() => ({
-  closeButton: {
-    position: 'absolute',
-    right: 16,
-    top: 16,
-  },
-  modal: {
-    flex: 1,
-    paddingHorizontal: 32,
-    paddingTop: 80,
-  },
-}));
 
 export default Modal;
