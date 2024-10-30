@@ -3,10 +3,10 @@
     "name": "Gear Closet",
     "slug": "gear-closet-mobile",
     "description": "Gear Closet allows you to track your gear weights, build pack lists, and connect with your friends to plan for your next adventure.",
-    "scheme": "gear-closet-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "scheme": "gear-closet-mobile",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
@@ -14,51 +14,18 @@
       "backgroundColor": "#ffffff"
     },
     "platforms": ["ios", "android"],
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "associatedDomains": [
-        "applinks:gearcloset.com"
-      ],
-      "userInterfaceStyle": "automatic",
-      "supportsTablet": true,
+      "associatedDomains": ["applinks:gearcloset.com"],
       "bundleIdentifier": "com.GearCloset.mobile",
-      "infoPlist": {
-        "SKAdNetworkItems": [
-          {
-            "SKAdNetworkIdentifier": "v9wttpbfk9.skadnetwork"
-          },
-          {
-            "SKAdNetworkIdentifier": "n38lu8286q.skadnetwork"
-          }
-        ]
-      }
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "userInterfaceStyle": "automatic",
-      "intentFilters": [
-        {
-          "action": "VIEW",
-          "autoVerify": true,
-          "data": [
-            {
-              "scheme": "https",
-              "host": "*.gearcloset.com",
-              "pathPrefix": "/"
-            }
-          ],
-          "category": ["BROWSABLE", "DEFAULT"]
-        }
-      ],
-      "package": "com.anonymous.gear_closet_mobile",
-      "permissions": [
-        "android.permission.INTERNET"
-      ]
+      "userInterfaceStyle": "automatic"
     },
     "web": {
       "bundler": "metro",
@@ -81,14 +48,6 @@
         }
       ],
       [
-        "expo-build-properties",
-        {
-          "ios": {
-            "flipper": false
-          }
-        }
-      ],
-      [
         "expo-router",
         {
           "origin": "http://localhost:8081"
@@ -101,20 +60,10 @@
         }
       ],
       "expo-image-picker",
-      "expo-apple-authentication",
-      "expo-secure-store"
+      "expo-apple-authentication"
     ],
     "experiments": {
       "typedRoutes": true
-    },
-    "extra": {
-      "router": {
-        "origin": false
-      },
-      "eas": {
-        "projectId": "f3ccfc4a-9dc2-414a-8dca-53dc3b6750c4"
-      }
-    },
-    "owner": "jimmiejackson414"
+    }
   }
 }

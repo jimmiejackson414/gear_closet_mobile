@@ -1,9 +1,9 @@
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useNavigation } from 'expo-router';
 import dayjs from 'dayjs';
 import durationPlugin from 'dayjs/plugin/duration';
 import relativePlugin from 'dayjs/plugin/relativeTime';
-import { Badge, Divider, IconButton, Text } from 'react-native-paper';
+// import { Badge, Divider, IconButton, Text } from 'react-native-paper';
 import { makeStyles } from '@/helpers';
 import { useReadNotifications } from '@/services/profile';
 
@@ -18,7 +18,8 @@ const NotificationsModal = () => {
   const styles = useStyles();
   return (
     <View style={styles.modal}>
-      <IconButton
+      <Text>Protected Modal</Text>
+      {/* <IconButton
         icon="close"
         mode="outlined"
         onPress={() => navigation.goBack()}
@@ -64,7 +65,7 @@ const NotificationsModal = () => {
           </Text>
           <Divider style={{ marginVertical: 16 }} />
         </View>
-      ))}
+      ))} */}
     </View>
   );
 };

@@ -1,5 +1,8 @@
-import SubscriptionContent from '@/components/profile/SubscriptionContent';
+// import SubscriptionContent from '@/components/profile/SubscriptionContent';
 
-const SubscriptionScreen = () => <SubscriptionContent />;
+import { Text } from 'react-native';
+
+// const SubscriptionScreen = () => <SubscriptionContent />;
+const SubscriptionScreen = () => <Text>SubscriptionContent</Text>;
 
 export default SubscriptionScreen;

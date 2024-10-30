@@ -1,5 +1,3 @@
-/// <reference types="react-scripts" />
-
 declare namespace NodeJS {
   interface ProcessEnv {
     EXPO_PUBLIC_ORIGIN_URL: string;

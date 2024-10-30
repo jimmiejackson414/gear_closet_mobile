@@ -2,21 +2,21 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Animated, ImageBackground, View } from 'react-native';
 import { Link } from 'expo-router';
 import { Image } from 'expo-image';
-import { Button, Surface, Text } from 'react-native-paper';
+// import { Button, Surface, Text } from 'react-native-paper';
 import FacebookIcon from '@/assets/images/facebook.svg';
 import GoogleIcon from '@/assets/images/google.svg';
-import ScreenWrapper from '@/components/common/ScreenWrapper';
+// import ScreenWrapper from '@/components/common/ScreenWrapper';
 import { Colors } from '@/constants/colors';
 import { useSupabase } from '@/context/SupabaseProvider';
-import { useAppTheme } from '@/context/ThemeProvider';
+// import { useAppTheme } from '@/context/ThemeProvider';
 import makeStyles from '@/helpers/makeStyles';
 import { useAuthLayout, useLoading } from '@/hooks';
 import type { Provider } from '@supabase/supabase-js';
 // import AppleIcon from '@/assets/images/apple.svg';
 
 const WelcomeScreen = () => {
-  const { colorScheme } = useAppTheme();
-  const styles = useStyles({ colorScheme });
+  // const { colorScheme } = useAppTheme();
+  const styles = useStyles();
 
   const opacity = useRef(new Animated.Value(0)).current;
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -66,7 +66,7 @@ const WelcomeScreen = () => {
         onLoad={() => setImageLoaded(true)}
         source={{ uri: backgroundImage }}
         style={styles.background}>
-        <ScreenWrapper
+        {/* <ScreenWrapper
           contentContainerStyle={styles.contentContainer}
           withScrollView={false}>
           <Surface style={styles.card}>
@@ -82,8 +82,8 @@ const WelcomeScreen = () => {
                 Sign up or log in to get started
               </Text>
               <View style={{ gap: 12 }}>
-                {/* Note: Re-add once purchase of Apple Developer account is complete */}
-                {/* <Button
+                Note: Re-add once purchase of Apple Developer account is complete
+                <Button
                   action="secondary"
                   isDisabled={submitting}
                   onPress={() => handleOAuthSignin('apple')}
@@ -94,7 +94,7 @@ const WelcomeScreen = () => {
                     className="mr-8" />
                   {submitting && <ButtonSpinner color={theme.colors.gray[400]} />}
                   <ButtonText>Continue with Apple</ButtonText>
-                </Button> */}
+                </Button>
                 <Button
                   dark={false}
                   disabled={submitting}
@@ -147,7 +147,7 @@ const WelcomeScreen = () => {
               </View>
             </View>
           </Surface>
-        </ScreenWrapper>
+        </ScreenWrapper> */}
       </ImageBackground>
     </Animated.View>
   );

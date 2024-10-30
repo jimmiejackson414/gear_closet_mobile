@@ -1,23 +1,23 @@
 import { useEffect } from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useNavigation } from 'expo-router';
-import { IconButton, ProgressBar } from 'react-native-paper';
+// import { IconButton, ProgressBar } from 'react-native-paper';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import CreateScreen from '@/components/auth/CreateScreen';
-import EmailScreen from '@/components/auth/EmailScreen';
-import ForgotPasswordScreen from '@/components/auth/ForgotPasswordScreen';
-import PasswordRecoveryScreen from '@/components/auth/PasswordRecovery';
-import PasswordResetScreen from '@/components/auth/PasswordResetScreen';
-import PasswordScreen from '@/components/auth/PasswordScreen';
+// import CreateScreen from '@/components/auth/CreateScreen';
+// import EmailScreen from '@/components/auth/EmailScreen';
+// import ForgotPasswordScreen from '@/components/auth/ForgotPasswordScreen';
+// import PasswordRecoveryScreen from '@/components/auth/PasswordRecovery';
+// import PasswordResetScreen from '@/components/auth/PasswordResetScreen';
+// import PasswordScreen from '@/components/auth/PasswordScreen';
 import { AuthScreenProvider, useAuthScreenContext } from '@/context/AuthScreenProvider';
-import { useAppTheme } from '@/context/ThemeProvider';
+// import { useAppTheme } from '@/context/ThemeProvider';
 import makeStyles from '@/helpers/makeStyles';
 
 const ModalContent = () => {
   const navigation = useNavigation();
   const opacity = useSharedValue(1);
   const animatedStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
-  const { theme } = useAppTheme();
+  // const { theme } = useAppTheme();
   const styles = useStyles();
 
   const { screen } = useAuthScreenContext();
@@ -30,7 +30,7 @@ const ModalContent = () => {
 
   return (
     <View style={styles.modal}>
-      <IconButton
+      {/* <IconButton
         icon="close"
         mode="outlined"
         onPress={() => navigation.goBack()}
@@ -48,7 +48,8 @@ const ModalContent = () => {
           color={theme.colors.primary}
           progress={screen === 'email' ? 0.5 : 1}
           style={{ marginTop: 32 }} />
-      )}
+      )} */}
+      <Text>Public Modal</Text>
     </View>
   );
 };

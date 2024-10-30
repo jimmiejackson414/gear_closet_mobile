@@ -57,5 +57,4 @@ select "React Query"
 ```
 
 ## Other Resources
-* [React Native Vector Icons](https://pictogrammers.com/library/mdi/)
-* [Hero Patterns](https://heropatterns.com/)
+* [React Native Reusables](https://rnr-docs.vercel.app/getting-started/introduction/)
