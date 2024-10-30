@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Animated, ImageBackground, View } from 'react-native';
+import { Animated, ImageBackground, StyleSheet, View } from 'react-native';
 import { Link } from 'expo-router';
 import { Image } from 'expo-image';
 // import { Button, Surface, Text } from 'react-native-paper';
@@ -16,7 +16,7 @@ import type { Provider } from '@supabase/supabase-js';
 
 const WelcomeScreen = () => {
   // const { colorScheme } = useAppTheme();
-  const styles = useStyles();
+  // const styles = useStyles();
 
   const opacity = useRef(new Animated.Value(0)).current;
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -44,18 +44,18 @@ const WelcomeScreen = () => {
     }
   };
 
-  const handleBiometricAuth = useCallback(async () => {
-    try {
-      setSubmitting(true);
-      await authenticateWithBiometrics();
-    } finally {
-      setSubmitting(false);
-    }
-  }, [authenticateWithBiometrics]);
+  // const handleBiometricAuth = useCallback(async () => {
+  //   try {
+  //     setSubmitting(true);
+  //     await authenticateWithBiometrics();
+  //   } finally {
+  //     setSubmitting(false);
+  //   }
+  // }, [authenticateWithBiometrics]);
 
-  useEffect(() => {
-    handleBiometricAuth();
-  }, [handleBiometricAuth]);
+  // useEffect(() => {
+  //   handleBiometricAuth();
+  // }, [handleBiometricAuth]);
 
   const { backgroundImage, loading } = useAuthLayout();
   useLoading(loading);
@@ -153,7 +153,7 @@ const WelcomeScreen = () => {
   );
 };
 
-const useStyles = makeStyles(() => ({
+const styles = StyleSheet.create({
   background: { flex: 1 },
   card: {
     justifyContent: 'center',
@@ -177,12 +177,12 @@ const useStyles = makeStyles(() => ({
     marginVertical: 16,
   },
   dividerLine: {
-    backgroundColor: Colors.light.onSurface,
+    // backgroundColor: Colors.light.onSurface,
     flex: 1,
     height: 1,
   },
   dividerText: {
-    color: Colors.light.onSurface,
+    // color: Colors.light.onSurface,
     fontSize: 16,
     marginHorizontal: 16,
   },
@@ -205,6 +205,6 @@ const useStyles = makeStyles(() => ({
     marginBottom: 16,
     textAlign: 'center',
   },
-}));
+});
 
 export default WelcomeScreen;

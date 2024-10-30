@@ -24,7 +24,7 @@ type SupabaseContextProps = {
   initialized?: boolean;
   authenticateWithBiometrics: () => Promise<void>;
   checkForEmail: (_email: string) => Promise<boolean>;
-  enableBiometrics: (_email: string, _password: string) => Promise<void>;
+  // enableBiometrics: (_email: string, _password: string) => Promise<void>;
   sendPasswordReset: (_email: string) => Promise<void>;
   signUp: (_email: string, _password: string) => Promise<void>;
   signInWithPassword: (_email: string, _password: string) => Promise<void>;
@@ -42,7 +42,7 @@ export const SupabaseContext = createContext<SupabaseContextProps>({
   session: null,
   authenticateWithBiometrics: async () => {},
   checkForEmail: async () => false,
-  enableBiometrics: async () => {},
+  // enableBiometrics: async () => {},
   sendPasswordReset: async () => {},
   signUp: async () => {},
   signInWithPassword: async () => {},
@@ -286,28 +286,28 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
    * @param email
    * @param password
    */
-  const enableBiometrics = async (email: string, password: string) => {
-    const hasHardware = await LocalAuthentication.hasHardwareAsync();
-    if (!hasHardware) {
-      toast.error('Biometrics not supported on this device');
-      return;
-    }
+  // const enableBiometrics = async (email: string, password: string) => {
+  //   const hasHardware = await LocalAuthentication.hasHardwareAsync();
+  //   if (!hasHardware) {
+  //     toast.error('Biometrics not supported on this device');
+  //     return;
+  //   }
 
-    const isEnrolled = await LocalAuthentication.isEnrolledAsync();
-    if (!isEnrolled) {
-      toast.error('No biometrics enrolled on this device');
-      return;
-    }
+  //   const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+  //   if (!isEnrolled) {
+  //     toast.error('No biometrics enrolled on this device');
+  //     return;
+  //   }
 
-    const result = await LocalAuthentication.authenticateAsync({ promptMessage: 'Enable biometric authentication' });
+  //   const result = await LocalAuthentication.authenticateAsync({ promptMessage: 'Enable biometric authentication' });
 
-    if (result.success) {
-      await SecureStore.setItemAsync('biometric_token', JSON.stringify({ email, password }));
-      toast.success('Biometric authentication enabled');
-    } else {
-      toast.error('Biometric authentication failed');
-    }
-  };
+  //   if (result.success) {
+  //     await SecureStore.setItemAsync('biometric_token', JSON.stringify({ email, password }));
+  //     toast.success('Biometric authentication enabled');
+  //   } else {
+  //     toast.error('Biometric authentication failed');
+  //   }
+  // };
 
   /**
    * Authenticate with biometrics
@@ -389,7 +389,7 @@ export const SupabaseProvider = ({ children }: SupabaseProviderProps) => {
     <SupabaseContext.Provider value={{
       authenticateWithBiometrics,
       checkForEmail,
-      enableBiometrics,
+      // enableBiometrics,
       initialized,
       sendPasswordReset,
       session,

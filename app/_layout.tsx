@@ -7,10 +7,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ThemeProvider } from '@react-navigation/native';
 import { PortalHost } from '@rn-primitives/portal';
 import { StatusBar } from 'expo-status-bar';
-import { ThemeToggle } from '@/components/ThemeToggle';
+import { ClickOutsideProvider } from 'react-native-click-outside';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Toaster } from 'sonner-native';
+import { SupabaseProvider } from '@/context/SupabaseProvider';
 import { setAndroidNavigationBar } from '@/lib/android-navigation-bar';
 import { NAV_THEME } from '@/lib/constants';
 import { useColorScheme } from '@/lib/useColorScheme';
+import { APIProvider } from '@/services/common/api-provider';
 import type { Theme } from '@react-navigation/native';
 
 const LIGHT_THEME: Theme = {
@@ -68,17 +72,22 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-      <Stack>
-        <Stack.Screen
-          name="index"
-          options={{
-            title: 'Starter Base',
-            headerRight: () => <ThemeToggle />,
-          }} />
-      </Stack>
-      <PortalHost />
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ClickOutsideProvider>
+        <SupabaseProvider>
+          <APIProvider>
+            <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+              <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="(public)" />
+                <Stack.Screen name="(protected)" />
+              </Stack>
+              <Toaster position="bottom-center" />
+              <PortalHost />
+            </ThemeProvider>
+          </APIProvider>
+        </SupabaseProvider>
+      </ClickOutsideProvider>
+    </GestureHandlerRootView>
   );
 }
