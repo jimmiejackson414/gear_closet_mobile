@@ -1,8 +1,7 @@
 import { View } from '@rn-primitives/slot';
 import { Drawer } from 'expo-router/drawer';
 import DrawerContent from '@/components/common/DrawerContent';
-import { Button } from '@/components/ui/button';
-import { Dot } from '@/components/ui/dot';
+import { Button, Dot } from '@/components/ui';
 import config from '@/helpers/theme';
 import { BellIcon, CircleUserIcon, HomeIcon, ListChecksIcon, TentTreeIcon, UsersIcon } from '@/lib/icons';
 import { useReadNotifications } from '@/services/profile';

@@ -11,11 +11,12 @@ interface AuthScreenContextProps {
   screen: TScreenStates;
   storedEmail: string;
   submitting: boolean;
-  setErrors: (_errors: { [key: string]: { [key: string]: string } }) => void;
-  setResetCode: (_code: string | undefined) => void;
-  setScreen: (_screen: TScreenStates) => void;
-  setStoredEmail: (_email: string) => void;
-  setSubmitting: (_submitting: boolean) => void;
+  resetAuthContext: () => void;
+  setErrors: (errors: { [key: string]: { [key: string]: string } }) => void;
+  setResetCode: (code: string | undefined) => void;
+  setScreen: (screen: TScreenStates) => void;
+  setStoredEmail: (email: string) => void;
+  setSubmitting: (submitting: boolean) => void;
 }
 
 const AuthScreenContext = createContext<AuthScreenContextProps | undefined>(undefined);
@@ -50,9 +51,26 @@ export const AuthScreenProvider: React.FC<{ children: ReactNode }> = ({ children
     };
   }, [router, setScreen, setStoredEmail, setResetCode]);
 
+  const resetAuthContext = () => {
+    setScreen('email');
+    setSubmitting(false);
+    setErrors({});
+    setResetCode(undefined);
+  };
+
   return (
     <AuthScreenContext.Provider value={{
-      screen, setScreen, submitting, setSubmitting, errors, setErrors, storedEmail, setStoredEmail, resetCode, setResetCode,
+      errors,
+      resetAuthContext,
+      resetCode,
+      screen,
+      setErrors,
+      setResetCode,
+      setScreen,
+      setStoredEmail,
+      setSubmitting,
+      storedEmail,
+      submitting,
     }}>
       {children}
     </AuthScreenContext.Provider>

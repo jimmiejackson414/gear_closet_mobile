@@ -1,34 +1,41 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-env node */
 const fs = require('fs');
 const path = require('path');
 
-// eslint-disable-next-line no-undef
-const componentsDir = path.join(__dirname, '../components/ui');
+// Get the directory argument from the command line
+const args = process.argv.slice(2);
+if (args.length === 0) {
+  console.error('Please provide a directory to generate the barrel file for.');
+  process.exit(1);
+}
+
+// Map simplified arguments to their respective directory paths
+const dirMapping = {
+  icons: 'lib/icons',
+  ui: 'components/ui',
+};
+
+const targetDir = dirMapping[args[0]];
+if (!targetDir) {
+  console.error('Invalid directory argument. Use "icons" or "ui".');
+  process.exit(1);
+}
+
+const componentsDir = path.join(__dirname, '..', targetDir);
 const barrelFile = path.join(componentsDir, 'index.ts');
 
-// Function to extract named exports from a file
+// Function to extract named exports and type exports from a file
 function extractExports(filePath) {
   const content = fs.readFileSync(filePath, 'utf-8');
-  const namedExportRegex = /export\s+(?:const|function|class)\s+(\w+)/g;
-  const defaultExportRegex = /export\s+default\s+(\w+)/g;
-  const objectExportRegex = /export\s+{([^}]+)}/g;
-  const aliasExportRegex = /export\s+{([^}]+)\s+as\s+([^}]+)};/g;
+  const namedExportRegex = /export\s+(?:const|function|class|{[^}]+})\s+(\w+)|export\s+{([^}]+)}/g;
+  const typeExportRegex = /export\s+type\s+{?\s*(\w+)\s*}?/g;
 
-  const namedExports = [...content.matchAll(namedExportRegex)].map(match => match[1]);
-  const defaultExports = [...content.matchAll(defaultExportRegex)].map(match => match[1]);
-  const objectExports = [...content.matchAll(objectExportRegex)]
-    .flatMap(match => match[1].split(',')
-      .map(exp => exp.trim())
-      .filter(exp => !exp.includes(' as ')));
-  const aliasExports = [...content.matchAll(aliasExportRegex)].map(match => ({
-    original: match[1].trim(),
-    alias: match[2].trim(),
-  }));
+  const namedExports = [...content.matchAll(namedExportRegex)].flatMap(match => (match[1] || match[2]).split(',')
+    .map(exp => exp.trim()));
+  const typeExports = [...content.matchAll(typeExportRegex)].flatMap(match => match[1].split(',')
+    .map(exp => exp.trim()));
 
-  return {
-    namedExports, defaultExports, objectExports, aliasExports,
-  };
+  return { namedExports, typeExports };
 }
 
 // Function to read the components directory and generate the barrel file
@@ -38,30 +45,22 @@ async function generateBarrelFile() {
     console.log('Files in components directory:', files);
 
     const imports = files
-      .filter(file => fs.statSync(path.join(componentsDir, file))
-        .isDirectory())
-      .filter(dir => dir !== 'gluestack-ui-provider' && dir !== 'utils') // Exclude the specific folder
-      .flatMap(dir => {
-        const dirPath = path.join(componentsDir, dir);
-        const indexPath = path.join(dirPath, 'index.tsx');
-        if (fs.existsSync(indexPath)) {
-          const {
-            namedExports, defaultExports, objectExports, aliasExports,
-          } = extractExports(indexPath);
-          console.log(`Exports found in ${indexPath}:`, {
-            namedExports, defaultExports, objectExports, aliasExports,
-          });
+      .filter(file => file !== 'index.ts' && file !== 'index.tsx' && file !== 'iconWithClassName.ts') // Exclude the barrel file itself and iconWithClassName helper file
+      .flatMap(file => {
+        const filePath = path.join(componentsDir, file);
+        if (fs.statSync(filePath)
+          .isFile() && (file.endsWith('.ts') || file.endsWith('.tsx'))) {
+          const { namedExports, typeExports } = extractExports(filePath);
+          console.log(`Exports found in ${filePath}:`, { namedExports, typeExports });
 
           const exportStatements = [
-            ...namedExports.map(exp => `export { ${exp} } from './${dir}';`),
-            ...defaultExports.map(exp => `export { default as ${exp} } from './${dir}';`),
-            ...objectExports.map(exp => `export { ${exp} } from './${dir}';`),
-            ...aliasExports.map(({ original, alias }) => `export { ${alias} } from './${dir}';`),
+            ...namedExports.map(exp => `export { ${exp} } from './${path.basename(file, path.extname(file))}';`),
+            ...typeExports.map(exp => `export type { ${exp} } from './${path.basename(file, path.extname(file))}';`),
           ];
 
           return exportStatements.filter(statement => !statement.includes('{  }'));
         }
-        console.log(`${indexPath} does not exist.`);
+        console.log(`${filePath} is not a valid TypeScript file.`);
         return [];
       })
       .join('\n');

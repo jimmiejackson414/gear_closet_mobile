@@ -5,7 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner-native';
 import { z } from 'zod';
 import FormInput from '@/components/common/FormInput';
-import { Button, P } from '@/components/ui';
+import { Button, H4, Text } from '@/components/ui';
 import { useAuthScreenContext } from '@/context/AuthScreenProvider';
 import { useSupabase } from '@/context/SupabaseProvider';
 import { makeStyles } from '@/helpers';
@@ -15,39 +15,36 @@ const emailSchema = z.object({
     .email('Please enter a valid email address.'),
 });
 
-const EmailScreen: React.FC = () => {
+const ForgotPasswordScreen: React.FC = () => {
+  const {
+    storedEmail, submitting, setSubmitting, setScreen,
+  } = useAuthScreenContext();
+  const { sendPasswordReset } = useSupabase();
+
   const form = useForm({
     resolver: zodResolver(emailSchema),
-    defaultValues: { email: '' },
+    defaultValues: { email: storedEmail },
   });
 
-  const { checkForEmail } = useSupabase();
-  const {
-    setScreen, setStoredEmail, setSubmitting, submitting,
-  } = useAuthScreenContext();
+  const { control, handleSubmit } = form;
 
-  const onCheckEmail = async () => {
+  const onSubmitForgotPassword = async () => {
     try {
       setSubmitting(true);
       const { email } = form.getValues();
+      await sendPasswordReset(email);
+      setScreen('passwordRecovery');
 
-      // check for existing email
-      const emailExists = await checkForEmail(email);
-      if (emailExists) {
-        setStoredEmail(email);
-        setScreen('password');
-      } else {
-        setScreen('create');
-      }
+      // temporary
+      setTimeout(() => {
+        setScreen('passwordReset');
+      }, 5000);
     } catch (err) {
       toast.error('An error occurred. Please try again.');
     } finally {
       setSubmitting(false);
     }
   };
-
-
-  const { control, handleSubmit } = form;
 
   const styles = useStyles();
   return (
@@ -57,13 +54,17 @@ const EmailScreen: React.FC = () => {
           contentFit="contain"
           source={require('../../assets/gear-closet-icon.png')}
           style={styles.icon} />
-        <P className="py-2">Let's start with your email</P>
+        <H4>
+          Forgot Your Password?
+        </H4>
+        <Text style={{ marginVertical: 8 }}>
+          Click submit to continue
+        </Text>
         <View style={{ width: '100%' }}>
           <FormInput
             autoComplete="email"
-            autoFocus
             control={control}
-            disabled={submitting}
+            disabled={true}
             keyboardType="email-address"
             label="Email"
             name="email"
@@ -72,9 +73,9 @@ const EmailScreen: React.FC = () => {
             className="mt-6"
             disabled={submitting}
             loading={submitting}
-            onPress={handleSubmit(onCheckEmail)}
+            onPress={handleSubmit(onSubmitForgotPassword)}
             variant="default">
-            Continue
+            Submit
           </Button>
         </View>
       </View>
@@ -96,4 +97,4 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default EmailScreen;
+export default ForgotPasswordScreen;

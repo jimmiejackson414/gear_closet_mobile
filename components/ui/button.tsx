@@ -36,11 +36,11 @@ const buttonTextVariants = cva(
   {
     variants: {
       variant: {
-        default: '!text-primary-foreground',
+        default: 'text-primary-foreground',
         destructive: 'text-destructive-foreground',
         outline: 'group-active:text-accent-foreground',
         secondary: 'text-secondary-foreground group-active:text-secondary-foreground',
-        ghost: 'group-active:text-accent-foreground',
+        ghost: 'group-active:text-accent-foreground text-accent-foreground',
         link: 'text-primary group-active:underline',
       },
       size: {
@@ -57,10 +57,20 @@ const buttonTextVariants = cva(
   },
 );
 
+// Helper function to determine what to render for children
+const renderButtonChildren = (children: React.ReactNode, textClass: string | undefined) => {
+  if (typeof children === 'string') {
+    return <Text className={textClass}>
+      {children}
+    </Text>;
+  }
+  return children;
+};
+
 type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> &
   VariantProps<typeof buttonVariants> & {
     loading?: boolean;
-    children: string; // Enforce children to be of type string
+    children: React.ReactNode; // Accept React.ReactNode for children
   };
 
 const Button = forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>(
@@ -84,9 +94,9 @@ const Button = forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>(
           role="button"
           {...props}>
           {loading ? <ActivityIndicator color="white" /> : (
-            <Text className={cn(buttonTextVariants({ variant, size }))}>
-              {children}
-            </Text>
+            <TextClassContext.Consumer>
+              {textClass => renderButtonChildren(children, textClass)}
+            </TextClassContext.Consumer>
           )}
         </Pressable>
       </TextClassContext.Provider>

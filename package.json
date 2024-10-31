@@ -10,7 +10,9 @@
     "clean": "rm -rf .expo node_modules",
     "postinstall": "npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css",
     "lint": "eslint .",
-    "typegen": "npx supabase gen types typescript --local public > ./types/index.ts && tsx scripts/generateEnums.ts"
+    "typegen": "npx supabase gen types typescript --local public > ./types/index.ts && tsx scripts/generateEnums.ts",
+    "barrel:icons": "node scripts/generateComponentBarrel.js icons",
+    "barrel:ui": "node scripts/generateComponentBarrel.js ui"
   },
   "dependencies": {
     "@cloudinary/url-gen": "^1.21.0",
@@ -21,6 +23,8 @@
     "@react-navigation/drawer": "^6.7.2",
     "@react-navigation/native": "^6.0.2",
     "@rn-primitives/avatar": "~1.1.0",
+    "@rn-primitives/checkbox": "^1.1.0",
+    "@rn-primitives/label": "^1.1.0",
     "@rn-primitives/portal": "~1.1.0",
     "@rn-primitives/progress": "^1.1.0",
     "@rn-primitives/separator": "^1.1.0",

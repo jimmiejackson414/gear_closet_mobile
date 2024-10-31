@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '@/components/ui';
 import { useSupabase } from '@/context/SupabaseProvider';
 import { setAndroidNavigationBar } from '@/lib/android-navigation-bar';
 import { LogOutIcon, MoonStarIcon, SunIcon } from '@/lib/icons';

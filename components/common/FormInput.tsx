@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Controller } from 'react-hook-form';
-import { Input } from '@/components/ui/input';
-import config from '@/helpers/theme';
+import { Input, Label } from '@/components/ui';
 import { EyeIcon, EyeOffIcon } from '@/lib/icons'; // Assuming you have these icons
 import type { Control } from 'react-hook-form';
 import type { TextInputProps } from 'react-native';
@@ -40,7 +39,6 @@ const FormInput: React.FC<FormInputProps> = ({
   ...rest
 }) => {
   const [showPassword, setShowPassword] = useState(!secureTextEntry);
-  const { theme } = config;
 
   return (
     <Controller
@@ -53,16 +51,20 @@ const FormInput: React.FC<FormInputProps> = ({
       }) => (
         <View>
           {label && (
-            <Text className="mb-2 font-semibold">
+            <Label
+              className="mb-2 font-semibold"
+              nativeID={name}>
               {label}
-            </Text>
+            </Label>
           )}
           <View className="relative">
             <Input
               autoCapitalize={autoCapitalize}
               autoComplete={autoComplete}
               autoFocus={autoFocus}
+              className={secureTextEntry ? 'pr-10' : ''}
               editable={!disabled && !readOnly}
+              error={!!error}
               keyboardType={keyboardType}
               onBlur={onBlur}
               onChangeText={onChange}
@@ -73,8 +75,12 @@ const FormInput: React.FC<FormInputProps> = ({
             {secureTextEntry && (
               <TouchableOpacity
                 className="absolute right-3 top-1/2 transform -translate-y-1/2"
-                onPress={() => setShowPassword(prev => !prev)}>
-                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                onPress={() => !disabled && setShowPassword(prev => !prev)}>
+                {showPassword ? (
+                  <EyeOffIcon className={`stroke-muted-foreground ${disabled ? 'opacity-50' : ''}`} />
+                ) : (
+                  <EyeIcon className={`stroke-muted-foreground ${disabled ? 'opacity-50' : ''}`} />
+                )}
               </TouchableOpacity>
             )}
           </View>

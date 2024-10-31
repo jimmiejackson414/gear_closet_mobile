@@ -1,13 +1,13 @@
 export { BellIcon } from './Bell';
 export { CircleUserIcon } from './CircleUser';
 export { XIcon } from './Close';
+export { EyeIcon } from './Eye';
+export { EyeOffIcon } from './EyeOff';
 export { HomeIcon } from './Home';
 export { InfoIcon } from './Info';
+export { ListChecksIcon } from './ListChecks';
 export { LogOutIcon } from './Logout';
 export { MoonStarIcon } from './MoonStar';
 export { SunIcon } from './Sun';
 export { TentTreeIcon } from './TentTree';
-export { ListChecksIcon } from './ListChecks';
 export { UsersIcon } from './Users';
-export { EyeIcon } from './Eye';
-export { EyeOffIcon } from './EyeOff';
