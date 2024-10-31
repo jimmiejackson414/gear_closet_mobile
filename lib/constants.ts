@@ -1,6 +1,7 @@
 export const CUSTOM_THEME = {
   light: {
     accent: 'hsl(166 30% 88%)', // accent
+    accentAlt: 'hsl(166 50% 25%)', // accent-alt
     accentForeground: 'hsl(204 5% 15%)', // accent-foreground
     background: 'hsl(204 51% 95%)', // background
     border: 'hsl(204 30% 82%)', // border
@@ -24,6 +25,7 @@ export const CUSTOM_THEME = {
   },
   dark: {
     accent: 'hsl(166 30% 25%)', // accent
+    accentAlt: 'hsl(166 30% 88%)', // accent-alt
     accentForeground: 'hsl(204 5% 90%)', // accent-foreground
     background: 'hsl(204 50% 10%)', // background
     border: 'hsl(204 30% 50%)', // border

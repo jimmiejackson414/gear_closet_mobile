@@ -46,7 +46,7 @@ const ModalContent = () => {
       </Animated.View>
       {(screen === 'email' || screen === 'password') && (
         <Progress
-          indicatorClassName="bg-accent"
+          indicatorClassName="bg-accent-alt"
           style={{ marginTop: 32 }}
           value={screen === 'email' ? 50 : 100} />
       )}

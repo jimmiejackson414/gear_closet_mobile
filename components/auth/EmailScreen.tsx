@@ -4,7 +4,7 @@ import { Image } from 'expo-image';
 import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner-native';
 import { z } from 'zod';
-// import FormInput from '@/components/common/FormInput';
+import FormInput from '@/components/common/FormInput';
 import { Button } from '@/components/ui/button';
 import { P } from '@/components/ui/typography';
 import { useAuthScreenContext } from '@/context/AuthScreenProvider';
@@ -59,24 +59,24 @@ const EmailScreen: React.FC = () => {
           style={styles.icon} />
         <P className="py-2">Let's start with your email</P>
         <View style={{ width: '100%' }}>
-          {/* <FormInput
+          <FormInput
             autoComplete="email"
-            autoFocus
+            // autoFocus
             control={control}
             disabled={submitting}
             keyboardType="email-address"
             label="Email"
             name="email"
-            placeholder="Enter your email" /> */}
+            placeholder="Enter your email" />
           <Button
             className="mt-6"
             disabled={submitting}
             loading={submitting}
             onPress={handleSubmit(onCheckEmail)}
             variant="default">
-            <P>
-              Continue
-            </P>
+            {/* <P className="text-primary-foreground"> */}
+            Continue
+            {/* </P> */}
           </Button>
         </View>
       </View>

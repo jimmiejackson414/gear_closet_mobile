@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { ActivityIndicator, Pressable } from 'react-native';
+import { ActivityIndicator, Pressable, Text } from 'react-native';
 import { type VariantProps, cva } from 'class-variance-authority';
 import { TextClassContext } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
@@ -36,7 +36,7 @@ const buttonTextVariants = cva(
   {
     variants: {
       variant: {
-        default: 'text-primary-foreground',
+        default: '!text-primary-foreground',
         destructive: 'text-destructive-foreground',
         outline: 'group-active:text-accent-foreground',
         secondary: 'text-secondary-foreground group-active:text-secondary-foreground',
@@ -60,6 +60,7 @@ const buttonTextVariants = cva(
 type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> &
   VariantProps<typeof buttonVariants> & {
     loading?: boolean;
+    children: string; // Enforce children to be of type string
   };
 
 const Button = forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>(
@@ -82,7 +83,11 @@ const Button = forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>(
           ref={ref}
           role="button"
           {...props}>
-          {loading ? <ActivityIndicator color="white" /> : children}
+          {loading ? <ActivityIndicator color="white" /> : (
+            <Text className={cn(buttonTextVariants({ variant, size }))}>
+              {children}
+            </Text>
+          )}
         </Pressable>
       </TextClassContext.Provider>
     );

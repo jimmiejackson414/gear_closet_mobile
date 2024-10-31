@@ -6,6 +6,7 @@
   :root  {
     --accent-foreground: 204 5% 15%;
     --accent: 166 30% 88%;
+    --accent-alt: 166 50% 25%;
     --background: 204 51% 95%;
     --border: 204 30% 82%;
     --card-foreground: 204 5% 15%;
@@ -29,6 +30,7 @@
   .dark  {
     --accent-foreground: 204 5% 90%;
     --accent: 166 30% 25%;
+    --accent-alt: 166 30% 88%;
     --background: 204 50% 10%;
     --border: 204 30% 50%;
     --card-foreground: 204 5% 90%;

@@ -9,3 +9,5 @@ export { SunIcon } from './Sun';
 export { TentTreeIcon } from './TentTree';
 export { ListChecksIcon } from './ListChecks';
 export { UsersIcon } from './Users';
+export { EyeIcon } from './Eye';
+export { EyeOffIcon } from './EyeOff';
