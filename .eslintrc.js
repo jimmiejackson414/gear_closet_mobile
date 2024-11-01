@@ -16,19 +16,10 @@ module.exports = {
     '@stylistic/object-curly-newline': [
       1,
       {
-        ExportDeclaration: {
-          minProperties: 2,
-          multiline: true,
-        },
-        ImportDeclaration: 'never', // Disable the rule for import statements
-        ObjectExpression: {
-          minProperties: 3,
-          multiline: true,
-        },
-        ObjectPattern: {
-          minProperties: 3,
-          multiline: true,
-        },
+        ImportDeclaration: { multiline: false },
+        ExportDeclaration: { multiline: true, minProperties: 3 },
+        ObjectExpression: { multiline: true, minProperties: 3 },
+        ObjectPattern: { multiline: true, minProperties: 3 },
       },
     ],
     '@stylistic/object-curly-spacing': [1, 'always'],

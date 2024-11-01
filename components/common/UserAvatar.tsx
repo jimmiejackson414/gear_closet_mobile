@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Avatar, AvatarFallback, AvatarImage, Badge, Text } from '@/components/ui';
-import { buildImageSrc, friendlyUsername, getBadgeColor, initials , makeStyles } from '@/helpers';
+import { buildImageSrc, friendlyUsername, initials, makeStyles } from '@/helpers';
 import { SubscriptionLevel, type Tables } from '@/types';
 import type { ExtendedProfile } from '@/types/helpers';
 
@@ -24,9 +24,18 @@ const UserAvatar = forwardRef<any, Props>(({
   const subscription = hasSubscriptionData(profile)
     ? profile.subscriptions[0].prices.identifier as SubscriptionLevel ?? SubscriptionLevel.FREE
     : SubscriptionLevel.FREE;
-  const badgeColors = getBadgeColor(subscription);
+  // const badgeColors = getBadgeColor(subscription);
 
   const avatarSrc = buildImageSrc(profile?.image);
+
+  const badgeColorMap: Record<SubscriptionLevel | 'DEFAULT', 'default' | 'accent' | 'secondary' | 'destructive' | 'outline' | 'tertiary'> = {
+    FREE: 'tertiary',
+    MONTHLY: 'accent',
+    ANNUAL: 'default',
+    LIFE: 'default',
+    DEFAULT: 'default',
+  };
+
   return (
     <View style={styles.container}>
       <Avatar
@@ -40,25 +49,37 @@ const UserAvatar = forwardRef<any, Props>(({
         </AvatarFallback>
       </Avatar>
       {includeSubscriptionBadge && (
-        <View style={StyleSheet.absoluteFillObject}>
-          <View className="flex-1 justify-end items-center">
-            <Badge className={badgeColors}>
+        <View style={styles.badgeContainer}>
+          <Badge
+            style={styles.badge}
+            variant={badgeColorMap[subscription] || badgeColorMap.DEFAULT}>
+            <Text>
               {subscription.toLocaleUpperCase()}
-            </Badge>
-          </View>
+            </Text>
+          </Badge>
         </View>
       )}
     </View>
   );
 });
-  
+
 UserAvatar.displayName = 'UserAvatar';
-  
+
 const useStyles = makeStyles((_theme, { disabled }) => ({
   container: {
     position: 'relative',
     alignItems: 'center',
     opacity: disabled ? 0.5 : 1,
+  },
+  badgeContainer: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  badge: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 4,
   },
 }));
 

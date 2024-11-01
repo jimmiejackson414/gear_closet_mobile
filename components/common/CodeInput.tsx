@@ -1,8 +1,13 @@
-import { useRef, useState } from 'react';
-import { TextInput, View } from 'react-native';
+import {
+  useRef, useState,
+} from 'react';
+import {
+  TextInput, View,
+} from 'react-native';
 import { makeStyles } from '@/helpers';
-import config from '@/helpers/theme';
-import type { NativeSyntheticEvent, TextInputKeyPressEventData } from 'react-native';
+import type {
+  NativeSyntheticEvent, TextInputKeyPressEventData,
+} from 'react-native';
 
 interface Props {
   length?: number;
@@ -30,8 +35,7 @@ const CodeInput: React.FC<Props> = ({ length = 6, onChangeCode }) => {
     }
   };
 
-  const { theme } = config;
-  const styles = useStyles(theme);
+  const styles = useStyles();
   return (
     <View style={styles.container}>
       {code.map((digit, index) => (
@@ -59,7 +63,7 @@ const useStyles = makeStyles(theme => ({
     width: 40,
     height: 40,
     borderWidth: 1,
-    borderColor: theme.colors.backdrop as string,
+    borderColor: theme.mutedForeground,
     textAlign: 'center',
     fontSize: 18,
   },

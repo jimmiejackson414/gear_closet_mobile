@@ -1,7 +1,7 @@
 import { ActivityIndicator, ScrollView, StyleSheet , View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { makeStyles } from '@/helpers';
-import config from '@/helpers/theme';
+import { useTheme } from '@/hooks';
 import useAppStore from '@/stores/appStore';
 import type { ScrollViewProps, StyleProp, ViewStyle } from 'react-native';
 
@@ -20,8 +20,8 @@ const ScreenWrapper = ({
   ...rest
 }: Props) => {
   const isLoading = useAppStore(state => state.isLoading);
-  const { theme } = config;
-  const styles = useStyles(theme);
+  const theme = useTheme();
+  const styles = useStyles();
 
   return (
     <SafeAreaView
@@ -50,7 +50,7 @@ const ScreenWrapper = ({
         <View style={styles.overlay}>
           <ActivityIndicator
             animating={true}
-            color={theme.colors.primary.DEFAULT}
+            color={theme.primary}
             size="large" />
         </View>
       )}

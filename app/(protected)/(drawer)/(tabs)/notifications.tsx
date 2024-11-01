@@ -1,8 +1,5 @@
-// import NotificationsContent from '@/components/profile/NotificationsContent';
+import NotificationsContent from '@/components/profile/NotificationsContent';
 
-import { Text } from 'react-native';
-
-// const NotificationsScreen = () => <NotificationsContent />;
-const NotificationsScreen = () => <Text>NotificationsContent</Text>;
+const NotificationsScreen = () => <NotificationsContent />;
 
 export default NotificationsScreen;

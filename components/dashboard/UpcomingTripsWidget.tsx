@@ -4,8 +4,12 @@ import { Link } from 'expo-router';
 import dayjs from 'dayjs';
 import durationPlugin from 'dayjs/plugin/duration';
 import relativePlugin from 'dayjs/plugin/relativeTime';
-import { Button, Card, CardContent, CardHeader, CardTitle, Separator, Text } from '@/components/ui';
-import { CalendarIcon, MoveRightIcon } from '@/lib/icons';
+import {
+  Button, Card, CardContent, CardHeader, CardTitle, Separator, Text,
+} from '@/components/ui';
+import {
+  CalendarIcon, MoveRightIcon,
+} from '@/lib/icons';
 import type { Tables } from '@/types';
 
 dayjs.extend(durationPlugin);
@@ -24,14 +28,16 @@ const UpcomingTripsWidget: React.FC<Props> = ({ data }) => (
     <CardContent>
       {!data.length ? (
         <View style={{ justifyContent: 'center' }}>
-          <Text style={{ textAlign: 'center' }}>
+          <Text className="text-center mb-6">
             You don't have any upcoming trips!
           </Text>
           <Link
             asChild
             href="/(protected)/(drawer)/planning"
             push>
-            <Button variant="default">
+            <Button
+              className="mx-auto"
+              variant="default">
               Get Started
             </Button>
           </Link>

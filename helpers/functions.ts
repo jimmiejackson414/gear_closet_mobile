@@ -1,6 +1,5 @@
 import convert, { type Mass } from 'convert';
 import { supabase } from '@/lib/supabase';
-import { SubscriptionLevel } from '@/types';
 import type { Tables } from '@/types';
 import type { ExtendedCategory, ExtendedCategoryItem } from '@/types/helpers';
 
@@ -101,25 +100,6 @@ export const friendlyUsername = (user: Tables<'profiles'> | null | undefined, op
 export const formatDisplayText = (text: string | null | undefined) => {
   if (!text) return '';
   return capitalize(text.replace(/_/g, ' '));
-};
-
-/**
- * Returns the badge color based on the subscription level
- * @param subscription
- * @param theme
- * @returns
- */
-export const getBadgeColor = (subscription: SubscriptionLevel) => {
-  switch (subscription) {
-    case SubscriptionLevel.FREE:
-      return 'bg-tertiary text-white';
-    case SubscriptionLevel.MONTHLY:
-      return 'bg-accent-alt text-white';
-    case SubscriptionLevel.ANNUAL, SubscriptionLevel.LIFE:
-      return 'bg-primary text-white';
-    default:
-      return 'bg-primary text-white';
-  }
 };
 
 /**

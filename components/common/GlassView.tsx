@@ -1,7 +1,9 @@
 import { View } from 'react-native';
 import { BlurView } from '@react-native-community/blur';
-import { type VariantProps, cva } from 'class-variance-authority';
-import config from '@/helpers/theme';
+import {
+  type VariantProps, cva,
+} from 'class-variance-authority';
+import { useTheme } from '@/hooks';
 import { cn } from '@/lib/utils';
 
 const glassVariants = cva(
@@ -35,7 +37,7 @@ type GlassViewProps = VariantProps<typeof glassVariants> & {
 const GlassView: React.FC<GlassViewProps> = ({
   className, blur, border, children, ...props
 }) => {
-  const { theme } = config;
+  const theme = useTheme();
 
   return (
     <View

@@ -29,7 +29,7 @@
     --tertiary: 21 69% 73%;
     --text: 204 5% 10%;
   }
-  .dark  {
+  .dark:root  {
     --accent-foreground: 204 5% 90%;
     --accent: 166 30% 25%;
     --accent-alt: 166 30% 88%;

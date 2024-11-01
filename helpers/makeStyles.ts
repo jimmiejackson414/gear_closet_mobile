@@ -1,14 +1,15 @@
-/* eslint-disable no-unused-vars */
 import { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
-import fullConfig from '@/helpers/theme';
-import type { ResolvedConfig } from '@/helpers/theme';
-import type { ImageStyle, TextStyle, ViewStyle } from 'react-native';
+import useTheme from '@/hooks/useTheme';
+import type { Theme } from '@/hooks/useTheme';
+import type {
+  ImageStyle, TextStyle, ViewStyle,
+} from 'react-native';
 
 type NamedStyles<T> = { [P in keyof T]: ViewStyle | TextStyle | ImageStyle };
 
-const makeStyles = <T extends NamedStyles<T>>(styles: (theme: ResolvedConfig['theme'], props: any) => T) => (props?: any) => {
-  const theme = fullConfig.theme;
+const makeStyles = <T extends NamedStyles<T>>(styles: (theme: Theme, props: any) => T) => (props?: any) => {
+  const theme = useTheme();
 
   return useMemo(() => {
     const css = styles(theme, props);

@@ -1,14 +1,18 @@
 import { View } from '@rn-primitives/slot';
 import { Drawer } from 'expo-router/drawer';
 import DrawerContent from '@/components/common/DrawerContent';
-import { Button, Dot } from '@/components/ui';
-import config from '@/helpers/theme';
-import { BellIcon, CircleUserIcon, HomeIcon, ListChecksIcon, TentTreeIcon, UsersIcon } from '@/lib/icons';
+import {
+  Button, Dot,
+} from '@/components/ui';
+import { useTheme } from '@/hooks';
+import {
+  BellIcon, CircleUserIcon, HomeIcon, ListChecksIcon, TentTreeIcon, UsersIcon,
+} from '@/lib/icons';
 import { useReadNotifications } from '@/services/profile';
 
 const DrawerLayout = () => {
   const { data: unreadNotifications = [] } = useReadNotifications();
-  const { theme } = config;
+  const theme = useTheme();
 
   return (
     <Drawer
@@ -17,9 +21,9 @@ const DrawerLayout = () => {
       screenOptions={{
         headerShown: true,
         swipeEdgeWidth: 0,
-        drawerStyle: { backgroundColor: theme.colors.background },
+        drawerStyle: { backgroundColor: theme.background },
         headerStyle: {
-          // backgroundColor: theme.colors.backgroundGradient[1],
+          backgroundColor: theme.background,
           borderBottomWidth: 0,
           shadowOpacity: 0,
         },
