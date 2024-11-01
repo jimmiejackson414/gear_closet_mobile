@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 import { Platform, Text, View } from 'react-native';
 import * as CheckboxPrimitive from '@rn-primitives/checkbox';
 import { TextClassContext } from '@/components/ui/text';
-import { Check } from '@/lib/icons/Check';
+import { CheckIcon } from '@/lib/icons/Check';
 import { cn } from '@/lib/utils';
 
 interface CheckboxProps extends CheckboxPrimitive.RootProps {
@@ -26,7 +26,7 @@ const Checkbox = forwardRef<CheckboxPrimitive.RootRef, CheckboxProps>(
             ref={ref}
             {...props}>
             <CheckboxPrimitive.Indicator className={cn('items-center justify-center h-full w-full')}>
-              <Check
+              <CheckIcon
                 className="text-primary-foreground"
                 size={12}
                 strokeWidth={Platform.OS === 'web' ? 2.5 : 3.5} />

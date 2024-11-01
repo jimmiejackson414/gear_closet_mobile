@@ -21,6 +21,8 @@ export const CUSTOM_THEME = {
     ring: 'hsl(204 100% 26.9%)', // ring
     secondary: 'hsl(204 30% 88%)', // secondary
     secondaryForeground: 'hsl(0 0% 0%)', // secondary-foreground
+    tertiaryForeground: 'hsl(21 10% 90%)',
+    tertiary: 'hsl(21 69% 73%)',
     text: 'hsl(204 5% 10%)', // text
   },
   dark: {
@@ -45,6 +47,8 @@ export const CUSTOM_THEME = {
     ring: 'hsl(204 100% 26.9%)', // ring
     secondary: 'hsl(204 30% 20%)', // secondary
     secondaryForeground: 'hsl(0 0% 100%)', // secondary-foreground
+    tertiaryForeground: 'hsl(21 69% 73%)',
+    tertiary: 'hsl(21 10% 90%)',
     text: 'hsl(204 5% 90%)', // text
   },
 };

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
-// import ScreenWrapper from '@/components/common/ScreenWrapper';
-// import ForumsWidget from '@/components/dashboard/ForumsWidget';
-// import FriendsWidget from '@/components/dashboard/FriendsWidget';
-// import InvitationsWidget from '@/components/dashboard/InvitationsWidget';
-// import UpcomingTripsWidget from '@/components/dashboard/UpcomingTripsWidget';
+import { View } from 'react-native';
+import ScreenWrapper from '@/components/common/ScreenWrapper';
+import ForumsWidget from '@/components/dashboard/ForumsWidget';
+import FriendsWidget from '@/components/dashboard/FriendsWidget';
+import InvitationsWidget from '@/components/dashboard/InvitationsWidget';
+import UpcomingTripsWidget from '@/components/dashboard/UpcomingTripsWidget';
 import { useErrorHandling, useLoading  } from '@/hooks';
 import { type ForumResponse, useDashboardQuery } from '@/services/dashboard';
 import type { Tables } from '@/types';
@@ -32,15 +32,14 @@ const HomeScreen = () => {
   }, [data]);
 
   return (
-    // <ScreenWrapper>
-    <View style={{ gap: 16 }}>
-      {/* <UpcomingTripsWidget data={trips} />
+    <ScreenWrapper>
+      <View style={{ gap: 16 }}>
+        <UpcomingTripsWidget data={trips} />
         <InvitationsWidget data={tripFriends} />
         <FriendsWidget data={{ friends: [ ...friends ], total: data?.total_friends_count ?? 0 }} />
-        <ForumsWidget data={forumsData} /> */}
-      <Text>HomeScreen</Text>
-    </View>
-    // </ScreenWrapper>
+        <ForumsWidget data={forumsData} />
+      </View>
+    </ScreenWrapper>
   );
 };
 

@@ -29,6 +29,10 @@ type TailwindColors = {
     DEFAULT: string;
     foreground: string;
   };
+  tertiary: {
+    DEFAULT: string;
+    foreground: string;
+  }
   popover: {
     DEFAULT: string;
     foreground: string;

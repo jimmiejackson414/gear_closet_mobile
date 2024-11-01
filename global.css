@@ -25,6 +25,8 @@
     --ring: 204 100% 26.9%;
     --secondary-foreground: 0 0% 0%;
     --secondary: 204 30% 88%;
+    --tertiary-foreground: 21 10% 90%;
+    --tertiary: 21 69% 73%;
     --text: 204 5% 10%;
   }
   .dark  {
@@ -49,6 +51,8 @@
     --ring: 204 100% 26.9%;
     --secondary-foreground: 0 0% 100%;
     --secondary: 204 30% 20%;
+    --tertiary: 21 10% 90%;
+    --tertiary-foreground: 21 69% 73%;
     --text: 204 5% 90%;
   }
 }

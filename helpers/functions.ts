@@ -1,7 +1,6 @@
 import convert, { type Mass } from 'convert';
 import { supabase } from '@/lib/supabase';
 import { SubscriptionLevel } from '@/types';
-import type { AppTheme } from '@/context/ThemeProvider';
 import type { Tables } from '@/types';
 import type { ExtendedCategory, ExtendedCategoryItem } from '@/types/helpers';
 
@@ -110,16 +109,16 @@ export const formatDisplayText = (text: string | null | undefined) => {
  * @param theme
  * @returns
  */
-export const getBadgeColor = (subscription: SubscriptionLevel, theme: AppTheme) => {
+export const getBadgeColor = (subscription: SubscriptionLevel) => {
   switch (subscription) {
     case SubscriptionLevel.FREE:
-      return { background: theme.colors.quarternaryContainer, color: theme.colors.onQuarternary };
+      return 'bg-tertiary text-white';
     case SubscriptionLevel.MONTHLY:
-      return { background: theme.colors.tertiaryContainer, color: theme.colors.onSurface };
+      return 'bg-accent-alt text-white';
     case SubscriptionLevel.ANNUAL, SubscriptionLevel.LIFE:
-      return { background: theme.colors.primaryContainer, color: theme.colors.onPrimary };
+      return 'bg-primary text-white';
     default:
-      return { background: theme.colors.primary, color: theme.colors.onPrimary };
+      return 'bg-primary text-white';
   }
 };
 

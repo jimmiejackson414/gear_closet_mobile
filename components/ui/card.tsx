@@ -8,7 +8,7 @@ import type { TextProps, ViewProps } from 'react-native';
 const Card = forwardRef<ViewRef, ViewProps>(({ className, ...props }, ref) => (
   <View
     className={cn(
-      'rounded-lg border border-border bg-card shadow-sm shadow-foreground/10',
+      'rounded-lg bg-card shadow-sm shadow-foreground/10',
       className,
     )}
     ref={ref}
