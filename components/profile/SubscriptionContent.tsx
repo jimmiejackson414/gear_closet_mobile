@@ -3,12 +3,11 @@ import { View } from 'react-native';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { Image } from 'expo-image';
-import { Button, Chip, List, Text } from 'react-native-paper';
-import FontAwesome from 'react-native-vector-icons/FontAwesome6';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
-import { useAppTheme } from '@/context/ThemeProvider';
-import { capitalize, formatDisplayText, getBadgeColor, makeStyles } from '@/helpers';
+import { Badge, Button, Large, List, Text } from '@/components/ui';
+import { capitalize, formatDisplayText, makeStyles } from '@/helpers';
 import { useErrorHandling, useLoading } from '@/hooks';
+import { BADGE_COLOR_MAP } from '@/lib/constants';
 import { useProfile, useSubscription } from '@/services/profile';
 import type { SubscriptionLevel } from '@/types';
 
@@ -47,7 +46,7 @@ const SubscriptionContent = () => {
   };
 
   const [expanded, setExpanded] = useState(false);
-  const { theme } = useAppTheme();
+  // const { theme } = useAppTheme();
   const styles = useStyles();
   return (
     <View style={styles.container}>
@@ -61,36 +60,31 @@ const SubscriptionContent = () => {
             <View style={{
               display: 'flex', flexDirection: 'row', gap: 16, justifyContent: 'space-between', alignItems: 'center',
             }}>
-              <Text
-                style={[ styles.header, { marginBottom: 8 } ]}
-                variant="bodyLarge">
+              <Large className="mb-2 font-bold">
                 Current Subscription
-              </Text>
+              </Large>
               {subscriptionData ? (
-                <Chip style={{
-                  marginBottom: 16, alignSelf: 'flex-start', backgroundColor: getBadgeColor(data?.subscriptions[0]?.prices?.identifier as SubscriptionLevel, theme).background,
-                }}>
+                <Badge
+                  className="mb-4 flex-start"
+                  variant={BADGE_COLOR_MAP[data?.subscriptions[0]?.prices?.identifier as SubscriptionLevel]}>
                   {` ${capitalize(subscriptionData?.subscriptions[0]?.items?.data[0]?.price?.nickname)}`}
-                </Chip>
+                </Badge>
               ) : (
                 null
               )}
               
             </View>
             <Button
-              compact
-              mode="outlined"
-              onPress={handleManageSubscription}>
+              onPress={handleManageSubscription}
+              variant="outline">
               Manage Subscription
             </Button>
           </View>
           <View>
-            <Text
-              style={styles.header}
-              variant="bodyLarge">
+            <Large className="mb-2 font-bold">
               Payment Methods
-            </Text>
-            {subscriptionData?.paymentMethods.map(method => (
+            </Large>
+            {/* {subscriptionData?.paymentMethods.map(method => (
               <View
                 key={method.id}
                 style={{
@@ -116,10 +110,10 @@ const SubscriptionContent = () => {
                   </Chip>
                 ) : null}
               </View>
-            ))}
+            ))} */}
           </View>
           <View>
-            <Text
+            {/* <Text
               style={styles.header}
               variant="bodyLarge">
               Next Bililng Date
@@ -127,10 +121,10 @@ const SubscriptionContent = () => {
             <Text variant="bodyMedium">
               {subscriptionData?.nextBillingDate ? dayjs.utc(subscriptionData.nextBillingDate * 1000)
                 .format('MMM DD, YYYY') : 'N/A'}
-            </Text>
+            </Text> */}
           </View>
           <View>
-            <Button
+            {/* <Button
               contentStyle={{ flexDirection: 'row-reverse' }}
               icon={expanded ? 'chevron-up' : 'chevron-down'}
               labelStyle={{ marginLeft: 0 }}
@@ -154,7 +148,7 @@ const SubscriptionContent = () => {
                     title={`$${(invoice.amount_paid / 100).toFixed(2)} (${invoice.lines.data[0].plan?.nickname || '--'} Plan)`} />
                 ))}
               </View>
-            )}
+            )} */}
           </View>
         </View>
       </ScreenWrapper>

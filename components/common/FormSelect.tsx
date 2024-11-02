@@ -1,8 +1,7 @@
 import { Text, View } from 'react-native';
 import { Controller } from 'react-hook-form';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Label } from '@/components/ui';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Label , Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui';
 import type { Control } from 'react-hook-form';
 
 interface FormSelectProps {

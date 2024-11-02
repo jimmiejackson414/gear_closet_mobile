@@ -2,6 +2,7 @@ import { forwardRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Avatar, AvatarFallback, AvatarImage, Badge, Text } from '@/components/ui';
 import { buildImageSrc, friendlyUsername, initials, makeStyles } from '@/helpers';
+import { BADGE_COLOR_MAP } from '@/lib/constants';
 import { SubscriptionLevel, type Tables } from '@/types';
 import type { ExtendedProfile } from '@/types/helpers';
 
@@ -28,14 +29,6 @@ const UserAvatar = forwardRef<any, Props>(({
 
   const avatarSrc = buildImageSrc(profile?.image);
 
-  const badgeColorMap: Record<SubscriptionLevel | 'DEFAULT', 'default' | 'accent' | 'secondary' | 'destructive' | 'outline' | 'tertiary'> = {
-    FREE: 'tertiary',
-    MONTHLY: 'accent',
-    ANNUAL: 'default',
-    LIFE: 'default',
-    DEFAULT: 'default',
-  };
-
   return (
     <View style={styles.container}>
       <Avatar
@@ -52,7 +45,7 @@ const UserAvatar = forwardRef<any, Props>(({
         <View style={styles.badgeContainer}>
           <Badge
             style={styles.badge}
-            variant={badgeColorMap[subscription] || badgeColorMap.DEFAULT}>
+            variant={BADGE_COLOR_MAP[subscription] || BADGE_COLOR_MAP.DEFAULT}>
             <Text>
               {subscription.toLocaleUpperCase()}
             </Text>

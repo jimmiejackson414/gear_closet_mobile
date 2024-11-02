@@ -1,3 +1,5 @@
+import type { SubscriptionLevel } from '@/types';
+
 export const CUSTOM_THEME = {
   light: {
     accent: 'hsl(166 30% 88%)', // accent
@@ -51,4 +53,12 @@ export const CUSTOM_THEME = {
     tertiary: 'hsl(21 10% 90%)',
     text: 'hsl(204 5% 90%)', // text
   },
+};
+
+export const BADGE_COLOR_MAP: Record<SubscriptionLevel | 'DEFAULT', 'default' | 'accent' | 'secondary' | 'destructive' | 'outline' | 'tertiary'> = {
+  FREE: 'tertiary',
+  MONTHLY: 'accent',
+  ANNUAL: 'default',
+  LIFE: 'default',
+  DEFAULT: 'default',
 };
