@@ -1,3 +1,7 @@
+export { Accordion } from './accordion';
+export { AccordionContent } from './accordion';
+export { AccordionItem } from './accordion';
+export { AccordionTrigger } from './accordion';
 export { Avatar } from './avatar';
 export { AvatarFallback } from './avatar';
 export { AvatarImage } from './avatar';
