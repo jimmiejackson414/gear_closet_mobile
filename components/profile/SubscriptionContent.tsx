@@ -1,30 +1,38 @@
-import { useState } from 'react';
+import { createElement } from 'react';
 import { View } from 'react-native';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { Image } from 'expo-image';
+import AmexIcon from '@/assets/cards/amex.svg';
+import DinersIcon from '@/assets/cards/diners.svg';
+import DiscoverIcon from '@/assets/cards/discover.svg';
+import JcbIcon from '@/assets/cards/jcb.svg';
+import MastercardIcon from '@/assets/cards/mastercard.svg';
+import VisaIcon from '@/assets/cards/visa.svg';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
-import { Badge, Button, Large, List, Text } from '@/components/ui';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Badge, Button, Large, List, ListItem, Muted, P, Text } from '@/components/ui';
 import { capitalize, formatDisplayText, makeStyles } from '@/helpers';
 import { useErrorHandling, useLoading } from '@/hooks';
 import { BADGE_COLOR_MAP } from '@/lib/constants';
+import { CreditCardIcon } from '@/lib/icons';
 import { useProfile, useSubscription } from '@/services/profile';
 import type { SubscriptionLevel } from '@/types';
+import type { SvgProps } from 'react-native-svg';
 
 dayjs.extend(utc);
 
-const cardBrandIcons: { [key: string]: string } = {
-  american_express: 'cc-amex',
-  cartes_bancaires: 'credit-card',
-  diners_club: 'cc-diners-club',
-  discover: 'cc-discover',
-  eftpos_australia: 'credit-card',
-  interac: 'credit-card',
-  jcb: 'cc-jcb',
-  mastercard: 'cc-mastercard',
-  union_pay: 'credit-card',
-  visa: 'cc-visa',
-  other: 'credit-card',
+const cardBrandIcons: { [key: string]: React.FC<SvgProps> } = {
+  american_express: AmexIcon,
+  cartes_bancaires: CreditCardIcon,
+  diners_club: DinersIcon,
+  discover: DiscoverIcon,
+  eftpos_australia: CreditCardIcon,
+  interac: CreditCardIcon,
+  jcb: JcbIcon,
+  mastercard: MastercardIcon,
+  union_pay: CreditCardIcon,
+  visa: VisaIcon,
+  other: CreditCardIcon,
 };
 
 const SubscriptionContent = () => {
@@ -45,8 +53,6 @@ const SubscriptionContent = () => {
     console.log('Manage Subscription');
   };
 
-  const [expanded, setExpanded] = useState(false);
-  // const { theme } = useAppTheme();
   const styles = useStyles();
   return (
     <View style={styles.container}>
@@ -67,7 +73,9 @@ const SubscriptionContent = () => {
                 <Badge
                   className="mb-4 flex-start"
                   variant={BADGE_COLOR_MAP[data?.subscriptions[0]?.prices?.identifier as SubscriptionLevel]}>
-                  {` ${capitalize(subscriptionData?.subscriptions[0]?.items?.data[0]?.price?.nickname)}`}
+                  <Text>
+                    {` ${capitalize(subscriptionData?.subscriptions[0]?.items?.data[0]?.price?.nickname)}`}
+                  </Text>
                 </Badge>
               ) : (
                 null
@@ -84,46 +92,61 @@ const SubscriptionContent = () => {
             <Large className="mb-2 font-bold">
               Payment Methods
             </Large>
-            {/* {subscriptionData?.paymentMethods.map(method => (
-              <View
-                key={method.id}
-                style={{
-                  display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 16,
-                }}>
-                <List.Item
-                  description={`Ending in ${method.card?.last4}`}
-                  left={({ color, style }) => (
-                    <FontAwesome
-                      color={color}
-                      name={cardBrandIcons[method.card?.brand || 'other']}
-                      size={36}
-                      style={style} />
-                  )}
-                  title={formatDisplayText(method.card?.display_brand)} />
-                {method.id === subscriptionData?.customer?.invoice_settings.default_payment_method ? (
-                  <Chip
-                    compact
-                    textStyle={{
-                      color: 'white', fontSize: 12, marginVertical: 2, marginHorizontal: 2,
-                    }}>
-                    Default
-                  </Chip>
-                ) : null}
-              </View>
-            ))} */}
+            <List>
+              {subscriptionData?.paymentMethods.map(method => (
+                <View
+                  key={method.id}
+                  style={{
+                    display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 16,
+                  }}>
+                  <ListItem
+                    icon={createElement(cardBrandIcons[method.card?.brand || 'other'])}
+                    subText={`Ending in ${method.card?.last4}`}
+                    text={formatDisplayText(method.card?.display_brand)} />
+                  {method.id === subscriptionData?.customer?.invoice_settings.default_payment_method ? (
+                    <Badge variant="secondary">
+                      <Muted>
+                        Default
+                      </Muted>
+                    </Badge>
+                  ) : null}
+                </View>
+              ))}
+            </List>
           </View>
           <View>
-            {/* <Text
-              style={styles.header}
-              variant="bodyLarge">
+            <Large className="mb-2 font-bold">
               Next Bililng Date
-            </Text>
-            <Text variant="bodyMedium">
+            </Large>
+            <P>
               {subscriptionData?.nextBillingDate ? dayjs.utc(subscriptionData.nextBillingDate * 1000)
                 .format('MMM DD, YYYY') : 'N/A'}
-            </Text> */}
+            </P>
           </View>
           <View>
+            <Accordion
+              className="w-full"
+              collapsible
+              defaultValue={'billing-history'}
+              type="single">
+              <AccordionItem value="billing-history">
+                <AccordionTrigger>
+                  <Large className="font-bold">Billing History</Large>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <List>
+                    {subscriptionData?.invoices.map(invoice => (
+                      <ListItem
+                        hasBorder={false}
+                        key={invoice.id}
+                        subText={dayjs.utc(invoice.created * 1000)
+                          .format('MMM DD, YYYY')}
+                        text={`$${(invoice.amount_paid / 100).toFixed(2)} (${invoice.lines.data[0].plan?.nickname || '--'} Plan)`} />
+                    ))}
+                  </List>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
             {/* <Button
               contentStyle={{ flexDirection: 'row-reverse' }}
               icon={expanded ? 'chevron-up' : 'chevron-down'}

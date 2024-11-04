@@ -237,6 +237,7 @@ begin
   VALUES 
     (NEW.id, 'push_new_friend_requests', 'New friend requests', TRUE, 'PUSH'),
     (NEW.id, 'push_new_comments_on_pack_list', 'New comments on your pack list', TRUE, 'PUSH'),
+    (NEW.id, 'push_new_trip_invites', 'New trip invites', TRUE, 'PUSH'),
     (NEW.id, 'email_tips_updates_how_tos', 'Tips, updates, and how-tos', TRUE, 'EMAIL'),
     (NEW.id, 'email_subscription_updates', 'Updates to your subscription', TRUE, 'EMAIL');
 
