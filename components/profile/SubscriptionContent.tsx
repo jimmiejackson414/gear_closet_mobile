@@ -66,7 +66,7 @@ const SubscriptionContent = () => {
             <View style={{
               display: 'flex', flexDirection: 'row', gap: 16, justifyContent: 'space-between', alignItems: 'center',
             }}>
-              <Large className="mb-2 font-bold">
+              <Large className="mb-2 font-semibold">
                 Current Subscription
               </Large>
               {subscriptionData ? (
@@ -88,7 +88,7 @@ const SubscriptionContent = () => {
             </Button>
           </View>
           <View>
-            <Large className="mb-2 font-bold">
+            <Large className="mb-2 font-semibold">
               Payment Methods
             </Large>
             <List>
@@ -114,7 +114,7 @@ const SubscriptionContent = () => {
             </List>
           </View>
           <View>
-            <Large className="mb-2 font-bold">
+            <Large className="mb-2 font-semibold">
               Next Bililng Date
             </Large>
             <P>
@@ -130,7 +130,7 @@ const SubscriptionContent = () => {
               type="single">
               <AccordionItem value="billing-history">
                 <AccordionTrigger>
-                  <Large className="font-bold">Billing History</Large>
+                  <Large className="font-semibold">Billing History</Large>
                 </AccordionTrigger>
                 <AccordionContent>
                   <List>

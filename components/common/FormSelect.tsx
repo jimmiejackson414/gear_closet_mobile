@@ -4,11 +4,16 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Label , Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui';
 import type { Control } from 'react-hook-form';
 
+export interface FormSelectOption {
+  label: string;
+  value: string;
+}
+
 interface FormSelectProps {
   control: Control<any>;
   name: string;
   label?: string;
-  options: { label: string; value: string }[];
+  options: FormSelectOption[];
   placeholder?: string;
   [key: string]: any;
 }
