@@ -327,14 +327,9 @@ const ProfileContent = () => {
         </View>
       </Button>
 
-      <Dialog open={isAvatarFullscreen}>
-        {/* <DialogTrigger>
-          <UserAvatar
-            disabled={isLoading || isSaving}
-            includeSubscriptionBadge
-            profile={data}
-            size="!size-32" />
-        </DialogTrigger> */}
+      <Dialog
+        onOpenChange={val => setIsAvatarFullscreen(val)}
+        open={isAvatarFullscreen}>
         <DialogContent fullScreen>
           <View>
             <UserAvatar

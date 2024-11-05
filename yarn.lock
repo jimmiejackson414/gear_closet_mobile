@@ -1701,6 +1701,19 @@
     "@radix-ui/react-use-callback-ref" "1.1.0"
     "@radix-ui/react-use-escape-keydown" "1.1.0"
 
+"@radix-ui/react-dropdown-menu@^2.1.1":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-dropdown-menu/-/react-dropdown-menu-2.1.2.tgz#acc49577130e3c875ef0133bd1e271ea3392d924"
+  integrity sha512-GVZMR+eqK8/Kes0a36Qrv+i20bAPXSn8rCBTHx30w+3ECnR5o3xixAlqcVaYvLeyKUsm0aqyhWfmUcqufM8nYA==
+  dependencies:
+    "@radix-ui/primitive" "1.1.0"
+    "@radix-ui/react-compose-refs" "1.1.0"
+    "@radix-ui/react-context" "1.1.1"
+    "@radix-ui/react-id" "1.1.0"
+    "@radix-ui/react-menu" "2.1.2"
+    "@radix-ui/react-primitive" "2.0.0"
+    "@radix-ui/react-use-controllable-state" "1.1.0"
+
 "@radix-ui/react-focus-guards@1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@radix-ui/react-focus-guards/-/react-focus-guards-1.1.1.tgz#8635edd346304f8b42cae86b05912b61aef27afe"
@@ -1728,6 +1741,51 @@
   integrity sha512-peLblDlFw/ngk3UWq0VnYaOLy6agTZZ+MUO/WhVfm14vJGML+xH4FAl2XQGLqdefjNb7ApRg6Yn7U42ZhmYXdw==
   dependencies:
     "@radix-ui/react-primitive" "2.0.0"
+
+"@radix-ui/react-menu@2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-menu/-/react-menu-2.1.2.tgz#91f6815845a4298dde775563ed2d80b7ad667899"
+  integrity sha512-lZ0R4qR2Al6fZ4yCCZzu/ReTFrylHFxIqy7OezIpWF4bL0o9biKo0pFIvkaew3TyZ9Fy5gYVrR5zCGZBVbO1zg==
+  dependencies:
+    "@radix-ui/primitive" "1.1.0"
+    "@radix-ui/react-collection" "1.1.0"
+    "@radix-ui/react-compose-refs" "1.1.0"
+    "@radix-ui/react-context" "1.1.1"
+    "@radix-ui/react-direction" "1.1.0"
+    "@radix-ui/react-dismissable-layer" "1.1.1"
+    "@radix-ui/react-focus-guards" "1.1.1"
+    "@radix-ui/react-focus-scope" "1.1.0"
+    "@radix-ui/react-id" "1.1.0"
+    "@radix-ui/react-popper" "1.2.0"
+    "@radix-ui/react-portal" "1.1.2"
+    "@radix-ui/react-presence" "1.1.1"
+    "@radix-ui/react-primitive" "2.0.0"
+    "@radix-ui/react-roving-focus" "1.1.0"
+    "@radix-ui/react-slot" "1.1.0"
+    "@radix-ui/react-use-callback-ref" "1.1.0"
+    aria-hidden "^1.1.1"
+    react-remove-scroll "2.6.0"
+
+"@radix-ui/react-popover@^1.1.1":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-popover/-/react-popover-1.1.2.tgz#a0cab25f69aa49ad0077d91e9e9dcd323758020c"
+  integrity sha512-u2HRUyWW+lOiA2g0Le0tMmT55FGOEWHwPFt1EPfbLly7uXQExFo5duNKqG2DzmFXIdqOeNd+TpE8baHWJCyP9w==
+  dependencies:
+    "@radix-ui/primitive" "1.1.0"
+    "@radix-ui/react-compose-refs" "1.1.0"
+    "@radix-ui/react-context" "1.1.1"
+    "@radix-ui/react-dismissable-layer" "1.1.1"
+    "@radix-ui/react-focus-guards" "1.1.1"
+    "@radix-ui/react-focus-scope" "1.1.0"
+    "@radix-ui/react-id" "1.1.0"
+    "@radix-ui/react-popper" "1.2.0"
+    "@radix-ui/react-portal" "1.1.2"
+    "@radix-ui/react-presence" "1.1.1"
+    "@radix-ui/react-primitive" "2.0.0"
+    "@radix-ui/react-slot" "1.1.0"
+    "@radix-ui/react-use-controllable-state" "1.1.0"
+    aria-hidden "^1.1.1"
+    react-remove-scroll "2.6.0"
 
 "@radix-ui/react-popper@1.2.0":
   version "1.2.0"
@@ -1775,6 +1833,21 @@
   dependencies:
     "@radix-ui/react-context" "1.1.0"
     "@radix-ui/react-primitive" "2.0.0"
+
+"@radix-ui/react-roving-focus@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-roving-focus/-/react-roving-focus-1.1.0.tgz#b30c59daf7e714c748805bfe11c76f96caaac35e"
+  integrity sha512-EA6AMGeq9AEeQDeSH0aZgG198qkfHSbvWTf1HvoDmOB5bBG/qTxjYMWUKMnYiV6J/iP/J8MEFSuB2zRU2n7ODA==
+  dependencies:
+    "@radix-ui/primitive" "1.1.0"
+    "@radix-ui/react-collection" "1.1.0"
+    "@radix-ui/react-compose-refs" "1.1.0"
+    "@radix-ui/react-context" "1.1.0"
+    "@radix-ui/react-direction" "1.1.0"
+    "@radix-ui/react-id" "1.1.0"
+    "@radix-ui/react-primitive" "2.0.0"
+    "@radix-ui/react-use-callback-ref" "1.1.0"
+    "@radix-ui/react-use-controllable-state" "1.1.0"
 
 "@radix-ui/react-select@^2.1.1":
   version "2.1.2"
@@ -2485,6 +2558,17 @@
     "@rn-primitives/slot" "1.1.0"
     "@rn-primitives/types" "1.1.0"
 
+"@rn-primitives/dropdown-menu@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@rn-primitives/dropdown-menu/-/dropdown-menu-1.1.0.tgz#deda32f14ae830278d13bc162d1ebbf23fec814c"
+  integrity sha512-vf+n9daClIUfydT43uIOpscISftha0oweZXQJqwcSkoDXM6+4GHc6+Q26uirBb3mccD1dwyfoTiHPAHygOHHSw==
+  dependencies:
+    "@radix-ui/react-dropdown-menu" "^2.1.1"
+    "@rn-primitives/hooks" "1.1.0"
+    "@rn-primitives/slot" "1.1.0"
+    "@rn-primitives/types" "1.1.0"
+    "@rn-primitives/utils" "1.1.0"
+
 "@rn-primitives/hooks@1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@rn-primitives/hooks/-/hooks-1.1.0.tgz#2ab58a3d444c1d1d0f47a5e92e91e03cebbdfa39"
@@ -2498,6 +2582,16 @@
   integrity sha512-wNxXu45wzE12M0LYPR6g2DYVZsD4zf9EiXecP46pJfC8XEhUPhcgzAE8oa1xfEUU+P8O29ZIWoK/CPtAodFBfw==
   dependencies:
     "@radix-ui/react-label" "^2.1.0"
+    "@rn-primitives/slot" "1.1.0"
+    "@rn-primitives/types" "1.1.0"
+
+"@rn-primitives/popover@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@rn-primitives/popover/-/popover-1.1.0.tgz#3743e73c7fa02e68ea3505073379689c2a043b53"
+  integrity sha512-2LU6sGdITvmRtKJwfGDHZ5pFz0eOySlw2lJERqrfAmMiiYWhq4WItkBh386u/IzlAyAoPVQVDmIrYgQVH1rkfA==
+  dependencies:
+    "@radix-ui/react-popover" "^1.1.1"
+    "@rn-primitives/hooks" "1.1.0"
     "@rn-primitives/slot" "1.1.0"
     "@rn-primitives/types" "1.1.0"
 
@@ -2555,6 +2649,11 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@rn-primitives/types/-/types-1.1.0.tgz#2b7b0c2599dfe46329867d570f6ba8d0608f9843"
   integrity sha512-duS4La965KsVVAeytcSFDJUafw6ZScvejgxlFkwqzW06pDBRMxwfunmZmf3JZ82P/2xaEVPIGseeyblertC/+g==
+
+"@rn-primitives/utils@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@rn-primitives/utils/-/utils-1.1.0.tgz#93e511dae16a2e5207f1877d1f84ed337b81727c"
+  integrity sha512-pIlKWQeYkKRxOy5FZe6B1YWSYFqrfuA7hBUFz8Ryi9KmySNLsB49iAuXV/ZtqDAkxQvNKNSzpqS4omQOCftvXw==
 
 "@rnx-kit/chromium-edge-launcher@^1.0.0":
   version "1.0.0"
@@ -5676,6 +5775,11 @@ getenv@^1.0.0:
   resolved "https://registry.yarnpkg.com/getenv/-/getenv-1.0.0.tgz#874f2e7544fbca53c7a4738f37de8605c3fcfc31"
   integrity sha512-7yetJWqbS9sbn0vIfliPsFgoXMKn/YMF+Wuiog97x+urnSRRRZ7xB+uVkwGKzRgq9CDFfMQnE9ruL5DHv9c6Xg==
 
+gifted-charts-core@0.1.47:
+  version "0.1.47"
+  resolved "https://registry.yarnpkg.com/gifted-charts-core/-/gifted-charts-core-0.1.47.tgz#a47b844d52726fa546573b40baff93599bb13c51"
+  integrity sha512-mVwJKwje7O3zjNatNEb6cPr+Cs8G+2l7oWcyL6BuqUz1NDDavWf6dYivDTfV4Q5oPPJS7FrlCALr43kCIvQFNg==
+
 glob-parent@^5.1.2, glob-parent@~5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-5.1.2.tgz#869832c58034fe68a4093c17dc15e8340d8401c4"
@@ -8282,6 +8386,13 @@ react-native-gesture-handler@~2.16.1:
     invariant "^2.2.4"
     lodash "^4.17.21"
     prop-types "^15.7.2"
+
+react-native-gifted-charts@^1.4.47:
+  version "1.4.47"
+  resolved "https://registry.yarnpkg.com/react-native-gifted-charts/-/react-native-gifted-charts-1.4.47.tgz#96a23377e80819dbfaf2bf75713e74c0dadd99c8"
+  integrity sha512-eSCAnAD2CNmg4jPGHl8CyN05L97piqAp5aMhlk04B4IYYxt8DHQXKu0cmOpt8pUFmQ6T++iw/liySY4AH2W3gQ==
+  dependencies:
+    gifted-charts-core "0.1.47"
 
 react-native-helmet-async@2.0.4:
   version "2.0.4"

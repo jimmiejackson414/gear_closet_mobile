@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { Platform, StyleSheet, View, type ViewProps } from 'react-native';
+import { Platform, StyleSheet, TouchableOpacity, View, type ViewProps } from 'react-native';
 import * as DialogPrimitive from '@rn-primitives/dialog';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -64,17 +64,24 @@ const DialogOverlay = Platform.select({
 
 const DialogContent = forwardRef<
   DialogPrimitive.ContentRef,
-  DialogPrimitive.ContentProps & { portalHost?: string; fullScreen?: boolean }
+  DialogPrimitive.ContentProps & { portalHost?: string; fullScreen?: boolean; persist?: boolean }
 >(({
-  className, children, portalHost, fullScreen = false, ...props
+  className, children, portalHost, fullScreen = false, persist = false, ...props
 }, ref) => {
-  const { open } = DialogPrimitive.useRootContext();
+  const { open, onOpenChange } = DialogPrimitive.useRootContext();
+
   return (
     <DialogPortal hostName={portalHost}>
-      <DialogOverlay>
+      <DialogOverlay onPress={() => {
+        if (!persist && onOpenChange) {
+          onOpenChange(false);
+        }
+      }}>
         <SafeAreaView
           edges={['top', 'bottom', 'left', 'right']}
-          style={{ flex: 1, width: '100%' }}>
+          style={{
+            flex: 1, justifyContent: 'center', alignItems: 'center', width: '100%',
+          }}>
           <DialogPrimitive.Content
             className={cn(
               'gap-4 border border-border web:cursor-default bg-background p-6 shadow-lg web:duration-200 rounded-2xl',
@@ -87,13 +94,19 @@ const DialogContent = forwardRef<
             ref={ref}
             {...props}>
             {children}
-            <DialogPrimitive.Close className={
-              'absolute right-4 top-4 p-0.5 web:group rounded-sm opacity-70 web:ring-offset-background web:transition-opacity web:hover:opacity-100 web:focus:outline-none web:focus:ring-2 web:focus:ring-ring web:focus:ring-offset-2 web:disabled:pointer-events-none'
-            }>
-              <X
-                className={cn('text-muted-foreground', open && 'text-accent-foreground')}
-                size={Platform.OS === 'web' ? 16 : 18} />
-            </DialogPrimitive.Close>
+            {!persist && (
+              <DialogPrimitive.Close asChild>
+                <TouchableOpacity
+                  className={
+                    'absolute right-4 top-4 p-0.5 web:group rounded-sm opacity-70 web:ring-offset-background web:transition-opacity web:hover:opacity-100 web:focus:outline-none web:focus:ring-2 web:focus:ring-ring web:focus:ring-offset-2 web:disabled:pointer-events-none'
+                  }
+                  onPress={() => onOpenChange && onOpenChange(false)}>
+                  <X
+                    className={cn('text-muted-foreground', open && 'text-accent-foreground')}
+                    size={Platform.OS === 'web' ? 16 : 18} />
+                </TouchableOpacity>
+              </DialogPrimitive.Close>
+            )}
           </DialogPrimitive.Content>
         </SafeAreaView>
       </DialogOverlay>

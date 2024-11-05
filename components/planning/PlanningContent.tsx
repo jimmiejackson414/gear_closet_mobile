@@ -67,14 +67,13 @@ const PlanningContent = () => {
   return (
     <ScreenWrapper style={styles.screenWrapper}>
       <View style={styles.settingsRow}>
-        {/* <FormSelect
+        <FormSelect
+          name="selected-trip"
           onChange={handleTripChange}
           options={tripOptions}
           placeholder="Selected Trip"
-          style={styles.formSelect}
-          value={tripId} /> */}
+          value={tripId} />
         <Button
-          className="flex-0"
           onPress={handleCreateTrip}
           variant="outline">
           <PlusIcon />
@@ -88,7 +87,7 @@ const PlanningContent = () => {
         ) : (
           <View style={styles.contentWrapper}>
             {/* Pack Widget */}
-            {/* <PackWidget data={data.pack} /> */}
+            <PackWidget data={data.pack} />
 
             {/* Hike Details */}
             {/* <HikeDetailsWidget data={data.trip_details.filter(detail => detail.type === TripDetailsType.HIKE)} /> */}

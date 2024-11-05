@@ -29,7 +29,7 @@ const CardTitle = forwardRef<TextRef, React.ComponentPropsWithoutRef<typeof Text
     <Text
       aria-level={3}
       className={cn(
-        'text-2xl text-card-foreground font-semibold leading-none tracking-tight',
+        'text-2xl text-card-foreground font-semibold tracking-tight',
         className,
       )}
       ref={ref}

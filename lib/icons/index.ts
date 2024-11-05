@@ -1,12 +1,14 @@
+export { BackpackIcon } from './Backpack';
 export { BellIcon } from './Bell';
 export { CalendarIcon } from './Calendar';
 export { CheckIcon } from './Check';
-export { ChevronDown } from './ChevronDown';
+export { ChevronDownIcon } from './ChevronDown';
 export { ChevronRightIcon } from './ChevronRight';
-export { ChevronUp } from './ChevronUp';
+export { ChevronUpIcon } from './ChevronUp';
 export { CircleUserIcon } from './CircleUser';
 export { XIcon } from './Close';
 export { CreditCardIcon } from './CreditCard';
+export { EllipsisVerticalIcon } from './EllipsisVertical';
 export { EyeIcon } from './Eye';
 export { EyeOffIcon } from './EyeOff';
 export { HomeIcon } from './Home';

@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { View } from 'react-native';
-import { Card, Icon, IconButton, Menu, Modal, Portal, Text } from 'react-native-paper';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import PackChart from '@/components/common/PackChart';
-import { useAppTheme } from '@/context/ThemeProvider';
+import { Button, Card, CardContent, CardHeader, CardTitle, Dialog, DialogContent, DialogHeader, DialogTitle, DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Large, Text } from '@/components/ui';
+// import { useAppTheme } from '@/context/ThemeProvider';
 import { makeStyles } from '@/helpers';
+import { BackpackIcon, EllipsisVerticalIcon } from '@/lib/icons';
 import type { ExtendedPack } from '@/types/helpers';
 
 interface Props {
@@ -11,24 +13,19 @@ interface Props {
 }
 
 const PackWidget: React.FC<Props> = ({ data }) => {
-  const { theme } = useAppTheme();
-  const styles = useStyles(theme);
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isChangePackModalVisible, setIsChangePackModalVisible] = useState(false);
   const [isUpdateThemeModalVisible, setIsUpdateThemeModalVisible] = useState(false);
 
-  const handleChangePackModal = () => {
-    setIsMenuVisible(false);
-    setIsChangePackModalVisible(true);
+  const insets = useSafeAreaInsets();
+  const contentInsets = {
+    top: insets.top,
+    bottom: insets.bottom,
+    left: 12,
+    right: 12,
   };
 
   const handleChangePack = () => {
     console.log('Change Pack');
-  };
-
-  const handleUpdateThemeModal = () => {
-    setIsMenuVisible(false);
-    setIsUpdateThemeModalVisible(true);
   };
 
   const handleUpdateTheme = () => {
@@ -37,93 +34,80 @@ const PackWidget: React.FC<Props> = ({ data }) => {
 
   return (
     <View>
-      <Card
-        elevation={0}
-        mode="elevated"
-        style={styles.card}>
-        <Card.Title
-          left={() => (
-            <Icon
-              color={theme.colors.primary}
-              size={24}
-              source="calendar-check-outline" />
-          )}
-          leftStyle={{ marginRight: 0 }}
-          right={() => (
-            <Menu
-              anchor={<IconButton
-                icon="dots-vertical"
-                onPress={() => setIsMenuVisible(true)} />}
-              anchorPosition="bottom"
-              onDismiss={() => setIsMenuVisible(false)}
-              visible={isMenuVisible}>
-              <Menu.Item
-                onPress={handleChangePackModal}
-                title="Change Pack" />
-              <Menu.Item
-                onPress={handleUpdateThemeModal}
-                title="Update Theme Colors" />
-            </Menu>
-          )}
-          title={
+      <Card className="w-full">
+        <CardHeader className="flex-row items-center justify-between gap-6">
+          <View className="flex-row items-center gap-6">
+            <BackpackIcon className="stroke-primary" />
             <View style={{
               flexDirection: 'row',
               gap: 16,
-              alignContent: 'center',
+              alignItems: 'center',
             }}>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  alignSelf: 'center',
-                }}
-                variant="bodyLarge">
-                Pack:
-              </Text>
-              <Text
-                style={{ alignSelf: 'center' }}
-                variant="bodyLarge">
+              <CardTitle className="font-bold">Pack:</CardTitle>
+              <Large>
                 {data?.name || 'Unnamed Pack'}
-              </Text>
+              </Large>
             </View>
-          }
-          titleStyle={{ marginBottom: 0, justifyContent: 'center' }} />
-        <Card.Content>
-          <View>
-            <PackChart pack={data} />
           </View>
-        </Card.Content>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost">
+                <EllipsisVerticalIcon className="stroke-primary" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent insets={contentInsets}>
+              <DropdownMenuGroup>
+                <DropdownMenuItem onPress={() => setIsChangePackModalVisible(true)}>
+                  <Text>
+                    Change Pack
+                  </Text>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onPress={() => setIsUpdateThemeModalVisible(true)}>
+                  <Text>
+                    Update Theme Colors
+                  </Text>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </CardHeader>
+        <CardContent>
+          <PackChart pack={data} />
+        </CardContent>
       </Card>
 
       {/* Change Pack Modal */}
-      <Portal>
-        <Modal
-          contentContainerStyle={styles.modal}
-          onDismiss={() => setIsChangePackModalVisible(false)}
-          visible={isChangePackModalVisible}>
+      <Dialog
+        onOpenChange={setIsChangePackModalVisible}
+        open={isChangePackModalVisible}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Change Pack</DialogTitle>
+          </DialogHeader>
           <Text>Change Pack Modal.  Click outside this area to dismiss.</Text>
-        </Modal>
-      </Portal>
+          <Button onPress={handleChangePack}>
+            Change Pack
+          </Button>
+        </DialogContent>
+      </Dialog>
 
       {/* Update Pack Theme Modal */}
-      <Portal>
-        <Modal
-          contentContainerStyle={styles.modal}
-          onDismiss={() => setIsUpdateThemeModalVisible(false)}
-          visible={isUpdateThemeModalVisible}>
-          <Text>Update Pack Theme Modal.  Click outside this area to dismiss.</Text>
-        </Modal>
-      </Portal>
+      <Dialog
+        onOpenChange={setIsUpdateThemeModalVisible}
+        open={isUpdateThemeModalVisible}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Update Pack Theme</DialogTitle>
+          </DialogHeader>
+          <Text>Change Pack Theme Modal.  Click outside this area to dismiss.</Text>
+          <Button onPress={handleChangePack}>
+            Change Theme Colors
+          </Button>
+        </DialogContent>
+      </Dialog>
     </View>
   );
 };
-
-const useStyles = makeStyles(theme => ({
-  card: { backgroundColor: theme.colors.onPrimary },
-  modal: {
-    backgroundColor: 'white',
-    padding: 20,
-    margin: 20,
-  },
-}));
 
 export default PackWidget;

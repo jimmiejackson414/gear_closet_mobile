@@ -11,10 +11,9 @@ interface FormInputProps {
   autoCapitalize?: TextInputProps['autoCapitalize'];
   autoFocus?: boolean;
   keyboardType?: TextInputProps['keyboardType'];
-  dense?: boolean;
   disabled?: boolean;
   readOnly?: boolean;
-  control: Control<any>;
+  control?: Control<any>;
   label?: string;
   left?: React.ReactNode;
   name: string;
@@ -28,7 +27,6 @@ const FormInput: React.FC<FormInputProps> = ({
   autoComplete,
   autoFocus = false,
   control,
-  // dense = false,
   disabled = false,
   keyboardType = 'default',
   label,
@@ -40,58 +38,79 @@ const FormInput: React.FC<FormInputProps> = ({
 }) => {
   const [showPassword, setShowPassword] = useState(!secureTextEntry);
 
-  return (
-    <Controller
-      control={control}
-      name={name}
-      render={({
-        field: {
-          onChange, onBlur, value,
-        }, fieldState: { error },
-      }) => (
-        <View>
-          {label && (
-            <Label
-              className="mb-2 font-semibold"
-              nativeID={name}>
-              {label}
-            </Label>
-          )}
-          <View className="relative">
-            <Input
-              autoCapitalize={autoCapitalize}
-              autoComplete={autoComplete}
-              autoFocus={autoFocus}
-              className={secureTextEntry ? 'pr-10' : ''}
-              editable={!disabled && !readOnly}
-              error={!!error}
-              keyboardType={keyboardType}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              placeholder={placeholder}
-              secureTextEntry={secureTextEntry && !showPassword}
-              value={value}
-              {...rest} />
-            {secureTextEntry && (
-              <TouchableOpacity
-                className="absolute right-3 top-1/2 transform -translate-y-1/2"
-                onPress={() => !disabled && setShowPassword(prev => !prev)}>
-                {showPassword ? (
-                  <EyeOffIcon className={`stroke-muted-foreground ${disabled ? 'opacity-50' : ''}`} />
-                ) : (
-                  <EyeIcon className={`stroke-muted-foreground ${disabled ? 'opacity-50' : ''}`} />
-                )}
-              </TouchableOpacity>
+  const renderInput = ({
+    onChange, onBlur, value, error,
+  }: {
+    onChange: (text: string) => void;
+    onBlur: () => void;
+    value: string;
+    error?: any;
+  }) => (
+    <View>
+      {label && (
+        <Label
+          className="mb-2 font-semibold"
+          nativeID={name}>
+          {label}
+        </Label>
+      )}
+      <View className="relative">
+        <Input
+          autoCapitalize={autoCapitalize}
+          autoComplete={autoComplete}
+          autoFocus={autoFocus}
+          className={secureTextEntry ? 'pr-10' : ''}
+          editable={!disabled && !readOnly}
+          error={!!error}
+          keyboardType={keyboardType}
+          onBlur={onBlur}
+          onChangeText={onChange}
+          placeholder={placeholder}
+          secureTextEntry={secureTextEntry && !showPassword}
+          value={value}
+          {...rest} />
+        {secureTextEntry && (
+          <TouchableOpacity
+            className="absolute right-3 top-1/2 transform -translate-y-1/2"
+            onPress={() => !disabled && setShowPassword(prev => !prev)}>
+            {showPassword ? (
+              <EyeOffIcon className={`stroke-muted-foreground ${disabled ? 'opacity-50' : ''}`} />
+            ) : (
+              <EyeIcon className={`stroke-muted-foreground ${disabled ? 'opacity-50' : ''}`} />
             )}
-          </View>
-          {error && (
-            <Text className="mt-2 text-destructive">
-              {error.message}
-            </Text>
-          )}
-        </View>
-      )} />
+          </TouchableOpacity>
+        )}
+      </View>
+      {error && (
+        <Text className="mt-2 text-destructive">
+          {error.message}
+        </Text>
+      )}
+    </View>
   );
+
+  if (control) {
+    return (
+      <Controller
+        control={control}
+        name={name}
+        render={({
+          field: {
+            onChange, onBlur, value,
+          }, fieldState: { error },
+        }) => renderInput({
+          onChange, onBlur, value, error,
+        })} />
+    );
+  }
+
+  // Render input directly if control is not provided
+  return renderInput({
+    onChange: rest.onChange || (() => {}),
+    onBlur: rest.onBlur || (() => {}),
+    value: rest.value || '',
+    error: rest.error,
+  });
 };
 
 export default FormInput;

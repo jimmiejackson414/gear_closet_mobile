@@ -4,12 +4,8 @@ import { Link } from 'expo-router';
 import dayjs from 'dayjs';
 import durationPlugin from 'dayjs/plugin/duration';
 import relativePlugin from 'dayjs/plugin/relativeTime';
-import {
-  Button, Card, CardContent, CardHeader, CardTitle, Separator, Text,
-} from '@/components/ui';
-import {
-  CalendarIcon, MoveRightIcon,
-} from '@/lib/icons';
+import { Button, Card, CardContent, CardHeader, CardTitle, Separator, Text } from '@/components/ui';
+import { CalendarIcon, MoveRightIcon } from '@/lib/icons';
 import type { Tables } from '@/types';
 
 dayjs.extend(durationPlugin);
