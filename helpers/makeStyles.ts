@@ -2,9 +2,7 @@ import { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 import useTheme from '@/hooks/useTheme';
 import type { Theme } from '@/hooks/useTheme';
-import type {
-  ImageStyle, TextStyle, ViewStyle,
-} from 'react-native';
+import type { ImageStyle, TextStyle, ViewStyle } from 'react-native';
 
 type NamedStyles<T> = { [P in keyof T]: ViewStyle | TextStyle | ImageStyle };
 

@@ -84,10 +84,10 @@ const Button = forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>(
       )}>
         <Pressable
           className={cn(
-            (props.disabled || loading) && 'opacity-50 web:pointer-events-none',
             buttonVariants({
               variant, size, className,
             }),
+            (props.disabled || loading) && 'bg-gray-400 web:pointer-events-none',
           )}
           disabled={props.disabled || loading}
           ref={ref}

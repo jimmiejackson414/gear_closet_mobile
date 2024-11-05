@@ -25,7 +25,6 @@ const UserAvatar = forwardRef<any, Props>(({
   const subscription = hasSubscriptionData(profile)
     ? profile.subscriptions[0].prices.identifier as SubscriptionLevel ?? SubscriptionLevel.FREE
     : SubscriptionLevel.FREE;
-  // const badgeColors = getBadgeColor(subscription);
 
   const avatarSrc = buildImageSrc(profile?.image);
 

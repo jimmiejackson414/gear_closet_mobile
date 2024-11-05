@@ -9,12 +9,12 @@ export const CUSTOM_THEME = {
     border: 'hsl(204 30% 82%)', // border
     card: 'hsl(204 50% 90%)', // card
     cardForeground: 'hsl(204 5% 15%)', // card-foreground
+    destructive: 'hsl(0 51% 50%)', // destructive
     destructiveForeground: 'hsl(204 5% 90%)', // destructive-foreground
     foreground: 'hsl(204 5% 10%)', // foreground
     input: 'hsl(204 30% 50%)', // input
     muted: 'hsl(166 30% 88%)', // muted
     mutedForeground: 'hsl(204 5% 40%)', // muted-foreground
-    notification: 'hsl(0 51% 50%)', // destructive
     popover: 'hsl(204 51% 95%)', // popover
     popoverForeground: 'hsl(204 95% 10%)', // popover-foreground
     primary: 'hsl(204 100% 26.9%)', // primary
@@ -35,12 +35,12 @@ export const CUSTOM_THEME = {
     border: 'hsl(204 30% 50%)', // border
     card: 'hsl(204 50% 10%)', // card
     cardForeground: 'hsl(204 5% 90%)', // card-foreground
+    destructive: 'hsl(0 51% 50%)', // destructive
     destructiveForeground: 'hsl(204 5% 90%)', // destructive-foreground
     foreground: 'hsl(204 5% 90%)', // foreground
     input: 'hsl(204 30% 50%)', // input
     muted: 'hsl(166 30% 25%)', // muted
     mutedForeground: 'hsl(204 5% 65%)', // muted-foreground
-    notification: 'hsl(0 51% 50%)', // destructive
     popover: 'hsl(204 50% 5%)', // popover
     popoverForeground: 'hsl(204 5% 90%)', // popover-foreground
     primary: 'hsl(204 100% 26.9%)', // primary

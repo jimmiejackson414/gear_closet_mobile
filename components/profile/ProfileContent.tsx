@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ActivityIndicator, Alert, Keyboard, Linking, TouchableOpacity, View } from 'react-native';
+import { Alert, Keyboard, Linking, TouchableOpacity, View } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as ImagePicker from 'expo-image-picker';
@@ -10,10 +10,10 @@ import FormInput from '@/components/common/FormInput';
 import FormSelect from '@/components/common/FormSelect';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import UserAvatar from '@/components/common/UserAvatar';
-import { Button, H3, H4 } from '@/components/ui';
+import { Button, Dialog, DialogContent, H3, H4, P } from '@/components/ui';
 import { friendlyUsername, makeStyles } from '@/helpers';
 import { useErrorHandling, useLoading } from '@/hooks';
-import { PencilIcon, SaveIcon } from '@/lib/icons';
+import { SaveIcon } from '@/lib/icons';
 import { useProfile, useUpdateAvatarMutation, useUpdateProfileMutation } from '@/services/profile';
 import { MeasuringSystem } from '@/types';
 
@@ -49,9 +49,10 @@ const ProfileContent = () => {
     },
   });
 
-  const { control, handleSubmit } = form;
+  const {
+    control, handleSubmit, formState,
+  } = form;
   const [isSaving, setIsSaving] = useState(false);
-  const [fabLabel, setFabLabel] = useState('Edit Profile');
 
   /**
    * Update profile mutation
@@ -72,15 +73,11 @@ const ProfileContent = () => {
    */
   const handleFabPress = async () => {
     try {
-      // if (isEditing) {
       setIsSaving(true);
-      setFabLabel('Saving...');
       await handleSubmit(
         async () => {
           await handleSaveProfile();
           setIsSaving(false);
-          // setIsEditing(false);
-          setFabLabel('Edit Profile');
           toast.success('Profile updated successfully');
           Keyboard.dismiss();
         },
@@ -89,10 +86,6 @@ const ProfileContent = () => {
           setIsSaving(false);
         },
       )();
-      // } else {
-      // setIsEditing(true);
-      setFabLabel('Save Profile');
-      // }
     } catch (error) {
       toast.error('Failed to update profile');
     } finally {
@@ -213,15 +206,18 @@ const ProfileContent = () => {
    */
   const { showActionSheetWithOptions } = useActionSheet();
   const openAvatarSheet = () => {
+    console.log('openAvatarSheet');
     if (isSaving || isLoading) return;
 
     const options = ['Take new photo', 'Select photo', 'View in full screen', 'Cancel'];
     const cancelButtonIndex = 3;
 
+    console.log('showActionSheetWithOptions');
     showActionSheetWithOptions({
       options,
       cancelButtonIndex,
     }, (selectedIndex?: number) => {
+      console.log({ selectedIndex });
       switch (selectedIndex) {
         case 0:
           takeImage();
@@ -316,30 +312,37 @@ const ProfileContent = () => {
         </View>
       </ScreenWrapper>
 
-      {/* TODO: Add Floating button here to save. Disabled unless changes have been made */}
+      <Button
+        className="absolute bottom-4 left-1/2 transform -translate-x-1/2"
+        disabled={!formState.isDirty || isSaving || isLoading}
+        loading={isSaving || isLoading}
+        onPress={handleFabPress}>
+        <View style={{
+          flexDirection: 'row', gap: 8, alignItems: 'center',
+        }}>
+          <SaveIcon className="stroke-primary-foreground" />
+          <P className="text-primary-foreground">
+            {isSaving ? 'Saving...' : 'Save'}
+          </P>
+        </View>
+      </Button>
 
-      {/* Avatar Fullscreen Modal */}
-      {/* <Portal>
-        {isAvatarFullscreen && (
-          <View style={styles.portalBackground}>
-            <Modal
-              contentContainerStyle={styles.modalContainer}
-              onDismiss={() => setIsAvatarFullscreen(false)}
-              visible={isAvatarFullscreen}>
-              <TouchableOpacity
-                onPress={() => setIsAvatarFullscreen(false)}
-                style={styles.modalCloseButton}>
-                <IconButton icon="close" />
-              </TouchableOpacity>
-              <View style={styles.avatarContainer}>
-                <UserAvatar
-                  profile={data}
-                  size={250} />
-              </View>
-            </Modal>
+      <Dialog open={isAvatarFullscreen}>
+        {/* <DialogTrigger>
+          <UserAvatar
+            disabled={isLoading || isSaving}
+            includeSubscriptionBadge
+            profile={data}
+            size="!size-32" />
+        </DialogTrigger> */}
+        <DialogContent fullScreen>
+          <View>
+            <UserAvatar
+              profile={data}
+              size="!size-64" />
           </View>
-        )}
-      </Portal> */}
+        </DialogContent>
+      </Dialog>
     </View>
   );
 };

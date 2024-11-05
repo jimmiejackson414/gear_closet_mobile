@@ -80,7 +80,6 @@ const SubscriptionContent = () => {
               ) : (
                 null
               )}
-              
             </View>
             <Button
               onPress={handleManageSubscription}
@@ -147,31 +146,6 @@ const SubscriptionContent = () => {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-            {/* <Button
-              contentStyle={{ flexDirection: 'row-reverse' }}
-              icon={expanded ? 'chevron-up' : 'chevron-down'}
-              labelStyle={{ marginLeft: 0 }}
-              mode="text"
-              onPress={() => setExpanded(!expanded)}
-              style={{ alignSelf: 'flex-start' }}>
-              <Text
-                style={styles.header}
-                variant="bodyLarge">
-                Billing History
-              </Text>
-            </Button>
-            {expanded && (
-              <View>
-                {subscriptionData?.invoices.map(invoice => (
-                  <List.Item
-                    contentStyle={{ paddingLeft: 0 }}
-                    description={dayjs.utc(invoice.created * 1000)
-                      .format('MMM DD, YYYY')}
-                    key={invoice.id}
-                    title={`$${(invoice.amount_paid / 100).toFixed(2)} (${invoice.lines.data[0].plan?.nickname || '--'} Plan)`} />
-                ))}
-              </View>
-            )} */}
           </View>
         </View>
       </ScreenWrapper>

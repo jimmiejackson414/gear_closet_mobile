@@ -3,6 +3,7 @@ import '@/global.css';
 import { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import { SplashScreen, Stack } from 'expo-router';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ThemeProvider } from '@react-navigation/native';
 import { PortalHost } from '@rn-primitives/portal';
@@ -74,19 +75,21 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ClickOutsideProvider>
-        <SupabaseProvider>
-          <APIProvider>
-            <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-              <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-              <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="(public)" />
-                <Stack.Screen name="(protected)" />
-              </Stack>
-              <Toaster position="bottom-center" />
-              <PortalHost />
-            </ThemeProvider>
-          </APIProvider>
-        </SupabaseProvider>
+        <ActionSheetProvider>
+          <SupabaseProvider>
+            <APIProvider>
+              <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+                <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+                <Stack screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="(public)" />
+                  <Stack.Screen name="(protected)" />
+                </Stack>
+                <Toaster position="bottom-center" />
+                <PortalHost />
+              </ThemeProvider>
+            </APIProvider>
+          </SupabaseProvider>
+        </ActionSheetProvider>
       </ClickOutsideProvider>
     </GestureHandlerRootView>
   );

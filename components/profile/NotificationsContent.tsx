@@ -1,16 +1,10 @@
 import { View } from 'react-native';
 import { toast } from 'sonner-native';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
-import {
-  Checkbox, Large,
-} from '@/components/ui';
+import { Checkbox, Large } from '@/components/ui';
 import { makeStyles } from '@/helpers';
-import {
-  useErrorHandling, useLoading,
-} from '@/hooks';
-import {
-  useProfile, useUpdatePreferenceMutation,
-} from '@/services/profile';
+import { useErrorHandling, useLoading } from '@/hooks';
+import { useProfile, useUpdatePreferenceMutation } from '@/services/profile';
 import { PreferenceGroup } from '@/types';
 import type { Tables } from '@/types';
 

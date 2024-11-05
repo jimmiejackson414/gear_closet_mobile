@@ -1,10 +1,11 @@
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { useNavigation } from 'expo-router';
 import dayjs from 'dayjs';
 import durationPlugin from 'dayjs/plugin/duration';
 import relativePlugin from 'dayjs/plugin/relativeTime';
-// import { Badge, Divider, IconButton, Text } from 'react-native-paper';
+import { Button, Dot, H4, P, Separator, Small } from '@/components/ui';
 import { makeStyles } from '@/helpers';
+import { XIcon } from '@/lib/icons';
 import { useReadNotifications } from '@/services/profile';
 
 dayjs.extend(durationPlugin);
@@ -18,54 +19,53 @@ const NotificationsModal = () => {
   const styles = useStyles();
   return (
     <View style={styles.modal}>
-      <Text>Protected Modal</Text>
-      {/* <IconButton
-        icon="close"
-        mode="outlined"
+      <Button
+        className="absolute right-4 top-4"
         onPress={() => navigation.goBack()}
-        style={styles.closeButton} />
-      <Text style={{ fontWeight: 'bold' }}>
+        variant="ghost">
+        <XIcon />
+      </Button>
+      <H4 style={{ fontWeight: 'bold' }}>
         {`Notifications (${unreadNotifications.length})`}
-      </Text>
-      <Divider style={{ marginVertical: 16 }} />
+      </H4>
+      <Separator className="my-4" />
       {unreadNotifications.map(notification => (
         <View
           key={notification.id}
           style={styles.notification}>
-          <Badge
-            size={8}
+          <Dot
             style={styles.notificationDot}
-            visible={true} />
-          <Text variant="bodyLarge">
+            variant="destructive" />
+          <P className="font-bold">
             {notification.title}
-          </Text>
-          <Text>
+          </P>
+          <P>
             {notification.content}
-          </Text>
-          <Text variant="bodySmall">
+          </P>
+          <Small className="mt-4">
             {dayjs()
               .to(dayjs(notification.created_at))}
-          </Text>
-          <Divider style={{ marginVertical: 16 }} />
+          </Small>
+          <Separator className="my-4" />
         </View>
       ))}
       {readNotifications.map(notification => (
         <View
           key={notification.id}
           style={styles.notification}>
-          <Text variant="bodyLarge">
+          <P className="font-bold">
             {notification.title}
-          </Text>
-          <Text>
+          </P>
+          <P>
             {notification.content}
-          </Text>
-          <Text variant="bodySmall">
+          </P>
+          <Small className="mt-4">
             {dayjs()
               .to(dayjs(notification.created_at))}
-          </Text>
-          <Divider style={{ marginVertical: 16 }} />
+          </Small>
+          <Separator className="my-4" />
         </View>
-      ))} */}
+      ))}
     </View>
   );
 };
@@ -86,7 +86,7 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     top: 8,
     left: -16,
-    backgroundColor: theme.colors.error,
+    backgroundColor: theme.destructive,
   },
 }));
 

@@ -41,7 +41,5 @@ function Dot({
   );
 }
 
-export {
-  Dot, dotVariants,
-};
+export { Dot, dotVariants };
 export type { DotProps };

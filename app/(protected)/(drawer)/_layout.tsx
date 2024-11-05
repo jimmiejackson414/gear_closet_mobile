@@ -1,13 +1,10 @@
+import { Link } from 'expo-router';
 import { View } from '@rn-primitives/slot';
 import { Drawer } from 'expo-router/drawer';
 import DrawerContent from '@/components/common/DrawerContent';
-import {
-  Button, Dot,
-} from '@/components/ui';
+import { Button, Dot } from '@/components/ui';
 import { useTheme } from '@/hooks';
-import {
-  BellIcon, CircleUserIcon, HomeIcon, ListChecksIcon, TentTreeIcon, UsersIcon,
-} from '@/lib/icons';
+import { BellIcon, CircleUserIcon, HomeIcon, ListChecksIcon, TentTreeIcon, UsersIcon } from '@/lib/icons';
 import { useReadNotifications } from '@/services/profile';
 
 const DrawerLayout = () => {
@@ -28,14 +25,18 @@ const DrawerLayout = () => {
           shadowOpacity: 0,
         },
         headerRight: () => (
-          <View style={{ marginRight: 16 }}>
-            <Button
-              size="icon"
-              variant="ghost">
-              <BellIcon />
-              {!!unreadNotifications.length ? <Dot /> : null}
-            </Button>
-          </View>
+          <Link
+            asChild
+            href="/modal">
+            <View style={{ marginRight: 16 }}>
+              <Button
+                size="icon"
+                variant="ghost">
+                <BellIcon />
+                {!!unreadNotifications.length ? <Dot /> : null}
+              </Button>
+            </View>
+          </Link>
         ),
       }}>
       <Drawer.Screen
