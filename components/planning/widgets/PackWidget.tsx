@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { toast } from 'sonner-native';
 import FormSelect from '@/components/common/FormSelect';
 import PackChart from '@/components/common/PackChart';
 import { Button, Card, CardContent, CardHeader, CardTitle, Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Large, Text } from '@/components/ui';
 import generateThemeOptions, { type Option, findTheme } from '@/helpers/chartTheme';
 import { BackpackIcon, EllipsisVerticalIcon } from '@/lib/icons';
-import { usePacks } from '@/services/packs';
+import { usePacks , useUpdatePackMutation } from '@/services/packs';
 import type { FormSelectOption } from '@/components/common/FormSelect';
+import type { Theme } from '@/types';
 import type { ExtendedPack } from '@/types/helpers';
 
 const CustomIndicator: React.FC<{ option: Option }> = ({ option }) => (
@@ -57,8 +59,20 @@ const PackWidget: React.FC<Props> = ({ data }) => {
     label: data.theme, value: data.theme, colors: findTheme(data.theme),
   } : undefined;
   const [newTheme, setNewTheme] = useState<FormSelectOption | undefined>(defaultTheme);
-  const handleUpdateTheme = () => {
-    console.log('Update Theme');
+  const updatePackMutation = useUpdatePackMutation();
+  const handleUpdateTheme = async () => {
+    try {
+      // TODO: Figure out why themes aren't updating dynamically in pack chart
+      await updatePackMutation.mutateAsync({
+        id: data!.id,
+        theme: newTheme?.value as Theme,
+      });
+      toast.success('Pack theme updated');
+    } catch (error) {
+      toast.error('Failed to update pack theme');
+    } finally {
+      setIsUpdateThemeModalVisible(false);
+    }
   };
 
   return (
@@ -152,7 +166,6 @@ const PackWidget: React.FC<Props> = ({ data }) => {
             <DialogDescription>This will update the theme colors for your pack.</DialogDescription>
           </DialogHeader>
           <View>
-            {/* TODO: Figure out why default value isn't being set */}
             <FormSelect
               customIndicator={option => <CustomIndicator option={option as Option} />}
               name="pack-themes"

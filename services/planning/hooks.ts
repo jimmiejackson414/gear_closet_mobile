@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchPlanningData } from './planning.service';
 
-// const keys = { getPlanning: ['planningData'] };
 const keys = { getPlanning: (tripId: number): [string, number] => ['planningData', tripId] };
 
 /**

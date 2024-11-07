@@ -10,7 +10,7 @@ import { decrypt } from '@/helpers/encryption';
 import { useErrorHandling, useLoading } from '@/hooks';
 import { PlusIcon } from '@/lib/icons';
 import { usePlanningQuery } from '@/services/planning';
-import { TripDetailsType } from '@/types';
+import { Tables, TripDetailsType } from '@/types';
 import FriendsWidget from './widgets/FriendsWidget';
 import HikeDetailsWidget from './widgets/HikeDetailsWidget';
 import PackWidget from './widgets/PackWidget';
@@ -21,10 +21,10 @@ import TripDetailsWidget from './widgets/TripDetailsWidget';
 import type { FormSelectOption } from '@/components/common/FormSelect';
 
 const PlanningContent = () => {
-  const [tripId, setTripId] = useState<number | null>(null);
+  const [selectedTrip, setSelectedTrip] = useState<FormSelectOption | undefined>(undefined);
   const {
     data, error, isLoading,
-  } = usePlanningQuery(tripId ?? 0);
+  } = usePlanningQuery(selectedTrip?.id ?? 0);
 
   const tripOptions: FormSelectOption[] = data?.trips.map(t => ({ label: t.name || '', value: String(t.id) })) || [];
 
@@ -37,7 +37,8 @@ const PlanningContent = () => {
     const trips = data?.trips ?? [];
     if (!initialTripIdSet.current && trips?.length > 0) {
       const identifier = Number(data?.trips[0]?.id) ?? null;
-      setTripId(identifier);
+      const foundTrip = trips.find(t => t.id === identifier);
+      setSelectedTrip(foundTrip?.id ? { label: foundTrip.name, value: String(foundTrip.id) } as FormSelectOption : undefined);
       initialTripIdSet.current = true;
     }
 
@@ -61,7 +62,10 @@ const PlanningContent = () => {
     console.log('Add Trip');
   };
 
-  const handleTripChange = (value: string | number | null) => setTripId(Number(value) ?? null);
+  const handleTripChange = (value: string | number | null) => {
+    const foundTrip = data?.trips.find(t => t.id === Number(value));
+    setSelectedTrip(foundTrip?.id ? { label: foundTrip.name, value: String(foundTrip.id) } as FormSelectOption : undefined);
+  };
 
   const styles = useStyles();
   return (
@@ -73,7 +77,7 @@ const PlanningContent = () => {
           onChange={handleTripChange}
           options={tripOptions}
           placeholder="Selected Trip"
-          value={tripId} />
+          value={selectedTrip} />
         <Button
           onPress={handleCreateTrip}
           variant="outline">

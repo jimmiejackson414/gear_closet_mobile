@@ -103,9 +103,10 @@ const FormSelect: React.FC<FormSelectProps> = ({
     );
   }
 
+  const computedValue = options.find(option => option.value === value?.value);
   return renderSelect({
     onChange: rest.onChange || (() => {}),
-    value,
+    value: computedValue,
     error: rest.error,
   });
 };
