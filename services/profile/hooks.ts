@@ -12,9 +12,9 @@ const keys = { getProfile: ['profile'], getSubscription: ['subscription'] };
  * Profile Query
  */
 export const useProfile = <TData = ExtendedProfile>(
-  select?: (profile: ExtendedProfile) => TData,
-): UseQueryResult<TData, Error> => {
-  return useQuery<ExtendedProfile, Error, TData>({
+  select?: (profile: ExtendedProfile | null) => TData | null,
+): UseQueryResult<TData | null, Error> => {
+  return useQuery<ExtendedProfile | null, Error, TData | null>({
     queryKey: keys.getProfile,
     queryFn: fetchProfile,
     staleTime: 1000 * 60 * 5,
@@ -110,19 +110,34 @@ export const useUpdatePreferenceMutation = (
  * Derived State Hooks
  */
 export const useReadNotifications = (): UseQueryResult<ExtendedNotification[], Error> => {
-  return useProfile<ExtendedNotification[]>((profile: ExtendedProfile) => {
-    return profile.notifications?.filter(n => n.read_on_date) || [];
+  const result = useProfile<ExtendedNotification[]>((profile: ExtendedProfile | null) => {
+    return profile?.notifications?.filter(n => n.read_on_date) || [];
   });
+
+  return {
+    ...result,
+    data: result.data ?? [],
+  } as UseQueryResult<ExtendedNotification[], Error>;
 };
 
 export const useUnreadNotifications = (): UseQueryResult<ExtendedNotification[], Error> => {
-  return useProfile<ExtendedNotification[]>((profile: ExtendedProfile) => {
-    return profile.notifications?.filter(n => !n.read_on_date) || [];
+  const result = useProfile<ExtendedNotification[]>((profile: ExtendedProfile | null) => {
+    return profile?.notifications?.filter(n => !n.read_on_date) || [];
   });
+
+  return {
+    ...result,
+    data: result.data ?? [],
+  } as UseQueryResult<ExtendedNotification[], Error>;
 };
 
 export const useIsPaidMember = (): UseQueryResult<boolean, Error> => {
-  return useProfile<boolean>((profile: ExtendedProfile) => {
-    return profile.subscriptions[0]?.prices.identifier === SubscriptionLevel.ANNUAL || profile.subscriptions[0]?.prices.identifier === SubscriptionLevel.MONTHLY || profile.subscriptions[0]?.prices.identifier === SubscriptionLevel.LIFE;
+  const result = useProfile<boolean>((profile: ExtendedProfile | null) => {
+    return profile?.subscriptions[0]?.prices.identifier === SubscriptionLevel.ANNUAL || profile?.subscriptions[0]?.prices.identifier === SubscriptionLevel.MONTHLY || profile?.subscriptions[0]?.prices.identifier === SubscriptionLevel.LIFE || false;
   });
+
+  return {
+    ...result,
+    data: result.data ?? false,
+  } as UseQueryResult<boolean, Error>;
 };

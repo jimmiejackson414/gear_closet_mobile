@@ -1,26 +1,38 @@
 import { Text, View } from 'react-native';
 import { Controller } from 'react-hook-form';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Label, type Option, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui';
+import { Label, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui';
 import type { Control } from 'react-hook-form';
 
-export type FormSelectOption = Exclude<Option, undefined>;
+export type FormSelectOption = {
+  value: string;
+  label: string;
+  [key: string]: any;
+};
 
 interface FormSelectProps {
-  control?: Control<any>; // Made optional
+  control?: Control<any>;
   name: string;
   label?: string;
   options: FormSelectOption[];
+  disabled?: boolean;
   placeholder?: string;
+  value?: FormSelectOption;
+  containerClass?: string;
+  customIndicator?: (option: FormSelectOption) => React.ReactNode;
   [key: string]: any;
 }
 
 const FormSelect: React.FC<FormSelectProps> = ({
   control,
+  containerClass = 'flex-0',
   name,
   label,
   options,
+  disabled = false,
   placeholder = 'Select an option',
+  customIndicator,
+  value,
   ...rest
 }) => {
   const insets = useSafeAreaInsets();
@@ -39,7 +51,7 @@ const FormSelect: React.FC<FormSelectProps> = ({
     error?: any;
   }) => {
     return (
-      <View className="flex-1">
+      <View className={containerClass}>
         {label && (
           <Label
             className="mb-2 font-semibold"
@@ -51,15 +63,14 @@ const FormSelect: React.FC<FormSelectProps> = ({
           onValueChange={onChange}
           value={value}
           {...rest}>
-          <SelectTrigger>
+          <SelectTrigger disabled={disabled}>
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
-          <SelectContent
-            className="w-full"
-            insets={contentInsets}>
+          <SelectContent insets={contentInsets}>
             <SelectGroup>
               {options.map(option => (
                 <SelectItem
+                  customIndicator={customIndicator ? customIndicator(option) : undefined}
                   key={option.value}
                   label={option.label}
                   value={option.value}>
@@ -92,10 +103,9 @@ const FormSelect: React.FC<FormSelectProps> = ({
     );
   }
 
-  // Render select input directly if control is not provided
   return renderSelect({
     onChange: rest.onChange || (() => {}),
-    value: rest.value || undefined,
+    value,
     error: rest.error,
   });
 };

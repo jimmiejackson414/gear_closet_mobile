@@ -15,7 +15,7 @@ const client = axios.create({
  * Fetches the profile data for the current user
  * @returns ExtendedProfile
  */
-export const fetchProfile = async () => {
+export const fetchProfile = async (): Promise<ExtendedProfile | null> => {
   try {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new Error('User not authenticated');
@@ -195,7 +195,7 @@ export const updateNotification = async (id: string, payload: TablesUpdate<'noti
  * @param <Tables<'preferences'>>
  * @returns ExtendedProfile
  */
-export const updatePreference = async (payload: TablesUpdate<'preferences'>) => {
+export const updatePreference = async (payload: TablesUpdate<'preferences'>): Promise<ExtendedProfile> => {
   const { data } = await supabase.auth.getUser();
   const profileId = data?.user?.id;
   if (!profileId) throw new Error('User not authenticated');
@@ -206,5 +206,8 @@ export const updatePreference = async (payload: TablesUpdate<'preferences'>) => 
 
   if (error) throw new Error(error.message);
 
-  return fetchProfile();
+  const profile = await fetchProfile();
+  if (!profile) throw new Error('Failed to fetch updated profile');
+
+  return profile;
 };

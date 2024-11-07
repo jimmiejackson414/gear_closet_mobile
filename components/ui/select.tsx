@@ -130,28 +130,42 @@ const SelectLabel = forwardRef<SelectPrimitive.LabelRef, SelectPrimitive.LabelPr
 );
 SelectLabel.displayName = SelectPrimitive.Label.displayName;
 
-const SelectItem = forwardRef<SelectPrimitive.ItemRef, SelectPrimitive.ItemProps>(
-  ({ className, ...props }, ref) => (
+interface SelectItemProps extends SelectPrimitive.ItemProps {
+  customIndicator?: React.ReactNode;
+}
+
+const SelectItem = forwardRef<SelectPrimitive.ItemRef, SelectItemProps>(
+  ({
+    className, customIndicator, ...props
+  }, ref) => (
     <SelectPrimitive.Item
       className={cn(
-        'relative web:group flex flex-row w-full web:cursor-default web:select-none items-center rounded-sm py-1.5 native:py-2 pl-8 native:pl-10 pr-2 web:hover:bg-accent/50 active:bg-accent web:outline-none web:focus:bg-accent',
+        'relative web:group flex flex-row w-full web:cursor-default web:select-none items-center rounded-sm py-1.5 native:py-2 pr-2 web:hover:bg-accent/50 active:bg-accent web:outline-none web:focus:bg-accent',
         props.disabled && 'web:pointer-events-none opacity-50',
+        customIndicator ? 'pl-4 native:pl-4' : 'pl-8 native:pl-10',
         className,
       )}
       ref={ref}
       {...props}>
-      <View className="absolute left-2 native:left-3.5 flex h-3.5 native:pt-px w-3.5 items-center justify-center">
-        <SelectPrimitive.ItemIndicator>
-          <CheckIcon
-            className="text-popover-foreground"
-            size={16}
-            strokeWidth={3} />
-        </SelectPrimitive.ItemIndicator>
-      </View>
+      {customIndicator ? (
+        <View className="mr-2">
+          {customIndicator}
+        </View>
+      ) : (
+        <View className="absolute left-2 native:left-3.5 flex h-3.5 native:pt-px w-3.5 items-center justify-center">
+          <SelectPrimitive.ItemIndicator>
+            <CheckIcon
+              className="text-popover-foreground"
+              size={16}
+              strokeWidth={3} />
+          </SelectPrimitive.ItemIndicator>
+        </View>
+      )}
       <SelectPrimitive.ItemText className="text-sm text-popover-foreground native:text-base web:group-focus:text-accent-foreground" />
     </SelectPrimitive.Item>
   ),
 );
+
 SelectItem.displayName = SelectPrimitive.Item.displayName;
 
 const SelectSeparator = forwardRef<

@@ -68,6 +68,7 @@ const PlanningContent = () => {
     <ScreenWrapper style={styles.screenWrapper}>
       <View style={styles.settingsRow}>
         <FormSelect
+          containerClass="flex-1"
           name="selected-trip"
           onChange={handleTripChange}
           options={tripOptions}
